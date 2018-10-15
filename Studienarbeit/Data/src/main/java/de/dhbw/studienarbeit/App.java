@@ -5,8 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class App
 {
@@ -15,6 +13,7 @@ public class App
 		int errors = 0;
 
 		final String stopIDPre = "de:8212:";
+		final XMLCreator xmlCreator = new XMLCreator();
 
 		for (int idx = 1; idx < 10; idx++)
 		{
@@ -31,32 +30,7 @@ public class App
 				con.setDefaultUseCaches(false);
 				con.setRequestProperty("Content-Type", "text/xml");
 				OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
-
-				StringBuilder sb = new StringBuilder();
-				sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-				sb.append(
-						"<Trias version=\"1.1\" xmlns=\"http://www.vdv.de/trias\" xmlns:siri=\"http://www.siri.org.uk/siri\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
-				sb.append("<ServiceRequest>");
-				sb.append("<siri:RequestorRef>7qzuxfx8EPvH</siri:RequestorRef>");
-				sb.append("<RequestPayload>");
-				sb.append("<StopEventRequest>");
-				sb.append("<Location>");
-				sb.append("<LocationRef>");
-				sb.append("<StopPointRef>" + stopID + "</StopPointRef>");
-				sb.append("</LocationRef>");
-				sb.append("<DepArrTime>" + currentTime() + "</DepArrTime>");
-				sb.append("</Location>");
-				sb.append("<Params>");
-				sb.append("<NumberOfResults>10</NumberOfResults>");
-				sb.append("<StopEventType>departure</StopEventType>");
-				sb.append("<IncludeRealtimeData>true</IncludeRealtimeData>");
-				sb.append("</Params>");
-				sb.append("</StopEventRequest>");
-				sb.append("</RequestPayload>");
-				sb.append("</ServiceRequest>");
-				sb.append("</Trias>");
-
-				writer.write(sb.toString());
+				writer.write(xmlCreator.getRequestXML(stopID));
 				writer.flush();
 				writer.close();
 
@@ -80,10 +54,5 @@ public class App
 		}
 
 		System.out.println("Errors: " + errors);
-	}
-
-	private static String currentTime()
-	{
-		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
 	}
 }
