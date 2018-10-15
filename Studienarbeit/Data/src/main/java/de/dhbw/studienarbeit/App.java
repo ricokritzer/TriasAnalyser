@@ -14,10 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import com.sun.corba.se.impl.orbutil.graph.Node;
 
 public class App {
 	public static void main(String[] args) {
