@@ -84,9 +84,6 @@ public class App
 
 	private static String currentTime()
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		String currentDate = sdf.format(new Date());
-		System.out.println(currentDate);
-		return currentDate;
+		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
 	}
 }
