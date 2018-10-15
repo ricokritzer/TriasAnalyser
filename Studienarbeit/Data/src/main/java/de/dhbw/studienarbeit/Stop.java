@@ -10,8 +10,8 @@ public class Stop
 	{
 		super();
 		this.estimatedTime = estimatedTime;
-		this.publishedLineName = publishedLineName;
-		this.destinationText = destinationText;
+		this.publishedLineName = publishedLineName.substring(0, publishedLineName.length() - 2);
+		this.destinationText = destinationText.substring(0, destinationText.length() - 2);
 	}
 
 	public String toString()
