@@ -2,6 +2,8 @@ package de.dhbw.studienarbeit;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,9 +16,7 @@ import org.xml.sax.SAXException;
 
 public class Response
 {
-	private String estimatedTime = "";
-	private String publishedLineName = "";
-	private String destinationText = "";
+	private final List<Stop> stops = new ArrayList<>();
 
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -27,15 +27,21 @@ public class Response
 		final Element docElement = doc.getDocumentElement();
 		for (int i = 0; i < docElement.getElementsByTagName("EstimatedTime").getLength(); i++)
 		{
-			publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i).getTextContent();
-			destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
-			estimatedTime = docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent();
+			final String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i)
+					.getTextContent();
+			final String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
+			final String estimatedTime = docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent();
+
+			stops.add(new Stop(estimatedTime, publishedLineName, destinationText));
 		}
 	}
 
+	@Override
 	public String toString()
 	{
-		return publishedLineName + "\t\t" + destinationText + "\t\t" + estimatedTime;
+		StringBuilder sb = new StringBuilder();
+		stops.forEach(s -> sb.append(s + System.lineSeparator()));
+		return sb.toString();
 	}
 
 	public static void printAsync(String text)
