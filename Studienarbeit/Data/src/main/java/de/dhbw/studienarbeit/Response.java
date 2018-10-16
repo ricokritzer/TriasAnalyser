@@ -50,7 +50,7 @@ public class Response
 			try
 			{
 				Response r = new Response(text);
-				System.out.println(r.toString());
+				DatabaseConnector.write(r);
 			}
 			catch (SAXException | IOException | ParserConfigurationException e)
 			{
