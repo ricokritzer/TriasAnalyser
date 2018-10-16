@@ -14,25 +14,26 @@ public class App
 
 	public static void main(String[] args)
 	{
+		new Thread(() -> new App(1, 10)).start();
+		new Thread(() -> new App(11, 20)).start();
+	}
+
+	public App(final int startIndex, final int endIndex)
+	{
 		try
 		{
-			new App();
+			final String stopIDPre = "de:8212:";
+			for (int idx = startIndex; idx < endIndex; idx++)
+			{
+				final String stopID = stopIDPre + idx;
+				final URLConnection con = createConnection();
+				request(con, xmlCreator.getRequestXML(stopID));
+				waitForResponse(con);
+			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace(System.out);
-		}
-	}
-
-	public App() throws IOException
-	{
-		final String stopIDPre = "de:8212:";
-		for (int idx = 1; idx < 10; idx++)
-		{
-			final String stopID = stopIDPre + idx;
-			final URLConnection con = createConnection();
-			request(con, xmlCreator.getRequestXML(stopID));
-			waitForResponse(con);
 		}
 	}
 
