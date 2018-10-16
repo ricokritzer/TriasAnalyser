@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 public class Coordinates
 {
 	// Responsemode could be html, xml or (default) JSON
-	private final String urlEnd = "&appid=b5923a1132896eba486d603bc6602a5f&mode=xml";
+	private final String urlEnd = "&appid=b5923a1132896eba486d603bc6602a5f&mode=xml&units=metric";
 	private final String urlPre = "https://api.openweathermap.org/data/2.5/weather?";
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
