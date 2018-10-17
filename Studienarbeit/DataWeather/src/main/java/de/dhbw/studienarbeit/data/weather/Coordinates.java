@@ -119,7 +119,25 @@ public class Coordinates
 	@Override
 	public String toString()
 	{
-		return "lon:\t" + lon + "\tlat:\t" + lat + "\ttemp:\t" + temp;
+		final StringBuilder sb = new StringBuilder();
+		sb.append(getPartialString("lon", lon));
+		sb.append(getPartialString("lat", lat));
+		sb.append(getPartialString("temp", temp));
+		sb.append(getPartialString("humitidity", humitdity));
+		sb.append(getPartialString("pressure", pressure));
+		sb.append(getPartialString("wind", wind));
+		sb.append(getPartialString("clouds", clouds));
+		return sb.toString();
+	}
+
+	private String getPartialString(final String text, final double value)
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append("\t");
+		sb.append(text);
+		sb.append(":\t");
+		sb.append(value);
+		return sb.toString();
 	}
 
 	public double getLat()
