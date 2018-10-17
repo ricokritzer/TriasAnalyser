@@ -14,7 +14,9 @@ public class App
 		final Coordinates karlsruhe = new Coordinates(49.01, 8.4); // Weather of Karlsruhe, DE
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
 
-		while (true)
+		boolean run = true;
+
+		while (run)
 		{
 			try (BufferedWriter bw = new BufferedWriter(new FileWriter("ausgabe.txt", true)))
 			{
@@ -24,7 +26,7 @@ public class App
 			}
 			catch (IOException ex)
 			{
-				// ignore
+				run = false;
 			}
 			Thread.sleep(requestCycle * 1000);
 			karlsruhe.updateData();
