@@ -10,15 +10,10 @@ import java.net.URLConnection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 public class Coordinates
 {
@@ -29,6 +24,12 @@ public class Coordinates
 
 	private double lat;
 	private double lon;
+
+	private double temp;
+	private double humitdity;
+	private double pressure;
+	private double wind;
+	private double clouds;
 
 	private URL requestURL;
 
@@ -83,32 +84,70 @@ public class Coordinates
 		}
 	}
 
-	private void setData(final String response)
+	void setData(final String response)
 	{
-
-		DocumentBuilder parser;
 		try
 		{
-			parser = factory.newDocumentBuilder();
-			final Document doc = parser.parse(new InputSource(new StringReader(response)));
-			final Element docElement = doc.getDocumentElement();
-			NodeList nodeList = doc.getElementsByTagName("sun");
-			Node node = nodeList.item(0);
-			NamedNodeMap namedNodeMap = node.getAttributes();
-			Node sunrise = namedNodeMap.getNamedItem("rise");
-			System.out.println(sunrise.getNodeValue());
-			
-
-			// final String sunrise = docElement.getElementsByTagName("sun
-			// rise").item(0).getTextContent();
-			// System.out.println("Sunrise at " + sunrise);
-
-			System.out.println(response);
+			temp = Double.valueOf(extractDate(response, "temperature"));
+			humitdity = Double.valueOf(extractDate(response, "humidity"));
+			pressure = Double.valueOf(extractDate(response, "pressure"));
+			wind = Double.valueOf(extractDate(response, "speed"));
+			clouds = Double.valueOf(extractDate(response, "clouds"));
 		}
-		catch (ParserConfigurationException | SAXException | IOException e)
+		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace(System.err);
 		}
+	}
+
+	private String extractDate(final String xmlText, final String tag) throws IOException
+	{
+		try
+		{
+			final DocumentBuilder parser = factory.newDocumentBuilder();
+			final Document doc = parser.parse(new InputSource(new StringReader(xmlText)));
+			final Node node = doc.getElementsByTagName(tag).item(0).getAttributes().getNamedItem("value");
+
+			return node.getNodeValue();
+		}
+		catch (Exception e)
+		{
+			throw new IOException("Error in xml: Tag '" + tag + "' with parameter 'value' not found", e);
+		}
+	}
+
+	public double getLat()
+	{
+		return lat;
+	}
+
+	public double getLon()
+	{
+		return lon;
+	}
+
+	public double getTemp()
+	{
+		return temp;
+	}
+
+	public double getHumitdity()
+	{
+		return humitdity;
+	}
+
+	public double getPressure()
+	{
+		return pressure;
+	}
+
+	public double getWind()
+	{
+		return wind;
+	}
+
+	public double getClouds()
+	{
+		return clouds;
 	}
 }
