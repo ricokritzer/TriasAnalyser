@@ -14,6 +14,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -89,6 +92,12 @@ public class Coordinates
 			parser = factory.newDocumentBuilder();
 			final Document doc = parser.parse(new InputSource(new StringReader(response)));
 			final Element docElement = doc.getDocumentElement();
+			NodeList nodeList = doc.getElementsByTagName("sun");
+			Node node = nodeList.item(0);
+			NamedNodeMap namedNodeMap = node.getAttributes();
+			Node sunrise = namedNodeMap.getNamedItem("rise");
+			System.out.println(sunrise.getNodeValue());
+			
 
 			// final String sunrise = docElement.getElementsByTagName("sun
 			// rise").item(0).getTextContent();
