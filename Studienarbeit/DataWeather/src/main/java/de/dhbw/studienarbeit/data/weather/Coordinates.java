@@ -116,6 +116,12 @@ public class Coordinates
 		}
 	}
 
+	@Override
+	public String toString()
+	{
+		return "lon:\t" + lon + "\tlat:\t" + lat + "\ttemp:\t" + temp;
+	}
+
 	public double getLat()
 	{
 		return lat;
