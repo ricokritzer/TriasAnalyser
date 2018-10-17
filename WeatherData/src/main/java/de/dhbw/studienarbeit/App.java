@@ -1,5 +1,7 @@
 package de.dhbw.studienarbeit;
 
+import de.dhbw.studienarbeit.data.weather.Coordinates;
+
 public class App
 {
 	public static void main(String[] args)
