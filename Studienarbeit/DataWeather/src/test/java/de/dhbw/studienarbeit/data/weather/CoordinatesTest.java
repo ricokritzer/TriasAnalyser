@@ -1,6 +1,9 @@
 package de.dhbw.studienarbeit.data.weather;
 
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
 
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
@@ -12,14 +15,15 @@ public class CoordinatesTest
 	@Test
 	public void testCoordinatesConstructor() throws Exception
 	{
-		Coordinates coordinates = new Coordinates(49.01, 8.4);
+		final Coordinates coordinates = new Coordinates(49.01, 8.4);
 		assertThat(coordinates.getLat(), Is.is(49.01));
+		assertThat(coordinates.getLon(), Is.is(8.4));
 	}
 
 	@Test
 	public void testCoordinatesXMLData() throws Exception
 	{
-		Coordinates coordinates = new Coordinates(49.01, 8.4);
+		final Coordinates coordinates = new Coordinates(49.01, 8.4);
 		coordinates.setData(xmlData);
 
 		assertThat(coordinates.getClouds(), Is.is(36.0));
@@ -27,5 +31,19 @@ public class CoordinatesTest
 		assertThat(coordinates.getHumitdity(), Is.is(67.0));
 		assertThat(coordinates.getPressure(), Is.is(1019.0));
 		assertThat(coordinates.getWind(), Is.is(2.1));
+	}
+
+	@Test
+	void testModelIsReadable() throws Exception
+	{
+		final Coordinates coordinates = new Coordinates(49.01, 8.4);
+		try
+		{
+			coordinates.updateData();
+		}
+		catch (IOException e)
+		{
+			fail("failed: " + e.getMessage());
+		}
 	}
 }

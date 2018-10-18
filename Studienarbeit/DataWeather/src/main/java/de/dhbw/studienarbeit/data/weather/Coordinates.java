@@ -84,20 +84,13 @@ public class Coordinates
 		}
 	}
 
-	void setData(final String response)
+	void setData(final String response) throws IOException
 	{
-		try
-		{
-			temp = Double.valueOf(extractDate(response, "temperature"));
-			humitdity = Double.valueOf(extractDate(response, "humidity"));
-			pressure = Double.valueOf(extractDate(response, "pressure"));
-			wind = Double.valueOf(extractDate(response, "speed"));
-			clouds = Double.valueOf(extractDate(response, "clouds"));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace(System.err);
-		}
+		temp = Double.valueOf(extractDate(response, "temperature"));
+		humitdity = Double.valueOf(extractDate(response, "humidity"));
+		pressure = Double.valueOf(extractDate(response, "pressure"));
+		wind = Double.valueOf(extractDate(response, "speed"));
+		clouds = Double.valueOf(extractDate(response, "clouds"));
 	}
 
 	private String extractDate(final String xmlText, final String tag) throws IOException
