@@ -18,8 +18,8 @@ import org.xml.sax.InputSource;
 public class Coordinates
 {
 	// Responsemode could be html, xml or (default) JSON
-	private final String urlEnd = "&appid=b5923a1132896eba486d603bc6602a5f&mode=xml&units=metric";
-	private final String urlPre = "https://api.openweathermap.org/data/2.5/weather?";
+	private static final String URL_END = "&appid=b5923a1132896eba486d603bc6602a5f&mode=xml&units=metric";
+	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 	private double lat;
@@ -33,21 +33,14 @@ public class Coordinates
 
 	private URL requestURL;
 
-	public Coordinates(final double lat, final double lon)
+	public Coordinates(final double lat, final double lon) throws IOException
 	{
 		this.lat = lat;
 		this.lon = lon;
 
-		try
-		{
-			final String dynamicURL = urlPre + "lat=" + lat + "&lon=" + lon + urlEnd;
-			requestURL = new URL(dynamicURL);
-			updateData();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace(System.err);
-		}
+		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + URL_END;
+		requestURL = new URL(dynamicURL);
+		updateData();
 	}
 
 	public void updateData() throws IOException
@@ -68,7 +61,6 @@ public class Coordinates
 		{
 			// ignore - never become true
 		}
-
 	}
 
 	private void waitForResponse(URLConnection connection) throws IOException
@@ -107,30 +99,6 @@ public class Coordinates
 		{
 			throw new IOException("Error in xml: Tag '" + tag + "' with parameter 'value' not found", e);
 		}
-	}
-
-	@Override
-	public String toString()
-	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append(getPartialString("lon", lon));
-		sb.append(getPartialString("lat", lat));
-		sb.append(getPartialString("temp", temp));
-		sb.append(getPartialString("humitidity", humitdity));
-		sb.append(getPartialString("pressure", pressure));
-		sb.append(getPartialString("wind", wind));
-		sb.append(getPartialString("clouds", clouds));
-		return sb.toString();
-	}
-
-	private String getPartialString(final String text, final double value)
-	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append("\t");
-		sb.append(text);
-		sb.append(":\t");
-		sb.append(value);
-		return sb.toString();
 	}
 
 	public double getLat()

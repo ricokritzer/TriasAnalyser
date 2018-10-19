@@ -6,7 +6,7 @@ import de.dhbw.studienarbeit.data.helper.Saver;
 
 public class App
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		final long requestCycle = 60; // in seconds
 		final Coordinates karlsruhe = new Coordinates(49.01, 8.4); // Weather of Karlsruhe, DE
