@@ -1,35 +1,37 @@
 package de.dhbw.studienarbeit.data.weather;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import de.dhbw.studienarbeit.data.helper.Saver;
 
 public class App
 {
-	public static void main(String[] args) throws InterruptedException, IOException
+	public static void main(String[] args)
 	{
 		final long requestCycle = 60; // in seconds
 		final Coordinates karlsruhe = new Coordinates(49.01, 8.4); // Weather of Karlsruhe, DE
-		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
+		final Saver saver = new Saver();
 
 		boolean run = true;
 
 		while (run)
 		{
-			try (BufferedWriter bw = new BufferedWriter(new FileWriter("ausgabe.txt", true)))
+			try
 			{
-				final Date date = new Date();
-				bw.write(format.format(date) + "\t" + karlsruhe.toString());
-				bw.newLine();
+				saver.save(karlsruhe.getLon(), karlsruhe.getLat(), karlsruhe.getTemp(), karlsruhe.getHumitdity(),
+						karlsruhe.getPressure(), karlsruhe.getWind(), karlsruhe.getClouds());
+				Thread.sleep(requestCycle * 1000);
+				karlsruhe.updateData();
 			}
-			catch (IOException ex)
+			catch (InterruptedException e)
 			{
 				run = false;
+				saver.logError(e);
 			}
-			Thread.sleep(requestCycle * 1000);
-			karlsruhe.updateData();
+			catch (IOException e)
+			{
+				saver.logError(e);
+			}
 		}
 	}
 }

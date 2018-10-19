@@ -9,6 +9,7 @@
 	<modules>
 		<module>Data</module>
     <module>DataWeather</module>
+    <module>DataHelper</module>
   </modules>
 	<dependencies>
 		<dependency>
