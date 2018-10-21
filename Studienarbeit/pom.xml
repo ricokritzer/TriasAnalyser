@@ -17,7 +17,6 @@
 		<module>Data</module>
 		<module>DataWeather</module>
 		<module>DataHelper</module>
-		<module>test</module>
 	</modules>
 	<dependencies>
 		<dependency>
