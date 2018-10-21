@@ -17,8 +17,8 @@ public class StopIDs {
 		stops.put("de:08212:80", "Karlsruhe Kronenpl.(Erler-Str)");
 		stops.put("de:08212:2", "Karlsruhe Kronenpl.(Kaiserstr)");
 		stops.put("de:08212:3", "Karlsruhe Durlacher Tor/KIT");
-		stops.put("de:8212:12", "Karlsruhe Duale Hochschule");
-		stops.put("de:8212:90", "Karlsruhe Hauptbahnhof");
+		stops.put("de:08212:6", "Karlsruhe Gottesauer Platz/BGV");
+		stops.put("de:08212:401", "Karlsruhe Karl-Wilhelm-Platz");
 	}
 
 	public Set<String> getAll()

@@ -12,6 +12,7 @@ public class Main
 		String[] stopIDs = set.toArray(new String[set.size()]);
 		String[] stopIDs1 = Arrays.copyOfRange(stopIDs, 0, set.size()/2);
 		String[] stopIDs2 = Arrays.copyOfRange(stopIDs, set.size()/2, stopIDs.length);
+		DatabaseConnector.createFile();
 		new DataCollectorTrias(stopIDs1).run();
 		new DataCollectorTrias(stopIDs2).run();
 	}

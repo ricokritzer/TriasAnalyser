@@ -15,7 +15,13 @@ public class Stop
 		this.publishedLineName = publishedLineName.substring(0, publishedLineName.length() - 2);
 		this.destinationText = destinationText.substring(0, destinationText.length() - 2);
 	}
+	
+	public long getDelay()
+	{
+		return 0;
+	}
 
+	@Override
 	public String toString()
 	{
 		return "Linie " + publishedLineName + "\t" + destinationText + "\tgeplant: " + timetabledTime

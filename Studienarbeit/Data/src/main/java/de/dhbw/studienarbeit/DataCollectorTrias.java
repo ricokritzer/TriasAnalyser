@@ -7,11 +7,17 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 public class DataCollectorTrias implements Runnable
 {
 	private static final String URL_TRIAS = "http://185.201.144.208/kritzertrias/trias";
 	private final XMLCreator xmlCreator = new XMLCreator();
 	private String[] stopIDs;
+	
+	private boolean running;
 	
 	public DataCollectorTrias(String... stopIDs)
 	{
@@ -21,7 +27,9 @@ public class DataCollectorTrias implements Runnable
 	@Override
 	public void run()
 	{
-		for (int i = 0; i < 10; i++); //Hier muss dann while(running) hin
+		running = true;
+		
+		while (running)
 		{
 			for (String stopID : stopIDs)
 			{
@@ -29,13 +37,24 @@ public class DataCollectorTrias implements Runnable
 				{
 					URLConnection con = createConnection();
 					request(con, xmlCreator.getRequestXML(stopID));
-					readResponse(con);
+					String responseXML = readResponse(con);
+					Response response = new Response(responseXML);
+					DatabaseConnector.write(response.toString());
 				}
-				catch (IOException e)
+				catch (IOException | SAXException | ParserConfigurationException e)
 				{
+					DatabaseConnector.write(e.toString());
 					e.printStackTrace();
 				}
 				
+			}
+			try
+			{
+				Thread.sleep(60000);
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}
@@ -59,7 +78,7 @@ public class DataCollectorTrias implements Runnable
 		}
 	}
 
-	private void readResponse(final URLConnection connection) throws IOException
+	private String readResponse(final URLConnection connection) throws IOException
 	{
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
 		{
@@ -68,7 +87,7 @@ public class DataCollectorTrias implements Runnable
 			{
 				sbResponse.append(br.readLine());
 			}
-			Response.printAsync(sbResponse.toString());
+			return sbResponse.toString();
 		}
 	}
 

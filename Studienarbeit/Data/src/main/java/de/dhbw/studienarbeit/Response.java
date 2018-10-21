@@ -44,20 +44,4 @@ public class Response
 		stops.forEach(s -> sb.append(s + System.lineSeparator()));
 		return sb.toString();
 	}
-
-	public static void printAsync(String text)
-	{
-		Thread t = new Thread(() -> {
-			try
-			{
-				Response r = new Response(text);
-				DatabaseConnector.write(r);
-			}
-			catch (SAXException | IOException | ParserConfigurationException e)
-			{
-				// ignore
-			}
-		});
-		t.start();
-	}
 }

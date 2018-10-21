@@ -9,8 +9,8 @@
 		<artifactId>Studienarbeit</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>Data</artifactId>
-	<name>Data</name>
+	<artifactId>DataTrias</artifactId>
+	<name>DataTrias</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
