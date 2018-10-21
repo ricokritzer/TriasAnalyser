@@ -7,18 +7,40 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class App
+public class DataCollectorTrias implements Runnable
 {
 	private static final String URL_TRIAS = "http://185.201.144.208/kritzertrias/trias";
 	private final XMLCreator xmlCreator = new XMLCreator();
-
-	public static void main(String[] args)
+	private String[] stopIDs;
+	
+	public DataCollectorTrias(String... stopIDs)
 	{
-		new Thread(() -> new App(1, 10)).start();
-		new Thread(() -> new App(11, 20)).start();
+		this.stopIDs = stopIDs;
+	}
+	
+	@Override
+	public void run()
+	{
+		for (int i = 0; i < 10; i++); //Hier muss dann while(running) hin
+		{
+			for (String stopID : stopIDs)
+			{
+				try
+				{
+					URLConnection con = createConnection();
+					request(con, xmlCreator.getRequestXML(stopID));
+					readResponse(con);
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				
+			}
+		}
 	}
 
-	public App(final int startIndex, final int endIndex)
+	public DataCollectorTrias(final int startIndex, final int endIndex)
 	{
 		try
 		{
@@ -28,7 +50,7 @@ public class App
 				final String stopID = stopIDPre + idx;
 				final URLConnection con = createConnection();
 				request(con, xmlCreator.getRequestXML(stopID));
-				waitForResponse(con);
+				readResponse(con);
 			}
 		}
 		catch (IOException e)
@@ -37,7 +59,7 @@ public class App
 		}
 	}
 
-	private void waitForResponse(final URLConnection connection) throws IOException
+	private void readResponse(final URLConnection connection) throws IOException
 	{
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
 		{
@@ -64,7 +86,7 @@ public class App
 		final URLConnection con = url.openConnection();
 		con.setDoInput(true);
 		con.setDoOutput(true);
-		con.setConnectTimeout(1000); // long timeout, but not infinite
+		con.setConnectTimeout(1000);
 		con.setReadTimeout(3000);
 		con.setUseCaches(false);
 		con.setDefaultUseCaches(false);

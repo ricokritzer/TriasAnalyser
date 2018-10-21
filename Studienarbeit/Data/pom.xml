@@ -49,6 +49,12 @@
 			<version>1.1.0</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>DataHelper</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

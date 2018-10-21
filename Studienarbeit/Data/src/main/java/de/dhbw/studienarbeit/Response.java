@@ -31,8 +31,9 @@ public class Response
 					.getTextContent();
 			final String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
 			final String estimatedTime = docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent();
+			final String timetabledTime = docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent();
 
-			stops.add(new Stop(estimatedTime, publishedLineName, destinationText));
+			stops.add(new Stop(timetabledTime, estimatedTime, publishedLineName, destinationText));
 		}
 	}
 
