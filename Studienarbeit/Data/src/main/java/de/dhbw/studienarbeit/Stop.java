@@ -2,20 +2,29 @@ package de.dhbw.studienarbeit;
 
 public class Stop
 {
+	private String timetabledTime = "";
 	private String estimatedTime = "";
 	private String publishedLineName = "";
 	private String destinationText = "";
 
-	public Stop(String estimatedTime, String publishedLineName, String destinationText)
+	public Stop(String timetabledTime, String estimatedTime, String publishedLineName, String destinationText)
 	{
 		super();
+		this.timetabledTime = timetabledTime;
 		this.estimatedTime = estimatedTime;
 		this.publishedLineName = publishedLineName.substring(0, publishedLineName.length() - 2);
 		this.destinationText = destinationText.substring(0, destinationText.length() - 2);
 	}
+	
+	public long getDelay()
+	{
+		return 0;
+	}
 
+	@Override
 	public String toString()
 	{
-		return publishedLineName + "\t\t" + destinationText + "\t\t" + estimatedTime;
+		return "Linie " + publishedLineName + "\t" + destinationText + "\tgeplant: " + timetabledTime
+				+ "\tvorraussichtlich: " + estimatedTime;
 	}
 }

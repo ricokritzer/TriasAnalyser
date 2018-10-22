@@ -1,10 +1,41 @@
 package de.dhbw.studienarbeit;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class DatabaseConnector
 {
-	public static void write(Response stop)
+	private final static File file = new File("triasLogger.txt");
+	
+	public static void createFile() {
+		if (!file.exists())
+		{
+			try
+			{
+				file.createNewFile();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public synchronized static void write(String response)
 	{
-		System.out.println(stop.toString());
-		System.out.println();
+		try
+		{
+			FileWriter writer = new FileWriter(file, true);
+			BufferedWriter bw = new BufferedWriter(writer);
+			bw.write(response);
+			bw.write(System.lineSeparator());
+			bw.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

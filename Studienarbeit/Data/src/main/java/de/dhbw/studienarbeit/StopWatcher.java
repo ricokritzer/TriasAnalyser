@@ -28,18 +28,6 @@ public class StopWatcher
 		stopIDsWithoutResponse.add(stopID);
 	}
 
-	@Deprecated
-	public void printStopIDsWithResponse()
-	{
-		stopIDsWithResponse.forEach(System.out::println);
-	}
-
-	@Deprecated
-	public void printStopIDsWithoutResponse()
-	{
-		stopIDsWithoutResponse.forEach(System.out::println);
-	}
-
 	public int countStopIDsWithResponse()
 	{
 		return stopIDsWithResponse.size();
