@@ -21,6 +21,12 @@ public class TextSaver
 		LOGGER.log(Level.FINEST, this.getClass().getName() + " created with parameter: " + pathname);
 	}
 
+	public void save(final String sqlStatement)
+	{
+		write(sqlStatement);
+	}
+
+	@Deprecated
 	public void save(final double lon, final double lat, final double temp, double humitidity, double pressure,
 			double wind, double clouds)
 	{
