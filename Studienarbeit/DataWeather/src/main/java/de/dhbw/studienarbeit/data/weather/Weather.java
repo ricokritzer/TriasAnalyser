@@ -7,6 +7,8 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,8 +17,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class Coordinates
+import de.dhbw.studienarbeit.data.helper.DataModel;
+
+public class Weather implements DataModel
 {
+	private static final Logger LOGGER = Logger.getLogger(Weather.class.getName());
+
 	// Responsemode could be html, xml or (default) JSON
 	private static final String URL_END = "&appid=b5923a1132896eba486d603bc6602a5f&mode=xml&units=metric";
 	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
@@ -26,14 +32,14 @@ public class Coordinates
 	private double lon;
 
 	private double temp;
-	private double humitdity;
+	private double humidity;
 	private double pressure;
 	private double wind;
 	private double clouds;
 
 	private URL requestURL;
 
-	public Coordinates(final double lat, final double lon) throws IOException
+	public Weather(final double lat, final double lon) throws IOException
 	{
 		this.lat = lat;
 		this.lon = lon;
@@ -79,7 +85,7 @@ public class Coordinates
 	void setData(final String response) throws IOException
 	{
 		temp = Double.valueOf(extractDate(response, "temperature"));
-		humitdity = Double.valueOf(extractDate(response, "humidity"));
+		humidity = Double.valueOf(extractDate(response, "humidity"));
 		pressure = Double.valueOf(extractDate(response, "pressure"));
 		wind = Double.valueOf(extractDate(response, "speed"));
 		clouds = Double.valueOf(extractDate(response, "clouds"));
@@ -118,7 +124,7 @@ public class Coordinates
 
 	public double getHumitdity()
 	{
-		return humitdity;
+		return humidity;
 	}
 
 	public double getPressure()
@@ -134,5 +140,35 @@ public class Coordinates
 	public double getClouds()
 	{
 		return clouds;
+	}
+
+	@Override
+	public String getSQLQuerry()
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append(getPartialString("lon", lon));
+		sb.append(getPartialString("lat", lat));
+		sb.append(getPartialString("temp", temp));
+		sb.append(getPartialString("humitidity", humidity));
+		sb.append(getPartialString("pressure", pressure));
+		sb.append(getPartialString("wind", wind));
+		sb.append(getPartialString("clouds", clouds));
+		LOGGER.log(Level.FINEST, "Weatherdata saved: " + sb.toString());
+		return sb.toString();
+	}
+
+	private String getPartialString(final String text, final String value)
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append("\t");
+		sb.append(text);
+		sb.append(":\t");
+		sb.append(value);
+		return sb.toString();
+	}
+
+	private String getPartialString(final String text, final double value)
+	{
+		return getPartialString(text, "" + value);
 	}
 }

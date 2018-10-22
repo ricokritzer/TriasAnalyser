@@ -26,38 +26,6 @@ public class TextSaver
 		write(sqlStatement);
 	}
 
-	@Deprecated
-	public void save(final double lon, final double lat, final double temp, double humitidity, double pressure,
-			double wind, double clouds)
-	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append(getPartialString("lon", lon));
-		sb.append(getPartialString("lat", lat));
-		sb.append(getPartialString("temp", temp));
-		sb.append(getPartialString("humitidity", humitidity));
-		sb.append(getPartialString("pressure", pressure));
-		sb.append(getPartialString("wind", wind));
-		sb.append(getPartialString("clouds", clouds));
-
-		write(sb.toString());
-		LOGGER.log(Level.FINEST, "Weatherdata saved: " + sb.toString());
-	}
-
-	private String getPartialString(final String text, final String value)
-	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append("\t");
-		sb.append(text);
-		sb.append(":\t");
-		sb.append(value);
-		return sb.toString();
-	}
-
-	private String getPartialString(final String text, final double value)
-	{
-		return getPartialString(text, "" + value);
-	}
-
 	public void logError(Exception ex)
 	{
 		write(ex.getMessage());

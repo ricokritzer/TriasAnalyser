@@ -9,7 +9,7 @@ public class App
 	public static void main(String[] args) throws IOException
 	{
 		final long requestCycle = 60; // in seconds
-		final Coordinates karlsruhe = new Coordinates(49.01, 8.4); // Weather of Karlsruhe, DE
+		final Weather karlsruhe = new Weather(49.01, 8.4); // Weather of Karlsruhe, DE
 		final Saver saver = new Saver();
 
 		boolean run = true;
@@ -18,8 +18,7 @@ public class App
 		{
 			try
 			{
-				saver.save(karlsruhe.getLon(), karlsruhe.getLat(), karlsruhe.getTemp(), karlsruhe.getHumitdity(),
-						karlsruhe.getPressure(), karlsruhe.getWind(), karlsruhe.getClouds());
+				saver.save(karlsruhe);
 				Thread.sleep(requestCycle * 1000);
 				karlsruhe.updateData();
 			}
