@@ -7,6 +7,8 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -147,5 +149,15 @@ public class Weather implements DataModel
 	private String getPartialString(final String text, final double value)
 	{
 		return getPartialString(text, "" + value);
+	}
+
+	@Override
+	public Date nextUpdate()
+	{
+		Date now = new Date();
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(now);
+		cal.add(Calendar.MINUTE, 1);
+		return now;
 	}
 }
