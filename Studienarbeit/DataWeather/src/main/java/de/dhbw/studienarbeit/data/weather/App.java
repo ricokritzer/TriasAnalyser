@@ -10,6 +10,6 @@ public class App
 	public static void main(String[] args) throws IOException
 	{
 		final Weather karlsruhe = new Weather(49.01, 8.4); // Weather of Karlsruhe, DE
-		new DataManager(karlsruhe, Updaterate.UPDATE_EVERY_MINUTE);
+		new DataManager(karlsruhe, Updaterate.UPDATE_EVERY_MINUTE).start();
 	}
 }
