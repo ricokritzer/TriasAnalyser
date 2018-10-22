@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit;
+package de.dhbw.studienarbeit.data.trias;
 
 public class Stop
 {

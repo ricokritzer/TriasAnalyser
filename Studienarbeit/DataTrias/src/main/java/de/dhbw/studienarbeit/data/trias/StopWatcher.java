@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit;
+package de.dhbw.studienarbeit.data.trias;
 
 import java.util.ArrayList;
 import java.util.List;
