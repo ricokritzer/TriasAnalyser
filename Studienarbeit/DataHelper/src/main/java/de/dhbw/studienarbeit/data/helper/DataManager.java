@@ -2,24 +2,38 @@ package de.dhbw.studienarbeit.data.helper;
 
 import java.io.IOException;
 
+import javax.swing.Timer;
+
 public class DataManager
 {
 	private Saver saver = new Saver();
+	private final Timer timer;
 
-	private boolean run = true;
-
-	public DataManager(DataModel model, Updaterate rate) throws IOException
+	public DataManager(DataModel model, Updaterate rate)
 	{
-		while (run)
+		timer = new Timer(rate.getDelay(), e -> updateAndSave(model));
+	}
+
+	private void updateAndSave(DataModel model)
+	{
+		try
 		{
 			model.updateData(3);
 			saver.save(model);
-			rate.waitTime();
+		}
+		catch (IOException e)
+		{
+			saver.logError(e);
 		}
 	}
 
 	public void stop()
 	{
-		run = false;
+		timer.stop();
+	}
+
+	public void start()
+	{
+		timer.start();
 	}
 }
