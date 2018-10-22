@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public enum Updaterate
 {
-	UPDATE_EVERY_MINUTE(60 * 100), UPDATE_EVERY_FIVE_MINUTES(5 * 60 * 100);
+	UPDATE_EVERY_MINUTE(minutes(1)), UPDATE_EVERY_FIVE_MINUTES(minutes(5));
 
 	private static final Logger LOGGER = Logger.getLogger(Updaterate.class.getName());
 	private long waitingTime;
@@ -25,5 +25,10 @@ public enum Updaterate
 		{
 			LOGGER.log(Level.WARNING, e.getMessage(), e);
 		}
+	}
+
+	private static long minutes(int minutes)
+	{
+		return minutes * 60 * 1000l;
 	}
 }
