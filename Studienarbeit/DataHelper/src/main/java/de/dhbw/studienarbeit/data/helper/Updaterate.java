@@ -8,9 +8,9 @@ public enum Updaterate
 	UPDATE_EVERY_MINUTE(minutes(1)), UPDATE_EVERY_FIVE_MINUTES(minutes(5));
 
 	private static final Logger LOGGER = Logger.getLogger(Updaterate.class.getName());
-	private long waitingTime;
+	private int waitingTime;
 
-	private Updaterate(long waitingTime)
+	private Updaterate(int waitingTime)
 	{
 		this.waitingTime = waitingTime;
 	}
@@ -28,7 +28,7 @@ public enum Updaterate
 		}
 	}
 
-	public long getDelay()
+	public int getDelay()
 	{
 		return waitingTime;
 	}
