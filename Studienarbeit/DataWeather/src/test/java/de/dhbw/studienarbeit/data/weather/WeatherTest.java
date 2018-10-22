@@ -39,7 +39,7 @@ public class WeatherTest
 		final Weather coordinates = new Weather(49.01, 8.4);
 		try
 		{
-			coordinates.updateData();
+			coordinates.updateData(3);
 		}
 		catch (IOException e)
 		{

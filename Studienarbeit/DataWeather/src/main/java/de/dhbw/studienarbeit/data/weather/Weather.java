@@ -46,10 +46,10 @@ public class Weather implements DataModel
 
 		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + URL_END;
 		requestURL = new URL(dynamicURL);
-		updateData();
+		updateData(3);
 	}
 
-	public void updateData() throws IOException
+	public void updateData(final int attempts) throws IOException
 	{
 		try
 		{
@@ -66,6 +66,17 @@ public class Weather implements DataModel
 		catch (MalformedURLException e)
 		{
 			// ignore - never become true
+		}
+		catch (IOException e)
+		{
+			if (attempts > 1)
+			{
+				updateData(attempts - 1);
+			}
+			else
+			{
+				throw e;
+			}
 		}
 	}
 

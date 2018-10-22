@@ -20,7 +20,7 @@ public class App
 			{
 				saver.save(karlsruhe);
 				Thread.sleep(requestCycle * 1000);
-				karlsruhe.updateData();
+				karlsruhe.updateData(3);
 			}
 			catch (InterruptedException e)
 			{
