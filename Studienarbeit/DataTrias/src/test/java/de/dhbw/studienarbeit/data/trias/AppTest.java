@@ -1,4 +1,4 @@
-package org.DataHelper;
+package de.dhbw.studienarbeit.data.trias;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
