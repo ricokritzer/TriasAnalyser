@@ -13,7 +13,19 @@ public class DataManager
 	public DataManager(List<DataModel> models)
 	{
 		timer = new Timer();
-		updateAndSave(models);
+		for (DataModel dataModel : models)
+		{
+			updateAndSave(dataModel);
+			scheduleUpdate(dataModel);
+			try
+			{
+				Thread.sleep(50);
+			}
+			catch (InterruptedException e)
+			{
+				// ignorieren
+			}
+		}
 	}
 
 	private void scheduleUpdate(DataModel model)
@@ -28,15 +40,6 @@ public class DataManager
 		};
 
 		timer.schedule(task, model.nextUpdate());
-	}
-
-	void updateAndSave(List<DataModel> models)
-	{
-		for (DataModel dataModel : models)
-		{
-			updateAndSave(dataModel);
-			scheduleUpdate(dataModel);
-		}
 	}
 
 	private void updateAndSave(DataModel model)
