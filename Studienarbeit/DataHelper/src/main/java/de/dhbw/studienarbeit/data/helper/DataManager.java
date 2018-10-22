@@ -15,11 +15,10 @@ public class DataManager
 		timer = new Timer();
 		for (DataModel dataModel : models)
 		{
-			updateAndSave(dataModel);
-			scheduleUpdate(dataModel);
+			updateAndSaveAndSchedule(dataModel);
 			try
 			{
-				Thread.sleep(50);
+				Thread.sleep(100);
 			}
 			catch (InterruptedException e)
 			{
@@ -35,19 +34,20 @@ public class DataManager
 			@Override
 			public void run()
 			{
-				updateAndSave(model);
+				updateAndSaveAndSchedule(model);
 			}
 		};
 
 		timer.schedule(task, model.nextUpdate());
 	}
 
-	private void updateAndSave(DataModel model)
+	private void updateAndSaveAndSchedule(DataModel model)
 	{
 		try
 		{
 			model.updateData(3);
 			saver.save(model);
+			scheduleUpdate(model);
 		}
 		catch (IOException e)
 		{
