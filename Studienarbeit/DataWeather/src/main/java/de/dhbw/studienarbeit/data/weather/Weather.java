@@ -39,6 +39,8 @@ public class Weather implements DataModel
 	protected double wind;
 	protected double clouds;
 
+	private Date nextUpdate;
+
 	private URL requestURL;
 
 	public Weather(final double lat, final double lon) throws IOException
@@ -81,6 +83,10 @@ public class Weather implements DataModel
 				throw e;
 			}
 		}
+
+		final Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, 1);
+		nextUpdate = cal.getTime();
 	}
 
 	private void waitForResponse(URLConnection connection) throws IOException
@@ -154,10 +160,6 @@ public class Weather implements DataModel
 	@Override
 	public Date nextUpdate()
 	{
-		Date now = new Date();
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(now);
-		cal.add(Calendar.MINUTE, 1);
-		return now;
+		return nextUpdate;
 	}
 }
