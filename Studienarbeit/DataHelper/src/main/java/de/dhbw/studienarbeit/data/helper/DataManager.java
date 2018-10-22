@@ -1,42 +1,41 @@
 package de.dhbw.studienarbeit.data.helper;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-
-import javax.swing.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DataManager
 {
 	private final Saver saver = new Saver();
 	private final Timer timer;
-	private final Updaterate rate;
 
-	public DataManager(List<DataModel> models, Updaterate rate)
+	public DataManager(List<DataModel> models)
 	{
-		this.rate = rate;
-		timer = new Timer(rate.getDelay(), e -> updateAndSave(models));
+		timer = new Timer();
+		updateAndSave(models);
+	}
+
+	private void scheduleUpdate(DataModel model)
+	{
+		TimerTask task = new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				updateAndSave(model);
+			}
+		};
+
+		timer.schedule(task, model.nextUpdate());
 	}
 
 	void updateAndSave(List<DataModel> models)
 	{
-		final int millisBetweenRequests = rate.getDelay() / (60 * 1000);
-
 		for (DataModel dataModel : models)
 		{
-			final Date now = new Date();
-			try
-			{
-				if (now.after(dataModel.nextUpdate()))
-				{
-					updateAndSave(dataModel);
-					Thread.sleep(millisBetweenRequests);
-				}
-			}
-			catch (InterruptedException e)
-			{
-				saver.logError(e);
-			}
+			updateAndSave(dataModel);
+			scheduleUpdate(dataModel);
 		}
 	}
 
@@ -55,11 +54,6 @@ public class DataManager
 
 	public void stop()
 	{
-		timer.stop();
-	}
-
-	public void start()
-	{
-		timer.start();
+		timer.cancel();
 	}
 }

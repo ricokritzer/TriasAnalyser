@@ -85,6 +85,7 @@ public class Weather implements DataModel
 		}
 
 		final Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
 		cal.add(Calendar.MINUTE, 1);
 		nextUpdate = cal.getTime();
 	}
