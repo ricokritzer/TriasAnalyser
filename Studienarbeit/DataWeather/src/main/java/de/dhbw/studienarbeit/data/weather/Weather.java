@@ -28,14 +28,14 @@ public class Weather implements DataModel
 	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-	private double lat;
-	private double lon;
+	protected double lat;
+	protected double lon;
 
-	private double temp;
-	private double humidity;
-	private double pressure;
-	private double wind;
-	private double clouds;
+	protected double temp;
+	protected double humidity;
+	protected double pressure;
+	protected double wind;
+	protected double clouds;
 
 	private URL requestURL;
 
@@ -94,7 +94,7 @@ public class Weather implements DataModel
 		}
 	}
 
-	void setData(final String response) throws IOException
+	protected void setData(final String response) throws IOException
 	{
 		temp = Double.valueOf(extractDate(response, "temperature"));
 		humidity = Double.valueOf(extractDate(response, "humidity"));
@@ -117,41 +117,6 @@ public class Weather implements DataModel
 		{
 			throw new IOException("Error in xml: Tag '" + tag + "' with parameter 'value' not found", e);
 		}
-	}
-
-	public double getLat()
-	{
-		return lat;
-	}
-
-	public double getLon()
-	{
-		return lon;
-	}
-
-	public double getTemp()
-	{
-		return temp;
-	}
-
-	public double getHumitdity()
-	{
-		return humidity;
-	}
-
-	public double getPressure()
-	{
-		return pressure;
-	}
-
-	public double getWind()
-	{
-		return wind;
-	}
-
-	public double getClouds()
-	{
-		return clouds;
 	}
 
 	@Override

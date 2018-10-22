@@ -16,8 +16,8 @@ public class WeatherTest
 	public void testCoordinatesConstructor() throws Exception
 	{
 		final Weather coordinates = new Weather(49.01, 8.4);
-		assertThat(coordinates.getLat(), Is.is(49.01));
-		assertThat(coordinates.getLon(), Is.is(8.4));
+		assertThat(coordinates.lat, Is.is(49.01));
+		assertThat(coordinates.lon, Is.is(8.4));
 	}
 
 	@Test
@@ -26,11 +26,11 @@ public class WeatherTest
 		final Weather coordinates = new Weather(49.01, 8.4);
 		coordinates.setData(xmlData);
 
-		assertThat(coordinates.getClouds(), Is.is(36.0));
-		assertThat(coordinates.getTemp(), Is.is(17.59));
-		assertThat(coordinates.getHumitdity(), Is.is(67.0));
-		assertThat(coordinates.getPressure(), Is.is(1019.0));
-		assertThat(coordinates.getWind(), Is.is(2.1));
+		assertThat(coordinates.clouds, Is.is(36.0));
+		assertThat(coordinates.temp, Is.is(17.59));
+		assertThat(coordinates.humidity, Is.is(67.0));
+		assertThat(coordinates.pressure, Is.is(1019.0));
+		assertThat(coordinates.wind, Is.is(2.1));
 	}
 
 	@Test
