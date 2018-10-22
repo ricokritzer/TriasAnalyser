@@ -16,7 +16,7 @@
 		<module>DataWeather</module>
 		<module>DataHelper</module>
 		
-		<module>Data</module>
+		
     <module>DataTrias</module>
   </modules>
 	<dependencies>
