@@ -49,6 +49,7 @@ public class Weather implements DataModel
 		updateData(3);
 	}
 
+	@Override
 	public void updateData(final int attempts) throws IOException
 	{
 		try
