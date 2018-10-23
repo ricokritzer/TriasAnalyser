@@ -20,14 +20,13 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import de.dhbw.studienarbeit.data.helper.DataModel;
+import de.dhbw.studienarbeit.data.helper.ConfigurationData;
 
 public class Weather implements DataModel
 {
 	private static final Logger LOGGER = Logger.getLogger(Weather.class.getName());
 
 	// Responsemode could be html, xml or (default) JSON
-	private static final String URL_END = "&appid=b5923a1132896eba486d603bc6602a5f&mode=xml&units=metric";
-	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 	protected double lat;
@@ -48,7 +47,7 @@ public class Weather implements DataModel
 		this.lat = lat;
 		this.lon = lon;
 
-		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + URL_END;
+		final String dynamicURL = ConfigurationData.URL_PRE + "lat=" + lat + "&lon=" + lon + ConfigurationData.URL_END;
 		requestURL = new URL(dynamicURL);
 		updateData(3);
 	}
@@ -60,7 +59,7 @@ public class Weather implements DataModel
 		cal.setTime(new Date());
 		cal.add(Calendar.MINUTE, 1);
 		nextUpdate = cal.getTime();
-		
+
 		try
 		{
 			final URLConnection con = requestURL.openConnection();
