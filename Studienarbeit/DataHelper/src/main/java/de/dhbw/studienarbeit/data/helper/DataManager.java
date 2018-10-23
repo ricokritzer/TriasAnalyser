@@ -8,8 +8,8 @@ import java.util.TimerTask;
 
 public class DataManager
 {
-	private final Saver saver = new TextSaver("ausgabe.txt");
 	private final Timer timer;
+	private Saver saver = new TextSaver("ausgabe.txt");
 
 	public DataManager(List<DataModel> models)
 	{
@@ -26,6 +26,11 @@ public class DataManager
 				// ignorieren
 			}
 		}
+	}
+
+	public void setSaver(Saver saver)
+	{
+		this.saver = saver;
 	}
 
 	private void scheduleUpdate(DataModel model)
