@@ -9,18 +9,17 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DatabaseSaver
+public class DatabaseSaver implements Saver
 {
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
 
 	private Connection connection;
 
-	public static void main(String[] args) throws SQLException, ReflectiveOperationException
+	public static void main(String[] args) throws SQLException, ReflectiveOperationException, UnableToSaveException
 	{
 		DatabaseSaver server = new DatabaseSaver();
-		server.safe(new DataModel()
+		server.save(new DataModel()
 		{
-
 			@Override
 			public void updateData(int attempts) throws IOException
 			{}
@@ -60,7 +59,8 @@ public class DatabaseSaver
 		}
 	}
 
-	public void safe(DataModel model) throws SQLException
+	@Override
+	public void save(DataModel model) throws UnableToSaveException
 	{
 		try (PreparedStatement stmt = connection.prepareStatement(model.getSQLQuerry()))
 		{
@@ -69,6 +69,19 @@ public class DatabaseSaver
 
 			// TODO
 		}
+		catch (SQLException e)
+		{
+			final String message = "Unable to save " + model.toString();
+			LOGGER.log(Level.WARNING, message, e);
+			throw new UnableToSaveException(message, e);
+		}
+	}
+
+	@Override
+	public void logError(Exception ex)
+	{
+		// TODO Auto-generated method stub
+
 	}
 
 	private void connectToDatabase() throws SQLException

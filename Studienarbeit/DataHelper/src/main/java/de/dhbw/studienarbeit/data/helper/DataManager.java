@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public class DataManager
 {
-	private final Saver saver = new Saver();
+	private final Saver saver = new TextSaver("ausgabe.txt");
 	private final Timer timer;
 
 	public DataManager(List<DataModel> models)
@@ -32,9 +32,9 @@ public class DataManager
 	{
 		final Date now = new Date();
 		final Date updateDate = model.nextUpdate();
-		
+
 		if (now.before(updateDate))
-		{		
+		{
 			TimerTask task = new TimerTask()
 			{
 				@Override
@@ -47,7 +47,7 @@ public class DataManager
 		}
 		else
 		{
-			//time is over -> update now
+			// time is over -> update now
 			updateAndSaveAndSchedule(model);
 		}
 	}
@@ -59,11 +59,11 @@ public class DataManager
 			model.updateData(3);
 			saver.save(model);
 		}
-		catch (IOException e)
+		catch (UnableToSaveException | IOException e)
 		{
 			saver.logError(e);
 		}
-		finally 
+		finally
 		{
 			scheduleUpdate(model);
 		}

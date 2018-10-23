@@ -1,16 +1,8 @@
 package de.dhbw.studienarbeit.data.helper;
 
-public class Saver
+public interface Saver
 {
-	private final TextSaver saver = new TextSaver("ausgabe.txt");
+	public void logError(Exception ex);
 
-	public void save(final DataModel data)
-	{
-		saver.save(data.getSQLQuerry());
-	}
-
-	public void logError(Exception ex)
-	{
-		saver.logError(ex);
-	}
+	public void save(DataModel model) throws UnableToSaveException;
 }
