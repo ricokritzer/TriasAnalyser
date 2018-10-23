@@ -58,11 +58,14 @@ public class DataManager
 		{
 			model.updateData(3);
 			saver.save(model);
-			scheduleUpdate(model);
 		}
 		catch (IOException e)
 		{
 			saver.logError(e);
+		}
+		finally 
+		{
+			scheduleUpdate(model);
 		}
 	}
 
