@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 public class DatabaseSaver implements Saver
 {
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
+	private Saver saver = new TextSaver("errors.txt");
 
 	private Connection connection;
 
@@ -64,10 +65,8 @@ public class DatabaseSaver implements Saver
 	{
 		try (PreparedStatement stmt = connection.prepareStatement(model.getSQLQuerry()))
 		{
-			final int result = stmt.executeUpdate();
+			stmt.executeUpdate();
 			LOGGER.log(Level.INFO, "Saving datamodel: " + model.toString());
-
-			// TODO
 		}
 		catch (SQLException e)
 		{
@@ -80,8 +79,7 @@ public class DatabaseSaver implements Saver
 	@Override
 	public void logError(Exception ex)
 	{
-		// TODO Auto-generated method stub
-
+		saver.logError(ex);
 	}
 
 	private void connectToDatabase() throws SQLException
