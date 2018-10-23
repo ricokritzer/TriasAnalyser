@@ -65,7 +65,7 @@ public class DatabaseSaver implements Saver
 		try (PreparedStatement stmt = connection.prepareStatement(model.getSQLQuerry()))
 		{
 			final int result = stmt.executeUpdate();
-			LOGGER.log(Level.INFO, "Connecting to database.");
+			LOGGER.log(Level.INFO, "Saving datamodel: " + model.toString());
 
 			// TODO
 		}
