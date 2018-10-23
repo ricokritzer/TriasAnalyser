@@ -56,6 +56,11 @@ public class Weather implements DataModel
 	@Override
 	public void updateData(final int attempts) throws IOException
 	{
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.MINUTE, 1);
+		nextUpdate = cal.getTime();
+		
 		try
 		{
 			final URLConnection con = requestURL.openConnection();
@@ -83,11 +88,6 @@ public class Weather implements DataModel
 				throw e;
 			}
 		}
-
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, 1);
-		nextUpdate = cal.getTime();
 	}
 
 	private void waitForResponse(URLConnection connection) throws IOException
