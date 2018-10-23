@@ -7,9 +7,10 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,8 +20,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import de.dhbw.studienarbeit.data.helper.DataModel;
 import de.dhbw.studienarbeit.data.helper.ConfigurationData;
+import de.dhbw.studienarbeit.data.helper.DataModel;
 
 public class Weather implements DataModel
 {
@@ -28,10 +29,13 @@ public class Weather implements DataModel
 
 	// Responsemode could be html, xml or (default) JSON
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	public static final String SQL_TABLE_WEATHER = "CREATE TABLE Weather (stopID varchar(20), timeStamp timestamp, temp decimal(6,2), humidity decimal(6,2),pressure decimal(6,2), wind decimal(6,2), clouds decimal(6,2), primary key (stopID, timeStamp));";
 
+	protected String stopID;
 	protected double lat;
 	protected double lon;
 
+	protected Date date;
 	protected double temp;
 	protected double humidity;
 	protected double pressure;
@@ -42,8 +46,9 @@ public class Weather implements DataModel
 
 	private URL requestURL;
 
-	public Weather(final double lat, final double lon) throws IOException
+	public Weather(final String stopID, final double lat, final double lon) throws IOException
 	{
+		this.stopID = stopID;
 		this.lat = lat;
 		this.lon = lon;
 
@@ -109,6 +114,7 @@ public class Weather implements DataModel
 		pressure = Double.valueOf(extractDate(response, "pressure"));
 		wind = Double.valueOf(extractDate(response, "speed"));
 		clouds = Double.valueOf(extractDate(response, "clouds"));
+		date = new Date();
 	}
 
 	private String extractDate(final String xmlText, final String tag) throws IOException
@@ -130,31 +136,19 @@ public class Weather implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append(getPartialString("lon", lon));
-		sb.append(getPartialString("lat", lat));
-		sb.append(getPartialString("temp", temp));
-		sb.append(getPartialString("humitidity", humidity));
-		sb.append(getPartialString("pressure", pressure));
-		sb.append(getPartialString("wind", wind));
-		sb.append(getPartialString("clouds", clouds));
-		LOGGER.log(Level.FINEST, "Weatherdata saved: " + sb.toString());
-		return sb.toString();
+		String sql = "INSERT INTO Weather " + values("'" + stopID + "'", "'" + new Timestamp(date.getTime()) + "'",
+				temp, humidity, pressure, wind, clouds);
+		System.out.println(sql);
+		return sql;
 	}
 
-	private String getPartialString(final String text, final String value)
+	private String values(Object... values)
 	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append("\t");
-		sb.append(text);
-		sb.append(":\t");
-		sb.append(value);
+		StringBuilder sb = new StringBuilder("VALUES (");
+		Arrays.asList(values).forEach(e -> sb.append(e + ","));
+		sb.deleteCharAt(sb.length() - 1);
+		sb.append(");");
 		return sb.toString();
-	}
-
-	private String getPartialString(final String text, final double value)
-	{
-		return getPartialString(text, "" + value);
 	}
 
 	@Override
