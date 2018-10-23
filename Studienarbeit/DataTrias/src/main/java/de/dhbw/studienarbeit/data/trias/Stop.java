@@ -1,6 +1,11 @@
 package de.dhbw.studienarbeit.data.trias;
 
-public class Stop
+import java.io.IOException;
+import java.util.Date;
+
+import de.dhbw.studienarbeit.data.helper.DataModel;
+
+public class Stop implements DataModel
 {
 	private String timetabledTime = "";
 	private String estimatedTime = "";
@@ -26,5 +31,26 @@ public class Stop
 	{
 		return "Linie " + publishedLineName + "\t" + destinationText + "\tgeplant: " + timetabledTime
 				+ "\tvorraussichtlich: " + estimatedTime;
+	}
+
+	@Override
+	public String getSQLQuerry()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateData(int attempts) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Date nextUpdate()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
