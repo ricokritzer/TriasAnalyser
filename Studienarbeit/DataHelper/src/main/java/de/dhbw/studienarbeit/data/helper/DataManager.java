@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.helper;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,16 +30,26 @@ public class DataManager
 
 	private void scheduleUpdate(DataModel model)
 	{
-		TimerTask task = new TimerTask()
-		{
-			@Override
-			public void run()
+		final Date now = new Date();
+		final Date updateDate = model.nextUpdate();
+		
+		if (now.before(updateDate))
+		{		
+			TimerTask task = new TimerTask()
 			{
-				updateAndSaveAndSchedule(model);
-			}
-		};
-
-		timer.schedule(task, model.nextUpdate());
+				@Override
+				public void run()
+				{
+					updateAndSaveAndSchedule(model);
+				}
+			};
+			timer.schedule(task, model.nextUpdate());
+		}
+		else
+		{
+			//time is over -> update now
+			updateAndSaveAndSchedule(model);
+		}
 	}
 
 	private void updateAndSaveAndSchedule(DataModel model)
