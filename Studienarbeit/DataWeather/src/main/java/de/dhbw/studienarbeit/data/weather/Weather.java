@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -60,6 +61,8 @@ public class Weather implements DataModel
 	@Override
 	public void updateData(final int attempts) throws IOException
 	{
+		LOGGER.log(Level.INFO, this.toString() + " updating.");
+
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.MINUTE, 1);
@@ -136,15 +139,13 @@ public class Weather implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		String sql = "INSERT INTO Weather " + values("'" + stopID + "'", "'" + new Timestamp(date.getTime()) + "'",
-				temp, humidity, pressure, wind, clouds);
-		System.out.println(sql);
-		return sql;
+		return "INSERT INTO Weather " + values("'" + stopID + "'", "'" + new Timestamp(date.getTime()) + "'", temp,
+				humidity, pressure, wind, clouds);
 	}
 
 	private String values(Object... values)
 	{
-		StringBuilder sb = new StringBuilder("VALUES (");
+		final StringBuilder sb = new StringBuilder("VALUES (");
 		Arrays.asList(values).forEach(e -> sb.append(e + ","));
 		sb.deleteCharAt(sb.length() - 1);
 		sb.append(");");
