@@ -24,6 +24,9 @@ import de.dhbw.studienarbeit.data.helper.DataModel;
 
 public class Weather implements DataModel
 {
+	public static final String URL_END = "&appid=" + ConfigurationData.DATA_WEATHER_API_KEY + "&mode=xml&units=metric";
+	public static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
+
 	// Responsemode could be html, xml or (default) JSON
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	public static final String SQL_TABLE_WEATHER = "CREATE TABLE Weather (stationID varchar(20), timeStamp timestamp, temp decimal(6,2), humidity decimal(6,2),pressure decimal(6,2), wind decimal(6,2), clouds decimal(6,2), primary key (stopID, timeStamp));";
@@ -49,7 +52,7 @@ public class Weather implements DataModel
 		this.lat = lat;
 		this.lon = lon;
 
-		final String dynamicURL = ConfigurationData.URL_PRE + "lat=" + lat + "&lon=" + lon + ConfigurationData.URL_END;
+		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + URL_END;
 		requestURL = new URL(dynamicURL);
 		updateData(3);
 	}
