@@ -13,8 +13,6 @@ public class Station implements DataModel
 	private String name;
 	private Double lat;
 	private Double lon;
-	private List<Stop> currentStops;
-	private List<Stop> lastStops;
 	
 	public Station(String stationID, String name, Double lat, Double lon)
 	{
@@ -22,8 +20,6 @@ public class Station implements DataModel
 		this.name = name;
 		this.lat = lat;
 		this.lon = lon;
-		currentStops = new ArrayList<>();
-		lastStops = new ArrayList<>();
 	}
 	
 	public String getStationID()
@@ -49,19 +45,24 @@ public class Station implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		return stationID + " " + name;
+		return "INSERT INTO Station " + values() + ";";
+	}
+
+	private String values()
+	{
+		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ")";
 	}
 
 	@Override
 	public void updateData(int attempts) throws IOException
 	{
-
+		
 	}
 
 	@Override
 	public Date nextUpdate()
 	{
-		return null;
+		return new Date();
 	}
 
 }
