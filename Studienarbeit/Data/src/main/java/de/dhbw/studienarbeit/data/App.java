@@ -1,9 +1,11 @@
 package de.dhbw.studienarbeit.data;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.DatabaseReader;
+import de.dhbw.studienarbeit.data.helper.Station;
+import de.dhbw.studienarbeit.data.weather.DataWeatherApp;
 
 public class App
 {
@@ -11,10 +13,7 @@ public class App
 	{
 		final DatabaseReader reader = new DatabaseReader();
 		final String sql = "SELECT * FROM Station";
-		final ResultSet result = reader.readDatabase(sql);
-		
-		
-
-		// TODO code
+		final List<Station> stations = reader.readDatabase(sql);
+		new DataWeatherApp().startDataCollection(stations);
 	}
 }
