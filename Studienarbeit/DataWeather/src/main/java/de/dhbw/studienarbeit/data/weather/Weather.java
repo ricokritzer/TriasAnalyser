@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,8 +24,6 @@ import de.dhbw.studienarbeit.data.helper.DataModel;
 
 public class Weather implements DataModel
 {
-	private static final Logger LOGGER = Logger.getLogger(Weather.class.getName());
-
 	// Responsemode could be html, xml or (default) JSON
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	public static final String SQL_TABLE_WEATHER = "CREATE TABLE Weather (stationID varchar(20), timeStamp timestamp, temp decimal(6,2), humidity decimal(6,2),pressure decimal(6,2), wind decimal(6,2), clouds decimal(6,2), primary key (stopID, timeStamp));";
