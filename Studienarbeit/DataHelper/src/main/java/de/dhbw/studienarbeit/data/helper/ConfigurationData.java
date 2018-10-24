@@ -5,7 +5,7 @@ public class ConfigurationData
 	public static final String DATABASE_HOSTNAME = "ricork.ddns.net";
 	public static final String DATABASE_PORT = "3306";
 	public static final String DATABASE_NAME = "data";
-	public static final String DATABASE_USER_WRITER = "dataClient";
+	public static final String DATABASE_USER_WRITER = "dataWriter";
 	public static final String DATABASE_PASSWORD_WRITER = "databaseWriter2018";
 	public static final String DATABASE_USER_READER = "dataClient";
 	public static final String DATABASE_PASSWORD_READER = "databaseWriter2018";
