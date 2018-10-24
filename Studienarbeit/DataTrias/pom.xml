@@ -9,9 +9,7 @@
 		<artifactId>Studienarbeit</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<groupId>de.dhbw.studienarbeit</groupId>
 	<artifactId>DataTrias</artifactId>
-	<version>1.0.0</version>
 	<name>DataTrias</name>
 	<url>http://maven.apache.org</url>
 	<properties>
