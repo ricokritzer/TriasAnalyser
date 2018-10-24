@@ -10,6 +10,6 @@ public class ConfigurationData
 	public static final String DATABASE_USER_READER = "dataClient";
 	public static final String DATABASE_PASSWORD_READER = "databaseWriter2018";
 
-	public static final String URL_END = "&appid=b5923a1132896eba486d603bc6602a5f&mode=xml&units=metric";
+	public static final String URL_END = "&appid=9412f9cf01e1de32009e18c8276ea082&mode=xml&units=metric";
 	public static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 }
