@@ -54,6 +54,16 @@
 			<groupId>de.dhbw.studienarbeit</groupId>
 			<artifactId>DataHelper</artifactId>
 		</dependency>
+		<dependency>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>DataWeather</artifactId>
+		</dependency>
+		<dependency>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>DataTrias</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
