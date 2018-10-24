@@ -1,25 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.dhbw.studienarbeit</groupId>
-	<artifactId>Studienarbeit</artifactId>
-	<version>1.0.0</version>
-	<name>Studienarbeit</name>
-	<packaging>pom</packaging>
+	<parent>
+		<groupId>de.dhbw.studienarbeit</groupId>
+		<artifactId>Studienarbeit</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>Data</artifactId>
+	<name>Data</name>
+	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-	<modules>
-		
-		<module>DataWeather</module>
-		<module>DataHelper</module>
-		
-		
-    <module>DataTrias</module>
-    <module>Data</module>
-  </modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -51,17 +48,34 @@
 			<version>1.1.0</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>DataHelper</artifactId>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.1.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.junit.jupiter</groupId>
+						<artifactId>junit-jupiter-engine</artifactId>
+						<version>5.1.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
