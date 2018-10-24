@@ -18,6 +18,7 @@
 		
 		
     <module>DataTrias</module>
+    <module>Data</module>
   </modules>
 	<dependencies>
 		<dependency>

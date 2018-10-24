@@ -36,8 +36,8 @@ public class Stop implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		String values = ", ";
+		return "INSERT INTO Stop (StationID, LineID, TimeTabledTime, RealTime) VALUES" + " (" + values + ")";
 	}
 
 	@Override

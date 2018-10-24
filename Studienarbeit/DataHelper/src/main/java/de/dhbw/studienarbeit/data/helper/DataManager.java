@@ -5,15 +5,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DataManager
 {
+	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
+
 	private final Timer timer;
-	private Saver saver = new TextSaver("ausgabe.txt");
+	private final Saver saver;
 
 	public DataManager(List<DataModel> models)
 	{
+		this(models, new TextSaver("ausgabe.txt"));
+	}
+
+	public DataManager(List<DataModel> models, Saver saver)
+	{
 		timer = new Timer();
+		this.saver = saver;
 		for (DataModel dataModel : models)
 		{
 			updateAndSaveAndSchedule(dataModel);
@@ -26,11 +36,6 @@ public class DataManager
 				// ignorieren
 			}
 		}
-	}
-
-	public void setSaver(Saver saver)
-	{
-		this.saver = saver;
 	}
 
 	private void scheduleUpdate(DataModel model)
@@ -64,9 +69,9 @@ public class DataManager
 			model.updateData(3);
 			saver.save(model);
 		}
-		catch (UnableToSaveException | IOException e)
+		catch (IOException e)
 		{
-			saver.logError(e);
+			LOGGER.log(Level.WARNING, "Unable to update " + model.toString(), e);
 		}
 		finally
 		{

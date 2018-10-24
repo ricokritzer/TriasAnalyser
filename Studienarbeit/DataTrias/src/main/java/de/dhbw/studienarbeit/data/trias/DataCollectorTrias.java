@@ -29,8 +29,8 @@ public class DataCollectorTrias implements Runnable
 	{
 		running = true;
 		
-		while (running)
-		{
+//		while (running)
+//		{
 			for (String stopID : stopIDs)
 			{
 				try
@@ -39,6 +39,7 @@ public class DataCollectorTrias implements Runnable
 					request(con, xmlCreator.getRequestXML(stopID));
 					String responseXML = readResponse(con);
 					Response response = new Response(responseXML);
+					System.out.println(response.toString());
 					DatabaseConnector.write(response.toString());
 				}
 				catch (IOException | SAXException | ParserConfigurationException e)
@@ -56,7 +57,7 @@ public class DataCollectorTrias implements Runnable
 			{
 				e.printStackTrace();
 			}
-		}
+//		}
 	}
 
 	public DataCollectorTrias(final int startIndex, final int endIndex)

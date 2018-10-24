@@ -22,12 +22,11 @@ public class TextSaver implements Saver
 	}
 
 	@Override
-	public void save(DataModel model) throws UnableToSaveException
+	public void save(DataModel model)
 	{
-		// TODO Auto-generated method stub
-		
+		write(model.getSQLQuerry());
 	}
-	
+
 	public void logError(Exception ex)
 	{
 		write(ex.getMessage());
