@@ -11,6 +11,6 @@ public class ConfigurationData
 	public static final String DATABASE_PASSWORD_READER = "databaseReader2018";
 	public static final String DATABASE_USER_MANIPULATOR = "dataClient";
 	public static final String DATABASE_PASSWORD_MANIPULATOR = "databaseClient2018";
-	
+
   	public static final String DATA_WEATHER_API_KEY = "9412f9cf01e1de32009e18c8276ea082";
 }
