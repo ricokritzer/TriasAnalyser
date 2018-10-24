@@ -15,6 +15,8 @@ public class DataManagerTest
 {
 	int updates = 0;
 	Date nextUpdate;
+	boolean saved = false;
+
 	final DataModel data = new DataModel()
 	{
 		@Override
@@ -46,8 +48,16 @@ public class DataManagerTest
 		List<DataModel> models = new ArrayList<>();
 		models.add(data);
 
-		new DataManager(models);
+		new DataManager(models, new Saver()
+		{
+			@Override
+			public void save(DataModel model)
+			{
+				saved = true;
+			}
+		});
 
 		assertThat(updates, Is.is(1));
+		assertThat(saved, Is.is(true));
 	}
 }
