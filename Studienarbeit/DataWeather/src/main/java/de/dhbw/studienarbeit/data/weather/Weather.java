@@ -30,9 +30,9 @@ public class Weather implements DataModel
 
 	// Responsemode could be html, xml or (default) JSON
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	public static final String SQL_TABLE_WEATHER = "CREATE TABLE Weather (stopID varchar(20), timeStamp timestamp, temp decimal(6,2), humidity decimal(6,2),pressure decimal(6,2), wind decimal(6,2), clouds decimal(6,2), primary key (stopID, timeStamp));";
+	public static final String SQL_TABLE_WEATHER = "CREATE TABLE Weather (stationID varchar(20), timeStamp timestamp, temp decimal(6,2), humidity decimal(6,2),pressure decimal(6,2), wind decimal(6,2), clouds decimal(6,2), primary key (stopID, timeStamp));";
 
-	protected String stopID;
+	protected String stationID;
 	protected double lat;
 	protected double lon;
 
@@ -47,9 +47,9 @@ public class Weather implements DataModel
 
 	private URL requestURL;
 
-	public Weather(final String stopID, final double lat, final double lon) throws IOException
+	public Weather(final String stationID, final double lat, final double lon) throws IOException
 	{
-		this.stopID = stopID;
+		this.stationID = stationID;
 		this.lat = lat;
 		this.lon = lon;
 
@@ -139,7 +139,7 @@ public class Weather implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Weather " + values("'" + stopID + "'", "'" + new Timestamp(date.getTime()) + "'", temp,
+		return "INSERT INTO Weather " + values("'" + stationID + "'", "'" + new Timestamp(date.getTime()) + "'", temp,
 				humidity, pressure, wind, clouds);
 	}
 
