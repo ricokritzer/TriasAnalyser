@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -61,11 +60,9 @@ public class Weather implements DataModel
 	@Override
 	public void updateData(final int attempts) throws IOException
 	{
-		LOGGER.log(Level.INFO, this.toString() + " updating.");
-
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, 1);
+		cal.add(Calendar.MINUTE, 5);
 		nextUpdate = cal.getTime();
 
 		try
