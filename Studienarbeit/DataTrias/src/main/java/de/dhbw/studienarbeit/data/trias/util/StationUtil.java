@@ -19,7 +19,7 @@ public class StationUtil
 		getAllStations();
 	}
 
-	public static List<Station> getAllStations()
+	public static void getAllStations()
 	{
 		List<Station> stations = new ArrayList<>();
 		try
@@ -46,6 +46,5 @@ public class StationUtil
 		{
 			e.printStackTrace();
 		}
-		return null;
 	}
 }
