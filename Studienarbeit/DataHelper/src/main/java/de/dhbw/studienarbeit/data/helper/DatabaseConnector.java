@@ -18,6 +18,11 @@ public class DatabaseConnector
 		loadDatabaseDriver();
 	}
 
+	public void setSaverForErrors(Saver saver)
+	{
+		this.saver = saver;
+	}
+
 	protected void connectToDatabase(final String username, final String password) throws SQLException
 	{
 		try
