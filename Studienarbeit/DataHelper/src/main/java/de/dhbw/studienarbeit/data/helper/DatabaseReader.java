@@ -34,6 +34,7 @@ public class DatabaseReader extends DatabaseConnector
 				connectToDatabase();
 			}
 
+			LOGGER.log(Level.INFO, "Start reading stations.");
 			result = stmt.executeQuery();
 			final List<Station> stations = new ArrayList<>();
 			while (result.next())
@@ -43,8 +44,8 @@ public class DatabaseReader extends DatabaseConnector
 				final double lon = result.getDouble("lon");
 
 				stations.add(new Station(stationID, lat, lon));
-				LOGGER.log(Level.INFO, "Read: " + stationID + " at " + lat + "; " + lon);
 			}
+			LOGGER.log(Level.INFO, "Read " + stations.size() + " stations.");
 
 			return stations;
 		}
