@@ -22,7 +22,7 @@ public class TextSaver implements Saver
 	}
 
 	@Override
-	public void save(DataModel model) throws UnableToSaveException
+	public void save(DataModel model)
 	{
 		write(model.getSQLQuerry());
 	}

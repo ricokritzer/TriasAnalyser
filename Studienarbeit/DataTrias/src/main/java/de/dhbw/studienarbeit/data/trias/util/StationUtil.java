@@ -10,8 +10,6 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.Saver;
-import de.dhbw.studienarbeit.data.helper.TextSaver;
-import de.dhbw.studienarbeit.data.helper.UnableToSaveException;
 import de.dhbw.studienarbeit.data.trias.Station;
 
 public class StationUtil
@@ -20,7 +18,7 @@ public class StationUtil
 	{
 		getAllStations();
 	}
-	
+
 	public static List<Station> getAllStations()
 	{
 		List<Station> stations = new ArrayList<>();
@@ -36,22 +34,13 @@ public class StationUtil
 				if (stop.startsWith("\"de"))
 				{
 					String[] splittedStop = stop.split("\",\"");
-					stations.add(new Station(splittedStop[0].replaceAll("\"", ""), splittedStop[1], Double.valueOf(splittedStop[2]),
-							Double.valueOf(splittedStop[3].replaceAll("\"", ""))));
+					stations.add(new Station(splittedStop[0].replaceAll("\"", ""), splittedStop[1],
+							Double.valueOf(splittedStop[2]), Double.valueOf(splittedStop[3].replaceAll("\"", ""))));
 				}
 			}
 			reader.close();
 			Saver saver = new DatabaseSaver();
-			stations.forEach(station -> {
-				try
-				{
-					saver.save(station);
-				}
-				catch (UnableToSaveException e)
-				{
-					e.printStackTrace();
-				}
-			});
+			stations.forEach(station -> saver.save(station));
 		}
 		catch (IOException | SQLException | ReflectiveOperationException e)
 		{

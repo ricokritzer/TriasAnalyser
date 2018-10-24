@@ -61,25 +61,23 @@ public class DatabaseSaver implements Saver
 	}
 
 	@Override
-	public void save(DataModel model) throws UnableToSaveException
+	public void save(DataModel model)
 	{
 		try (PreparedStatement stmt = connection.prepareStatement(model.getSQLQuerry()))
 		{
+			if (connection.isClosed())
+			{
+				connectToDatabase();
+			}
+
 			stmt.executeUpdate();
 			LOGGER.log(Level.INFO, "Saving datamodel: " + model.toString());
 		}
 		catch (SQLException e)
 		{
-			final String message = "Unable to save " + model.toString();
-			LOGGER.log(Level.WARNING, message, e);
-			throw new UnableToSaveException(message, e);
+			LOGGER.log(Level.WARNING, "Unable to save " + model.toString(), e);
+			saver.save(model);
 		}
-	}
-
-	@Override
-	public void logError(Exception ex)
-	{
-		saver.logError(ex);
 	}
 
 	private void connectToDatabase() throws SQLException

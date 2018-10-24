@@ -5,9 +5,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DataManager
 {
+	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
+
 	private final Timer timer;
 	private Saver saver = new TextSaver("ausgabe.txt");
 
@@ -64,9 +68,9 @@ public class DataManager
 			model.updateData(3);
 			saver.save(model);
 		}
-		catch (UnableToSaveException | IOException e)
+		catch (IOException e)
 		{
-			saver.logError(e);
+			LOGGER.log(Level.WARNING, "Unable to update " + model.toString(), e);
 		}
 		finally
 		{
