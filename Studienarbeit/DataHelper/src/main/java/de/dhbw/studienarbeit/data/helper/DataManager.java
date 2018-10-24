@@ -13,11 +13,17 @@ public class DataManager
 	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
 
 	private final Timer timer;
-	private Saver saver = new TextSaver("ausgabe.txt");
+	private final Saver saver;
 
 	public DataManager(List<DataModel> models)
 	{
+		this(models, new TextSaver("ausgabe.txt"));
+	}
+
+	public DataManager(List<DataModel> models, Saver saver)
+	{
 		timer = new Timer();
+		this.saver = saver;
 		for (DataModel dataModel : models)
 		{
 			updateAndSaveAndSchedule(dataModel);
@@ -30,11 +36,6 @@ public class DataManager
 				// ignorieren
 			}
 		}
-	}
-
-	public void setSaver(Saver saver)
-	{
-		this.saver = saver;
 	}
 
 	private void scheduleUpdate(DataModel model)
