@@ -29,7 +29,6 @@ public class Weather implements DataModel
 
 	// Responsemode could be html, xml or (default) JSON
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	public static final String SQL_TABLE_WEATHER = "CREATE TABLE Weather (stationID varchar(20), timeStamp timestamp, temp decimal(6,2), humidity decimal(6,2),pressure decimal(6,2), wind decimal(6,2), clouds decimal(6,2), primary key (stopID, timeStamp));";
 
 	protected String stationID;
 	protected double lat;
@@ -142,7 +141,7 @@ public class Weather implements DataModel
 	private String values(Object... values)
 	{
 		final StringBuilder sb = new StringBuilder("VALUES (");
-		Arrays.asList(values).forEach(e -> sb.append(e + ","));
+		Arrays.asList(values).forEach(e -> sb.append(e.toString() + ","));
 		sb.deleteCharAt(sb.length() - 1);
 		sb.append(");");
 		return sb.toString();
