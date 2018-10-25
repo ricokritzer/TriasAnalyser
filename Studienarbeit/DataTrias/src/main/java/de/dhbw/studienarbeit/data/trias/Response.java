@@ -27,13 +27,15 @@ public class Response
 		final Element docElement = doc.getDocumentElement();
 		for (int i = 0; i < docElement.getElementsByTagName("EstimatedTime").getLength(); i++)
 		{
+			final String stopPointName = docElement.getElementsByTagName("StopPointName").item(i)
+					.getTextContent();
 			final String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i)
 					.getTextContent();
 			final String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
 			final String estimatedTime = docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent();
 			final String timetabledTime = docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent();
 
-			stops.add(new Stop(timetabledTime, estimatedTime, publishedLineName, destinationText));
+			stops.add(new Stop(stopPointName, timetabledTime, estimatedTime, publishedLineName, destinationText));
 		}
 	}
 

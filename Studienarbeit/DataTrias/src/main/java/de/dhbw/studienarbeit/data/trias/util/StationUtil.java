@@ -19,7 +19,7 @@ public class StationUtil
 		getAllStations();
 	}
 
-	public static void getAllStations()
+	public static List<Station> getAllStations()
 	{
 		List<Station> stations = new ArrayList<>();
 		try
@@ -34,8 +34,22 @@ public class StationUtil
 				if (stop.startsWith("\"de"))
 				{
 					String[] splittedStop = stop.split("\",\"");
-					stations.add(new Station(splittedStop[0].replaceAll("\"", ""), splittedStop[1],
-							Double.valueOf(splittedStop[2]), Double.valueOf(splittedStop[3].replaceAll("\"", ""))));
+					String stationIDLong = splittedStop[0].replaceAll("\"", "");
+					String[] stationIDSplitted = stationIDLong.split(":");
+					String stationID = stationIDSplitted[0] + ":" + stationIDSplitted[1] + ":" + stationIDSplitted[2];
+					
+					String name = splittedStop[1];
+					
+					if (testAlreadySaved(stations, stationID))
+					{
+						continue;
+					}
+					if (name.isEmpty())
+					{
+						continue;
+					}
+					stations.add(new Station(stationID, name, Double.valueOf(splittedStop[2]),
+							Double.valueOf(splittedStop[3].replaceAll("\"", ""))));
 				}
 			}
 			reader.close();
@@ -46,5 +60,18 @@ public class StationUtil
 		{
 			e.printStackTrace();
 		}
+		return stations;
+	}
+
+	private static boolean testAlreadySaved(List<Station> stations, String stationID)
+	{
+		for (Station s : stations)
+		{
+			if (s.getStationID().equals(stationID))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

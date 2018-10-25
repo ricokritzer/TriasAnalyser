@@ -1,14 +1,20 @@
 package de.dhbw.studienarbeit.data.trias;
 
-import java.util.Set;
+import java.util.List;
+
+import de.dhbw.studienarbeit.data.trias.util.StationUtil;
 
 public class App 
 {
     public static void main( String[] args )
     {
-    	Set<String> set = new StopIDs().getAll();
-		String[] stopIDs = set.toArray(new String[set.size()]);
+    	List<Station> stations = StationUtil.getAllStations();
+    	String[] stationIDs = new String[stations.size()];
+    	for (int i = 0; i < stations.size(); i++)
+    	{
+    		stationIDs[i] = stations.get(i).getStationID();
+    	}
 		DatabaseConnector.createFile();
-		new DataCollectorTrias(stopIDs).run();
+		new DataCollectorTrias(stationIDs).run();
     }
 }
