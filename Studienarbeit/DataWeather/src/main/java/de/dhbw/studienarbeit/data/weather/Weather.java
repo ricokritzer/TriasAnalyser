@@ -153,4 +153,10 @@ public class Weather implements DataModel
 	{
 		return nextUpdate;
 	}
+
+	@Override
+	public String toString()
+	{
+		return this.getClass().getName() + " of " + stationID;
+	}
 }
