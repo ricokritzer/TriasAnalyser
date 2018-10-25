@@ -1,13 +1,12 @@
 package de.dhbw.studienarbeit.data.helper;
 
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
 public class DataManagerTest
@@ -50,10 +49,10 @@ public class DataManagerTest
 			{
 				saved = true;
 			}
-		}, 60);
+		}, maxUpdatesPerMinute);
 
-		Thread.sleep(60000 / 10);
+		Thread.sleep(6000);
 
-		assertThat(updates, Is.is(maxUpdatesPerMinute / 10));
+		assertTrue(updates <= 7);
 	}
 }
