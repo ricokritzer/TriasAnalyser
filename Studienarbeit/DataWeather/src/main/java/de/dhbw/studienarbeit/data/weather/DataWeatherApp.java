@@ -38,7 +38,7 @@ public class DataWeatherApp
 			}
 		});
 		LOGGER.log(Level.INFO, "Stations converted into Weather.");
-		final int updatesPerMinute = 60; // Maximum of Requests
+		final int updatesPerMinute = 58; // Maximum of allowed requests - 2 Requests for tests
 		new DataManager(data, new DatabaseSaver(), updatesPerMinute);
 	}
 }
