@@ -4,7 +4,6 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class DataManagerTest
 {
 	int updates = 0;
-	Date nextUpdate;
+	Date nextUpdate = new Date();
 	boolean saved = false;
 
 	final DataModel data = new DataModel()
@@ -39,15 +38,11 @@ public class DataManagerTest
 	};
 
 	@Test
-	void testUpdateIfTimeIsNotOver() throws Exception
+	void testCountUpdateIsLessThanMaximum() throws Exception
 	{
-		Calendar c = Calendar.getInstance();
-		c.add(Calendar.MINUTE, 5);
-		nextUpdate = c.getTime();
-
+		final int maxUpdatesPerMinute = 60;
 		List<DataModel> models = new ArrayList<>();
 		models.add(data);
-
 		new DataManager(models, new Saver()
 		{
 			@Override
@@ -55,9 +50,10 @@ public class DataManagerTest
 			{
 				saved = true;
 			}
-		});
+		}, 60);
 
-		assertThat(updates, Is.is(1));
-		assertThat(saved, Is.is(true));
+		Thread.sleep(60000 / 10);
+
+		assertThat(updates, Is.is(maxUpdatesPerMinute / 10));
 	}
 }

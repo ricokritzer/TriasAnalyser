@@ -37,6 +37,8 @@ public class DataWeatherApp
 				LOGGER.log(Level.WARNING, "Not able to get Data.", e);
 			}
 		});
-		new DataManager(data, new DatabaseSaver());
+		LOGGER.log(Level.INFO, "Stations converted into Weather.");
+		final int updatesPerMinute = 60; // Maximum of Requests
+		new DataManager(data, new DatabaseSaver(), updatesPerMinute);
 	}
 }

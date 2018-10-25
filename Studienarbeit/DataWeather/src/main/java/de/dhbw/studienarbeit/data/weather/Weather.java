@@ -54,7 +54,6 @@ public class Weather implements DataModel
 
 		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + URL_END;
 		requestURL = new URL(dynamicURL);
-		updateData(3);
 	}
 
 	@Override
