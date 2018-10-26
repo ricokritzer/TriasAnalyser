@@ -28,8 +28,8 @@ public class DatabaseConnector
 		try
 		{
 			LOGGER.log(Level.INFO, "Connecting to database.");
-			String url = "jdbc:mysql://" + ConfigurationData.DATABASE_HOSTNAME + ":" + ConfigurationData.DATABASE_PORT
-					+ "/" + ConfigurationData.DATABASE_NAME
+			String url = "jdbc:mysql://" + Settings.getInstance().getDatabaseHostname() + ":"
+					+ Settings.getInstance().getDatabasePort() + "/" + Settings.getInstance().getDatabaseName()
 					+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 			connection = DriverManager.getConnection(url, username, password);
 		}

@@ -18,7 +18,8 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 
 	private void connectToDatabase() throws SQLException
 	{
-		connectToDatabase(ConfigurationData.DATABASE_USER_WRITER, ConfigurationData.DATABASE_PASSWORD_WRITER);
+		connectToDatabase(Settings.getInstance().getDatabaseWriterUser(),
+				Settings.getInstance().getDatabaseWriterPassword());
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 			closeStatement(statement);
 		}
 	}
-	
+
 	private void closeStatement(PreparedStatement statement)
 	{
 		Optional.ofNullable(statement).ifPresent(e -> {

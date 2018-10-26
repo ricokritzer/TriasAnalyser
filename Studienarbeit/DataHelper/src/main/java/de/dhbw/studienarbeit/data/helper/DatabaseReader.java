@@ -20,7 +20,8 @@ public class DatabaseReader extends DatabaseConnector
 
 	private void connectToDatabase() throws SQLException
 	{
-		connectToDatabase(ConfigurationData.DATABASE_USER_READER, ConfigurationData.DATABASE_PASSWORD_READER);
+		connectToDatabase(Settings.getInstance().getDatabaseReaderUser(),
+				Settings.getInstance().getDatabaseReaderPassword());
 	}
 
 	public List<Station> readDatabase(final String sqlStatement) throws SQLException

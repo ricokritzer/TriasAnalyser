@@ -19,12 +19,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import de.dhbw.studienarbeit.data.helper.ConfigurationData;
 import de.dhbw.studienarbeit.data.helper.DataModel;
+import de.dhbw.studienarbeit.data.helper.Settings;
 
 public class Weather implements DataModel
 {
-	public static final String URL_END = "&appid=" + ConfigurationData.DATA_WEATHER_API_KEY + "&mode=xml&units=metric";
+	public static final String URL_END = "&appid=" + Settings.getInstance().getDataWeatherApiKey()
+			+ "&mode=xml&units=metric";
 	public static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 
 	// Responsemode could be html, xml or (default) JSON

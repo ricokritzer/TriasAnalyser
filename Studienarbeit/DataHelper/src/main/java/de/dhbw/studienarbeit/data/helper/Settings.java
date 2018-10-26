@@ -10,7 +10,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.xml.sax.InputSource;
 
 public class Settings
@@ -37,6 +36,11 @@ public class Settings
 		return data;
 	}
 
+	public static void main(String[] args)
+	{
+
+	}
+
 	private Settings()
 	{
 		try
@@ -47,20 +51,24 @@ public class Settings
 					.parse(new InputSource(new BufferedReader(new FileReader("Configuration.conf"))));
 			final Element docElement = doc.getDocumentElement();
 
+			final Element database = (Element) docElement.getElementsByTagName("database").item(0);
+
 			databaseHostname = docElement.getElementsByTagName("hostname").item(0).getTextContent();
 			databasePort = docElement.getElementsByTagName("port").item(0).getTextContent();
 			databaseName = docElement.getElementsByTagName("name").item(0).getTextContent();
 
-			final NamedNodeMap writer = docElement.getElementsByTagName("writer").item(0).getAttributes();
-			databaseWriterUser = writer.getNamedItem("name").getTextContent();
-			databaseWriterPassword = writer.getNamedItem("password").getTextContent();
+			final Element users = (Element) database.getElementsByTagName("users").item(0);
 
-			final NamedNodeMap reader = docElement.getElementsByTagName("reader").item(0).getAttributes();
-			databaseReaderUser = reader.getNamedItem("name").getTextContent();
-			databaseReaderPassword = reader.getNamedItem("password").getTextContent();
+			final Element writer = (Element) users.getElementsByTagName("writer").item(0);
+			databaseWriterUser = writer.getElementsByTagName("name").item(0).getTextContent();
+			databaseWriterPassword = writer.getElementsByTagName("password").item(0).getTextContent();
 
-			final NamedNodeMap weather = docElement.getElementsByTagName("weather").item(0).getAttributes();
-			dataWeatherApiKey = weather.getNamedItem("api-key").getTextContent();
+			final Element reader = (Element) users.getElementsByTagName("reader").item(0);
+			databaseReaderUser = reader.getElementsByTagName("name").item(0).getTextContent();
+			databaseReaderPassword = reader.getElementsByTagName("password").item(0).getTextContent();
+
+			final Element weather = (Element) docElement.getElementsByTagName("weather").item(0);
+			dataWeatherApiKey = weather.getElementsByTagName("api-key").item(0).getTextContent();
 
 			LOGGER.log(Level.INFO, "Reading configuration data completed successfully.");
 		}
