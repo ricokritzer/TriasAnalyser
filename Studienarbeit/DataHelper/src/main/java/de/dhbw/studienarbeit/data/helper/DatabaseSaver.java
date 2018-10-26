@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.data.helper;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,14 +24,16 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 	@Override
 	public void save(DataModel model)
 	{
-		try (PreparedStatement stmt = connection.prepareStatement(model.getSQLQuerry()))
+		PreparedStatement statement = null;
+		try
 		{
 			if (connection.isClosed())
 			{
 				connectToDatabase();
 			}
 
-			stmt.executeUpdate();
+			statement = connection.prepareStatement(model.getSQLQuerry());
+			statement.executeQuery();
 			LOGGER.log(Level.INFO, "Saving datamodel: " + model.toString());
 		}
 		catch (SQLException e)
@@ -38,5 +41,23 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 			LOGGER.log(Level.WARNING, "Unable to save " + model.toString(), e);
 			saver.save(model);
 		}
+		finally
+		{
+			closeStatement(statement);
+		}
+	}
+	
+	private void closeStatement(PreparedStatement statement)
+	{
+		Optional.ofNullable(statement).ifPresent(e -> {
+			try
+			{
+				e.close();
+			}
+			catch (SQLException e1)
+			{
+				LOGGER.log(Level.WARNING, "Unable to close PreparedStatement.", e1);
+			}
+		});
 	}
 }
