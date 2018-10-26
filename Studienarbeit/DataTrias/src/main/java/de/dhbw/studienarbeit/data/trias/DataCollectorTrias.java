@@ -49,14 +49,6 @@ public class DataCollectorTrias implements Runnable
 				}
 				
 			}
-			try
-			{
-				Thread.sleep(60000);
-			}
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
 //		}
 	}
 

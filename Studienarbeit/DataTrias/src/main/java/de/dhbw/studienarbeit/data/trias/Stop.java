@@ -7,6 +7,7 @@ import de.dhbw.studienarbeit.data.helper.DataModel;
 
 public class Stop implements DataModel
 {
+	private String stopPointName = "";
 	private String timetabledTime = "";
 	private String estimatedTime = "";
 	private String publishedLineName = "";
@@ -21,6 +22,17 @@ public class Stop implements DataModel
 		this.destinationText = destinationText.substring(0, destinationText.length() - 2);
 	}
 	
+	public Stop(String stopPointName, String timetabledTime, String estimatedTime, String publishedLineName,
+			String destinationText)
+	{
+		super();
+		this.stopPointName = stopPointName.substring(0, stopPointName.length() - 2);
+		this.timetabledTime = timetabledTime;
+		this.estimatedTime = estimatedTime;
+		this.publishedLineName = publishedLineName.substring(0, publishedLineName.length() - 2);
+		this.destinationText = destinationText.substring(0, destinationText.length() - 2);
+	}
+
 	public long getDelay()
 	{
 		return 0;
@@ -29,7 +41,7 @@ public class Stop implements DataModel
 	@Override
 	public String toString()
 	{
-		return "Linie " + publishedLineName + "\t" + destinationText + "\tgeplant: " + timetabledTime
+		return stopPointName + "\t" + publishedLineName + "\tnach " + destinationText + "\tgeplant: " + timetabledTime
 				+ "\tvorraussichtlich: " + estimatedTime;
 	}
 
@@ -43,14 +55,11 @@ public class Stop implements DataModel
 	@Override
 	public void updateData(int attempts) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public Date nextUpdate()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
