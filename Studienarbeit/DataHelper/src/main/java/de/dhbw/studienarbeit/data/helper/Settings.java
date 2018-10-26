@@ -32,7 +32,7 @@ public class Settings
 
 	private static Settings data = new Settings();
 
-	public Settings getInstance()
+	public static Settings getInstance()
 	{
 		return data;
 	}
