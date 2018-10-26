@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class DatabaseConnector
 {
-	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DatabaseSaver.class.getName());
 	protected Saver saver = new TextSaver("errors.txt");
 
 	protected Connection connection;
