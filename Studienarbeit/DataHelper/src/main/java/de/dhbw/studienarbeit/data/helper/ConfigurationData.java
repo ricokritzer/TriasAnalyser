@@ -1,5 +1,7 @@
 package de.dhbw.studienarbeit.data.helper;
 
+//use Settings instead
+@Deprecated
 public class ConfigurationData
 {
 	public static final String DATABASE_HOSTNAME = "ricork.ddns.net";
