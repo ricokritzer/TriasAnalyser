@@ -3,9 +3,7 @@ package de.dhbw.studienarbeit.data.helper;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,9 +38,7 @@ public class DataManagerTest
 	void testCountUpdateIsLessThanMaximum() throws Exception
 	{
 		final int maxUpdatesPerMinute = 60;
-		List<DataModel> models = new ArrayList<>();
-		models.add(data);
-		new DataManager(models, new Saver()
+		DataManager manager = new DataManager(new Saver()
 		{
 			@Override
 			public void save(DataModel model)
@@ -50,6 +46,7 @@ public class DataManagerTest
 				saved = true;
 			}
 		}, maxUpdatesPerMinute);
+		manager.add(data);
 
 		Thread.sleep(6000);
 

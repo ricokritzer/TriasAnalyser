@@ -33,6 +33,7 @@ public class DataManager
 		this(models, saver, 60);
 	}
 
+	@Deprecated
 	public DataManager(List<DataModel> models, Saver saver, int requestsPerMinute)
 	{
 		this.timer = new Timer();
@@ -45,6 +46,27 @@ public class DataManager
 		}
 
 		scheduler.scheduleAtFixedRate(schedulerTimerTast(), new Date(), millisBetweenRequests);
+	}
+
+	public DataManager(final Saver saver, final int requestsPerMinute)
+	{
+		this.timer = new Timer();
+		this.saver = saver;
+		final long millisBetweenRequests = 60000 / requestsPerMinute;
+		scheduler.scheduleAtFixedRate(schedulerTimerTast(), new Date(), millisBetweenRequests);
+	}
+
+	public void add(final DataModel model)
+	{
+		readyToUpdate(model);
+	}
+
+	public void add(final List<DataModel> models)
+	{
+		for (DataModel dataModel : models)
+		{
+			add(dataModel);
+		}
 	}
 
 	private TimerTask schedulerTimerTast()

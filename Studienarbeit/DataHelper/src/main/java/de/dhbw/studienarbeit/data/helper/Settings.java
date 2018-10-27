@@ -2,6 +2,8 @@ package de.dhbw.studienarbeit.data.helper;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 public class Settings
@@ -27,7 +30,7 @@ public class Settings
 	private String databaseManipulatorUser;
 	private String databaseManipulatorPassword;
 
-	private String dataWeatherApiKey;
+	private List<String> dataWeatherApiKeys = new ArrayList<>();
 
 	private static Settings data = new Settings();
 
@@ -68,7 +71,11 @@ public class Settings
 			databaseReaderPassword = reader.getElementsByTagName("password").item(0).getTextContent();
 
 			final Element weather = (Element) docElement.getElementsByTagName("weather").item(0);
-			dataWeatherApiKey = weather.getElementsByTagName("api-key").item(0).getTextContent();
+			final NodeList apiKeys = weather.getElementsByTagName("api-key");
+			for (int i = 0; i < apiKeys.getLength(); i++)
+			{
+				dataWeatherApiKeys.add(apiKeys.item(i).getTextContent());
+			}
 
 			LOGGER.log(Level.INFO, "Reading configuration data completed successfully.");
 		}
@@ -123,8 +130,8 @@ public class Settings
 		return databaseManipulatorPassword;
 	}
 
-	public String getDataWeatherApiKey()
+	public List<String> getDataWeatherApiKeys()
 	{
-		return dataWeatherApiKey;
+		return dataWeatherApiKeys;
 	}
 }

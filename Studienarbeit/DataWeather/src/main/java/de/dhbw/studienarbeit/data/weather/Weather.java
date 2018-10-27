@@ -24,9 +24,7 @@ import de.dhbw.studienarbeit.data.helper.Settings;
 
 public class Weather implements DataModel
 {
-	public static final String URL_END = "&appid=" + Settings.getInstance().getDataWeatherApiKey()
-			+ "&mode=xml&units=metric";
-	public static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
+	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 
 	// Responsemode could be html, xml or (default) JSON
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -48,11 +46,17 @@ public class Weather implements DataModel
 
 	public Weather(final String stationID, final double lat, final double lon) throws IOException
 	{
+		this(stationID, lat, lon, Settings.getInstance().getDataWeatherApiKeys().get(0));
+	}
+
+	public Weather(final String stationID, final double lat, final double lon, final String apiKey) throws IOException
+	{
 		this.stationID = stationID;
 		this.lat = lat;
 		this.lon = lon;
 
-		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + URL_END;
+		final String endUrl = "&appid=" + apiKey + "&mode=xml&units=metric";
+		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + endUrl;
 		requestURL = new URL(dynamicURL);
 	}
 
@@ -157,6 +161,6 @@ public class Weather implements DataModel
 	@Override
 	public String toString()
 	{
-		return this.getClass().getName() + " of " + stationID;
+		return this.getClass().getName() + " of " + stationID + " (" + requestURL.toString() + ")";
 	}
 }
