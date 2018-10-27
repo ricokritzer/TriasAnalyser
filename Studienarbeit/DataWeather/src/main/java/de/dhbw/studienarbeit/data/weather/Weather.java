@@ -65,7 +65,7 @@ public class Weather implements DataModel
 	{
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, 10);
+		cal.add(Calendar.MINUTE, 15);
 		nextUpdate = cal.getTime();
 
 		try
