@@ -3,6 +3,7 @@ package de.dhbw.studienarbeit.data.trias;
 import java.io.IOException;
 import java.util.Date;
 
+import de.dhbw.studienarbeit.data.helper.ApiKey;
 import de.dhbw.studienarbeit.data.helper.DataModel;
 
 public class Stop implements DataModel
@@ -53,13 +54,15 @@ public class Stop implements DataModel
 	}
 
 	@Override
-	public void updateData(int attempts) throws IOException
-	{
-	}
-
-	@Override
 	public Date nextUpdate()
 	{
 		return null;
+	}
+
+	@Override
+	public void updateData(ApiKey apiKey) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

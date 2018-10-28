@@ -1,10 +1,9 @@
 package de.dhbw.studienarbeit.data.trias;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import de.dhbw.studienarbeit.data.helper.ApiKey;
 import de.dhbw.studienarbeit.data.helper.DataModel;
 
 public class Station implements DataModel
@@ -13,7 +12,7 @@ public class Station implements DataModel
 	private String name;
 	private Double lat;
 	private Double lon;
-	
+
 	public Station(String stationID, String name, Double lat, Double lon)
 	{
 		this.stationID = stationID;
@@ -21,22 +20,22 @@ public class Station implements DataModel
 		this.lat = lat;
 		this.lon = lon;
 	}
-	
+
 	public String getStationID()
 	{
 		return stationID;
 	}
-	
+
 	public String getName()
 	{
 		return name;
 	}
-	
+
 	public Double getLat()
 	{
 		return lat;
 	}
-	
+
 	public Double getLon()
 	{
 		return lon;
@@ -54,15 +53,14 @@ public class Station implements DataModel
 	}
 
 	@Override
-	public void updateData(int attempts) throws IOException
-	{
-		
-	}
-
-	@Override
 	public Date nextUpdate()
 	{
 		return new Date();
 	}
 
+	@Override
+	public void updateData(ApiKey apiKey) throws IOException
+	{
+
+	}
 }

@@ -21,7 +21,6 @@ import org.xml.sax.InputSource;
 
 import de.dhbw.studienarbeit.data.helper.ApiKey;
 import de.dhbw.studienarbeit.data.helper.DataModel;
-import de.dhbw.studienarbeit.data.helper.Settings;
 
 public class Weather implements DataModel
 {
@@ -43,61 +42,11 @@ public class Weather implements DataModel
 
 	private Date nextUpdate;
 
-	@Deprecated
-	private URL requestURL;
-
-	public Weather(final String stationID, final double lat, final double lon) throws IOException
-	{
-		this(stationID, lat, lon, Settings.getInstance().getDataWeatherApiKeys().get(0));
-	}
-
-	@Deprecated
-	public Weather(final String stationID, final double lat, final double lon, final ApiKey apiKey) throws IOException
+	public Weather(final String stationID, final double lat, final double lon)
 	{
 		this.stationID = stationID;
 		this.lat = lat;
 		this.lon = lon;
-
-		final String endUrl = "&appid=" + apiKey.getKey() + "&mode=xml&units=metric";
-		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + endUrl;
-		requestURL = new URL(dynamicURL);
-	}
-
-	@Override
-	public void updateData(final int attempts) throws IOException
-	{
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, 15);
-		nextUpdate = cal.getTime();
-
-		try
-		{
-			final URLConnection con = requestURL.openConnection();
-			con.setDoOutput(true);
-			con.setConnectTimeout(1000); // long timeout, but not infinite
-			con.setReadTimeout(3000);
-			con.setUseCaches(false);
-			con.setDefaultUseCaches(false);
-
-			con.connect();
-			waitForResponse(con);
-		}
-		catch (MalformedURLException e)
-		{
-			// ignore - never become true
-		}
-		catch (IOException e)
-		{
-			if (attempts > 1)
-			{
-				updateData(attempts - 1);
-			}
-			else
-			{
-				throw e;
-			}
-		}
 	}
 
 	public void updateData(final ApiKey apiKey) throws IOException
@@ -200,6 +149,6 @@ public class Weather implements DataModel
 	@Override
 	public String toString()
 	{
-		return this.getClass().getName() + " of " + stationID + " (" + requestURL.toString() + ")";
+		return this.getClass().getName() + " of " + stationID;
 	}
 }

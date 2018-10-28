@@ -8,6 +8,8 @@ import java.io.IOException;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
+import de.dhbw.studienarbeit.data.helper.Settings;
+
 public class WeatherTest
 {
 	final static String xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><current><city id=\"2892794\" name=\"Karlsruhe\"><coord lon=\"8.4\" lat=\"49.01\"></coord><country>DE</country><sun rise=\"2018-10-17T05:50:25\" set=\"2018-10-17T16:32:06\"></sun></city><temperature value=\"17.59\" min=\"16\" max=\"19\" unit=\"metric\"></temperature><humidity value=\"67\" unit=\"%\"></humidity><pressure value=\"1019\" unit=\"hPa\"></pressure><wind><speed value=\"2.1\" name=\"Light breeze\"></speed><gusts></gusts><direction value=\"10\" code=\"N\" name=\"North\"></direction></wind><clouds value=\"36\" name=\"scattered clouds\"></clouds><visibility value=\"9000\"></visibility><precipitation mode=\"no\"></precipitation><weather number=\"802\" value=\"scattered clouds\" icon=\"03d\"></weather><lastupdate value=\"2018-10-17T10:20:00\"></lastupdate></current>";
@@ -39,7 +41,7 @@ public class WeatherTest
 		final Weather coordinates = new Weather("de:test:Karlsruhe", 49.01, 8.4);
 		try
 		{
-			coordinates.updateData(3);
+			coordinates.updateData(Settings.getInstance().getDataWeatherApiKeys().get(0));
 		}
 		catch (IOException e)
 		{

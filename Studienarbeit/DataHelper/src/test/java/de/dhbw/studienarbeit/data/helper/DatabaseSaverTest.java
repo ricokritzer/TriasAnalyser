@@ -14,12 +14,6 @@ public class DatabaseSaverTest
 	private final DataModel model = new DataModel()
 	{
 		@Override
-		public void updateData(int attempts) throws IOException
-		{
-			// do nothing
-		}
-
-		@Override
 		public Date nextUpdate()
 		{
 			// do nothing
@@ -30,6 +24,12 @@ public class DatabaseSaverTest
 		public String getSQLQuerry()
 		{
 			return TEXT;
+		}
+
+		@Override
+		public void updateData(ApiKey apiKey) throws IOException
+		{
+			// do nothing
 		}
 	};
 

@@ -1,12 +1,12 @@
 package de.dhbw.studienarbeit.data.weather;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.helper.ApiKey;
 import de.dhbw.studienarbeit.data.helper.DataManager;
 import de.dhbw.studienarbeit.data.helper.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.Settings;
@@ -26,30 +26,11 @@ public class DataWeatherApp
 
 	public void startDataCollection(final List<Station> stations) throws SQLException, ReflectiveOperationException
 	{
-		final int apiKeys = Settings.getInstance().getDataWeatherApiKeys().size();
-		final List<DataManager> managers = new ArrayList<>();
-		final int updatesPerMinute = 58; // Maximum of allowed requests - 2 Requests for tests
+		final List<ApiKey> apiKeys = Settings.getInstance().getDataWeatherApiKeys();
+		final DataManager manager = new DataManager(new DatabaseSaver(), apiKeys);
 
-		for (int i = 0; i < apiKeys; i++)
-		{
-			// generate one Manager for each API-Key
-			managers.add(new DataManager(new DatabaseSaver(), updatesPerMinute));
-		}
+		stations.forEach(s -> manager.add(new Weather(s.getStationID(), s.getLat(), s.getLon())));
 
-		for (int i = 0; i < stations.size(); i++)
-		{
-			try
-			{
-				final Station s = stations.get(i);
-				final int idxManager = i % apiKeys;
-				managers.get(idxManager).add(new Weather(s.getStationID(), s.getLat(), s.getLon(),
-						Settings.getInstance().getDataWeatherApiKeys().get(idxManager)));
-			}
-			catch (IOException e)
-			{
-				LOGGER.log(Level.WARNING, "Not able to get Data.", e);
-			}
-		}
 		LOGGER.log(Level.INFO, "Stations converted into Weather.");
 	}
 }

@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.helper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -15,45 +16,23 @@ public class DataManager
 {
 	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
 
-	private final Timer timer;
 	private final Saver saver;
 
-	private Queue<Thread> waitingThreads = new LinkedBlockingQueue<>();
-	private final Timer scheduler = new Timer();
+	private final Timer queueTimer = new Timer();
+	private final List<Timer> requestTimers = new ArrayList<>();
 
-	@Deprecated
-	public DataManager(List<DataModel> models)
-	{
-		this(models, new TextSaver("ausgabe.txt"));
-	}
+	private final Queue<DataModel> waitingForUpdate = new LinkedBlockingQueue<>();
 
-	@Deprecated
-	public DataManager(List<DataModel> models, Saver saver)
+	public DataManager(final Saver saver, final List<ApiKey> apiKeys)
 	{
-		this(models, saver, 60);
-	}
-
-	@Deprecated
-	public DataManager(List<DataModel> models, Saver saver, int requestsPerMinute)
-	{
-		this.timer = new Timer();
 		this.saver = saver;
-		final long millisBetweenRequests = 60000 / requestsPerMinute;
 
-		for (DataModel dataModel : models)
+		for (ApiKey apiKey : apiKeys)
 		{
-			readyToUpdate(dataModel);
+			final Timer timer = new Timer();
+			timer.scheduleAtFixedRate(schedulerTimerTask(apiKey), new Date(), apiKey.delayBetweenRequests());
+			requestTimers.add(timer);
 		}
-
-		scheduler.scheduleAtFixedRate(schedulerTimerTast(), new Date(), millisBetweenRequests);
-	}
-
-	public DataManager(final Saver saver, final int requestsPerMinute)
-	{
-		this.timer = new Timer();
-		this.saver = saver;
-		final long millisBetweenRequests = 60000 / requestsPerMinute;
-		scheduler.scheduleAtFixedRate(schedulerTimerTast(), new Date(), millisBetweenRequests);
 	}
 
 	public void add(final DataModel model)
@@ -69,39 +48,30 @@ public class DataManager
 		}
 	}
 
-	private TimerTask schedulerTimerTast()
+	private TimerTask schedulerTimerTask(final ApiKey apiKey)
 	{
 		return new TimerTask()
 		{
 			@Override
 			public void run()
 			{
-				Optional.ofNullable(waitingThreads.poll()).ifPresent(Thread::start);
+				Optional.ofNullable(waitingForUpdate.poll()).ifPresent(d -> updateAndSaveAndSchedule(d, apiKey));
 			}
 		};
 	}
 
 	private void readyToUpdate(DataModel model)
 	{
-		waitingThreads.add(new Thread(() -> updateAndSaveAndSchedule(model)));
+		waitingForUpdate.add(model);
 	}
 
 	private void scheduleUpdate(DataModel model)
 	{
 		final Date now = new Date();
-		final Date updateDate = model.nextUpdate();
 
-		if (now.before(updateDate))
+		if (now.before(model.nextUpdate()))
 		{
-			TimerTask task = new TimerTask()
-			{
-				@Override
-				public void run()
-				{
-					readyToUpdate(model);
-				}
-			};
-			timer.schedule(task, model.nextUpdate());
+			queueTimer.schedule(updateTimerTask(model), model.nextUpdate());
 		}
 		else
 		{
@@ -110,11 +80,23 @@ public class DataManager
 		}
 	}
 
-	private void updateAndSaveAndSchedule(DataModel model)
+	private TimerTask updateTimerTask(final DataModel model)
+	{
+		return new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				readyToUpdate(model);
+			}
+		};
+	}
+
+	private void updateAndSaveAndSchedule(DataModel model, ApiKey apiKey)
 	{
 		try
 		{
-			model.updateData(1);
+			model.updateData(apiKey);
 			saver.save(model);
 		}
 		catch (IOException e)
@@ -129,6 +111,7 @@ public class DataManager
 
 	public void stop()
 	{
-		timer.cancel();
+		queueTimer.cancel();
+		requestTimers.forEach(Timer::cancel);
 	}
 }
