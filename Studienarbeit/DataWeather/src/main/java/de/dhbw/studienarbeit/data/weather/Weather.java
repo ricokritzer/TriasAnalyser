@@ -43,6 +43,7 @@ public class Weather implements DataModel
 
 	private Date nextUpdate;
 
+	@Deprecated
 	private URL requestURL;
 
 	public Weather(final String stationID, final double lat, final double lon) throws IOException
@@ -50,6 +51,7 @@ public class Weather implements DataModel
 		this(stationID, lat, lon, Settings.getInstance().getDataWeatherApiKeys().get(0));
 	}
 
+	@Deprecated
 	public Weather(final String stationID, final double lat, final double lon, final ApiKey apiKey) throws IOException
 	{
 		this.stationID = stationID;
@@ -96,6 +98,42 @@ public class Weather implements DataModel
 				throw e;
 			}
 		}
+	}
+
+	public void updateData(final ApiKey apiKey) throws IOException
+	{
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.MINUTE, 15);
+		nextUpdate = cal.getTime();
+
+		try
+		{
+			final URLConnection con = buildRequestURL(apiKey).openConnection();
+			con.setDoOutput(true);
+			con.setConnectTimeout(1000); // long timeout, but not infinite
+			con.setReadTimeout(3000);
+			con.setUseCaches(false);
+			con.setDefaultUseCaches(false);
+
+			con.connect();
+			waitForResponse(con);
+		}
+		catch (MalformedURLException e)
+		{
+			// ignore - never become true
+		}
+		catch (IOException e)
+		{
+			throw e;
+		}
+	}
+
+	private URL buildRequestURL(final ApiKey apiKey) throws MalformedURLException
+	{
+		final String endUrl = "&appid=" + apiKey.getKey() + "&mode=xml&units=metric";
+		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + endUrl;
+		return new URL(dynamicURL);
 	}
 
 	private void waitForResponse(URLConnection connection) throws IOException
