@@ -30,7 +30,7 @@ public class Settings
 	private String databaseManipulatorUser;
 	private String databaseManipulatorPassword;
 
-	private List<String> dataWeatherApiKeys = new ArrayList<>();
+	private List<ApiKey> dataWeatherApiKeys = new ArrayList<>();
 
 	private static Settings data = new Settings();
 
@@ -71,10 +71,16 @@ public class Settings
 			databaseReaderPassword = reader.getElementsByTagName("password").item(0).getTextContent();
 
 			final Element weather = (Element) docElement.getElementsByTagName("weather").item(0);
-			final NodeList apiKeys = weather.getElementsByTagName("api-key");
-			for (int i = 0; i < apiKeys.getLength(); i++)
+
+			final NodeList weatherApis = weather.getElementsByTagName("api");
+			for (int i = 0; i < weatherApis.getLength(); i++)
 			{
-				dataWeatherApiKeys.add(apiKeys.item(i).getTextContent());
+				final Element api = (Element) weatherApis.item(i);
+				final String key = api.getElementsByTagName("api-key").item(0).getTextContent();
+				final int requestLimit = Integer
+						.parseInt(api.getElementsByTagName("request-limit").item(0).getTextContent());
+
+				dataWeatherApiKeys.add(new ApiKey(key, requestLimit));
 			}
 
 			LOGGER.log(Level.INFO, "Reading configuration data completed successfully.");
@@ -130,7 +136,7 @@ public class Settings
 		return databaseManipulatorPassword;
 	}
 
-	public List<String> getDataWeatherApiKeys()
+	public List<ApiKey> getDataWeatherApiKeys()
 	{
 		return dataWeatherApiKeys;
 	}

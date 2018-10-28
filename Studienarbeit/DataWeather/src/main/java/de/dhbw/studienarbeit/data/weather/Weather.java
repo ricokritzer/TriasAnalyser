@@ -19,6 +19,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
+import de.dhbw.studienarbeit.data.helper.ApiKey;
 import de.dhbw.studienarbeit.data.helper.DataModel;
 import de.dhbw.studienarbeit.data.helper.Settings;
 
@@ -49,13 +50,13 @@ public class Weather implements DataModel
 		this(stationID, lat, lon, Settings.getInstance().getDataWeatherApiKeys().get(0));
 	}
 
-	public Weather(final String stationID, final double lat, final double lon, final String apiKey) throws IOException
+	public Weather(final String stationID, final double lat, final double lon, final ApiKey apiKey) throws IOException
 	{
 		this.stationID = stationID;
 		this.lat = lat;
 		this.lon = lon;
 
-		final String endUrl = "&appid=" + apiKey + "&mode=xml&units=metric";
+		final String endUrl = "&appid=" + apiKey.getKey() + "&mode=xml&units=metric";
 		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + endUrl;
 		requestURL = new URL(dynamicURL);
 	}
