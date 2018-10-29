@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.helper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +51,11 @@ public class Settings
 		try
 		{
 			LOGGER.log(Level.INFO, "Reading configuration data...");
+
+			final ClassLoader classLoader = getClass().getClassLoader();
+			final File file = new File(classLoader.getResource("Configuration.conf").getFile());
 			final DocumentBuilder parser = factory.newDocumentBuilder();
-			final Document doc = parser
-					.parse(new InputSource(new BufferedReader(new FileReader("Configuration.conf"))));
+			final Document doc = parser.parse(new InputSource(new BufferedReader(new FileReader(file))));
 			final Element docElement = doc.getDocumentElement();
 
 			final Element database = (Element) docElement.getElementsByTagName("database").item(0);

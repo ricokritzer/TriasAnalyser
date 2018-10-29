@@ -67,11 +67,16 @@
 			<artifactId>maven-surefire-plugin</artifactId>
 			<version>2.22.1</version>
 		</dependency>
-
-
 	</dependencies>
-
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.conf</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
