@@ -24,11 +24,11 @@ public class DatabaseReader extends DatabaseConnector
 				Settings.getInstance().getDatabaseReaderPassword());
 	}
 
-	public List<Station> readDatabase(final String sqlStatement) throws SQLException
+	public List<StationDB> readStations() throws SQLException
 	{
 		ResultSet result = null;
 
-		try (PreparedStatement stmt = connection.prepareStatement(sqlStatement))
+		try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Station"))
 		{
 			if (connection.isClosed())
 			{
@@ -37,22 +37,22 @@ public class DatabaseReader extends DatabaseConnector
 
 			LOGGER.log(Level.INFO, "Start reading stations.");
 			result = stmt.executeQuery();
-			final List<Station> stations = new ArrayList<>();
+			final List<StationDB> stationDB = new ArrayList<>();
 			while (result.next())
 			{
 				final String stationID = result.getString("stationID");
 				final double lat = result.getDouble("lat");
 				final double lon = result.getDouble("lon");
 
-				stations.add(new Station(stationID, lat, lon));
+				stationDB.add(new StationDB(stationID, lat, lon));
 			}
-			LOGGER.log(Level.INFO, "Read " + stations.size() + " stations.");
+			LOGGER.log(Level.INFO, "Read " + stationDB.size() + " stations.");
 
-			return stations;
+			return stationDB;
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to execute SQL statement: " + sqlStatement, e);
+			LOGGER.log(Level.WARNING, "Unable to read stations.", e);
 			throw e;
 		}
 		finally

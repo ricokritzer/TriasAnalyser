@@ -1,12 +1,12 @@
 package de.dhbw.studienarbeit.data.helper;
 
-public class Station
+public class StationDB
 {
 	private final String stationID;
 	private final double lat;
 	private final double lon;
 
-	public Station(String stationID, double lat, double lon)
+	public StationDB(String stationID, double lat, double lon)
 	{
 		super();
 		this.stationID = stationID;

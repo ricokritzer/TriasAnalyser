@@ -10,7 +10,7 @@ import de.dhbw.studienarbeit.data.helper.ApiKey;
 import de.dhbw.studienarbeit.data.helper.DataManager;
 import de.dhbw.studienarbeit.data.helper.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.Settings;
-import de.dhbw.studienarbeit.data.helper.Station;
+import de.dhbw.studienarbeit.data.helper.StationDB;
 
 public class DataWeatherApp
 {
@@ -18,13 +18,13 @@ public class DataWeatherApp
 
 	public static void main(String[] args) throws SQLException, ReflectiveOperationException
 	{
-		List<Station> testStations = new ArrayList<>();
-		testStations.add(new Station("de:test:Karlsruhe", 49.01, 8.4));
-		testStations.add(new Station("de:test:Berlin", 52.521918, 13.413215));
+		List<StationDB> testStations = new ArrayList<>();
+		testStations.add(new StationDB("de:test:Karlsruhe", 49.01, 8.4));
+		testStations.add(new StationDB("de:test:Berlin", 52.521918, 13.413215));
 		new DataWeatherApp().startDataCollection(testStations);
 	}
 
-	public void startDataCollection(final List<Station> stations) throws SQLException, ReflectiveOperationException
+	public void startDataCollection(final List<StationDB> stations) throws SQLException, ReflectiveOperationException
 	{
 		final List<ApiKey> apiKeys = Settings.getInstance().getDataWeatherApiKeys();
 		final DataManager manager = new DataManager(new DatabaseSaver(), apiKeys);
