@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.ApiKey;
-import de.dhbw.studienarbeit.data.helper.DataManager;
-import de.dhbw.studienarbeit.data.helper.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.Settings;
-import de.dhbw.studienarbeit.data.helper.StationDB;
+import de.dhbw.studienarbeit.data.helper.database.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.database.StationDB;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 
 public class DataWeatherApp
 {

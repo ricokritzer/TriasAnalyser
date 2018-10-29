@@ -16,6 +16,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+
 public class Settings
 {
 	private static final Logger LOGGER = Logger.getLogger(Settings.class.getName());

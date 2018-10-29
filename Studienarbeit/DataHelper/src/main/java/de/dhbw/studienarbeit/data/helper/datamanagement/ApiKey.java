@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper;
+package de.dhbw.studienarbeit.data.helper.datamanagement;
 
 public class ApiKey
 {

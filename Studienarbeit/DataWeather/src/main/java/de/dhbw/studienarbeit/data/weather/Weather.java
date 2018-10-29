@@ -19,8 +19,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import de.dhbw.studienarbeit.data.helper.ApiKey;
-import de.dhbw.studienarbeit.data.helper.DataModel;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class Weather implements DataModel
 {

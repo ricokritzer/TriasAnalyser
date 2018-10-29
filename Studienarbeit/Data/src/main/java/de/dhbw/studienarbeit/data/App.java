@@ -3,8 +3,8 @@ package de.dhbw.studienarbeit.data;
 import java.sql.SQLException;
 import java.util.List;
 
-import de.dhbw.studienarbeit.data.helper.DatabaseReader;
-import de.dhbw.studienarbeit.data.helper.StationDB;
+import de.dhbw.studienarbeit.data.helper.database.DatabaseReader;
+import de.dhbw.studienarbeit.data.helper.database.StationDB;
 import de.dhbw.studienarbeit.data.trias.DataTriasApp;
 import de.dhbw.studienarbeit.data.weather.DataWeatherApp;
 

@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper;
+package de.dhbw.studienarbeit.data.helper.datamanagement;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,6 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import de.dhbw.studienarbeit.data.helper.database.Saver;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 
 public class DataManagerTest
 {

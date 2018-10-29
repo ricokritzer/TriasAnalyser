@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper;
+package de.dhbw.studienarbeit.data.helper.database;
 
 import static org.junit.Assert.assertThat;
 
@@ -7,6 +7,10 @@ import java.util.Date;
 
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
+
+import de.dhbw.studienarbeit.data.helper.database.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class DatabaseSaverTest
 {

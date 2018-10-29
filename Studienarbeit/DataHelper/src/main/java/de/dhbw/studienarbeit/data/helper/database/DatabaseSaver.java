@@ -1,10 +1,13 @@
-package de.dhbw.studienarbeit.data.helper;
+package de.dhbw.studienarbeit.data.helper.database;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import de.dhbw.studienarbeit.data.helper.Settings;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class DatabaseSaver extends DatabaseConnector implements Saver
 {

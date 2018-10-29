@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dhbw.studienarbeit.data.helper.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.Saver;
+import de.dhbw.studienarbeit.data.helper.database.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.database.Saver;
 import de.dhbw.studienarbeit.data.trias.Station;
 
 public class StationUtil

@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper;
+package de.dhbw.studienarbeit.data.helper.database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import de.dhbw.studienarbeit.data.helper.Settings;
 
 public class DatabaseReader extends DatabaseConnector
 {

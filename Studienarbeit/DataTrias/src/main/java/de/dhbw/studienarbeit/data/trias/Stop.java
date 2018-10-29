@@ -3,8 +3,8 @@ package de.dhbw.studienarbeit.data.trias;
 import java.io.IOException;
 import java.util.Date;
 
-import de.dhbw.studienarbeit.data.helper.ApiKey;
-import de.dhbw.studienarbeit.data.helper.DataModel;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class Stop implements DataModel
 {

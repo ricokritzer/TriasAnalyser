@@ -3,7 +3,7 @@ package de.dhbw.studienarbeit.data.trias;
 import java.sql.SQLException;
 import java.util.List;
 
-import de.dhbw.studienarbeit.data.helper.StationDB;
+import de.dhbw.studienarbeit.data.helper.database.StationDB;
 
 public class DataTriasApp
 {
