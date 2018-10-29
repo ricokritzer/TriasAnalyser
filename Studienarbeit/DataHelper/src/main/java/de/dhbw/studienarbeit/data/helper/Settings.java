@@ -31,6 +31,7 @@ public class Settings
 	private String databaseManipulatorPassword;
 
 	private List<ApiKey> dataWeatherApiKeys = new ArrayList<>();
+	private List<ApiKey> dataTriasApiKeys = new ArrayList<>();
 
 	private static Settings data = new Settings();
 
@@ -81,6 +82,19 @@ public class Settings
 						.parseInt(api.getElementsByTagName("request-limit").item(0).getTextContent());
 
 				dataWeatherApiKeys.add(new ApiKey(key, requestLimit));
+			}
+
+			final Element trias = (Element) docElement.getElementsByTagName("trias").item(0);
+
+			final NodeList triasApis = trias.getElementsByTagName("api");
+			for (int i = 0; i < triasApis.getLength(); i++)
+			{
+				final Element api = (Element) triasApis.item(i);
+				final String key = api.getElementsByTagName("api-key").item(0).getTextContent();
+				final int requestLimit = Integer
+						.parseInt(api.getElementsByTagName("request-limit").item(0).getTextContent());
+
+				dataTriasApiKeys.add(new ApiKey(key, requestLimit));
 			}
 
 			LOGGER.log(Level.INFO, "Reading configuration data completed successfully.");
@@ -139,5 +153,10 @@ public class Settings
 	public List<ApiKey> getDataWeatherApiKeys()
 	{
 		return dataWeatherApiKeys;
+	}
+
+	public List<ApiKey> getDataTriasApiKeys()
+	{
+		return dataTriasApiKeys;
 	}
 }
