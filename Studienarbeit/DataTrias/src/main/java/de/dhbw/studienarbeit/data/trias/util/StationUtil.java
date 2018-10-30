@@ -14,6 +14,8 @@ import de.dhbw.studienarbeit.data.trias.Station;
 
 public class StationUtil
 {
+	private static final String KVV = "kvv";
+	
 	public static void main(String[] args)
 	{
 		getAllStations();
@@ -39,6 +41,8 @@ public class StationUtil
 					String stationID = stationIDSplitted[0] + ":" + stationIDSplitted[1] + ":" + stationIDSplitted[2];
 					
 					String name = splittedStop[1];
+					Double lat = Double.valueOf(splittedStop[2]);
+					Double lon = Double.valueOf(splittedStop[3].replaceAll("\"", ""));
 					
 					if (testAlreadySaved(stations, stationID))
 					{
@@ -48,8 +52,7 @@ public class StationUtil
 					{
 						continue;
 					}
-					stations.add(new Station(stationID, name, Double.valueOf(splittedStop[2]),
-							Double.valueOf(splittedStop[3].replaceAll("\"", ""))));
+					stations.add(new Station(stationID, name, lat, lon, KVV));
 				}
 			}
 			reader.close();

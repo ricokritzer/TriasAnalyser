@@ -12,13 +12,15 @@ public class Station implements DataModel
 	private String name;
 	private Double lat;
 	private Double lon;
+	private String operator;
 
-	public Station(String stationID, String name, Double lat, Double lon)
+	public Station(String stationID, String name, Double lat, Double lon, String operator)
 	{
 		this.stationID = stationID;
 		this.name = name;
 		this.lat = lat;
 		this.lon = lon;
+		this.operator = operator;
 	}
 
 	public String getStationID()
@@ -40,6 +42,11 @@ public class Station implements DataModel
 	{
 		return lon;
 	}
+	
+	public String getOperator()
+	{
+		return operator;
+	}
 
 	@Override
 	public String getSQLQuerry()
@@ -49,7 +56,7 @@ public class Station implements DataModel
 
 	private String values()
 	{
-		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ")";
+		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "')";
 	}
 
 	@Override
