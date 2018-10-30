@@ -28,13 +28,19 @@ public class DataManager
 	public DataManager(final Saver saver, final List<ApiKey> apiKeys)
 	{
 		this.saver = saver;
+		addApiKey(apiKeys);
+	}
 
-		for (ApiKey apiKey : apiKeys)
-		{
-			final Timer timer = new Timer();
-			timer.schedule(schedulerTimerTask(apiKey), new Date(), apiKey.delayBetweenRequests());
-			requestTimers.add(timer);
-		}
+	public void addApiKey(final ApiKey apiKey)
+	{
+		final Timer timer = new Timer();
+		timer.schedule(schedulerTimerTask(apiKey), apiKey.delayBetweenRequests());
+		requestTimers.add(timer);
+	}
+
+	public void addApiKey(final List<ApiKey> apiKeys)
+	{
+		apiKeys.forEach(this::addApiKey);
 	}
 
 	public void add(final DataModel model)
@@ -44,24 +50,17 @@ public class DataManager
 
 	public void add(final List<DataModel> models)
 	{
-		for (DataModel dataModel : models)
-		{
-			add(dataModel);
-		}
+		models.forEach(this::add);
 	}
 
 	private TimerTask schedulerTimerTask(final ApiKey apiKey)
 	{
-		return new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-				LOGGER.log(Level.INFO, "Timer of " + apiKey.getKey() + " requests for waitingForUpdate queue.");
-				Optional.ofNullable(waitingForUpdate.poll())
-						.ifPresent(d -> new Thread(() -> updateAndSaveAndSchedule(d, apiKey)).start());
-			}
-		};
+		return new MyTimerTask(() -> firstWaitingDataModel().ifPresent(d -> updateAndSaveAndSchedule(d, apiKey)));
+	}
+
+	private Optional<DataModel> firstWaitingDataModel()
+	{
+		return Optional.ofNullable(waitingForUpdate.poll());
 	}
 
 	private void readyToUpdate(DataModel model)
@@ -72,28 +71,21 @@ public class DataManager
 	private void scheduleUpdate(DataModel model)
 	{
 		final Date now = new Date();
+		final boolean timeIsOver = model.nextUpdate().before(now);
 
-		if (now.before(model.nextUpdate()))
+		if (timeIsOver)
 		{
-			queueTimer.schedule(updateTimerTask(model), model.nextUpdate());
+			readyToUpdate(model);
 		}
 		else
 		{
-			// time is over -> update now
-			readyToUpdate(model);
+			queueTimer.schedule(updateTimerTask(model), model.nextUpdate());
 		}
 	}
 
 	private TimerTask updateTimerTask(final DataModel model)
 	{
-		return new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-				readyToUpdate(model);
-			}
-		};
+		return new MyTimerTask(() -> readyToUpdate(model));
 	}
 
 	private void updateAndSaveAndSchedule(final DataModel model, final ApiKey apiKey)
@@ -107,10 +99,8 @@ public class DataManager
 		{
 			LOGGER.log(Level.WARNING, "Unable to update " + model.toString(), e);
 		}
-		finally
-		{
-			scheduleUpdate(model);
-		}
+
+		scheduleUpdate(model);
 	}
 
 	public void stop()
