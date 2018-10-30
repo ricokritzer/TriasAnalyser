@@ -8,9 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,10 +21,13 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class Weather implements DataModel
 {
+	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
+
 	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 
 	// Responsemode could be html, xml or (default) JSON
@@ -62,27 +66,24 @@ public class Weather implements DataModel
 			con.setDoOutput(true);
 			con.setConnectTimeout(1000); // long timeout, but not infinite
 			con.setReadTimeout(3000);
-			con.setUseCaches(false);
-			con.setDefaultUseCaches(false);
-
 			con.connect();
 			waitForResponse(con);
 		}
-		catch (MalformedURLException e)
-		{
-			// ignore - never become true
-		}
 		catch (IOException e)
 		{
+			LOGGER.log(Level.WARNING, "Unable to update data.", e);
 			throw e;
 		}
 	}
 
 	private URL buildRequestURL(final ApiKey apiKey) throws MalformedURLException
 	{
-		final String endUrl = "&appid=" + apiKey.getKey() + "&mode=xml&units=metric";
-		final String dynamicURL = URL_PRE + "lat=" + lat + "&lon=" + lon + endUrl;
-		return new URL(dynamicURL);
+		return new URL(new StringBuilder().append(URL_PRE) //
+				.append("lat=").append(lat) //
+				.append("&lon=").append(lon) //
+				.append("&appid=").append(apiKey.getKey()) //
+				.append("&mode=xml&units=metric") //
+				.toString());
 	}
 
 	private void waitForResponse(URLConnection connection) throws IOException
@@ -127,17 +128,22 @@ public class Weather implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Weather " + values("'" + stationID + "'", "'" + new Timestamp(date.getTime()) + "'", temp,
-				humidity, pressure, wind, clouds);
+		final String seperator = ", ";
+		return new StringBuilder() //
+				.append("INSERT INTO Weather VALUES (") //
+				.append(inQuotes(stationID)).append(seperator) //
+				.append(inQuotes(new Timestamp(date.getTime()).toString())).append(seperator) //
+				.append(temp).append(seperator) //
+				.append(humidity).append(seperator) //
+				.append(pressure).append(seperator) //
+				.append(wind).append(seperator) //
+				.append(clouds).append(seperator) //
+				.toString();
 	}
 
-	private String values(Object... values)
+	private String inQuotes(String string)
 	{
-		final StringBuilder sb = new StringBuilder("VALUES (");
-		Arrays.asList(values).forEach(e -> sb.append(e.toString() + ","));
-		sb.deleteCharAt(sb.length() - 1);
-		sb.append(");");
-		return sb.toString();
+		return new StringBuilder().append("'").append(string).append("'").toString();
 	}
 
 	@Override
