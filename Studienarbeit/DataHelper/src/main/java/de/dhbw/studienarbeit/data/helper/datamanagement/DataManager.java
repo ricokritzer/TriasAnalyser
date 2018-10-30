@@ -48,7 +48,7 @@ public class DataManager
 		readyToUpdate(model);
 	}
 
-	public void add(final List<DataModel> models)
+	public void add(final List<? extends DataModel> models)
 	{
 		models.forEach(this::add);
 	}
