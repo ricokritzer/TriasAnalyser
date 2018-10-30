@@ -43,7 +43,7 @@ public class WeatherTest
 		final Weather coordinates = new Weather("de:test:Karlsruhe", 49.01, 8.4);
 		try
 		{
-			coordinates.updateData(Settings.getInstance().getDataWeatherApiKeys().get(0));
+			coordinates.updateData(Settings.getInstance().getApiKeys("weather").get(0));
 		}
 		catch (IOException e)
 		{
