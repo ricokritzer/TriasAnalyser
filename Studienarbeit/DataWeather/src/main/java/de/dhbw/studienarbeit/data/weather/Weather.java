@@ -27,11 +27,8 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 public class Weather implements DataModel
 {
 	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
-
 	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
-
-	// Responsemode could be html, xml or (default) JSON
-	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	private static final DocumentBuilderFactory FACTORY = DocumentBuilderFactory.newInstance();
 
 	protected String stationID;
 	protected double lat;
@@ -113,7 +110,7 @@ public class Weather implements DataModel
 	{
 		try
 		{
-			final DocumentBuilder parser = factory.newDocumentBuilder();
+			final DocumentBuilder parser = FACTORY.newDocumentBuilder();
 			final Document doc = parser.parse(new InputSource(new StringReader(xmlText)));
 			final Node node = doc.getElementsByTagName(tag).item(0).getAttributes().getNamedItem("value");
 
@@ -137,7 +134,8 @@ public class Weather implements DataModel
 				.append(humidity).append(seperator) //
 				.append(pressure).append(seperator) //
 				.append(wind).append(seperator) //
-				.append(clouds).append(seperator) //
+				.append(clouds) //
+				.append(");") //
 				.toString();
 	}
 
