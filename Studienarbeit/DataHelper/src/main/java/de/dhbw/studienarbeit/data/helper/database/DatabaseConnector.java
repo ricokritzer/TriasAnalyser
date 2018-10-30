@@ -20,20 +20,15 @@ public abstract class DatabaseConnector
 	{
 		try
 		{
+			connectToDatabase();
 			loadDatabaseDriver();
 		}
 		catch (ReflectiveOperationException e)
 		{
-			throw new IOException("Not able to load database driver.", e);
-		}
-
-		try
-		{
-			connectToDatabase();
+			throw new IOException("Unable to load database driver.", e);
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to connect to database.", e);
 			throw new IOException("Connecting to database does not succeed.", e);
 		}
 	}
