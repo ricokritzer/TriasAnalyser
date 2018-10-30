@@ -34,7 +34,7 @@ public class DataManager
 	public void addApiKey(final ApiKey apiKey)
 	{
 		final Timer timer = new Timer();
-		timer.schedule(schedulerTimerTask(apiKey), apiKey.delayBetweenRequests());
+		timer.schedule(schedulerTimerTask(apiKey), new Date(), apiKey.delayBetweenRequests());
 		requestTimers.add(timer);
 	}
 
