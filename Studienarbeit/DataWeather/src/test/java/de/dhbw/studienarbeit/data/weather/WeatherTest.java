@@ -4,6 +4,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
@@ -47,5 +49,22 @@ public class WeatherTest
 		{
 			fail("failed: " + e.getMessage());
 		}
+	}
+
+	@Test
+	void testSQLQuerry() throws Exception
+	{
+		final Weather coordinates = new Weather("de:test:Karlsruhe", 49.01, 8.4);
+		coordinates.clouds = 1.0;
+		coordinates.humidity = 2.0;
+		coordinates.pressure = 3.0;
+		coordinates.temp = 4.0;
+		coordinates.wind = 5.0;
+		coordinates.date = new Date();
+
+		String date = new Timestamp(coordinates.date.getTime()).toString();
+
+		assertThat(coordinates.getSQLQuerry(),
+				Is.is("INSERT INTO Weather VALUES ('de:test:Karlsruhe', '" + date + "', 4.0, 2.0, 3.0, 5.0, 1.0);"));
 	}
 }
