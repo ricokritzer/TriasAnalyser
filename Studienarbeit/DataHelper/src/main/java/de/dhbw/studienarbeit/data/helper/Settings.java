@@ -131,7 +131,7 @@ public class Settings
 			reader.disconnect();
 			return keys;
 		}
-		catch (SQLException | ReflectiveOperationException e)
+		catch (SQLException e)
 		{
 			throw new IOException("Unable to load API keys.", e);
 		}

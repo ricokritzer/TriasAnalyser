@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.data.helper.database;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,17 +9,36 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.Settings;
 
-public class DatabaseConnector
+public abstract class DatabaseConnector
 {
 	private static final Logger LOGGER = Logger.getLogger(DatabaseSaver.class.getName());
 	protected Saver saver = new TextSaver("errors.txt");
 
 	protected Connection connection;
 
-	public DatabaseConnector() throws ReflectiveOperationException
+	public DatabaseConnector() throws IOException
 	{
-		loadDatabaseDriver();
+		try
+		{
+			loadDatabaseDriver();
+		}
+		catch (ReflectiveOperationException e)
+		{
+			throw new IOException("Not able to load database driver.", e);
+		}
+
+		try
+		{
+			connectToDatabase();
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to connect to database.", e);
+			throw new IOException("Connecting to database does not succeed.", e);
+		}
 	}
+
+	protected abstract void connectToDatabase() throws SQLException;
 
 	public void setSaverForErrors(Saver saver)
 	{

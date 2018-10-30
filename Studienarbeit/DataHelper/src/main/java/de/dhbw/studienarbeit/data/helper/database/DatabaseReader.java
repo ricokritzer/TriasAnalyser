@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.data.helper.database;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,13 +16,13 @@ public class DatabaseReader extends DatabaseConnector
 {
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
 
-	public DatabaseReader() throws SQLException, ReflectiveOperationException
+	public DatabaseReader() throws IOException
 	{
 		super();
-		connectToDatabase();
 	}
 
-	private void connectToDatabase() throws SQLException
+	@Override
+	protected void connectToDatabase() throws SQLException
 	{
 		connectToDatabase(Settings.getInstance().getDatabaseReaderUser(),
 				Settings.getInstance().getDatabaseReaderPassword());
