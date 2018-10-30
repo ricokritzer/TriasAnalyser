@@ -32,7 +32,7 @@ public class DataManager
 		for (ApiKey apiKey : apiKeys)
 		{
 			final Timer timer = new Timer();
-			timer.scheduleAtFixedRate(schedulerTimerTask(apiKey), new Date(), apiKey.delayBetweenRequests());
+			timer.schedule(schedulerTimerTask(apiKey), new Date(), apiKey.delayBetweenRequests());
 			requestTimers.add(timer);
 		}
 	}
@@ -57,7 +57,9 @@ public class DataManager
 			@Override
 			public void run()
 			{
-				Optional.ofNullable(waitingForUpdate.poll()).ifPresent(d -> updateAndSaveAndSchedule(d, apiKey));
+				LOGGER.log(Level.INFO, "Timer of " + apiKey.getKey() + " requests for waitingForUpdate queue.");
+				Optional.ofNullable(waitingForUpdate.poll())
+						.ifPresent(d -> new Thread(() -> updateAndSaveAndSchedule(d, apiKey)).start());
 			}
 		};
 	}
@@ -94,7 +96,7 @@ public class DataManager
 		};
 	}
 
-	private void updateAndSaveAndSchedule(DataModel model, ApiKey apiKey)
+	private void updateAndSaveAndSchedule(final DataModel model, final ApiKey apiKey)
 	{
 		try
 		{
