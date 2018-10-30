@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.Settings;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class DatabaseReader extends DatabaseConnector
 {
@@ -24,6 +25,45 @@ public class DatabaseReader extends DatabaseConnector
 	{
 		connectToDatabase(Settings.getInstance().getDatabaseReaderUser(),
 				Settings.getInstance().getDatabaseReaderPassword());
+	}
+
+	public List<ApiKey> readApiKeys(final String name) throws SQLException
+	{
+		ResultSet result = null;
+
+		try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Api WHERE name = '" + name + "';"))
+		{
+			if (connection.isClosed())
+			{
+				connectToDatabase();
+			}
+
+			LOGGER.log(Level.INFO, "Start reading API keys.");
+			result = stmt.executeQuery();
+			final List<ApiKey> apiKeys = new ArrayList<>();
+			while (result.next())
+			{
+				final String key = result.getString("apiKey");
+				final int requests = result.getInt("maximumRequests");
+
+				apiKeys.add(new ApiKey(key, requests));
+			}
+			LOGGER.log(Level.INFO, "Read " + apiKeys.size() + " API keys.");
+
+			return apiKeys;
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to read stations.", e);
+			throw e;
+		}
+		finally
+		{
+			if (result != null)
+			{
+				result.close();
+			}
+		}
 	}
 
 	public List<StationDB> readStations() throws SQLException

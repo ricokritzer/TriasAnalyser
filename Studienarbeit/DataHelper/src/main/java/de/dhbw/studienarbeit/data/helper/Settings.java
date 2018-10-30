@@ -3,6 +3,8 @@ package de.dhbw.studienarbeit.data.helper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,6 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import de.dhbw.studienarbeit.data.helper.database.DatabaseReader;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class Settings
@@ -45,7 +48,7 @@ public class Settings
 
 	public static void main(String[] args)
 	{
-
+		System.out.println(Settings.getInstance().getDataWeatherApiKeys().size());
 	}
 
 	private Settings()
@@ -155,13 +158,44 @@ public class Settings
 		return databaseManipulatorPassword;
 	}
 
-	public List<ApiKey> getDataWeatherApiKeys()
+	public List<ApiKey> getApiKeys(final String name) throws IOException
 	{
-		return dataWeatherApiKeys;
+		try
+		{
+			final DatabaseReader reader = new DatabaseReader();
+			final List<ApiKey> keys = reader.readApiKeys(name);
+			reader.disconnect();
+			return keys;
+		}
+		catch (SQLException | ReflectiveOperationException e)
+		{
+			throw new IOException("Unable to load API keys.", e);
+		}
 	}
 
+	@Deprecated
+	public List<ApiKey> getDataWeatherApiKeys()
+	{
+		try
+		{
+			return getApiKeys("weather");
+		}
+		catch (IOException e)
+		{
+			return new ArrayList<>();
+		}
+	}
+
+	@Deprecated
 	public List<ApiKey> getDataTriasApiKeys()
 	{
-		return dataTriasApiKeys;
+		try
+		{
+			return getApiKeys("kvv");
+		}
+		catch (IOException e)
+		{
+			return new ArrayList<>();
+		}
 	}
 }
