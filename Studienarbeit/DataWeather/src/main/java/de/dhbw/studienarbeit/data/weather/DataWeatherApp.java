@@ -20,8 +20,8 @@ public class DataWeatherApp
 	public static void main(String[] args) throws SQLException, ReflectiveOperationException, IOException
 	{
 		List<StationDB> testStations = new ArrayList<>();
-		testStations.add(new StationDB("de:test:Karlsruhe", 49.01, 8.4));
-		testStations.add(new StationDB("de:test:Berlin", 52.521918, 13.413215));
+		testStations.add(new StationDB("de:test:Karlsruhe", "Karlsruhe", 49.01, 8.4, "Stadt"));
+		testStations.add(new StationDB("de:test:Berlin", "Berlin", 52.521918, 13.413215, "Stadt"));
 		new DataWeatherApp().startDataCollection(testStations);
 	}
 

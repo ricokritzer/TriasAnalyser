@@ -1,14 +1,20 @@
 package de.dhbw.studienarbeit.data.trias;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.dhbw.studienarbeit.data.helper.database.StationDB;
 
 public class DataTriasApp
 {
-	public void startDataCollection(List<StationDB> stations) throws SQLException, ReflectiveOperationException
+	List<Station> stations = new ArrayList<>();
+
+	public void startDataCollection(List<StationDB> stationsDB) throws SQLException, ReflectiveOperationException
 	{
-		// DataManager dataManager = new DataManager(new DatabaseSaver(), 60);
+		stations = stationsDB.parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
+				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
+				.collect(Collectors.toList());
 	}
 }

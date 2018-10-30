@@ -59,7 +59,7 @@ public class StationUtil
 			Saver saver = new DatabaseSaver();
 			stations.forEach(station -> saver.save(station));
 		}
-		catch (IOException | SQLException | ReflectiveOperationException e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}

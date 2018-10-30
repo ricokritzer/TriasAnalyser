@@ -16,40 +16,32 @@ public class DataCollectorTrias implements Runnable
 	private static final String URL_TRIAS = "http://185.201.144.208/kritzertrias/trias";
 	private final XMLCreator xmlCreator = new XMLCreator();
 	private String[] stopIDs;
-	
-	private boolean running;
-	
+
 	public DataCollectorTrias(String... stopIDs)
 	{
 		this.stopIDs = stopIDs;
 	}
-	
+
 	@Override
 	public void run()
 	{
-		running = true;
-		
-//		while (running)
-//		{
-			for (String stopID : stopIDs)
+		for (String stopID : stopIDs)
+		{
+			try
 			{
-				try
-				{
-					URLConnection con = createConnection();
-					request(con, xmlCreator.getRequestXML(stopID));
-					String responseXML = readResponse(con);
-					Response response = new Response(responseXML);
-					System.out.println(response.toString());
-					DatabaseConnector.write(response.toString());
-				}
-				catch (IOException | SAXException | ParserConfigurationException e)
-				{
-					DatabaseConnector.write(e.toString());
-					e.printStackTrace();
-				}
-				
+				URLConnection con = createConnection();
+				request(con, xmlCreator.getRequestXML(stopID));
+				String responseXML = readResponse(con);
+				Response response = new Response(responseXML);
+				System.out.println(response.toString());
+				DatabaseConnector.write(response.toString());
 			}
-//		}
+			catch (IOException | SAXException | ParserConfigurationException e)
+			{
+				DatabaseConnector.write(e.toString());
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public DataCollectorTrias(final int startIndex, final int endIndex)

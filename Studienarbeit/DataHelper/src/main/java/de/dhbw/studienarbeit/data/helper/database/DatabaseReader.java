@@ -84,10 +84,12 @@ public class DatabaseReader extends DatabaseConnector
 			while (result.next())
 			{
 				final String stationID = result.getString("stationID");
+				final String name = result.getString("name");
 				final double lat = result.getDouble("lat");
 				final double lon = result.getDouble("lon");
+				final String operator = result.getString("operator");
 
-				stationDB.add(new StationDB(stationID, lat, lon));
+				stationDB.add(new StationDB(stationID, name, lat, lon, operator));
 			}
 			LOGGER.log(Level.INFO, "Read " + stationDB.size() + " stations.");
 
