@@ -52,6 +52,7 @@ public class DataManagerTest
 		Thread.sleep(6000);
 
 		assertTrue(updates <= 7);
+		assertTrue(updates > 5);
 	}
 
 	private Saver getSaverMock()
