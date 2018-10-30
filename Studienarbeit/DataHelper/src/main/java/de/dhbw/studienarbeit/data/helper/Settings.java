@@ -15,7 +15,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import de.dhbw.studienarbeit.data.helper.database.DatabaseReader;
@@ -36,19 +35,11 @@ public class Settings
 	private String databaseManipulatorUser;
 	private String databaseManipulatorPassword;
 
-	private List<ApiKey> dataWeatherApiKeys = new ArrayList<>();
-	private List<ApiKey> dataTriasApiKeys = new ArrayList<>();
-
 	private static Settings data = new Settings();
 
 	public static Settings getInstance()
 	{
 		return data;
-	}
-
-	public static void main(String[] args)
-	{
-		System.out.println(Settings.getInstance().getDataWeatherApiKeys().size());
 	}
 
 	private Settings()
@@ -78,33 +69,6 @@ public class Settings
 			final Element reader = (Element) users.getElementsByTagName("reader").item(0);
 			databaseReaderUser = reader.getElementsByTagName("name").item(0).getTextContent();
 			databaseReaderPassword = reader.getElementsByTagName("password").item(0).getTextContent();
-
-			final Element weather = (Element) docElement.getElementsByTagName("weather").item(0);
-
-			final NodeList weatherApis = weather.getElementsByTagName("api");
-			for (int i = 0; i < weatherApis.getLength(); i++)
-			{
-				final Element api = (Element) weatherApis.item(i);
-				final String key = api.getElementsByTagName("api-key").item(0).getTextContent();
-				final int requestLimit = Integer
-						.parseInt(api.getElementsByTagName("request-limit").item(0).getTextContent());
-
-				dataWeatherApiKeys.add(new ApiKey(key, requestLimit));
-			}
-
-			final Element trias = (Element) docElement.getElementsByTagName("trias").item(0);
-
-			final NodeList triasApis = trias.getElementsByTagName("api");
-			for (int i = 0; i < triasApis.getLength(); i++)
-			{
-				final Element api = (Element) triasApis.item(i);
-				final String key = api.getElementsByTagName("api-key").item(0).getTextContent();
-				final int requestLimit = Integer
-						.parseInt(api.getElementsByTagName("request-limit").item(0).getTextContent());
-
-				dataTriasApiKeys.add(new ApiKey(key, requestLimit));
-			}
-
 			LOGGER.log(Level.INFO, "Reading configuration data completed successfully.");
 		}
 		catch (Exception ex)
