@@ -47,7 +47,7 @@ public class DataWeatherApp
 		final List<Weather> weather = new ArrayList<>();
 
 		stations.forEach(s -> {
-			final Weather w = new Weather(s.getLat(), s.getLon());
+			final Weather w = convertToWeather(s);
 			if (!weather.contains(w))
 			{
 				weather.add(w);
@@ -55,5 +55,10 @@ public class DataWeatherApp
 		});
 
 		return weather;
+	}
+
+	private Weather convertToWeather(final StationDB station)
+	{
+		return new Weather(station.getLat(), station.getLon());
 	}
 }
