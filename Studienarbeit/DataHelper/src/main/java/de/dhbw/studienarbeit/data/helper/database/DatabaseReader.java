@@ -32,7 +32,13 @@ public class DatabaseReader extends DatabaseConnector
 	{
 		ResultSet result = null;
 
-		try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Api WHERE name = '" + name + "';"))
+		final String sql = new StringBuilder() //
+				.append("SELECT * FROM Api WHERE name = '") //
+				.append(name) //
+				.append("';") //
+				.toString();
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql))
 		{
 			if (connection.isClosed())
 			{
