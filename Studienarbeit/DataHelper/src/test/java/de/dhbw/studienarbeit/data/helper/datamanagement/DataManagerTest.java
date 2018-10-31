@@ -44,7 +44,7 @@ public class DataManagerTest
 	void testCountUpdateIsLessThanMaximum() throws Exception
 	{
 		final List<ApiKey> apiKeys = new ArrayList<>();
-		apiKeys.add(new ApiKey("foo", 60));
+		apiKeys.add(new ApiKey("foo", 60, "bar"));
 
 		final DataManager manager = new DataManager(getSaverMock(), apiKeys);
 		manager.add(data);
