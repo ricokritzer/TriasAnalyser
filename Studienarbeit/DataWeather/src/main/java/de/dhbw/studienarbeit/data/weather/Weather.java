@@ -39,6 +39,7 @@ public class Weather implements DataModel
 	protected double pressure;
 	protected double wind;
 	protected double clouds;
+	protected String text;
 
 	private Date nextUpdate;
 
@@ -139,7 +140,8 @@ public class Weather implements DataModel
 				.append(humidity).append(seperator) //
 				.append(pressure).append(seperator) //
 				.append(wind).append(seperator) //
-				.append(clouds) //
+				.append(clouds).append(seperator) //
+				.append(inQuotes(text)) //
 				.append(");") //
 				.toString();
 	}
