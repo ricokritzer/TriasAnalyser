@@ -74,6 +74,54 @@ public class DatabaseReader extends DatabaseConnector
 		}
 	}
 
+	public List<LineDB> readLine(final String destination, final String name) throws SQLException
+	{
+		ResultSet result = null;
+
+		final String sql = new StringBuilder() //
+				.append("SELECT * FROM Line WHERE name = '") //
+				.append(name) //
+				.append("' AND destination = '") //
+				.append(destination) //
+				.append("';") //
+				.toString();
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql))
+		{
+			if (connection.isClosed())
+			{
+				connectToDatabase();
+			}
+
+			LOGGER.log(Level.INFO, "Start reading lines.");
+			result = stmt.executeQuery();
+			final List<LineDB> lineDB = new ArrayList<>();
+			while (result.next())
+			{
+				final int lineID = result.getInt("lineID");
+				final String lineName = result.getString("name");
+				final String lineDestination = result.getString("destination");
+
+				lineDB.add(new LineDB(lineID, lineName, lineDestination));
+			}
+			LOGGER.log(Level.INFO, "Read " + lineDB.size() + " lines.");
+
+			return lineDB;
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to read lines.", e);
+			throw e;
+		}
+		finally
+		{
+			if (result != null)
+			{
+				result.close();
+			}
+		}
+	}
+
 	public List<StationDB> readStations() throws SQLException
 	{
 		ResultSet result = null;
