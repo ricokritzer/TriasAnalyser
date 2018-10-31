@@ -27,7 +27,6 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 public class Weather implements DataModel
 {
 	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
-	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 	private static final DocumentBuilderFactory FACTORY = DocumentBuilderFactory.newInstance();
 
 	protected double lat;
@@ -80,7 +79,8 @@ public class Weather implements DataModel
 
 	private URL buildRequestURL(final ApiKey apiKey) throws MalformedURLException
 	{
-		return new URL(new StringBuilder().append(URL_PRE) //
+		return new URL(new StringBuilder() //
+				.append(apiKey.getUrl()).append("?") //
 				.append("lat=").append(lat) //
 				.append("&lon=").append(lon) //
 				.append("&appid=").append(apiKey.getKey()) //
