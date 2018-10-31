@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -134,32 +133,6 @@ public class Settings
 		catch (SQLException e)
 		{
 			throw new IOException("Unable to load API keys.", e);
-		}
-	}
-
-	@Deprecated
-	public List<ApiKey> getDataWeatherApiKeys()
-	{
-		try
-		{
-			return getApiKeys("weather");
-		}
-		catch (IOException e)
-		{
-			return new ArrayList<>();
-		}
-	}
-
-	@Deprecated
-	public List<ApiKey> getDataTriasApiKeys()
-	{
-		try
-		{
-			return getApiKeys("kvv");
-		}
-		catch (IOException e)
-		{
-			return new ArrayList<>();
 		}
 	}
 }
