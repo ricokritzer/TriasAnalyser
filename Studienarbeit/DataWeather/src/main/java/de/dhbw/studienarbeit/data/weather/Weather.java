@@ -42,12 +42,6 @@ public class Weather implements DataModel
 
 	private Date nextUpdate;
 
-	@Deprecated
-	public Weather(final String stationID, final double lat, final double lon)
-	{
-		this(lat, lon);
-	}
-
 	public Weather(final double lat, final double lon)
 	{
 		this.lat = round(lat, 2);

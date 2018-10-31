@@ -19,7 +19,7 @@ public class WeatherTest
 	@Test
 	public void testCoordinatesConstructor() throws Exception
 	{
-		final Weather coordinates = new Weather("de:test:Karlsruhe", 49.01, 8.4);
+		final Weather coordinates = new Weather(49.01, 8.4);
 		assertThat(coordinates.lat, Is.is(49.01));
 		assertThat(coordinates.lon, Is.is(8.4));
 	}
@@ -27,7 +27,7 @@ public class WeatherTest
 	@Test
 	public void testCoordinatesXMLData() throws Exception
 	{
-		final Weather coordinates = new Weather("de:test:Karlsruhe", 49.01, 8.4);
+		final Weather coordinates = new Weather(49.01, 8.4);
 		coordinates.setData(xmlData);
 
 		assertThat(coordinates.clouds, Is.is(36.0));
@@ -41,7 +41,7 @@ public class WeatherTest
 	@Test
 	void testModelIsReadable() throws Exception
 	{
-		final Weather coordinates = new Weather("de:test:Karlsruhe", 49.01, 8.4);
+		final Weather coordinates = new Weather(49.01, 8.4);
 		try
 		{
 			coordinates.updateData(Settings.getInstance().getApiKeys("weather").get(0));
@@ -55,7 +55,7 @@ public class WeatherTest
 	@Test
 	void testSQLQuerry() throws Exception
 	{
-		final Weather coordinates = new Weather("de:test:Karlsruhe", 49.01, 8.4);
+		final Weather coordinates = new Weather(49.01, 8.4);
 		coordinates.clouds = 1.0;
 		coordinates.humidity = 2.0;
 		coordinates.pressure = 3.0;
