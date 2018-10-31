@@ -51,12 +51,7 @@ public class Station implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Station " + values() + ";";
-	}
-
-	private String values()
-	{
-		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "')";
+		return "";
 	}
 
 	@Override

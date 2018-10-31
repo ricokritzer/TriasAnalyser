@@ -9,7 +9,7 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.database.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.Saver;
-import de.dhbw.studienarbeit.data.trias.Station;
+import de.dhbw.studienarbeit.data.helper.database.StationDB;
 
 public class StationUtil
 {
@@ -20,9 +20,9 @@ public class StationUtil
 		getAllStations();
 	}
 
-	public static List<Station> getAllStations()
+	public static List<StationDB> getAllStations()
 	{
-		List<Station> stations = new ArrayList<>();
+		List<StationDB> stations = new ArrayList<>();
 		try
 		{
 			File file = new File("stops.txt");
@@ -51,7 +51,7 @@ public class StationUtil
 					{
 						continue;
 					}
-					stations.add(new Station(stationID, name, lat, lon, KVV));
+					stations.add(new StationDB(stationID, name, lat, lon, KVV));
 				}
 			}
 			reader.close();
@@ -65,9 +65,9 @@ public class StationUtil
 		return stations;
 	}
 
-	private static boolean testAlreadySaved(List<Station> stations, String stationID)
+	private static boolean testAlreadySaved(List<StationDB> stations, String stationID)
 	{
-		for (Station s : stations)
+		for (StationDB s : stations)
 		{
 			if (s.getStationID().equals(stationID))
 			{

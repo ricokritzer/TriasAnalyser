@@ -1,6 +1,12 @@
 package de.dhbw.studienarbeit.data.helper.database;
 
-public class StationDB
+import java.io.IOException;
+import java.util.Date;
+
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
+
+public class StationDB implements DataModel
 {
 	private final String stationID;
 	private final String name;
@@ -41,5 +47,30 @@ public class StationDB
 	public String getOperator()
 	{
 		return operator;
+	}
+
+	@Override
+	public String getSQLQuerry()
+	{
+		return "INSERT INTO Station " + values() + ";";
+	}
+
+	private String values()
+	{
+		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "')";
+	}
+
+	@Override
+	public void updateData(ApiKey apiKey) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Date nextUpdate()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
