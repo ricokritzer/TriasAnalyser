@@ -29,6 +29,13 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 	@Override
 	public void save(DataModel model)
 	{
+		final String sqlQuerry = model.getSQLQuerry();
+		if (sqlQuerry.isEmpty())
+		{
+			LOGGER.log(Level.INFO, "Empty SQLQuerry at " + model.toString());
+			return;
+		}
+		
 		PreparedStatement statement = null;
 		try
 		{
