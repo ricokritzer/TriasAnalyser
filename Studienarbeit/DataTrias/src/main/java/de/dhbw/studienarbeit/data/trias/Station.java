@@ -1,7 +1,10 @@
 package de.dhbw.studienarbeit.data.trias;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
@@ -13,6 +16,9 @@ public class Station implements DataModel
 	private Double lat;
 	private Double lon;
 	private String operator;
+	private List<Stop> previousStops = new ArrayList<>();
+	private List<Stop> currentStops = new ArrayList<>();
+	private LocalDateTime nextUpdate;
 
 	public Station(String stationID, String name, Double lat, Double lon, String operator)
 	{
@@ -63,6 +69,6 @@ public class Station implements DataModel
 	@Override
 	public void updateData(ApiKey apiKey) throws IOException
 	{
-
+		
 	}
 }

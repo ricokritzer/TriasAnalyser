@@ -16,6 +16,6 @@ public class App
 		final DatabaseReader reader = new DatabaseReader();
 		final List<StationDB> stations = reader.readStations();
 		new DataWeatherApp().startDataCollection(stations);
-		//new DataTriasApp().startDataCollection(stations);
+		new DataTriasApp().startDataCollection(stations);
 	}
 }
