@@ -1,10 +1,10 @@
 package de.dhbw.studienarbeit.data.helper.database;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +14,10 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class DatabaseReader extends DatabaseConnector
 {
+	private static final String UNABLE_TO_READ = "Unable to read at table ";
+	private static final String START_READING_AT_TABLE = "Start reading at table ";
+	private static final String LINES_READ = " lines read.";
+	private static final String SELECT_FROM = "SELECT * FROM ";
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
 
 	public DatabaseReader() throws IOException
@@ -30,23 +34,14 @@ public class DatabaseReader extends DatabaseConnector
 
 	public List<ApiKey> readApiKeys(final String name) throws SQLException
 	{
-		ResultSet result = null;
+		final String tableName = "Api";
+		final String sql = createSQLStatement(tableName, new SqlCondition("name", name));
+		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
 
-		final String sql = new StringBuilder() //
-				.append("SELECT * FROM Api WHERE name = '") //
-				.append(name) //
-				.append("';") //
-				.toString();
+		reconnectIfNeccessary();
 
-		try (PreparedStatement stmt = connection.prepareStatement(sql))
+		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
 		{
-			if (connection.isClosed())
-			{
-				connectToDatabase();
-			}
-
-			LOGGER.log(Level.INFO, "Start reading API keys.");
-			result = stmt.executeQuery();
 			final List<ApiKey> apiKeys = new ArrayList<>();
 			while (result.next())
 			{
@@ -56,45 +51,29 @@ public class DatabaseReader extends DatabaseConnector
 
 				apiKeys.add(new ApiKey(key, requests, url));
 			}
-			LOGGER.log(Level.INFO, "Read " + apiKeys.size() + " API keys.");
+			LOGGER.log(Level.INFO, apiKeys.size() + LINES_READ);
 
 			return apiKeys;
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to read stations.", e);
+			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
-		}
-		finally
-		{
-			if (result != null)
-			{
-				result.close();
-			}
 		}
 	}
 
 	public List<LineDB> readLine(final String destination, final String name) throws SQLException
 	{
-		ResultSet result = null;
+		final String tableName = "Line";
+		final String sql = createSQLStatement(tableName, //
+				new SqlCondition("name", name), //
+				new SqlCondition("destination", destination));
+		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
 
-		final String sql = new StringBuilder() //
-				.append("SELECT * FROM Line WHERE name = '") //
-				.append(name) //
-				.append("' AND destination = '") //
-				.append(destination) //
-				.append("';") //
-				.toString();
+		reconnectIfNeccessary();
 
-		try (PreparedStatement stmt = connection.prepareStatement(sql))
+		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
 		{
-			if (connection.isClosed())
-			{
-				connectToDatabase();
-			}
-
-			LOGGER.log(Level.INFO, "Start reading lines.");
-			result = stmt.executeQuery();
 			final List<LineDB> lineDB = new ArrayList<>();
 			while (result.next())
 			{
@@ -104,37 +83,27 @@ public class DatabaseReader extends DatabaseConnector
 
 				lineDB.add(new LineDB(lineID, lineName, lineDestination));
 			}
-			LOGGER.log(Level.INFO, "Read " + lineDB.size() + " lines.");
+			LOGGER.log(Level.INFO, lineDB.size() + LINES_READ);
 
 			return lineDB;
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to read lines.", e);
+			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
-		}
-		finally
-		{
-			if (result != null)
-			{
-				result.close();
-			}
 		}
 	}
 
 	public List<StationDB> readStations() throws SQLException
 	{
-		ResultSet result = null;
+		final String tableName = "Station";
+		final String sql = createSQLStatement(tableName);
+		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
 
-		try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Station"))
+		reconnectIfNeccessary();
+
+		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
 		{
-			if (connection.isClosed())
-			{
-				connectToDatabase();
-			}
-
-			LOGGER.log(Level.INFO, "Start reading stations.");
-			result = stmt.executeQuery();
 			final List<StationDB> stationDB = new ArrayList<>();
 			while (result.next())
 			{
@@ -146,21 +115,38 @@ public class DatabaseReader extends DatabaseConnector
 
 				stationDB.add(new StationDB(stationID, name, lat, lon, operator));
 			}
-			LOGGER.log(Level.INFO, "Read " + stationDB.size() + " stations.");
+			LOGGER.log(Level.INFO, stationDB.size() + LINES_READ);
 
 			return stationDB;
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to read stations.", e);
+			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
 		}
-		finally
+	}
+
+	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
+	{
+		final StringBuilder sb = new StringBuilder(SELECT_FROM).append(tableName);
+		final List<String> conditionStrings = new ArrayList<>();
+		Arrays.asList(condition).forEach(c -> conditionStrings.add(c.toString()));
+
+		if (!conditionStrings.isEmpty())
 		{
-			if (result != null)
-			{
-				result.close();
-			}
+			sb.append(" WHERE ");
+		}
+
+		sb.append(String.join(" AND ", conditionStrings));
+		sb.append(";");
+		return sb.toString();
+	}
+
+	private void reconnectIfNeccessary() throws SQLException
+	{
+		if (connection.isClosed())
+		{
+			connectToDatabase();
 		}
 	}
 }
