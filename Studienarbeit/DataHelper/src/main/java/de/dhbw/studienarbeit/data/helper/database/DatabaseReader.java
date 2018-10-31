@@ -46,8 +46,9 @@ public class DatabaseReader extends DatabaseConnector
 			{
 				final String key = result.getString("apiKey");
 				final int requests = result.getInt("maximumRequests");
+				final String url = result.getString("url");
 
-				apiKeys.add(new ApiKey(key, requests));
+				apiKeys.add(new ApiKey(key, requests, url));
 			}
 			LOGGER.log(Level.INFO, "Read " + apiKeys.size() + " API keys.");
 
