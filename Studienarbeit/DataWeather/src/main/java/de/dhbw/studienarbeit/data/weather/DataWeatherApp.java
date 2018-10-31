@@ -1,7 +1,6 @@
 package de.dhbw.studienarbeit.data.weather;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,7 +16,7 @@ public class DataWeatherApp
 {
 	private static final Logger LOGGER = Logger.getLogger(DataWeatherApp.class.getName());
 
-	public static void main(String[] args) throws SQLException, ReflectiveOperationException, IOException
+	public static void main(String[] args)
 	{
 		List<StationDB> testStations = new ArrayList<>();
 		testStations.add(new StationDB("de:test:Karlsruhe", "Karlsruhe", 49.01, 8.4, "Stadt"));

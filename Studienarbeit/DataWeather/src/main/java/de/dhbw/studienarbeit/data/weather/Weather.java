@@ -128,7 +128,8 @@ public class Weather implements DataModel
 		final String seperator = ", ";
 		return new StringBuilder() //
 				.append("INSERT INTO Weather VALUES (") //
-				.append(inQuotes(stationID)).append(seperator) //
+				.append(lat).append(seperator) //
+				.append(lon).append(seperator) //
 				.append(inQuotes(new Timestamp(date.getTime()).toString())).append(seperator) //
 				.append(temp).append(seperator) //
 				.append(humidity).append(seperator) //
