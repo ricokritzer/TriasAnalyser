@@ -30,9 +30,11 @@ public class DataWeatherApp
 		{
 			final List<ApiKey> apiKeys = Settings.getInstance().getApiKeys("weather");
 			final DataManager manager = new DataManager(new DatabaseSaver(), apiKeys);
-			manager.add(convertToWeather(stations));
+			final List<Weather> weather = convertToWeather(stations);
 
-			LOGGER.log(Level.INFO, "Stations converted into Weather.");
+			manager.add(weather);
+
+			LOGGER.log(Level.INFO, stations.size() + " stations converted into " + weather.size() + " Weather.");
 		}
 		catch (IOException e)
 		{
