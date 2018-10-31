@@ -108,6 +108,7 @@ public class Weather implements DataModel
 		pressure = Double.valueOf(extractDate(response, "pressure"));
 		wind = Double.valueOf(extractDate(response, "speed"));
 		clouds = Double.valueOf(extractDate(response, "clouds"));
+		text = extractDate(response, "weather");
 		date = new Date();
 	}
 

@@ -35,6 +35,7 @@ public class WeatherTest
 		assertThat(coordinates.humidity, Is.is(67.0));
 		assertThat(coordinates.pressure, Is.is(1019.0));
 		assertThat(coordinates.wind, Is.is(2.1));
+		assertThat(coordinates.text, Is.is("scattered clouds"));
 	}
 
 	@Test
@@ -61,10 +62,11 @@ public class WeatherTest
 		coordinates.temp = 4.0;
 		coordinates.wind = 5.0;
 		coordinates.date = new Date();
+		coordinates.text = "test";
 
 		String date = new Timestamp(coordinates.date.getTime()).toString();
 
 		assertThat(coordinates.getSQLQuerry(),
-				Is.is("INSERT INTO Weather VALUES ('de:test:Karlsruhe', '" + date + "', 4.0, 2.0, 3.0, 5.0, 1.0);"));
+				Is.is("INSERT INTO Weather VALUES (49.01, 8.4, '" + date + "', 4.0, 2.0, 3.0, 5.0, 1.0, 'test');"));
 	}
 }
