@@ -19,7 +19,7 @@ public class DataWeatherApp
 	public static void main(String[] args)
 	{
 		List<StationDB> testStations = new ArrayList<>();
-		testStations.add(new StationDB("de:test:Karlsruhe", "Karlsruhe", 49.01, 8.4, "Stadt"));
+		testStations.add(new StationDB("de:test:Karlsruhe", "Karlsruhe", 49.01, 8.40, "Stadt"));
 		testStations.add(new StationDB("de:test:Berlin", "Berlin", 52.521918, 13.413215, "Stadt"));
 		new DataWeatherApp().startDataCollection(testStations);
 	}
@@ -30,7 +30,7 @@ public class DataWeatherApp
 		{
 			final List<ApiKey> apiKeys = Settings.getInstance().getApiKeys("weather");
 			final DataManager manager = new DataManager(new DatabaseSaver(), apiKeys);
-			stations.forEach(s -> manager.add(new Weather(s.getStationID(), s.getLat(), s.getLon())));
+			manager.add(convertToWeather(stations));
 
 			LOGGER.log(Level.INFO, "Stations converted into Weather.");
 		}
@@ -38,5 +38,20 @@ public class DataWeatherApp
 		{
 			LOGGER.log(Level.WARNING, "Unable to start data collection.", e);
 		}
+	}
+
+	protected List<Weather> convertToWeather(List<StationDB> stations)
+	{
+		final List<Weather> weather = new ArrayList<>();
+
+		stations.forEach(s -> {
+			final Weather w = new Weather(s.getLat(), s.getLon());
+			if (!weather.contains(w))
+			{
+				weather.add(w);
+			}
+		});
+
+		return weather;
 	}
 }

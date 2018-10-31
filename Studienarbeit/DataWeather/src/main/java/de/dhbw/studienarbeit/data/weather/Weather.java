@@ -30,7 +30,6 @@ public class Weather implements DataModel
 	private static final String URL_PRE = "https://api.openweathermap.org/data/2.5/weather?";
 	private static final DocumentBuilderFactory FACTORY = DocumentBuilderFactory.newInstance();
 
-	protected String stationID;
 	protected double lat;
 	protected double lon;
 
@@ -43,11 +42,16 @@ public class Weather implements DataModel
 
 	private Date nextUpdate;
 
+	@Deprecated
 	public Weather(final String stationID, final double lat, final double lon)
 	{
-		this.stationID = stationID;
-		this.lat = lat;
-		this.lon = lon;
+		this(lat, lon);
+	}
+
+	public Weather(final double lat, final double lon)
+	{
+		this.lat = round(lat, 2);
+		this.lon = round(lon, 2);
 	}
 
 	public void updateData(final ApiKey apiKey) throws IOException
@@ -154,6 +158,26 @@ public class Weather implements DataModel
 	@Override
 	public String toString()
 	{
-		return this.getClass().getName() + " of " + stationID;
+		return this.getClass().getName() + " of lat=" + lat + " & lon=" + lon;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof Weather)
+		{
+			return sameCoordinates((Weather) obj);
+		}
+		return super.equals(obj);
+	}
+
+	public boolean sameCoordinates(Weather w)
+	{
+		return this.lat == w.lat && this.lon == w.lon;
+	}
+
+	private static double round(double value, int decimals)
+	{
+		return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 	}
 }
