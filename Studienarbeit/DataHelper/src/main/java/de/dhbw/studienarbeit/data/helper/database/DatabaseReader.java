@@ -16,7 +16,7 @@ public class DatabaseReader extends DatabaseConnector
 {
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
 	private static final String START_READING_AT_TABLE = "Start reading at table ";
-	private static final String LINES_READ = " lines read.";
+	private static final String ENTRYS_READ = " entrys read.";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
 
@@ -51,7 +51,7 @@ public class DatabaseReader extends DatabaseConnector
 
 				apiKeys.add(new ApiKey(key, requests, url));
 			}
-			LOGGER.log(Level.INFO, apiKeys.size() + LINES_READ);
+			LOGGER.log(Level.INFO, apiKeys.size() + ENTRYS_READ);
 
 			return apiKeys;
 		}
@@ -83,7 +83,7 @@ public class DatabaseReader extends DatabaseConnector
 
 				lineDB.add(new LineDB(lineID, lineName, lineDestination));
 			}
-			LOGGER.log(Level.INFO, lineDB.size() + LINES_READ);
+			LOGGER.log(Level.INFO, lineDB.size() + ENTRYS_READ);
 
 			return lineDB;
 		}
@@ -97,7 +97,8 @@ public class DatabaseReader extends DatabaseConnector
 	public List<StationDB> readStations() throws SQLException
 	{
 		final String tableName = "Station";
-		final String sql = createSQLStatement(tableName);
+		final String sql = createSQLStatement(tableName, //
+				new SqlCondition("observe", true));
 		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
 
 		reconnectIfNeccessary();
@@ -115,7 +116,7 @@ public class DatabaseReader extends DatabaseConnector
 
 				stationDB.add(new StationDB(stationID, name, lat, lon, operator));
 			}
-			LOGGER.log(Level.INFO, stationDB.size() + LINES_READ);
+			LOGGER.log(Level.INFO, stationDB.size() + ENTRYS_READ);
 
 			return stationDB;
 		}
