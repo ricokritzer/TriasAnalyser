@@ -57,7 +57,7 @@ public class StationDB implements DataModel
 
 	private String values()
 	{
-		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "')";
+		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "', true)";
 	}
 
 	@Override
