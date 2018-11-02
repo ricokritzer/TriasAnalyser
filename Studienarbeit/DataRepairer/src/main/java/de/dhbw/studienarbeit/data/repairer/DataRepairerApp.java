@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,13 +43,26 @@ public class DataRepairerApp
 	protected void repairData()
 	{
 		final List<String> dataToRepair = dataToRepair();
-
-		final File file = new File("errors.txt");
-		file.delete();
-		LOGGER.log(Level.INFO, "File deleted.");
-
+		deleteErrorFile();
 		dataToRepair.forEach(data -> saver.save(new RepairData(data.split("\t")[1])));
 		LOGGER.log(Level.INFO, "Repairing completed.");
+	}
+
+	private void deleteErrorFile()
+	{
+		final File file = new File("errors.txt");
+
+		try
+		{
+			if (Files.deleteIfExists(file.toPath()))
+			{
+				LOGGER.log(Level.INFO, "File deleted.");
+			}
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Deleting file does not succeed.", e);
+		}
 	}
 
 	private List<String> dataToRepair()
