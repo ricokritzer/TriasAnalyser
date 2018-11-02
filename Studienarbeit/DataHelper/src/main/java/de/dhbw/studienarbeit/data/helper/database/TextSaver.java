@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
-
 public class TextSaver implements Saver
 {
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
@@ -24,7 +22,7 @@ public class TextSaver implements Saver
 	}
 
 	@Override
-	public void save(DataModel model)
+	public void save(DataSaverModel model)
 	{
 		write(model.getSQLQuerry());
 	}

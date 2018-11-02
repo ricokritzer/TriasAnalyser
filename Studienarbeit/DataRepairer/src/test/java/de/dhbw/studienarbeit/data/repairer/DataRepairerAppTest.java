@@ -8,8 +8,8 @@ import java.io.FileWriter;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
+import de.dhbw.studienarbeit.data.helper.database.DataSaverModel;
 import de.dhbw.studienarbeit.data.helper.database.Saver;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class DataRepairerAppTest
 {
@@ -21,7 +21,7 @@ public class DataRepairerAppTest
 		Saver saverMock = new Saver()
 		{
 			@Override
-			public void save(DataModel model)
+			public void save(DataSaverModel model)
 			{
 				savedModelSQL = model.getSQLQuerry();
 			}

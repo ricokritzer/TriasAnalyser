@@ -9,9 +9,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import de.dhbw.studienarbeit.data.helper.database.DataSaverModel;
 import de.dhbw.studienarbeit.data.helper.database.Saver;
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 
 public class DataManagerTest
 {
@@ -60,7 +59,7 @@ public class DataManagerTest
 		return new Saver()
 		{
 			@Override
-			public void save(DataModel model)
+			public void save(DataSaverModel model)
 			{
 				// do nothing
 			}
