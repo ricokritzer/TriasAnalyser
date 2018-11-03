@@ -8,7 +8,15 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class Line implements DataModel
 {
-	public final static String NAME = "name";
+	private int id;
+	private String name; 
+	private String destination;
+	
+	public Line(String name, String destination)
+	{
+		this.name = name;
+		this.destination = destination;
+	}
 	
 	@Override
 	public String getSQLQuerry()
@@ -29,6 +37,21 @@ public class Line implements DataModel
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public String getDestination()
+	{
+		return destination;
 	}
 	
 }

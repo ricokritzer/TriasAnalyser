@@ -8,42 +8,37 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class Stop implements DataModel
 {
-	private String stopPointName = "";
-	private String timetabledTime = "";
-	private String estimatedTime = "";
-	private String publishedLineName = "";
-	private String destinationText = "";
-
-	public Stop(String timetabledTime, String estimatedTime, String publishedLineName, String destinationText)
-	{
-		super();
-		this.timetabledTime = timetabledTime;
-		this.estimatedTime = estimatedTime;
-		this.publishedLineName = publishedLineName.substring(0, publishedLineName.length() - 2);
-		this.destinationText = destinationText.substring(0, destinationText.length() - 2);
-	}
+	private String stationID;
+	private Line line;
+	private Date timeTabledTime;
+	private Date realTime;
 	
-	public Stop(String stopPointName, String timetabledTime, String estimatedTime, String publishedLineName,
-			String destinationText)
+	public Stop(String stationID, Line line, Date timetabled, Date realTime)
 	{
-		super();
-		this.stopPointName = stopPointName.substring(0, stopPointName.length() - 2);
-		this.timetabledTime = timetabledTime;
-		this.estimatedTime = estimatedTime;
-		this.publishedLineName = publishedLineName.substring(0, publishedLineName.length() - 2);
-		this.destinationText = destinationText.substring(0, destinationText.length() - 2);
+		this.stationID = stationID;
+		this.line = line;
+		this.timeTabledTime = timetabled;
+		this.realTime = realTime;
 	}
 
-	public long getDelay()
+	public String getStationID()
 	{
-		return 0;
+		return stationID;
 	}
 
-	@Override
-	public String toString()
+	public Line getLine()
 	{
-		return stopPointName + "\t" + publishedLineName + "\tnach " + destinationText + "\tgeplant: " + timetabledTime
-				+ "\tvorraussichtlich: " + estimatedTime;
+		return line;
+	}
+
+	public Date getTimeTabledTime()
+	{
+		return timeTabledTime;
+	}
+
+	public Date getRealTime()
+	{
+		return realTime;
 	}
 
 	@Override
