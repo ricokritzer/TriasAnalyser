@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper.database;
+package de.dhbw.studienarbeit.data.helper.database.model;
 
 import java.util.Date;
 

@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.Settings;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.database.StationDB;
+import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 
