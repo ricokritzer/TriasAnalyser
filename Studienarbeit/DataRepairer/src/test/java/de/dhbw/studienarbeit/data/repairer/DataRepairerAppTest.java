@@ -8,9 +8,6 @@ import java.io.FileWriter;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.Saver;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
-
 public class DataRepairerAppTest
 {
 	private String savedModelSQL;
@@ -18,16 +15,7 @@ public class DataRepairerAppTest
 	@Test
 	void testRepairing() throws Exception
 	{
-		Saver saverMock = new Saver()
-		{
-			@Override
-			public void save(DataModel model)
-			{
-				savedModelSQL = model.getSQLQuerry();
-			}
-		};
-
-		final DataRepairerApp app = new DataRepairerApp(saverMock);
+		final DataRepairerApp app = new DataRepairerApp(model -> savedModelSQL = model.getSQLQuerry());
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter("errors.txt")))
 		{

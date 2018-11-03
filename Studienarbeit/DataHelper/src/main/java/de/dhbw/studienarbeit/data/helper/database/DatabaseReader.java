@@ -6,19 +6,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.Settings;
+import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
+import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
+import de.dhbw.studienarbeit.data.helper.database.model.StopDB;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class DatabaseReader extends DatabaseConnector
 {
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
 	private static final String START_READING_AT_TABLE = "Start reading at table ";
-	private static final String LINES_READ = " lines read.";
+	private static final String ENTRYS_READ = " entrys read.";
 	private static final String SELECT_FROM = "SELECT * FROM ";
-	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DatabaseReader.class.getName());
 
 	public DatabaseReader() throws IOException
 	{
@@ -32,98 +36,55 @@ public class DatabaseReader extends DatabaseConnector
 				Settings.getInstance().getDatabaseReaderPassword());
 	}
 
+	@Deprecated
 	public List<ApiKey> readApiKeys(final String name) throws SQLException
 	{
-		final String tableName = "Api";
-		final String sql = createSQLStatement(tableName, new SqlCondition("name", name));
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
-
-		reconnectIfNeccessary();
-
-		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
-		{
-			final List<ApiKey> apiKeys = new ArrayList<>();
-			while (result.next())
-			{
-				final String key = result.getString("apiKey");
-				final int requests = result.getInt("maximumRequests");
-				final String url = result.getString("url");
-
-				apiKeys.add(new ApiKey(key, requests, url));
-			}
-			LOGGER.log(Level.INFO, apiKeys.size() + LINES_READ);
-
-			return apiKeys;
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
-			throw e;
-		}
+		return readApiKeys(new SqlCondition("name", name));
 	}
 
+	public List<ApiKey> readApiKeys(final SqlCondition... conditions) throws SQLException
+	{
+		final String tableName = "Api";
+		final List<ApiKey> list = new ArrayList<>();
+		select(r -> DatabaseConverter.getApiKey(r).ifPresent(list::add), tableName, conditions);
+		return list;
+	}
+
+	@Deprecated
 	public List<LineDB> readLine(final String destination, final String name) throws SQLException
 	{
-		final String tableName = "Line";
-		final String sql = createSQLStatement(tableName, //
-				new SqlCondition("name", name), //
+		return readLine(new SqlCondition("name", name), //
 				new SqlCondition("destination", destination));
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
-
-		reconnectIfNeccessary();
-
-		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
-		{
-			final List<LineDB> lineDB = new ArrayList<>();
-			while (result.next())
-			{
-				final int lineID = result.getInt("lineID");
-				final String lineName = result.getString("name");
-				final String lineDestination = result.getString("destination");
-
-				lineDB.add(new LineDB(lineID, lineName, lineDestination));
-			}
-			LOGGER.log(Level.INFO, lineDB.size() + LINES_READ);
-
-			return lineDB;
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
-			throw e;
-		}
 	}
 
+	public List<LineDB> readLine(final SqlCondition... conditions) throws SQLException
+	{
+		final String tableName = "Line";
+		final List<LineDB> list = new ArrayList<>();
+		select(r -> DatabaseConverter.getLine(r).ifPresent(list::add), tableName, conditions);
+		return list;
+	}
+
+	@Deprecated
 	public List<StationDB> readStations() throws SQLException
 	{
+		return readStations(new SqlCondition("observe", true));
+	}
+
+	public final List<StationDB> readStations(final SqlCondition... conditions) throws SQLException
+	{
 		final String tableName = "Station";
-		final String sql = createSQLStatement(tableName);
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
+		final List<StationDB> stations = new ArrayList<>();
+		select(r -> DatabaseConverter.getStation(r).ifPresent(stations::add), tableName, conditions);
+		return stations;
+	}
 
-		reconnectIfNeccessary();
-
-		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
-		{
-			final List<StationDB> stationDB = new ArrayList<>();
-			while (result.next())
-			{
-				final String stationID = result.getString("stationID");
-				final String name = result.getString("name");
-				final double lat = result.getDouble("lat");
-				final double lon = result.getDouble("lon");
-				final String operator = result.getString("operator");
-
-				stationDB.add(new StationDB(stationID, name, lat, lon, operator));
-			}
-			LOGGER.log(Level.INFO, stationDB.size() + LINES_READ);
-
-			return stationDB;
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
-			throw e;
-		}
+	public List<StopDB> readStops(SqlCondition... conditions) throws SQLException
+	{
+		final String tableName = "Station";
+		final List<StopDB> list = new ArrayList<>();
+		select(r -> DatabaseConverter.getStop(r).ifPresent(list::add), tableName, conditions);
+		return list;
 	}
 
 	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
@@ -147,6 +108,30 @@ public class DatabaseReader extends DatabaseConnector
 		if (connection.isClosed())
 		{
 			connectToDatabase();
+		}
+	}
+
+	private void select(Consumer<ResultSet> consumer, String tableName, SqlCondition... conditions) throws SQLException
+	{
+		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
+
+		reconnectIfNeccessary();
+
+		final String sql = createSQLStatement(tableName, conditions);
+		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
+		{
+			int counter = 0;
+			while (result.next())
+			{
+				consumer.accept(result);
+				counter++;
+			}
+			LOGGER.log(Level.INFO, counter + ENTRYS_READ);
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
+			throw e;
 		}
 	}
 }

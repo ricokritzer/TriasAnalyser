@@ -19,6 +19,11 @@ public class SqlCondition
 		sql = new StringBuilder().append(name).append(" = ").append(value).toString();
 	}
 
+	public SqlCondition(final String name, final boolean value)
+	{
+		sql = new StringBuilder().append(name).append(" = ").append(value).toString();
+	}
+	
 	@Override
 	public String toString()
 	{

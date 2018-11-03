@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.Settings;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class DatabaseSaver extends DatabaseConnector implements Saver
 {
@@ -27,7 +26,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 	}
 
 	@Override
-	public void save(DataModel model)
+	public void save(DataSaverModel model)
 	{
 		final String sqlQuerry = model.getSQLQuerry();
 		if (sqlQuerry.isEmpty())
@@ -35,7 +34,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 			LOGGER.log(Level.INFO, "Empty SQLQuerry at " + model.toString());
 			return;
 		}
-		
+
 		PreparedStatement statement = null;
 		try
 		{

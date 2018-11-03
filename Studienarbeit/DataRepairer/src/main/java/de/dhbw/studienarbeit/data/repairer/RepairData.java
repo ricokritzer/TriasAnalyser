@@ -1,12 +1,8 @@
 package de.dhbw.studienarbeit.data.repairer;
 
-import java.io.IOException;
-import java.util.Date;
+import de.dhbw.studienarbeit.data.helper.database.DataSaverModel;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
-
-public class RepairData implements DataModel
+public class RepairData implements DataSaverModel
 {
 	private final String sql;
 
@@ -19,18 +15,5 @@ public class RepairData implements DataModel
 	public String getSQLQuerry()
 	{
 		return sql;
-	}
-
-	@Override
-	public void updateData(ApiKey apiKey) throws IOException
-	{
-		// there is nothing to update
-	}
-
-	@Override
-	public Date nextUpdate()
-	{
-		// there is no next update
-		return new Date();
 	}
 }
