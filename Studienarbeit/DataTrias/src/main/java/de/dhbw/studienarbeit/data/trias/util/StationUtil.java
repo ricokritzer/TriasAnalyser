@@ -51,7 +51,7 @@ public class StationUtil
 					{
 						continue;
 					}
-					stations.add(new StationDB(stationID, name, lat, lon, KVV));
+					stations.add(new StationDB(stationID, name, lat, lon, KVV, true));
 				}
 			}
 			reader.close();
