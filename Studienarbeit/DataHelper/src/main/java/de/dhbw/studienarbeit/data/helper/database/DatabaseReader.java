@@ -129,11 +129,11 @@ public class DatabaseReader extends DatabaseConnector
 	{
 		final String tableName = "Station";
 		final List<StationDB> stations = new ArrayList<>();
-		select(tableName, r -> getStation(r).ifPresent(stations::add), conditions);
+		select(r -> getStation(r).ifPresent(stations::add), tableName, conditions);
 		return stations;
 	}
 
-	private void select(String tableName, Consumer<ResultSet> consumer, SqlCondition... conditions) throws SQLException
+	private void select(Consumer<ResultSet> consumer, String tableName, SqlCondition... conditions) throws SQLException
 	{
 		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
 
