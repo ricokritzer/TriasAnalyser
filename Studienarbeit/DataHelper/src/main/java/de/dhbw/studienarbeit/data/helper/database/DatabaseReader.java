@@ -47,35 +47,9 @@ public class DatabaseReader extends DatabaseConnector
 	public List<ApiKey> readApiKeys(final SqlCondition... conditions) throws SQLException
 	{
 		final String tableName = "Api";
-		final String sql = createSQLStatement(tableName, conditions);
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
-
-		reconnectIfNeccessary();
-
-		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
-		{
-			final List<ApiKey> apiKeys = new ArrayList<>();
-			while (result.next())
-			{
-				apiKeys.add(getApiKey(result));
-			}
-			LOGGER.log(Level.INFO, apiKeys.size() + ENTRYS_READ);
-
-			return apiKeys;
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
-			throw e;
-		}
-	}
-
-	private ApiKey getApiKey(ResultSet result) throws SQLException
-	{
-		final String key = result.getString("apiKey");
-		final int requests = result.getInt("maximumRequests");
-		final String url = result.getString("url");
-		return new ApiKey(key, requests, url);
+		final List<ApiKey> list = new ArrayList<>();
+		select(r -> getApiKey(r).ifPresent(list::add), tableName, conditions);
+		return list;
 	}
 
 	@Deprecated
@@ -88,35 +62,9 @@ public class DatabaseReader extends DatabaseConnector
 	public List<LineDB> readLine(final SqlCondition... conditions) throws SQLException
 	{
 		final String tableName = "Line";
-		final String sql = createSQLStatement(tableName, conditions);
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
-
-		reconnectIfNeccessary();
-
-		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
-		{
-			final List<LineDB> lineDB = new ArrayList<>();
-			while (result.next())
-			{
-				lineDB.add(getLineDB(result));
-			}
-			LOGGER.log(Level.INFO, lineDB.size() + ENTRYS_READ);
-
-			return lineDB;
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
-			throw e;
-		}
-	}
-
-	private LineDB getLineDB(ResultSet result) throws SQLException
-	{
-		final int lineID = result.getInt("lineID");
-		final String lineName = result.getString("name");
-		final String lineDestination = result.getString("destination");
-		return new LineDB(lineID, lineName, lineDestination);
+		final List<LineDB> list = new ArrayList<>();
+		select(r -> getLine(r).ifPresent(list::add), tableName, conditions);
+		return list;
 	}
 
 	@Deprecated
@@ -131,6 +79,38 @@ public class DatabaseReader extends DatabaseConnector
 		final List<StationDB> stations = new ArrayList<>();
 		select(r -> getStation(r).ifPresent(stations::add), tableName, conditions);
 		return stations;
+	}
+
+	public List<StopDB> readStops(SqlCondition... conditions) throws SQLException
+	{
+		final String tableName = "Station";
+		final List<StopDB> list = new ArrayList<>();
+		select(r -> getStop(r).ifPresent(list::add), tableName, conditions);
+		return list;
+	}
+
+	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
+	{
+		final StringBuilder sb = new StringBuilder(SELECT_FROM).append(tableName);
+		final List<String> conditionStrings = new ArrayList<>();
+		Arrays.asList(condition).forEach(c -> conditionStrings.add(c.toString()));
+
+		if (!conditionStrings.isEmpty())
+		{
+			sb.append(" WHERE ");
+		}
+
+		sb.append(String.join(" AND ", conditionStrings));
+		sb.append(";");
+		return sb.toString();
+	}
+
+	private void reconnectIfNeccessary() throws SQLException
+	{
+		if (connection.isClosed())
+		{
+			connectToDatabase();
+		}
 	}
 
 	private void select(Consumer<ResultSet> consumer, String tableName, SqlCondition... conditions) throws SQLException
@@ -175,64 +155,54 @@ public class DatabaseReader extends DatabaseConnector
 		}
 	}
 
-	public List<StopDB> readStops(SqlCondition... conditions) throws SQLException
+	private Optional<StopDB> getStop(ResultSet result)
 	{
-		final String tableName = "Stop";
-		final String sql = createSQLStatement(tableName, conditions);
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
-
-		reconnectIfNeccessary();
-
-		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
+		try
 		{
-			final List<StopDB> stopDB = new ArrayList<>();
-			while (result.next())
-			{
-				stopDB.add(getStopDB(result));
-			}
-			LOGGER.log(Level.INFO, stopDB.size() + ENTRYS_READ);
+			final int stopID = result.getInt("stopID");
+			final String stationID = result.getString("stationID");
+			final int lineID = result.getInt("lineID");
+			final Date timeTabledTime = result.getDate("timeTabledTime");
+			final Date realTime = result.getDate("realTime");
 
-			return stopDB;
+			return Optional.of(new StopDB(stopID, stationID, lineID, timeTabledTime, realTime));
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
-			throw e;
+			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
+			return Optional.empty();
 		}
 	}
 
-	private StopDB getStopDB(ResultSet result) throws SQLException
+	private Optional<LineDB> getLine(ResultSet result)
 	{
-		final int stopID = result.getInt("stopID");
-		final String stationID = result.getString("stationID");
-		final int lineID = result.getInt("lineID");
-		final Date timeTabledTime = result.getDate("timeTabledTime");
-		final Date realTime = result.getDate("realTime");
-
-		return new StopDB(stopID, stationID, lineID, timeTabledTime, realTime);
-	}
-
-	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
-	{
-		final StringBuilder sb = new StringBuilder(SELECT_FROM).append(tableName);
-		final List<String> conditionStrings = new ArrayList<>();
-		Arrays.asList(condition).forEach(c -> conditionStrings.add(c.toString()));
-
-		if (!conditionStrings.isEmpty())
+		try
 		{
-			sb.append(" WHERE ");
+			final int lineID = result.getInt("lineID");
+			final String lineName = result.getString("name");
+			final String lineDestination = result.getString("destination");
+			return Optional.of(new LineDB(lineID, lineName, lineDestination));
 		}
-
-		sb.append(String.join(" AND ", conditionStrings));
-		sb.append(";");
-		return sb.toString();
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to parse to line.", e);
+			return Optional.empty();
+		}
 	}
 
-	private void reconnectIfNeccessary() throws SQLException
+	private Optional<ApiKey> getApiKey(ResultSet result)
 	{
-		if (connection.isClosed())
+		try
 		{
-			connectToDatabase();
+			final String key = result.getString("apiKey");
+			final int requests = result.getInt("maximumRequests");
+			final String url = result.getString("url");
+			return Optional.of(new ApiKey(key, requests, url));
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to parse to api key.", e);
+			return Optional.empty();
 		}
 	}
 }
