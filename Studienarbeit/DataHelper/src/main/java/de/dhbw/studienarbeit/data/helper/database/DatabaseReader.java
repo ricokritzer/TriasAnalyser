@@ -20,7 +20,7 @@ public class DatabaseReader extends DatabaseConnector
 {
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
 	private static final String START_READING_AT_TABLE = "Start reading at table ";
-	private static final String ENTRYS_READ = " entrys read.";
+	private static final String ENTRIES_READ = " entries read.";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseReader.class.getName());
 
@@ -126,7 +126,7 @@ public class DatabaseReader extends DatabaseConnector
 				consumer.accept(result);
 				counter++;
 			}
-			LOGGER.log(Level.INFO, counter + ENTRYS_READ);
+			LOGGER.log(Level.INFO, counter + ENTRIES_READ);
 		}
 		catch (SQLException e)
 		{
