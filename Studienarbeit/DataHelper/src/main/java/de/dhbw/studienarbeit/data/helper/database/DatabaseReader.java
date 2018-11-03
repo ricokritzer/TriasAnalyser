@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,11 +56,7 @@ public class DatabaseReader extends DatabaseConnector
 			final List<ApiKey> apiKeys = new ArrayList<>();
 			while (result.next())
 			{
-				final String key = result.getString("apiKey");
-				final int requests = result.getInt("maximumRequests");
-				final String url = result.getString("url");
-
-				apiKeys.add(new ApiKey(key, requests, url));
+				apiKeys.add(getApiKey(result));
 			}
 			LOGGER.log(Level.INFO, apiKeys.size() + ENTRYS_READ);
 
@@ -70,6 +67,14 @@ public class DatabaseReader extends DatabaseConnector
 			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
 		}
+	}
+
+	private ApiKey getApiKey(ResultSet result) throws SQLException
+	{
+		final String key = result.getString("apiKey");
+		final int requests = result.getInt("maximumRequests");
+		final String url = result.getString("url");
+		return new ApiKey(key, requests, url);
 	}
 
 	@Deprecated
@@ -92,11 +97,7 @@ public class DatabaseReader extends DatabaseConnector
 			final List<LineDB> lineDB = new ArrayList<>();
 			while (result.next())
 			{
-				final int lineID = result.getInt("lineID");
-				final String lineName = result.getString("name");
-				final String lineDestination = result.getString("destination");
-
-				lineDB.add(new LineDB(lineID, lineName, lineDestination));
+				lineDB.add(getLineDB(result));
 			}
 			LOGGER.log(Level.INFO, lineDB.size() + ENTRYS_READ);
 
@@ -109,6 +110,14 @@ public class DatabaseReader extends DatabaseConnector
 		}
 	}
 
+	private LineDB getLineDB(ResultSet result) throws SQLException
+	{
+		final int lineID = result.getInt("lineID");
+		final String lineName = result.getString("name");
+		final String lineDestination = result.getString("destination");
+		return new LineDB(lineID, lineName, lineDestination);
+	}
+
 	@Deprecated
 	public List<StationDB> readStations() throws SQLException
 	{
@@ -119,32 +128,51 @@ public class DatabaseReader extends DatabaseConnector
 	{
 		final String tableName = "Station";
 		final String sql = createSQLStatement(tableName, conditions);
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
+		final List<StationDB> stations = new ArrayList<>();
+		select(tableName, sql, r -> {
+			try
+			{
+				stations.add(getStation(r));
+			}
+			catch (SQLException e)
+			{
+				LOGGER.log(Level.WARNING, "Unable to read station.", e);
+			}
+		});
+		return stations;
+	}
 
+	private void select(String tableName, String sql, Consumer<ResultSet> consumer) throws SQLException
+	{
 		reconnectIfNeccessary();
 
+		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
 		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
 		{
-			final List<StationDB> stationDB = new ArrayList<>();
+			int counter = 0;
 			while (result.next())
 			{
-				final String stationID = result.getString("stationID");
-				final String name = result.getString("name");
-				final double lat = result.getDouble("lat");
-				final double lon = result.getDouble("lon");
-				final String operator = result.getString("operator");
-
-				stationDB.add(new StationDB(stationID, name, lat, lon, operator));
+				consumer.accept(result);
+				counter++;
 			}
-			LOGGER.log(Level.INFO, stationDB.size() + ENTRYS_READ);
-
-			return stationDB;
+			LOGGER.log(Level.INFO, counter + ENTRYS_READ);
 		}
 		catch (SQLException e)
 		{
 			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
 		}
+	}
+
+	private StationDB getStation(ResultSet result) throws SQLException
+	{
+		final String stationID = result.getString("stationID");
+		final String name = result.getString("name");
+		final double lat = result.getDouble("lat");
+		final double lon = result.getDouble("lon");
+		final String operator = result.getString("operator");
+
+		return new StationDB(stationID, name, lat, lon, operator);
 	}
 
 	public List<StopDB> readStops(SqlCondition... conditions) throws SQLException
@@ -160,13 +188,7 @@ public class DatabaseReader extends DatabaseConnector
 			final List<StopDB> stopDB = new ArrayList<>();
 			while (result.next())
 			{
-				final int stopID = result.getInt("stopID");
-				final String stationID = result.getString("stationID");
-				final int lineID = result.getInt("lineID");
-				final Date timeTabledTime = result.getDate("timeTabledTime");
-				final Date realTime = result.getDate("realTime");
-
-				stopDB.add(new StopDB(stopID, stationID, lineID, timeTabledTime, realTime));
+				stopDB.add(getStopDB(result));
 			}
 			LOGGER.log(Level.INFO, stopDB.size() + ENTRYS_READ);
 
@@ -177,6 +199,17 @@ public class DatabaseReader extends DatabaseConnector
 			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
 		}
+	}
+
+	private StopDB getStopDB(ResultSet result) throws SQLException
+	{
+		final int stopID = result.getInt("stopID");
+		final String stationID = result.getString("stationID");
+		final int lineID = result.getInt("lineID");
+		final Date timeTabledTime = result.getDate("timeTabledTime");
+		final Date realTime = result.getDate("realTime");
+
+		return new StopDB(stopID, stationID, lineID, timeTabledTime, realTime);
 	}
 
 	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
