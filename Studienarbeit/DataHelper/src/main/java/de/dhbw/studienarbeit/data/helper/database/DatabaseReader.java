@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -124,29 +125,21 @@ public class DatabaseReader extends DatabaseConnector
 		return readStations(new SqlCondition("observe", true));
 	}
 
-	public List<StationDB> readStations(final SqlCondition... conditions) throws SQLException
+	public final List<StationDB> readStations(final SqlCondition... conditions) throws SQLException
 	{
 		final String tableName = "Station";
-		final String sql = createSQLStatement(tableName, conditions);
 		final List<StationDB> stations = new ArrayList<>();
-		select(tableName, sql, r -> {
-			try
-			{
-				stations.add(getStation(r));
-			}
-			catch (SQLException e)
-			{
-				LOGGER.log(Level.WARNING, "Unable to read station.", e);
-			}
-		});
+		select(tableName, r -> getStation(r).ifPresent(stations::add), conditions);
 		return stations;
 	}
 
-	private void select(String tableName, String sql, Consumer<ResultSet> consumer) throws SQLException
+	private void select(String tableName, Consumer<ResultSet> consumer, SqlCondition... conditions) throws SQLException
 	{
+		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
+
 		reconnectIfNeccessary();
 
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
+		final String sql = createSQLStatement(tableName, conditions);
 		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
 		{
 			int counter = 0;
@@ -164,15 +157,22 @@ public class DatabaseReader extends DatabaseConnector
 		}
 	}
 
-	private StationDB getStation(ResultSet result) throws SQLException
+	private Optional<StationDB> getStation(ResultSet result)
 	{
-		final String stationID = result.getString("stationID");
-		final String name = result.getString("name");
-		final double lat = result.getDouble("lat");
-		final double lon = result.getDouble("lon");
-		final String operator = result.getString("operator");
-
-		return new StationDB(stationID, name, lat, lon, operator);
+		try
+		{
+			final String stationID = result.getString("stationID");
+			final String name = result.getString("name");
+			final double lat = result.getDouble("lat");
+			final double lon = result.getDouble("lon");
+			final String operator = result.getString("operator");
+			return Optional.of(new StationDB(stationID, name, lat, lon, operator));
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to parse to station.", e);
+			return Optional.empty();
+		}
 	}
 
 	public List<StopDB> readStops(SqlCondition... conditions) throws SQLException
