@@ -5,9 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +22,7 @@ public class DatabaseReader extends DatabaseConnector
 	private static final String START_READING_AT_TABLE = "Start reading at table ";
 	private static final String ENTRYS_READ = " entrys read.";
 	private static final String SELECT_FROM = "SELECT * FROM ";
-	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DatabaseReader.class.getName());
 
 	public DatabaseReader() throws IOException
 	{
@@ -48,7 +46,7 @@ public class DatabaseReader extends DatabaseConnector
 	{
 		final String tableName = "Api";
 		final List<ApiKey> list = new ArrayList<>();
-		select(r -> getApiKey(r).ifPresent(list::add), tableName, conditions);
+		select(r -> DatabaseConverter.getApiKey(r).ifPresent(list::add), tableName, conditions);
 		return list;
 	}
 
@@ -63,7 +61,7 @@ public class DatabaseReader extends DatabaseConnector
 	{
 		final String tableName = "Line";
 		final List<LineDB> list = new ArrayList<>();
-		select(r -> getLine(r).ifPresent(list::add), tableName, conditions);
+		select(r -> DatabaseConverter.getLine(r).ifPresent(list::add), tableName, conditions);
 		return list;
 	}
 
@@ -77,7 +75,7 @@ public class DatabaseReader extends DatabaseConnector
 	{
 		final String tableName = "Station";
 		final List<StationDB> stations = new ArrayList<>();
-		select(r -> getStation(r).ifPresent(stations::add), tableName, conditions);
+		select(r -> DatabaseConverter.getStation(r).ifPresent(stations::add), tableName, conditions);
 		return stations;
 	}
 
@@ -85,7 +83,7 @@ public class DatabaseReader extends DatabaseConnector
 	{
 		final String tableName = "Station";
 		final List<StopDB> list = new ArrayList<>();
-		select(r -> getStop(r).ifPresent(list::add), tableName, conditions);
+		select(r -> DatabaseConverter.getStop(r).ifPresent(list::add), tableName, conditions);
 		return list;
 	}
 
@@ -134,75 +132,6 @@ public class DatabaseReader extends DatabaseConnector
 		{
 			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
-		}
-	}
-
-	private Optional<StationDB> getStation(ResultSet result)
-	{
-		try
-		{
-			final String stationID = result.getString("stationID");
-			final String name = result.getString("name");
-			final double lat = result.getDouble("lat");
-			final double lon = result.getDouble("lon");
-			final String operator = result.getString("operator");
-			return Optional.of(new StationDB(stationID, name, lat, lon, operator));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to station.", e);
-			return Optional.empty();
-		}
-	}
-
-	private Optional<StopDB> getStop(ResultSet result)
-	{
-		try
-		{
-			final int stopID = result.getInt("stopID");
-			final String stationID = result.getString("stationID");
-			final int lineID = result.getInt("lineID");
-			final Date timeTabledTime = result.getDate("timeTabledTime");
-			final Date realTime = result.getDate("realTime");
-
-			return Optional.of(new StopDB(stopID, stationID, lineID, timeTabledTime, realTime));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
-			return Optional.empty();
-		}
-	}
-
-	private Optional<LineDB> getLine(ResultSet result)
-	{
-		try
-		{
-			final int lineID = result.getInt("lineID");
-			final String lineName = result.getString("name");
-			final String lineDestination = result.getString("destination");
-			return Optional.of(new LineDB(lineID, lineName, lineDestination));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to line.", e);
-			return Optional.empty();
-		}
-	}
-
-	private Optional<ApiKey> getApiKey(ResultSet result)
-	{
-		try
-		{
-			final String key = result.getString("apiKey");
-			final int requests = result.getInt("maximumRequests");
-			final String url = result.getString("url");
-			return Optional.of(new ApiKey(key, requests, url));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to api key.", e);
-			return Optional.empty();
 		}
 	}
 }
