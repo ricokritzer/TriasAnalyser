@@ -28,7 +28,8 @@ public class DatabaseConverter
 			final double lat = result.getDouble("lat");
 			final double lon = result.getDouble("lon");
 			final String operator = result.getString("operator");
-			return Optional.of(new StationDB(stationID, name, lat, lon, operator));
+			final boolean observe = result.getBoolean("observe");
+			return Optional.of(new StationDB(stationID, name, lat, lon, operator, observe));
 		}
 		catch (SQLException e)
 		{

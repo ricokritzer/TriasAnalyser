@@ -9,8 +9,9 @@ public class StationDB implements DataSaverModel
 	private final double lat;
 	private final double lon;
 	private final String operator;
+	private final boolean observe;
 
-	public StationDB(String stationID, String name, double lat, double lon, String operator)
+	public StationDB(String stationID, String name, double lat, double lon, String operator, boolean observe)
 	{
 		super();
 		this.stationID = stationID;
@@ -18,6 +19,7 @@ public class StationDB implements DataSaverModel
 		this.lat = lat;
 		this.lon = lon;
 		this.operator = operator;
+		this.observe = observe;
 	}
 
 	public String getStationID()
@@ -44,6 +46,11 @@ public class StationDB implements DataSaverModel
 	{
 		return operator;
 	}
+	
+	public boolean isObserve()
+	{
+		return observe;
+	}
 
 	@Override
 	public String getSQLQuerry()
@@ -53,6 +60,6 @@ public class StationDB implements DataSaverModel
 
 	private String values()
 	{
-		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "', true)";
+		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "', " + observe + ")";
 	}
 }
