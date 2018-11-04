@@ -8,11 +8,6 @@ import java.util.Date;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.DataSaverModel;
-import de.dhbw.studienarbeit.data.helper.database.Saver;
-import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
-import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
