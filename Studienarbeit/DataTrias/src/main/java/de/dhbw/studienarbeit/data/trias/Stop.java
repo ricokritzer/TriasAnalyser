@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.data.trias;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Objects;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
@@ -59,5 +60,29 @@ public class Stop implements DataModel
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (super.equals(obj))
+		{
+			return true;
+		}
+		if (obj instanceof Stop)
+		{
+			Stop stop = (Stop) obj;
+			if (stop.getStationID().equals(stationID) && stop.getLine().equals(line) && stop.getTimeTabledTime().equals(timeTabledTime))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(stationID, line, timeTabledTime);
 	}
 }
