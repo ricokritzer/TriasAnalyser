@@ -120,6 +120,10 @@ public class Settings
 		return databaseManipulatorPassword;
 	}
 
+	/**
+	 * @deprecated use {@link #DatabaseTableApi().selectApisByName(name)} instead.
+	 */
+	@Deprecated
 	public List<ApiKey> getApiKeys(final String name) throws IOException
 	{
 		return new DatabaseTableApi().selectApisByName(name);
