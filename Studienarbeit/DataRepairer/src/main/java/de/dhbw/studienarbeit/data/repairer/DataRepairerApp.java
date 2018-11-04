@@ -14,8 +14,8 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.database.Saver;
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 
 public class DataRepairerApp

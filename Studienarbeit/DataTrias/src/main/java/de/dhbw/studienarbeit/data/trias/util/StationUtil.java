@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dhbw.studienarbeit.data.helper.database.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.database.Saver;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
 
 public class StationUtil
 {

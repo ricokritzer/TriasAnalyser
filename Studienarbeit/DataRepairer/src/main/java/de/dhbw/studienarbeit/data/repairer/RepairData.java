@@ -1,6 +1,6 @@
 package de.dhbw.studienarbeit.data.repairer;
 
-import de.dhbw.studienarbeit.data.helper.database.DataSaverModel;
+import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
 
 public class RepairData implements DataSaverModel
 {

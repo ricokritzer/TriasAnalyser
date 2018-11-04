@@ -1,6 +1,6 @@
 package de.dhbw.studienarbeit.data.helper.database.model;
 
-import de.dhbw.studienarbeit.data.helper.database.DataSaverModel;
+import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
 
 public class StationDB implements DataSaverModel
 {

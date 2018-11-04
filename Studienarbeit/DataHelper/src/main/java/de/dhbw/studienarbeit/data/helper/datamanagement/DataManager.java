@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.Saver;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
 
 public class DataManager
 {

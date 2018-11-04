@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.database.DatabaseReader;
-import de.dhbw.studienarbeit.data.helper.database.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.repairer.DataRepairerApp;
 import de.dhbw.studienarbeit.data.trias.DataTriasApp;
 import de.dhbw.studienarbeit.data.weather.DataWeatherApp;

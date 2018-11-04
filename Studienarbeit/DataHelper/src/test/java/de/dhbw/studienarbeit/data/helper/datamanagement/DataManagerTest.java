@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.DataSaverModel;
-import de.dhbw.studienarbeit.data.helper.database.Saver;
+import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
 
 public class DataManagerTest
 {

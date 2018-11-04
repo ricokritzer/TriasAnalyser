@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper.database;
+package de.dhbw.studienarbeit.data.helper.database.saver;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.Settings;
+import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 
 public class DatabaseSaver extends DatabaseConnector implements Saver
 {

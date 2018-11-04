@@ -8,6 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.Settings;
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
+import de.dhbw.studienarbeit.data.helper.database.saver.TextSaver;
 
 public abstract class DatabaseConnector
 {

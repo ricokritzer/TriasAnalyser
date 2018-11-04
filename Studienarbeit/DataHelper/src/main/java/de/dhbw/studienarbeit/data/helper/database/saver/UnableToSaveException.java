@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper.database;
+package de.dhbw.studienarbeit.data.helper.database.saver;
 
 public class UnableToSaveException extends Exception
 {
