@@ -66,8 +66,10 @@ public abstract class DatabaseTable extends DatabaseConnector
 			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
 		}
-
-		disconnect();
+		finally
+		{
+			disconnect();
+		}
 	}
 
 	@Override
