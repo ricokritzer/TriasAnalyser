@@ -17,11 +17,6 @@ public class DatabaseTableApi extends DatabaseTable
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableApi.class.getName());
 	private static final String TABLE_NAME = "Api";
 
-	public DatabaseTableApi() throws IOException
-	{
-		super();
-	}
-
 	private final Optional<ApiKey> getApiKey(ResultSet result)
 	{
 		try

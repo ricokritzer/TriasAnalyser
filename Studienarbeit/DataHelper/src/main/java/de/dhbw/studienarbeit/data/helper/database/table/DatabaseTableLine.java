@@ -17,11 +17,6 @@ public class DatabaseTableLine extends DatabaseTable
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableLine.class.getName());
 	private static final String TABLE_NAME = "Line";
 
-	public DatabaseTableLine() throws IOException
-	{
-		super();
-	}
-
 	private final Optional<LineDB> getLine(ResultSet result)
 	{
 		try

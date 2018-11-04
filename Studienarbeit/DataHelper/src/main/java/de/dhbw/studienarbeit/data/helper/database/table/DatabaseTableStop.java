@@ -18,11 +18,6 @@ public class DatabaseTableStop extends DatabaseTable
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableStop.class.getName());
 	private static final String TABLE_NAME = "Stop";
 
-	public DatabaseTableStop() throws IOException
-	{
-		super();
-	}
-
 	private static Optional<StopDB> getStop(ResultSet result)
 	{
 		try

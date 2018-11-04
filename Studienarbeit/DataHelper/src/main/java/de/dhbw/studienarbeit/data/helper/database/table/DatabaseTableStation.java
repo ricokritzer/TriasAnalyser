@@ -17,11 +17,6 @@ public class DatabaseTableStation extends DatabaseTable
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableStation.class.getName());
 	private static final String TABLE_NAME = "Station";
 
-	public DatabaseTableStation() throws IOException
-	{
-		super();
-	}
-
 	private final Optional<StationDB> getStation(ResultSet result)
 	{
 		try
