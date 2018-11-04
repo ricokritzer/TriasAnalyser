@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,11 +20,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 	private static final String ENTRIES_READ = " entries read.";
 	private static final String SELECT_FROM = "SELECT * FROM ";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTable.class.getName());
-
-	public DatabaseTable() throws IOException
-	{
-		super();
-	}
 
 	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
 	{
