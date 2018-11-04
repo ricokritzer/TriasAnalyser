@@ -10,7 +10,7 @@ import java.util.Date;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.Settings;
+import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 
 public class WeatherTest
 {
@@ -44,7 +44,7 @@ public class WeatherTest
 		final Weather coordinates = new Weather(49.01, 8.4);
 		try
 		{
-			coordinates.updateData(Settings.getInstance().getApiKeys("weather").get(0));
+			coordinates.updateData(new DatabaseTableApi().selectApisByName("weather").get(0));
 		}
 		catch (IOException e)
 		{
