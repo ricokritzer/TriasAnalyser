@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.data.trias;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Objects;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
@@ -52,6 +53,18 @@ public class Line implements DataModel
 	public String getDestination()
 	{
 		return destination;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		return obj instanceof Line && ((Line) obj).getId() == id;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(id);
 	}
 	
 }
