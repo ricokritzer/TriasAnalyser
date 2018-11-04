@@ -39,10 +39,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 		PreparedStatement statement = null;
 		try
 		{
-			if (connection.isClosed())
-			{
-				connectToDatabase();
-			}
+			reconnectIfNeccessary();
 
 			statement = connection.prepareStatement(model.getSQLQuerry());
 			statement.executeUpdate();

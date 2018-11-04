@@ -27,14 +27,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 		super();
 	}
 
-	private void reconnectIfNeccessary() throws SQLException
-	{
-		if (connection.isClosed())
-		{
-			connectToDatabase();
-		}
-	}
-
 	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
 	{
 		final StringBuilder sb = new StringBuilder(SELECT_FROM).append(tableName);
@@ -74,6 +66,8 @@ public abstract class DatabaseTable extends DatabaseConnector
 			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
 			throw e;
 		}
+
+		disconnect();
 	}
 
 	@Override
