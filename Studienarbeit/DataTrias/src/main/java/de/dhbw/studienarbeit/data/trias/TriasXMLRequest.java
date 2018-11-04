@@ -32,7 +32,6 @@ public class TriasXMLRequest
 	private String key;
 	private String stationID;
 
-	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	public TriasXMLRequest(ApiKey apiKey, Station station)
@@ -42,6 +41,11 @@ public class TriasXMLRequest
 		this.stationID = station.getStationID();
 	}
 
+	/**
+	 * 
+	 * @return List of next stops that have real time data. Empty list, if no trains
+	 *         with real time data arrive in the next 2 hours.
+	 */
 	public List<Stop> getResponse()
 	{
 		List<Stop> stops = new ArrayList<>();
@@ -62,8 +66,10 @@ public class TriasXMLRequest
 				String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i)
 						.getTextContent();
 				String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
-				Date estimatedTime = sdf.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
-				Date timetabledTime = sdf.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
+				Date estimatedTime = sdf
+						.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
+				Date timetabledTime = sdf
+						.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
 
 				Line line = new Line(publishedLineName, destinationText);
 				stops.add(new Stop(stationID, line, timetabledTime, estimatedTime));
@@ -73,11 +79,15 @@ public class TriasXMLRequest
 		{
 			e.printStackTrace();
 		}
-		
+
 		sortStops(stops);
 		return stops;
 	}
 
+	/**
+	 * sorts stops by estimated arrival time
+	 * @param List of stops
+	 */
 	private void sortStops(List<Stop> stops)
 	{
 		stops.sort((stop1, stop2) -> {
@@ -124,6 +134,10 @@ public class TriasXMLRequest
 		return con;
 	}
 
+	/**
+	 * 
+	 * @return XML request for TRIAS, for the given key and stationID
+	 */
 	private String getXML()
 	{
 		return new StringBuilder()//

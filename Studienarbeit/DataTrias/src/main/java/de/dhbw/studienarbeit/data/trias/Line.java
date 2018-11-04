@@ -55,6 +55,9 @@ public class Line implements DataModel
 		return destination;
 	}
 	
+	/**
+	 * equals evaluates to true, if the id of two lines is the same
+	 */
 	@Override
 	public boolean equals(Object obj)
 	{

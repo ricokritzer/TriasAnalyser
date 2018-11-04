@@ -75,6 +75,12 @@ public class Station implements DataModel
 		checkNextUpdate();
 	}
 
+	/**
+	 * sets the value of nextUpdate.
+	 * Stations are update one minute befor the next train with real time data arrives.
+	 * If no train with real time data arrives in the next 5 minutes, the station is updated 5 minutes bevor the next train arrives.
+	 * If no trains with real time data arrive in the next 2 hours, the station is updated in 2 hours.
+	 */
 	private void checkNextUpdate()
 	{
 		if (nextUpdate == null)
