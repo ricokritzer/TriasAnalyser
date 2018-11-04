@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-import de.dhbw.studienarbeit.data.helper.database.DatabaseReader;
+import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class Settings
@@ -123,16 +122,6 @@ public class Settings
 
 	public List<ApiKey> getApiKeys(final String name) throws IOException
 	{
-		try
-		{
-			final DatabaseReader reader = new DatabaseReader();
-			final List<ApiKey> keys = reader.readApiKeys(name);
-			reader.disconnect();
-			return keys;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Unable to load API keys.", e);
-		}
+		return new DatabaseTableApi().selectApisByName(name);
 	}
 }
