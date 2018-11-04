@@ -1,0 +1,41 @@
+package de.dhbw.studienarbeit.data.helper.database.table;
+
+import static org.junit.Assert.assertThat;
+
+import java.io.IOException;
+
+import org.hamcrest.core.Is;
+import org.junit.jupiter.api.Test;
+
+import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+
+public class DatabaseTableTest
+{
+	private DatabaseTable databaseTable() throws IOException
+	{
+		return new DatabaseTable()
+		{};
+	}
+
+	@Test
+	void testSQLWith0Condition() throws Exception
+	{
+		final String sql = databaseTable().createSQLStatement("bla");
+		assertThat(sql, Is.is("SELECT * FROM bla;"));
+	}
+
+	@Test
+	void testSQLWith1Condition() throws Exception
+	{
+		final String sql = databaseTable().createSQLStatement("bla", new SqlCondition("name", "test"));
+		assertThat(sql, Is.is("SELECT * FROM bla WHERE name = 'test';"));
+	}
+
+	@Test
+	void testSQLWith2Condition() throws Exception
+	{
+		final String sql = databaseTable().createSQLStatement("bla", //
+				new SqlCondition("name", "test"), new SqlCondition("alter", 2));
+		assertThat(sql, Is.is("SELECT * FROM bla WHERE name = 'test' AND alter = 2;"));
+	}
+}
