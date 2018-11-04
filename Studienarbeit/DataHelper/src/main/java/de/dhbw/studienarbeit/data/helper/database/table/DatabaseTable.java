@@ -57,7 +57,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 		reconnectIfNeccessary();
 
-		final String sql = createSQLStatement(tableName, conditions);
+		final String sql = createSQLStatement(what, tableName, conditions);
 		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
 		{
 			int counter = 0;
@@ -101,7 +101,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 	protected int count(final String tableName, final SqlCondition... conditions) throws SQLException
 	{
 		final String what = "COUNT(*) AS total";
-		List<Integer> count = new ArrayList<>();
+		final List<Integer> count = new ArrayList<>();
 		select(result -> getTotal(result).ifPresent(count::add), what, tableName, conditions);
 		if (count.isEmpty())
 		{

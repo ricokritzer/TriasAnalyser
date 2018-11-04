@@ -6,14 +6,14 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-public class DatabaseTableStationTest
+public class DatabaseTableLineTest
 {
 	@Test
 	void testCounting() throws Exception
 	{
 		try
 		{
-			new DatabaseTableStation().count();
+			new DatabaseTableLine().count();
 		}
 		catch (IOException e)
 		{
