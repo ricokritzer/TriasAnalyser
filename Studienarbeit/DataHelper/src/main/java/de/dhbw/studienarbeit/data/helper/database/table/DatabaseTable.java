@@ -18,8 +18,7 @@ import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
 public abstract class DatabaseTable extends DatabaseConnector
 {
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
-	private static final String START_READING_AT_TABLE = "Start reading at table ";
-	private static final String ENTRIES_READ = " entries read.";
+	private static final String ENTRIES_READ = " entries read at table ";
 	private static final String ALL = "*";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTable.class.getName());
 
@@ -53,8 +52,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 	private void select(Consumer<ResultSet> consumer, String what, String tableName, SqlCondition... conditions)
 			throws SQLException
 	{
-		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
-
 		reconnectIfNeccessary();
 
 		final String sql = createSQLStatement(what, tableName, conditions);
@@ -66,7 +63,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 				consumer.accept(result);
 				counter++;
 			}
-			LOGGER.log(Level.INFO, counter + ENTRIES_READ);
+			LOGGER.log(Level.INFO, counter + ENTRIES_READ + tableName);
 		}
 		catch (SQLException e)
 		{
@@ -107,6 +104,8 @@ public abstract class DatabaseTable extends DatabaseConnector
 		{
 			throw new SQLException("Unable to count entries in " + tableName);
 		}
+		int c = count.get(0);
+		LOGGER.log(Level.INFO, c + " entries at " + tableName);
 		return count.get(0);
 	}
 
