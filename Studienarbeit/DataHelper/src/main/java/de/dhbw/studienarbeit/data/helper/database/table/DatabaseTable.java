@@ -19,7 +19,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
 	private static final String START_READING_AT_TABLE = "Start reading at table ";
 	private static final String ENTRIES_READ = " entries read.";
-	private static final String SELECT_FROM = "SELECT * FROM ";
+	private static final String SELECT_FROM = "*";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTable.class.getName());
 
 	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
@@ -29,7 +29,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 	private String createSQLStatement(final String what, final String tableName, final SqlCondition... condition)
 	{
-		final StringBuilder sb = new StringBuilder(what).append(tableName);
+		final StringBuilder sb = new StringBuilder("SELECT ").append(what).append(" FROM ").append(tableName);
 		final List<String> conditionStrings = new ArrayList<>();
 		Arrays.asList(condition).forEach(c -> conditionStrings.add(c.toString()));
 
@@ -81,18 +81,18 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 	protected int count(final String tableName, final SqlCondition... conditions) throws SQLException
 	{
-		final String what = "COUNT(*)";
+		final String what = "COUNT(*) AS total";
 		int count = 0;
 		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
 
 		reconnectIfNeccessary();
 
-		final String sql = createSQLStatement(tableName, conditions);
+		final String sql = createSQLStatement(what, tableName, conditions);
 		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
 		{
 			while (result.next())
 			{
-				count = result.getInt(what);
+				count = result.getInt("total");
 			}
 		}
 		catch (SQLException e)
