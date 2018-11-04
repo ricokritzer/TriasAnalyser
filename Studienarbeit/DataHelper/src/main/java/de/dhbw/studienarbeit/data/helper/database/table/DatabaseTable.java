@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,7 +24,12 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
 	{
-		final StringBuilder sb = new StringBuilder(SELECT_FROM).append(tableName);
+		return createSQLStatement(SELECT_FROM, tableName, condition);
+	}
+
+	private String createSQLStatement(final String what, final String tableName, final SqlCondition... condition)
+	{
+		final StringBuilder sb = new StringBuilder(what).append(tableName);
 		final List<String> conditionStrings = new ArrayList<>();
 		Arrays.asList(condition).forEach(c -> conditionStrings.add(c.toString()));
 
@@ -72,4 +78,35 @@ public abstract class DatabaseTable extends DatabaseConnector
 		connectToDatabase(Settings.getInstance().getDatabaseReaderUser(),
 				Settings.getInstance().getDatabaseReaderPassword());
 	}
+
+	protected int count(final String tableName, final SqlCondition... conditions) throws SQLException
+	{
+		final String what = "COUNT(*)";
+		int count = 0;
+		LOGGER.log(Level.INFO, START_READING_AT_TABLE + tableName);
+
+		reconnectIfNeccessary();
+
+		final String sql = createSQLStatement(tableName, conditions);
+		try (ResultSet result = connection.prepareStatement(sql).executeQuery())
+		{
+			while (result.next())
+			{
+				count = result.getInt(what);
+			}
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
+			throw e;
+		}
+		finally
+		{
+			disconnect();
+		}
+
+		return count;
+	}
+
+	public abstract int count(SqlCondition... conditions) throws IOException;
 }

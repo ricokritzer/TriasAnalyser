@@ -43,7 +43,20 @@ public class DatabaseTableLine extends DatabaseTable
 		}
 		catch (SQLException e)
 		{
-			throw new IOException("Selecting stations does not succeed.", e);
+			throw new IOException("Selecting does not succeed.", e);
+		}
+	}
+
+	@Override
+	public int count(SqlCondition... conditions) throws IOException
+	{
+		try
+		{
+			return count(TABLE_NAME, conditions);
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Counting does not succeed.", e);
 		}
 	}
 }
