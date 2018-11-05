@@ -14,6 +14,12 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
 
+/**
+ *
+ * @deprecated Use DataManager2.
+ */
+
+@Deprecated
 public class DataManager
 {
 	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
