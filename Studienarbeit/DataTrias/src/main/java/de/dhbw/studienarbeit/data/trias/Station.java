@@ -8,7 +8,6 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel2;
 
 public class Station implements DataModel2
@@ -75,7 +74,7 @@ public class Station implements DataModel2
 			}
 		}
 		StringBuilder sb = new StringBuilder();
-		for (Stop stop: stopsToSave)
+		for (Stop stop : stopsToSave)
 		{
 			new DatabaseSaver().save(stop);
 		}
@@ -97,10 +96,11 @@ public class Station implements DataModel2
 	}
 
 	/**
-	 * sets the value of nextUpdate.
-	 * Stations are update one minute before the next train with real time data arrives.
-	 * If no train with real time data arrives in the next 5 minutes, the station is updated 5 minutes before the next train arrives.
-	 * If no trains with real time data arrive in the next 2 hours, the station is updated in 2 hours.
+	 * sets the value of nextUpdate. Stations are update one minute before the next
+	 * train with real time data arrives. If no train with real time data arrives in
+	 * the next 5 minutes, the station is updated 5 minutes before the next train
+	 * arrives. If no trains with real time data arrive in the next 2 hours, the
+	 * station is updated in 2 hours.
 	 */
 	private void calculateNextUpdate()
 	{
@@ -109,7 +109,7 @@ public class Station implements DataModel2
 			nextUpdate = new Date();
 			return;
 		}
-		
+
 		Calendar cal = Calendar.getInstance();
 		if (currentStops.isEmpty())
 		{
@@ -119,23 +119,23 @@ public class Station implements DataModel2
 			nextUpdate = cal.getTime();
 			return;
 		}
-		
+
 		Stop nextStop = currentStops.get(0);
 		cal.setTime(nextStop.getRealTime());
 		cal.add(Calendar.MINUTE, -5);
 		cal.add(Calendar.HOUR, 1);
-		
+
 		Calendar inFiveMinutes = Calendar.getInstance();
 		inFiveMinutes.setTime(new Date());
 		inFiveMinutes.add(Calendar.MINUTE, 5);
-		
+
 		if (cal.before(inFiveMinutes))
 		{
 			cal.add(Calendar.MINUTE, 4);
 			nextUpdate = cal.getTime();
 			return;
 		}
-		
+
 		nextUpdate = cal.getTime();
 	}
 
