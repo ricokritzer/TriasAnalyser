@@ -13,6 +13,13 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 {
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
 
+	private static final DatabaseSaver INSTANCE = new DatabaseSaver();
+
+	public static DatabaseSaver getInstance()
+	{
+		return INSTANCE;
+	}
+
 	@Override
 	protected void connectToDatabase() throws SQLException
 	{
