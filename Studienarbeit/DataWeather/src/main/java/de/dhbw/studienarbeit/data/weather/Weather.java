@@ -21,10 +21,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
+import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel2;
 
-public class Weather implements DataModel
+public class Weather implements DataModel2, DataSaverModel
 {
 	private static final Logger LOGGER = Logger.getLogger(Weather.class.getName());
 	private static final DocumentBuilderFactory FACTORY = DocumentBuilderFactory.newInstance();
@@ -122,7 +124,6 @@ public class Weather implements DataModel
 		}
 	}
 
-	@Override
 	public String getSQLQuerry()
 	{
 		final String seperator = ", ";
@@ -182,5 +183,12 @@ public class Weather implements DataModel
 	private static double round(double value, int decimals)
 	{
 		return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
+	}
+
+	@Override
+	public void updateAndSaveData(ApiKey apiKey) throws IOException
+	{
+		updateData(apiKey);
+		DatabaseSaver.getInstance().save(this);
 	}
 }
