@@ -4,14 +4,21 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
+import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import de.dhbw.studienarbeit.data.trias.Station;
 
 public class TestApp
 {
@@ -27,7 +34,7 @@ public class TestApp
 
 	private static void test()
 	{
-		setTrueAtStations(5);
+		setMaximumRequests(1);
 	}
 
 	private static void kvv() throws ParseException
@@ -35,13 +42,13 @@ public class TestApp
 		final DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 		final Timer t = new Timer();
 
-		t.schedule(new MyTimerTask(() -> setTrueAtStations(500)), format.parse("2018-11-05 15-00-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(500)), format.parse("2018-11-05 15-00-00"));
 		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-05 15-05-00"));
-		t.schedule(new MyTimerTask(() -> setTrueAtStations(1000)), format.parse("2018-11-05 15-10-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(1000)), format.parse("2018-11-05 15-10-00"));
 		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-05 15-15-00"));
-		t.schedule(new MyTimerTask(() -> setTrueAtStations(1500)), format.parse("2018-11-05 15-20-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(1500)), format.parse("2018-11-05 15-20-00"));
 		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-05 14-25-00"));
-		t.schedule(new MyTimerTask(() -> setTrueAtStations(2000)), format.parse("2018-11-05 14-30-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(2000)), format.parse("2018-11-05 14-30-00"));
 		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-05 14-35-00"));
 	}
 
@@ -50,29 +57,26 @@ public class TestApp
 		Optional.ofNullable(manager).ifPresent(DataManager::stop);
 	}
 
-	private static void setTrueAtStations(int number)
+	private static void setMaximumRequests(int number)
 	{
 		LOGGER.log(Level.INFO, "update to " + number);
 
-		// TODO Patrick, hier muss dein Zeug hin
+		try
+		{
+			final ApiKey keyFromDB = new DatabaseTableApi().selectApisByName("kvv").get(0);
+			final ApiKey testApiKey = new ApiKey(keyFromDB.getKey(), number, keyFromDB.getUrl());
+			manager = new DataManager(new ArrayList<>());
+			manager.addApiKey(testApiKey);
 
-		// END
-		//
-		// try
-		// {
-		// // manager = new DataManager(new DatabaseTableApi().selectApisByName("kvv"));
-		// final List<StationDB> stationsDB = new
-		// DatabaseTableStation().selectObservedStations("kvv");
-		// manager.add(stationsDB
-		// .parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
-		// stationDB.getName(),
-		// stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
-		// .collect(Collectors.toList()));
-		// }
-		// catch (IOException e)
-		// {
-		// LOGGER.log(Level.WARNING, "Unable to manage data.", e);
-		// }
-
+			final List<StationDB> stationsDB = new DatabaseTableStation().selectObservedStations("kvv");
+			manager.add(stationsDB
+					.parallelStream().map(stationDB -> new Station(stationDB.getStationID(), stationDB.getName(),
+							stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
+					.collect(Collectors.toList()));
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to set new maximum.", e);
+		}
 	}
 }
