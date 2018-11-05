@@ -101,5 +101,6 @@ public class DataManager
 	{
 		queueTimer.cancel();
 		requestTimers.forEach(Timer::cancel);
+		LOGGER.log(Level.INFO, "Timer stopped.");
 	}
 }
