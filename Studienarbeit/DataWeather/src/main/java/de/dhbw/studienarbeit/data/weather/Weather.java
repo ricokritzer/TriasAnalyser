@@ -27,7 +27,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class Weather implements DataModel
 {
-	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(Weather.class.getName());
 	private static final DocumentBuilderFactory FACTORY = DocumentBuilderFactory.newInstance();
 
 	protected double lat;
