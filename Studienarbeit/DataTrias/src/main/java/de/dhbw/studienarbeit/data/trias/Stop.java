@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.trias;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
@@ -45,8 +46,8 @@ public class Stop implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		String values = ", ";
-		return "INSERT INTO Stop (StationID, LineID, TimeTabledTime, RealTime) VALUES" + " (" + values + ")";
+		// stops will not be updated
+		return "";
 	}
 
 	@Override
@@ -88,6 +89,6 @@ public class Stop implements DataModel
 
 	public String getValues()
 	{
-		return "'" + stationID + "', " + line.getId() + ", " + timeTabledTime + ", " + realTime;
+		return "'" + stationID + "', " + line.getId() + ", '" + new Timestamp(timeTabledTime.getTime()) + "', '" + new Timestamp(realTime.getTime()) + "'";
 	}
 }

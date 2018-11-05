@@ -22,7 +22,9 @@ public class Line implements DataModel
 	
 	public Line(String publishedLineName, String destinationText)
 	{
-		new Line(0, publishedLineName, destinationText);
+		this.id = 0;
+		this.name = publishedLineName;
+		this.destination = destinationText;
 	}
 
 	@Override

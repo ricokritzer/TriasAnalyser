@@ -65,17 +65,26 @@ public class Station implements DataModel
 				stopsToSave.add(stop);
 			}
 		}
+		for (int i = 0; i < currentStops.size(); i++)
+		{
+			if (currentStops.get(i).getRealTime().before(new Date()))
+			{
+				stopsToSave.add(currentStops.get(i));
+				currentStops.remove(i);
+			}
+		}
 		StringBuilder sb = new StringBuilder();
 		for (Stop stop: stopsToSave)
 		{
-			sb.append("INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (" + stop.getValues() + ")");
+			sb.append("INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (" + stop.getValues() + ");");
 		}
-		return "";
+		return sb.toString();
 	}
 
 	@Override
 	public Date nextUpdate()
 	{
+		System.out.println(nextUpdate);
 		return nextUpdate;
 	}
 
@@ -107,6 +116,7 @@ public class Station implements DataModel
 		{
 			cal.setTime(nextUpdate);
 			cal.add(Calendar.HOUR_OF_DAY, 2);
+			cal.add(Calendar.HOUR, 1);
 			nextUpdate = cal.getTime();
 			return;
 		}
@@ -114,6 +124,7 @@ public class Station implements DataModel
 		Stop nextStop = currentStops.get(0);
 		cal.setTime(nextStop.getRealTime());
 		cal.add(Calendar.MINUTE, -5);
+		cal.add(Calendar.HOUR, 1);
 		
 		Calendar inFiveMinutes = Calendar.getInstance();
 		inFiveMinutes.setTime(new Date());
