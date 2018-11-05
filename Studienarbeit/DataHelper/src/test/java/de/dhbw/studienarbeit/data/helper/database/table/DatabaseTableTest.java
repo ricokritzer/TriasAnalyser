@@ -20,6 +20,12 @@ public class DatabaseTableTest
 			{
 				return 0;
 			}
+
+			@Override
+			protected String getTableName()
+			{
+				return "foo";
+			}
 		};
 	}
 
