@@ -42,14 +42,14 @@ public class TestApp
 		final DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 		final Timer t = new Timer();
 
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(500)), format.parse("2018-11-05 15-00-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-05 15-05-00"));
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(1000)), format.parse("2018-11-05 15-10-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-05 15-15-00"));
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(1500)), format.parse("2018-11-05 15-20-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-05 14-25-00"));
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(2000)), format.parse("2018-11-05 14-30-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-05 14-35-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(500)), format.parse("2018-11-08 09-00-00"));
+		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 09-25-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(1000)), format.parse("2018-11-08 09-30-00"));
+		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 09-55-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(1500)), format.parse("2018-11-08 10-00-00"));
+		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 10-25-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(2000)), format.parse("2018-11-08 10-30-00"));
+		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 10-55-00"));
 	}
 
 	private static void stop()
