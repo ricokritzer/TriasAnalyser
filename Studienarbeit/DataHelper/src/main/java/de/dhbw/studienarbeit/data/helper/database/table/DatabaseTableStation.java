@@ -86,6 +86,20 @@ public class DatabaseTableStation extends DatabaseTable
 		}
 	}
 
+	public final List<String> selectObservedOperators() throws IOException
+	{
+		try
+		{
+			final Set<String> operators = new HashSet<>();
+			select(r -> getOperator(r).ifPresent(operators::add), TABLE_NAME, new SqlCondition("observe", true));
+			return new ArrayList<>(operators);
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
+		}
+	}
+
 	public final List<StationDB> selectObservedStations() throws IOException
 	{
 		return selectStations(new SqlCondition("observe", true));

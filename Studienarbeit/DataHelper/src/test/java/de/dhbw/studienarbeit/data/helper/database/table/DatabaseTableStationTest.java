@@ -36,4 +36,17 @@ public class DatabaseTableStationTest
 			fail("Unable to count stations" + e.getMessage());
 		}
 	}
+
+	@Test
+	void testSelectingObservedOperators() throws Exception
+	{
+		try
+		{
+			new DatabaseTableStation().selectObservedOperators();
+		}
+		catch (IOException e)
+		{
+			fail("Unable to count stations" + e.getMessage());
+		}
+	}
 }
