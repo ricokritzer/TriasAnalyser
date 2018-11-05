@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class DataManager2
 {
-	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DataManager2.class.getName());
 
 	private final Timer queueTimer = new Timer();
 	private final List<Timer> requestTimers = new ArrayList<>();
