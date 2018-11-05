@@ -30,7 +30,6 @@ import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 
 public class TriasXMLRequest
 {
@@ -39,8 +38,8 @@ public class TriasXMLRequest
 	private String stationID;
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	
-	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
+
+	private static final Logger LOGGER = Logger.getLogger(TriasXMLRequest.class.getName());
 
 	public TriasXMLRequest(ApiKey apiKey, Station station)
 	{
@@ -79,14 +78,16 @@ public class TriasXMLRequest
 				Date timetabledTime = sdf
 						.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
 
-				if (new DatabaseTableLine().count(new SqlCondition("name", publishedLineName), new SqlCondition("destination", destinationText)) == 0)
+				if (new DatabaseTableLine().count(new SqlCondition("name", publishedLineName),
+						new SqlCondition("destination", destinationText)) == 0)
 				{
 					Line line = new Line(publishedLineName, destinationText);
 					LOGGER.log(Level.INFO, line.getName());
 					new DatabaseSaver().save(line);
 				}
-				LineDB lineDB = new DatabaseTableLine().selectLines(new SqlCondition("name", publishedLineName), new SqlCondition("destination", destinationText)).get(0);
-				
+				LineDB lineDB = new DatabaseTableLine().selectLines(new SqlCondition("name", publishedLineName),
+						new SqlCondition("destination", destinationText)).get(0);
+
 				Line line = new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
 				stops.add(new Stop(stationID, line, timetabledTime, estimatedTime));
 			}
