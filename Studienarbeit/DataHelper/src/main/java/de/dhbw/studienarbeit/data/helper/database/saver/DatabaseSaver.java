@@ -9,12 +9,6 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.helper.Settings;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 
-/**
- *
- * @deprecated Use DatabaseSaver2.
- */
-
-@Deprecated
 public class DatabaseSaver extends DatabaseConnector implements Saver
 {
 	private static final Logger LOGGER = Logger.getLogger(DatabaseSaver.class.getName());
