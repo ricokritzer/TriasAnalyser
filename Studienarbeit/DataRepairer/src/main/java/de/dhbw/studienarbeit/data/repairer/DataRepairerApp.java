@@ -23,7 +23,7 @@ public class DataRepairerApp
 	private static final Logger LOGGER = Logger.getLogger(DataRepairerApp.class.getName());
 	private Saver saver;
 
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args)
 	{
 		new DataRepairerApp(new DatabaseSaver());
 	}
