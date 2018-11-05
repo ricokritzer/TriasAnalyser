@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 
 public class DatabaseSaver extends DatabaseConnector implements Saver
 {
-	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DatabaseSaver.class.getName());
 
 	private static final DatabaseSaver INSTANCE = new DatabaseSaver();
 
