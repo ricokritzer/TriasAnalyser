@@ -65,15 +65,6 @@ public class Station implements DataModel
 				stopsToSave.add(stop);
 			}
 		}
-		for (int i = 0; i < currentStops.size(); i++)
-		{
-			if (currentStops.get(i).getRealTime().before(new Date()))
-			{
-				stopsToSave.add(currentStops.get(i));
-				currentStops.remove(i);
-			}
-		}
-		StringBuilder sb = new StringBuilder();
 		for (Stop stop : stopsToSave)
 		{
 			new DatabaseSaver().save(stop);
@@ -83,15 +74,21 @@ public class Station implements DataModel
 	@Override
 	public Date nextUpdate()
 	{
-		System.out.println(nextUpdate);
 		return nextUpdate;
 	}
 
-	public void updateData(ApiKey apiKey) throws IOException
+	private void updateData(ApiKey apiKey) throws IOException
 	{
 		previousStops = currentStops;
 		TriasXMLRequest request = new TriasXMLRequest(apiKey, this);
-		currentStops = request.getResponse();
+		try
+		{
+			currentStops = request.getResponse();
+		}
+		catch (IOException e)
+		{
+			currentStops = previousStops;
+		}
 		calculateNextUpdate();
 	}
 
@@ -132,6 +129,10 @@ public class Station implements DataModel
 		if (cal.before(inFiveMinutes))
 		{
 			cal.add(Calendar.MINUTE, 4);
+			while (cal.getTime().before(new Date()))
+			{
+				cal.add(Calendar.MINUTE, 1);
+			}
 			nextUpdate = cal.getTime();
 			return;
 		}

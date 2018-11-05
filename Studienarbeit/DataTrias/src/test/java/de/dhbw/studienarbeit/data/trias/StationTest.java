@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class StationTest
 {
@@ -40,7 +41,8 @@ class StationTest
 	@Test
 	void testName()
 	{
-		
+		Stop stop = Mockito.mock(Stop.class);
+		Mockito.when(stop.getRealTime()).thenReturn(new Date());
 	}
 
 }

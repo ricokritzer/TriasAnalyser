@@ -52,16 +52,18 @@ public class TriasXMLRequest
 	 * 
 	 * @return List of next stops that have real time data. Empty list, if no trains
 	 *         with real time data arrive in the next 2 hours.
+	 * @throws IOException
 	 */
-	public List<Stop> getResponse()
+	public List<Stop> getResponse() throws IOException
 	{
 		List<Stop> stops = new ArrayList<>();
+		URLConnection con = createConnection();
+		request(con, getXML());
+		String responseXML = readResponse(con);
+		DocumentBuilder parser;
 		try
 		{
-			URLConnection con = createConnection();
-			request(con, getXML());
-			String responseXML = readResponse(con);
-			DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			final Document doc = parser.parse(new InputSource(new StringReader(responseXML)));
 			final Element docElement = doc.getDocumentElement();
 			for (int i = 0; i < docElement.getElementsByTagName("TimetabledTime").getLength(); i++)
@@ -72,7 +74,9 @@ public class TriasXMLRequest
 				}
 				String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i)
 						.getTextContent();
+				publishedLineName = publishedLineName.substring(0, publishedLineName.length() - 2);
 				String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
+				destinationText = destinationText.substring(0, destinationText.length() - 2);
 				Date estimatedTime = sdf
 						.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
 				Date timetabledTime = sdf
@@ -92,11 +96,10 @@ public class TriasXMLRequest
 				stops.add(new Stop(stationID, line, timetabledTime, estimatedTime));
 			}
 		}
-		catch (IOException | SAXException | ParserConfigurationException | DOMException | ParseException e)
+		catch (ParserConfigurationException | DOMException | ParseException | SAXException e)
 		{
 			e.printStackTrace();
 		}
-
 		sortStops(stops);
 		return stops;
 	}

@@ -77,4 +77,10 @@ public class Stop implements DataSaverModel
 		return "'" + stationID + "', " + line.getId() + ", '" + new Timestamp(timeTabledTime.getTime()) + "', '"
 				+ new Timestamp(realTime.getTime()) + "'";
 	}
+	
+	@Override
+	public String toString()
+	{
+		return String.join(", ", stationID, String.valueOf(line.getId()), String.valueOf(timeTabledTime), String.valueOf(realTime));
+	}
 }
