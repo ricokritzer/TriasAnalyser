@@ -22,7 +22,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class Weather implements DataModel
@@ -164,7 +163,7 @@ public class Weather implements DataModel
 	{
 		return Objects.hash(lat, lon);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj)
 	{
