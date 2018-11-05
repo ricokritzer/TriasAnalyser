@@ -9,7 +9,7 @@ import java.util.Set;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager2;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 
 public class DataWeatherApp
 {
@@ -24,7 +24,7 @@ public class DataWeatherApp
 	public void startDataCollection(final List<StationDB> stations) throws IOException
 	{
 		final List<ApiKey> apiKeys = new DatabaseTableApi().selectApisByName("weather");
-		final DataManager2 manager = new DataManager2(apiKeys);
+		final DataManager manager = new DataManager(apiKeys);
 		final List<Weather> weather = convertToWeather(stations);
 		manager.add(weather);
 	}

@@ -9,13 +9,13 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class DataManager2Test
+public class DataManagerTest
 {
 	int updates = 0;
 	Date nextUpdate = new Date();
 	boolean saved = false;
 
-	final DataModel2 data = new DataModel2()
+	final DataModel data = new DataModel()
 	{
 		@Override
 		public Date nextUpdate()
@@ -36,7 +36,7 @@ public class DataManager2Test
 		final List<ApiKey> apiKeys = new ArrayList<>();
 		apiKeys.add(new ApiKey("foo", 60, "bar"));
 
-		final DataManager2 manager = new DataManager2(apiKeys);
+		final DataManager manager = new DataManager(apiKeys);
 		manager.add(data);
 
 		Thread.sleep(6000);

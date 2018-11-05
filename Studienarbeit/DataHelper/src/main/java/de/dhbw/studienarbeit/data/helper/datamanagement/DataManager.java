@@ -12,16 +12,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DataManager2
+public class DataManager
 {
-	private static final Logger LOGGER = Logger.getLogger(DataManager2.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DataManager.class.getName());
 
 	private final Timer queueTimer = new Timer();
 	private final List<Timer> requestTimers = new ArrayList<>();
 
-	private final Queue<DataModel2> waitingForUpdate = new LinkedBlockingQueue<>();
+	private final Queue<DataModel> waitingForUpdate = new LinkedBlockingQueue<>();
 
-	public DataManager2(final List<ApiKey> apiKeys)
+	public DataManager(final List<ApiKey> apiKeys)
 	{
 		addApiKey(apiKeys);
 	}
@@ -38,12 +38,12 @@ public class DataManager2
 		apiKeys.forEach(this::addApiKey);
 	}
 
-	public void add(final DataModel2 model)
+	public void add(final DataModel model)
 	{
 		readyToUpdate(model);
 	}
 
-	public void add(final List<? extends DataModel2> models)
+	public void add(final List<? extends DataModel> models)
 	{
 		models.forEach(this::add);
 	}
@@ -53,17 +53,17 @@ public class DataManager2
 		return new MyTimerTask(() -> firstWaitingDataModel().ifPresent(d -> updateAndSaveAndSchedule(d, apiKey)));
 	}
 
-	private Optional<DataModel2> firstWaitingDataModel()
+	private Optional<DataModel> firstWaitingDataModel()
 	{
 		return Optional.ofNullable(waitingForUpdate.poll());
 	}
 
-	private void readyToUpdate(DataModel2 model)
+	private void readyToUpdate(DataModel model)
 	{
 		waitingForUpdate.add(model);
 	}
 
-	private void scheduleUpdate(DataModel2 model)
+	private void scheduleUpdate(DataModel model)
 	{
 		final Date now = new Date();
 		final boolean timeIsOver = model.nextUpdate().before(now);
@@ -78,12 +78,12 @@ public class DataManager2
 		}
 	}
 
-	private TimerTask updateTimerTask(final DataModel2 model)
+	private TimerTask updateTimerTask(final DataModel model)
 	{
 		return new MyTimerTask(() -> readyToUpdate(model));
 	}
 
-	private void updateAndSaveAndSchedule(final DataModel2 model, final ApiKey apiKey)
+	private void updateAndSaveAndSchedule(final DataModel model, final ApiKey apiKey)
 	{
 		try
 		{
