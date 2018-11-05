@@ -41,6 +41,7 @@ public abstract class DatabaseConnector
 				+ Settings.getInstance().getDatabasePort() + "/" + Settings.getInstance().getDatabaseName()
 				+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		connection = DriverManager.getConnection(url, username, password);
+		LOGGER.log(Level.INFO, "Connected to database.");
 	}
 
 	public void disconnect() throws SQLException
