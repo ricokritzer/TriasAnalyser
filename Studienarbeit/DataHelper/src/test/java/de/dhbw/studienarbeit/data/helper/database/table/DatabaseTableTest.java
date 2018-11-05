@@ -14,7 +14,13 @@ public class DatabaseTableTest
 	private DatabaseTable databaseTable() throws IOException
 	{
 		return new DatabaseTable()
-		{};
+		{
+			@Override
+			public int count(SqlCondition... conditions)
+			{
+				return 0;
+			}
+		};
 	}
 
 	@Test
