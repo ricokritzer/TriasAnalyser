@@ -65,17 +65,7 @@ public class DataManager
 
 	private void scheduleUpdate(DataModel model)
 	{
-		final Date now = new Date();
-		final boolean timeIsOver = model.nextUpdate().before(now);
-
-		if (timeIsOver)
-		{
-			readyToUpdate(model);
-		}
-		else
-		{
-			queueTimer.schedule(updateTimerTask(model), model.nextUpdate());
-		}
+		queueTimer.schedule(updateTimerTask(model), model.nextUpdate());
 	}
 
 	private TimerTask updateTimerTask(final DataModel model)
