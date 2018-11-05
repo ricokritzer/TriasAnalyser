@@ -20,7 +20,8 @@
 		<module>DataTrias</module>
 		<module>Data</module>
     <module>DataRepairer</module>
-  </modules>
+    <module>DataTriasTest</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
