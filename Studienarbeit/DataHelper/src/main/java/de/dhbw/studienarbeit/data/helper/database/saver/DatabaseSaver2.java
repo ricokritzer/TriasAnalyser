@@ -9,22 +9,14 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.helper.Settings;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 
-/**
-*
-* @deprecated Use DatabaseSaver2.
-*/
-
-@Deprecated
-public class DatabaseSaver extends DatabaseConnector implements Saver
+public class DatabaseSaver2 extends DatabaseConnector
 {
-	private static final Logger LOGGER = Logger.getLogger(DatabaseSaver.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DatabaseSaver2.class.getName());
+	private static final DatabaseSaver2 SAVER = new DatabaseSaver2();
+	private static final TextSaver saverForErrors = new TextSaver("errors.txt");
 
-	private static final DatabaseSaver INSTANCE = new DatabaseSaver();
-
-	public static DatabaseSaver getInstance()
-	{
-		return INSTANCE;
-	}
+	private DatabaseSaver2()
+	{}
 
 	@Override
 	protected void connectToDatabase() throws SQLException
@@ -33,8 +25,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 				Settings.getInstance().getDatabaseWriterPassword());
 	}
 
-	@Override
-	public void save(DataSaverModel model)
+	public static void save(DataSaverModel model)
 	{
 		final String sqlQuerry = model.getSQLQuerry();
 		if (sqlQuerry.isEmpty())
@@ -46,20 +37,20 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 		PreparedStatement statement = null;
 		try
 		{
-			reconnectIfNeccessary();
+			SAVER.reconnectIfNeccessary();
 
-			statement = connection.prepareStatement(model.getSQLQuerry());
+			statement = SAVER.connection.prepareStatement(model.getSQLQuerry());
 			statement.executeUpdate();
 			LOGGER.log(Level.FINE, model.toString() + " saved.");
 		}
 		catch (SQLException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to save " + model.toString(), e);
-			saver.save(model);
+			saverForErrors.save(model);
 		}
 		finally
 		{
-			closeStatement(statement);
+			SAVER.closeStatement(statement);
 		}
 	}
 
