@@ -37,6 +37,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 
 			statement = connection.prepareStatement(model.getSQLQuerry());
 			statement.executeUpdate();
+			LOGGER.log(Level.FINE, model.toString() + " saved.");
 		}
 		catch (SQLException e)
 		{
