@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
+import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel2;
 
-public class Line implements DataModel
+public class Line implements DataSaverModel
 {
 	private int id;
 	private String name; 
@@ -31,19 +33,6 @@ public class Line implements DataModel
 	public String getSQLQuerry()
 	{
 		return "INSERT INTO Line (name, destination) VALUES ('" + name + "', '" + destination + "')";
-	}
-
-	@Override
-	public void updateData(ApiKey apiKey) throws IOException
-	{
-		// lines will not be updated
-	}
-
-	@Override
-	public Date nextUpdate()
-	{
-		// lines will not be updated
-		return new Date();
 	}
 
 	public int getId()
@@ -75,5 +64,4 @@ public class Line implements DataModel
 	{
 		return Objects.hash(id);
 	}
-	
 }

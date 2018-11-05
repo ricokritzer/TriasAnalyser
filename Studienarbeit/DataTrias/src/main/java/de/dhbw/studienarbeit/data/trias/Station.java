@@ -6,10 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
+import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel2;
 
-public class Station implements DataModel
+public class Station implements DataModel2
 {
 	private String stationID;
 	private String name;
@@ -54,8 +56,7 @@ public class Station implements DataModel
 		return operator;
 	}
 
-	@Override
-	public String getSQLQuerry()
+	public void getSQLQuerry()
 	{
 		List<Stop> stopsToSave = new ArrayList<>();
 		for (Stop stop : previousStops)
@@ -76,9 +77,8 @@ public class Station implements DataModel
 		StringBuilder sb = new StringBuilder();
 		for (Stop stop: stopsToSave)
 		{
-			sb.append("INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (" + stop.getValues() + ");");
+			new DatabaseSaver().save(stop);
 		}
-		return sb.toString();
 	}
 
 	@Override
@@ -88,7 +88,6 @@ public class Station implements DataModel
 		return nextUpdate;
 	}
 
-	@Override
 	public void updateData(ApiKey apiKey) throws IOException
 	{
 		previousStops = currentStops;
@@ -138,5 +137,12 @@ public class Station implements DataModel
 		}
 		
 		nextUpdate = cal.getTime();
+	}
+
+	@Override
+	public void updateAndSaveData(ApiKey apiKey) throws IOException
+	{
+		updateData(apiKey);
+		getSQLQuerry();
 	}
 }

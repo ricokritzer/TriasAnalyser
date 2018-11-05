@@ -36,5 +36,11 @@ class StationTest
 		Line line = new Line("name", "destination");
 		assertThat(line.getSQLQuerry(), is("INSERT INTO Line (name, destination) VALUES ('name', 'destination')"));
 	}
+	
+	@Test
+	void testName()
+	{
+		
+	}
 
 }

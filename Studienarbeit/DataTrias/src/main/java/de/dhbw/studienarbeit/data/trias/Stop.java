@@ -1,20 +1,18 @@
 package de.dhbw.studienarbeit.data.trias;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
+import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
 
-public class Stop implements DataModel
+public class Stop implements DataSaverModel
 {
 	private String stationID;
 	private Line line;
 	private Date timeTabledTime;
 	private Date realTime;
-	
+
 	public Stop(String stationID, Line line, Date timetabled, Date realTime)
 	{
 		this.stationID = stationID;
@@ -46,23 +44,9 @@ public class Stop implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
-		// stops will not be updated
-		return "";
+		return "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (" + getValues() + ")";
 	}
 
-	@Override
-	public Date nextUpdate()
-	{
-		return null;
-	}
-
-	@Override
-	public void updateData(ApiKey apiKey) throws IOException
-	{
-		// intentional left empty
-		// stops will not be updated
-	}
-	
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -73,14 +57,15 @@ public class Stop implements DataModel
 		if (obj instanceof Stop)
 		{
 			Stop stop = (Stop) obj;
-			if (stop.getStationID().equals(stationID) && stop.getLine().equals(line) && stop.getTimeTabledTime().equals(timeTabledTime))
+			if (stop.getStationID().equals(stationID) && stop.getLine().equals(line)
+					&& stop.getTimeTabledTime().equals(timeTabledTime))
 			{
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode()
 	{
@@ -89,6 +74,7 @@ public class Stop implements DataModel
 
 	public String getValues()
 	{
-		return "'" + stationID + "', " + line.getId() + ", '" + new Timestamp(timeTabledTime.getTime()) + "', '" + new Timestamp(realTime.getTime()) + "'";
+		return "'" + stationID + "', " + line.getId() + ", '" + new Timestamp(timeTabledTime.getTime()) + "', '"
+				+ new Timestamp(realTime.getTime()) + "'";
 	}
 }
