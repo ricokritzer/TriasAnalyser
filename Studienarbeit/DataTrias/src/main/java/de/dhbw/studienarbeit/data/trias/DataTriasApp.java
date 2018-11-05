@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import de.dhbw.studienarbeit.data.helper.Settings;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 
 public class DataTriasApp
@@ -19,7 +20,7 @@ public class DataTriasApp
 		stations = stationsDB.parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
 				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
 				.collect(Collectors.toList());
-		DataManager dm = new DataManager(new DatabaseSaver(), Settings.getInstance().getApiKeys("kvv"));
+		DataManager dm = new DataManager(new DatabaseSaver(), new DatabaseTableApi().selectApisByName("kvv"));
 		dm.add(stations);
 	}
 }

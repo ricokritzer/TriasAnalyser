@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,7 +85,9 @@ public class TriasXMLRequest
 
 	/**
 	 * sorts stops by estimated arrival time
-	 * @param List of stops
+	 * 
+	 * @param List
+	 *            of stops
 	 */
 	private void sortStops(List<Stop> stops)
 	{

@@ -58,8 +58,8 @@ public class Stop implements DataModel
 	@Override
 	public void updateData(ApiKey apiKey) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		// intentional left empty
+		// stops will not be updated
 	}
 	
 	@Override
