@@ -2,7 +2,9 @@ package de.dhbw.studienarbeit.data.weather;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
@@ -30,15 +32,9 @@ public class DataWeatherApp
 
 	protected List<Weather> convertToWeather(List<StationDB> stations)
 	{
-		final List<Weather> weather = new ArrayList<>();
-		stations.forEach(s -> {
-			final Weather w = convertToWeather(s);
-			if (!weather.contains(w))
-			{
-				weather.add(w);
-			}
-		});
-		return weather;
+		final Set<Weather> weather = new HashSet<>();
+		stations.forEach(s -> weather.add(convertToWeather(s)));
+		return new ArrayList<>(weather);
 	}
 
 	private Weather convertToWeather(final StationDB station)

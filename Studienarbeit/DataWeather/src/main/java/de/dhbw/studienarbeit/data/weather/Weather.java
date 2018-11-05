@@ -10,6 +10,7 @@ import java.net.URLConnection;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -158,6 +159,12 @@ public class Weather implements DataModel
 		return this.getClass().getName() + " of lat=" + lat + " & lon=" + lon;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(lat, lon);
+	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{
