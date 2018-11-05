@@ -63,7 +63,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 				consumer.accept(result);
 				counter++;
 			}
-			LOGGER.log(Level.INFO, counter + ENTRIES_READ + tableName);
+			LOGGER.log(Level.FINE, counter + ENTRIES_READ + tableName);
 		}
 		catch (SQLException e)
 		{

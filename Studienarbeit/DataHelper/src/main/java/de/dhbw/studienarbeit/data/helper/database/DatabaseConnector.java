@@ -36,24 +36,24 @@ public abstract class DatabaseConnector
 
 	protected void connectToDatabase(final String username, final String password) throws SQLException
 	{
-		LOGGER.log(Level.INFO, "Connecting to database.");
+		LOGGER.log(Level.FINE, "Connecting to database.");
 		String url = "jdbc:mysql://" + Settings.getInstance().getDatabaseHostname() + ":"
 				+ Settings.getInstance().getDatabasePort() + "/" + Settings.getInstance().getDatabaseName()
 				+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		connection = DriverManager.getConnection(url, username, password);
-		LOGGER.log(Level.INFO, "Connected to database.");
+		LOGGER.log(Level.FINE, "Connected to database.");
 	}
 
 	public void disconnect() throws SQLException
 	{
 		try
 		{
-			LOGGER.log(Level.INFO, "Close database connection.");
+			LOGGER.log(Level.FINE, "Close database connection.");
 			connection.close();
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "SQLException occured.", e);
+			LOGGER.log(Level.FINE, "SQLException occured.", e);
 			throw e;
 		}
 	}
