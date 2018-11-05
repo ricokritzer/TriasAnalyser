@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
 
 public class Station implements DataModel
@@ -58,6 +57,19 @@ public class Station implements DataModel
 	@Override
 	public String getSQLQuerry()
 	{
+		List<Stop> stopsToSave = new ArrayList<>();
+		for (Stop stop : previousStops)
+		{
+			if (!currentStops.contains(stop))
+			{
+				stopsToSave.add(stop);
+			}
+		}
+		StringBuilder sb = new StringBuilder();
+		for (Stop stop: stopsToSave)
+		{
+			sb.append("INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (" + stop.getValues() + ")");
+		}
 		return "";
 	}
 

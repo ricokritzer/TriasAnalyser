@@ -13,31 +13,35 @@ public class Line implements DataModel
 	private String name; 
 	private String destination;
 	
-	public Line(String name, String destination)
+	public Line(int id, String name, String destination)
 	{
+		this.id = id;
 		this.name = name;
 		this.destination = destination;
 	}
 	
+	public Line(String publishedLineName, String destinationText)
+	{
+		new Line(0, publishedLineName, destinationText);
+	}
+
 	@Override
 	public String getSQLQuerry()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return "INSERT INTO Line (name, destination) VALUES ('" + name + "', '" + destination + "')";
 	}
 
 	@Override
 	public void updateData(ApiKey apiKey) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
+		// lines will not be updated
 	}
 
 	@Override
 	public Date nextUpdate()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		// lines will not be updated
+		return new Date();
 	}
 
 	public int getId()

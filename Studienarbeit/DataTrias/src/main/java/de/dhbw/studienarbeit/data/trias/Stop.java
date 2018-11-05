@@ -85,4 +85,9 @@ public class Stop implements DataModel
 	{
 		return Objects.hash(stationID, line, timeTabledTime);
 	}
+
+	public String getValues()
+	{
+		return "'" + stationID + "', " + line.getId() + ", " + timeTabledTime + ", " + realTime;
+	}
 }

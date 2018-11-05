@@ -23,6 +23,10 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class TriasXMLRequest
@@ -70,7 +74,14 @@ public class TriasXMLRequest
 				Date timetabledTime = sdf
 						.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
 
-				Line line = new Line(publishedLineName, destinationText);
+				if (new DatabaseTableLine().count(new SqlCondition("name", publishedLineName), new SqlCondition("destination", destinationText)) == 0)
+				{
+					Line line = new Line(publishedLineName, destinationText);
+					new DatabaseSaver().save(line);
+				}
+				LineDB lineDB = new DatabaseTableLine().selectLines(new SqlCondition("name", publishedLineName), new SqlCondition("destination", destinationText)).get(0);
+				
+				Line line = new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
 				stops.add(new Stop(stationID, line, timetabledTime, estimatedTime));
 			}
 		}
