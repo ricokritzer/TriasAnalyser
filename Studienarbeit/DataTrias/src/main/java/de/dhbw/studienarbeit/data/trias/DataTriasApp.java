@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import de.dhbw.studienarbeit.data.helper.Settings;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
@@ -15,7 +14,7 @@ public class DataTriasApp
 {
 	List<Station> stations = new ArrayList<>();
 
-	public void startDataCollection(List<StationDB> stationsDB) throws IOException
+	public void startDataCollection(String operator, List<StationDB> stationsDB) throws IOException
 	{
 		stations = stationsDB.parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
 				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))

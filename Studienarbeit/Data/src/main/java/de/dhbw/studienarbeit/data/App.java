@@ -14,9 +14,15 @@ public class App
 {
 	public static void main(String[] args) throws IOException
 	{
-		final List<StationDB> stations = new DatabaseTableStation().selectObservedStations();
-		new DataWeatherApp().startDataCollection(stations);
-		new DataTriasApp().startDataCollection(stations);
+		final DatabaseTableStation databaseTableStation = new DatabaseTableStation();
+		final List<String> operators = databaseTableStation.selectObservedOperators();
+		for (String operator : operators)
+		{
+			final List<StationDB> stationsOfOperator = databaseTableStation.selectObservedStations(operator);
+			new DataWeatherApp().startDataCollection(stationsOfOperator);
+			new DataTriasApp().startDataCollection(operator, stationsOfOperator);
+		}
+
 		new DataRepairerApp(new DatabaseSaver()).startDataRepairing();
 	}
 }

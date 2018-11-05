@@ -104,4 +104,9 @@ public class DatabaseTableStation extends DatabaseTable
 	{
 		return selectStations(new SqlCondition("observe", true));
 	}
+
+	public final List<StationDB> selectObservedStations(final String name) throws IOException
+	{
+		return selectStations(new SqlCondition("observe", true), new SqlCondition("name", name));
+	}
 }
