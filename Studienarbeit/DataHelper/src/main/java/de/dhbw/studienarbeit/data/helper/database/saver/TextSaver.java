@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TextSaver implements Saver
+public class TextSaver
 {
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
 	public final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
@@ -21,7 +21,6 @@ public class TextSaver implements Saver
 		LOGGER.log(Level.FINEST, this.getClass().getName() + " created with parameter: " + pathname);
 	}
 
-	@Override
 	public void save(DataSaverModel model)
 	{
 		write(model.getSQLQuerry());

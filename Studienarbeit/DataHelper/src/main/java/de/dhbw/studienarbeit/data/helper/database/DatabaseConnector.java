@@ -8,23 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.Settings;
-import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
-import de.dhbw.studienarbeit.data.helper.database.saver.TextSaver;
 
 public abstract class DatabaseConnector
 {
-	private static final Logger LOGGER = Logger.getLogger(DatabaseSaver.class.getName());
-	protected Saver saver = new TextSaver("errors.txt");
+	private static final Logger LOGGER = Logger.getLogger(DatabaseConnector.class.getName());
 
 	protected Connection connection;
 
 	protected abstract void connectToDatabase() throws SQLException;
-
-	public void setSaverForErrors(Saver saver)
-	{
-		this.saver = saver;
-	}
 
 	protected void reconnectIfNeccessary() throws SQLException
 	{

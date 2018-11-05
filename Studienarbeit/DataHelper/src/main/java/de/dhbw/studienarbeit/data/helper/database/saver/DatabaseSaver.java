@@ -10,9 +10,9 @@ import de.dhbw.studienarbeit.data.helper.Settings;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 
 /**
-*
-* @deprecated Use DatabaseSaver2.
-*/
+ *
+ * @deprecated Use DatabaseSaver2.
+ */
 
 @Deprecated
 public class DatabaseSaver extends DatabaseConnector implements Saver
@@ -20,6 +20,8 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 	private static final Logger LOGGER = Logger.getLogger(DatabaseSaver.class.getName());
 
 	private static final DatabaseSaver INSTANCE = new DatabaseSaver();
+
+	private static final TextSaver saver = new TextSaver("errors.txt");
 
 	public static DatabaseSaver getInstance()
 	{
