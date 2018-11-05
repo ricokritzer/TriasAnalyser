@@ -33,6 +33,12 @@ public class DatabaseTableLine extends DatabaseTable
 		}
 	}
 
+	@Override
+	protected String getTableName()
+	{
+		return TABLE_NAME;
+	}
+
 	public final List<LineDB> selectLines(SqlCondition... conditions) throws IOException
 	{
 		try
@@ -44,19 +50,6 @@ public class DatabaseTableLine extends DatabaseTable
 		catch (SQLException e)
 		{
 			throw new IOException("Selecting does not succeed.", e);
-		}
-	}
-
-	@Override
-	public int count(SqlCondition... conditions) throws IOException
-	{
-		try
-		{
-			return count(TABLE_NAME, conditions);
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Counting does not succeed.", e);
 		}
 	}
 }

@@ -109,5 +109,17 @@ public abstract class DatabaseTable extends DatabaseConnector
 		return count.get(0);
 	}
 
-	public abstract int count(SqlCondition... conditions) throws IOException;
+	protected abstract String getTableName();
+
+	public int count(SqlCondition... conditions) throws IOException
+	{
+		try
+		{
+			return count(getTableName(), conditions);
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Counting does not succeed.", e);
+		}
+	}
 }
