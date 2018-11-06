@@ -3,8 +3,6 @@ package de.dhbw.studienarbeit.data.helper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,9 +12,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
-
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class Settings
 {
@@ -34,7 +29,7 @@ public class Settings
 	private String databaseManipulatorPassword;
 
 	private static Settings data = new Settings();
-	
+
 	public static Settings getInstance()
 	{
 		return data;
@@ -117,14 +112,5 @@ public class Settings
 	public String getDatabaseManipulatorPassword()
 	{
 		return databaseManipulatorPassword;
-	}
-
-	/**
-	 * @deprecated use {@link #DatabaseTableApi().selectApisByName(name)} instead.
-	 */
-	@Deprecated
-	public List<ApiKey> getApiKeys(final String name) throws IOException
-	{
-		return new DatabaseTableApi().selectApisByName(name);
 	}
 }
