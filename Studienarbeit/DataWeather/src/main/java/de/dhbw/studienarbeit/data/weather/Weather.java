@@ -52,25 +52,37 @@ public class Weather implements DataModel, DataSaverModel
 
 	public void updateData(final ApiKey apiKey) throws IOException
 	{
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, 15);
-		nextUpdate = cal.getTime();
-
+		setNextUpdate(15);
 		try
 		{
-			final URLConnection con = buildRequestURL(apiKey).openConnection();
-			con.setDoOutput(true);
-			con.setConnectTimeout(1000); // long timeout, but not infinite
-			con.setReadTimeout(3000);
-			con.connect();
-			waitForResponse(con);
+			final URLConnection con = connectToAPI(apiKey);
+			final String response = getResponse(con);
+			LOGGER.log(Level.FINE, "Response: " + response);
+			setData(response);
 		}
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to update data.", e);
 			throw e;
 		}
+	}
+
+	private URLConnection connectToAPI(final ApiKey apiKey) throws IOException
+	{
+		final URLConnection con = buildRequestURL(apiKey).openConnection();
+		con.setDoOutput(true);
+		con.setConnectTimeout(1000);
+		con.setReadTimeout(3000);
+		con.connect();
+		return con;
+	}
+
+	private void setNextUpdate(final int nextUpdateInMinutes)
+	{
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.MINUTE, nextUpdateInMinutes);
+		nextUpdate = cal.getTime();
 	}
 
 	private URL buildRequestURL(final ApiKey apiKey) throws MalformedURLException
@@ -84,7 +96,7 @@ public class Weather implements DataModel, DataSaverModel
 				.toString());
 	}
 
-	private void waitForResponse(URLConnection connection) throws IOException
+	private String getResponse(URLConnection connection) throws IOException
 	{
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
 		{
@@ -93,7 +105,7 @@ public class Weather implements DataModel, DataSaverModel
 			{
 				sbResponse.append(br.readLine());
 			}
-			setData(sbResponse.toString());
+			return sbResponse.toString();
 		}
 	}
 
