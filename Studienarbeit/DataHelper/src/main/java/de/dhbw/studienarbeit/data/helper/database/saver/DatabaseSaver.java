@@ -30,7 +30,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 	}
 
 	@Override
-	public void save(DataSaverModel model)
+	public void save(Saveable model)
 	{
 		final String sqlQuerry = model.getSQLQuerry();
 		if (sqlQuerry.isEmpty())

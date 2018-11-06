@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
-public class Stop implements DataSaverModel
+public class Stop implements Saveable
 {
 	private String stationID;
 	private Line line;

@@ -2,9 +2,9 @@ package de.dhbw.studienarbeit.data.trias;
 
 import java.util.Objects;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.DataSaverModel;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
-public class Line implements DataSaverModel
+public class Line implements Saveable
 {
 	private int id;
 	private String name;

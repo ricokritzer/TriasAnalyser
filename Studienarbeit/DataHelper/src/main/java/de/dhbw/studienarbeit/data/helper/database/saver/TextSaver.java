@@ -21,7 +21,7 @@ public class TextSaver
 		LOGGER.log(Level.FINEST, this.getClass().getName() + " created with parameter: " + pathname);
 	}
 
-	public void save(DataSaverModel model)
+	public void save(Saveable model)
 	{
 		write(model.getSQLQuerry());
 	}
