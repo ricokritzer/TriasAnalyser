@@ -7,8 +7,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.Settings;
-
 public abstract class DatabaseConnector
 {
 	private static final Logger LOGGER = Logger.getLogger(DatabaseConnector.class.getName());
@@ -25,11 +23,11 @@ public abstract class DatabaseConnector
 		}
 	}
 
-	protected void connectToDatabase(final String username, final String password) throws SQLException
+	protected void connectToDatabase(final String hostname, final String port, final String databaseName,
+			final String username, final String password) throws SQLException
 	{
 		LOGGER.log(Level.FINE, "Connecting to database.");
-		String url = "jdbc:mysql://" + Settings.getInstance().getDatabaseHostname() + ":"
-				+ Settings.getInstance().getDatabasePort() + "/" + Settings.getInstance().getDatabaseName()
+		String url = "jdbc:mysql://" + hostname + ":" + port + "/" + databaseName
 				+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		connection = DriverManager.getConnection(url, username, password);
 		LOGGER.log(Level.FINE, "Connected to database.");

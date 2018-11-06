@@ -25,7 +25,8 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 	@Override
 	protected void connectToDatabase() throws SQLException
 	{
-		connectToDatabase(Settings.getInstance().getDatabaseWriterUser(),
+		connectToDatabase(Settings.getInstance().getDatabaseHostname(), Settings.getInstance().getDatabasePort(),
+				Settings.getInstance().getDatabaseName(), Settings.getInstance().getDatabaseWriterUser(),
 				Settings.getInstance().getDatabaseWriterPassword());
 	}
 
