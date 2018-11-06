@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
@@ -20,6 +22,8 @@ public class Station implements Manageable
 	private List<Stop> previousStops = new ArrayList<>();
 	private List<Stop> currentStops = new ArrayList<>();
 	private Date nextUpdate;
+	
+	private static final Logger LOGGER = Logger.getLogger(Station.class.getName());
 
 	public Station(String stationID, String name, Double lat, Double lon, String operator)
 	{
@@ -65,8 +69,10 @@ public class Station implements Manageable
 				stopsToSave.add(stop);
 			}
 		}
+		LOGGER.log(Level.FINE, "Stops gespeichert:");
 		for (Stop stop : stopsToSave)
 		{
+			LOGGER.log(Level.FINE, stop.toString());
 			new DatabaseSaver().save(stop);
 		}
 	}
@@ -74,6 +80,7 @@ public class Station implements Manageable
 	@Override
 	public Date nextUpdate()
 	{
+		LOGGER.log(Level.FINE, nextUpdate.toString());
 		return nextUpdate;
 	}
 
@@ -89,6 +96,8 @@ public class Station implements Manageable
 		{
 			currentStops = previousStops;
 		}
+		LOGGER.log(Level.FINE, "Stops gelesen: ");
+		currentStops.forEach(s -> LOGGER.log(Level.FINE, s.toString()));
 		calculateNextUpdate();
 	}
 
@@ -112,7 +121,7 @@ public class Station implements Manageable
 		{
 			cal.setTime(nextUpdate);
 			cal.add(Calendar.HOUR_OF_DAY, 2);
-			cal.add(Calendar.HOUR, 1);
+			cal.add(Calendar.HOUR_OF_DAY, 1);
 			nextUpdate = cal.getTime();
 			return;
 		}
@@ -120,7 +129,7 @@ public class Station implements Manageable
 		Stop nextStop = currentStops.get(0);
 		cal.setTime(nextStop.getRealTime());
 		cal.add(Calendar.MINUTE, -5);
-		cal.add(Calendar.HOUR, 1);
+		cal.add(Calendar.HOUR_OF_DAY, 1);
 
 		Calendar inFiveMinutes = Calendar.getInstance();
 		inFiveMinutes.setTime(new Date());
