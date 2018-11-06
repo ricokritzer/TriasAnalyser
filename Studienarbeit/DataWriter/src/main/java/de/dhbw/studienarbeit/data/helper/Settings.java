@@ -23,10 +23,6 @@ public class Settings
 	private String databaseName;
 	private String databaseWriterUser;
 	private String databaseWriterPassword;
-	private String databaseReaderUser;
-	private String databaseReaderPassword;
-	private String databaseManipulatorUser;
-	private String databaseManipulatorPassword;
 
 	private static Settings data = new Settings();
 
@@ -57,10 +53,6 @@ public class Settings
 			final Element writer = (Element) users.getElementsByTagName("writer").item(0);
 			databaseWriterUser = writer.getElementsByTagName("name").item(0).getTextContent();
 			databaseWriterPassword = writer.getElementsByTagName("password").item(0).getTextContent();
-
-			final Element reader = (Element) users.getElementsByTagName("reader").item(0);
-			databaseReaderUser = reader.getElementsByTagName("name").item(0).getTextContent();
-			databaseReaderPassword = reader.getElementsByTagName("password").item(0).getTextContent();
 			LOGGER.log(Level.INFO, "Reading configuration data completed successfully.");
 		}
 		catch (Exception ex)
@@ -92,25 +84,5 @@ public class Settings
 	public String getDatabaseWriterPassword()
 	{
 		return databaseWriterPassword;
-	}
-
-	public String getDatabaseReaderUser()
-	{
-		return databaseReaderUser;
-	}
-
-	public String getDatabaseReaderPassword()
-	{
-		return databaseReaderPassword;
-	}
-
-	public String getDatabaseManipulatorUser()
-	{
-		return databaseManipulatorUser;
-	}
-
-	public String getDatabaseManipulatorPassword()
-	{
-		return databaseManipulatorPassword;
 	}
 }
