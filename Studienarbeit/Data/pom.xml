@@ -69,6 +69,11 @@
 			<groupId>de.dhbw.studienarbeit</groupId>
 			<artifactId>DataRepairer</artifactId>
 		</dependency>
+		<dependency>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>DataReader</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
