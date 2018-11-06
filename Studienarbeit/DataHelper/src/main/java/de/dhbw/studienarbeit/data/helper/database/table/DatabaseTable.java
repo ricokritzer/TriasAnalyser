@@ -105,7 +105,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 			throw new SQLException("Unable to count entries in " + tableName);
 		}
 		int c = count.get(0);
-		LOGGER.log(Level.INFO, c + " entries at " + tableName);
+		LOGGER.log(Level.FINE, c + " entries at " + tableName);
 		return count.get(0);
 	}
 
