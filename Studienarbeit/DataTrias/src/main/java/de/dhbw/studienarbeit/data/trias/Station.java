@@ -80,7 +80,7 @@ public class Station implements Manageable
 	@Override
 	public Date nextUpdate()
 	{
-		LOGGER.log(Level.FINE, nextUpdate.toString());
+		LOGGER.log(Level.FINE, "next Updated: " + nextUpdate.toString());
 		return nextUpdate;
 	}
 
