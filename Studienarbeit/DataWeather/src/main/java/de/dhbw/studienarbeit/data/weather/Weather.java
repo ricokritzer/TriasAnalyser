@@ -24,9 +24,9 @@ import org.xml.sax.InputSource;
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
+import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 
-public class Weather implements DataModel, Saveable
+public class Weather implements Manageable, Saveable
 {
 	private static final Logger LOGGER = Logger.getLogger(Weather.class.getName());
 	private static final DocumentBuilderFactory FACTORY = DocumentBuilderFactory.newInstance();

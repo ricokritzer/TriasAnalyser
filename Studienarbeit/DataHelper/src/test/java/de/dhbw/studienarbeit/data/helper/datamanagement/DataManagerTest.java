@@ -15,7 +15,7 @@ public class DataManagerTest
 	Date nextUpdate = new Date();
 	boolean saved = false;
 
-	final DataModel data = new DataModel()
+	final Manageable data = new Manageable()
 	{
 		@Override
 		public Date nextUpdate()

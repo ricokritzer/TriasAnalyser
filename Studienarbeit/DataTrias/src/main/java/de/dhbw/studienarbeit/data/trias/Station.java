@@ -8,9 +8,9 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.helper.datamanagement.DataModel;
+import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 
-public class Station implements DataModel
+public class Station implements Manageable
 {
 	private String stationID;
 	private String name;

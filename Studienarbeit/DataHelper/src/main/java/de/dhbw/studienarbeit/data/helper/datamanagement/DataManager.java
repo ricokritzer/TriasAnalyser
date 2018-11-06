@@ -19,7 +19,7 @@ public class DataManager
 	private final Timer queueTimer = new Timer();
 	private final List<Timer> requestTimers = new ArrayList<>();
 
-	private final Queue<DataModel> waitingForUpdate = new LinkedBlockingQueue<>();
+	private final Queue<Manageable> waitingForUpdate = new LinkedBlockingQueue<>();
 
 	public DataManager(final List<ApiKey> apiKeys)
 	{
@@ -38,12 +38,12 @@ public class DataManager
 		apiKeys.forEach(this::addApiKey);
 	}
 
-	public void add(final DataModel model)
+	public void add(final Manageable model)
 	{
 		readyToUpdate(model);
 	}
 
-	public void add(final List<? extends DataModel> models)
+	public void add(final List<? extends Manageable> models)
 	{
 		models.forEach(this::add);
 	}
@@ -53,27 +53,27 @@ public class DataManager
 		return new MyTimerTask(() -> firstWaitingDataModel().ifPresent(d -> updateAndSaveAndSchedule(d, apiKey)));
 	}
 
-	private Optional<DataModel> firstWaitingDataModel()
+	private Optional<Manageable> firstWaitingDataModel()
 	{
 		return Optional.ofNullable(waitingForUpdate.poll());
 	}
 
-	private void readyToUpdate(DataModel model)
+	private void readyToUpdate(Manageable model)
 	{
 		waitingForUpdate.add(model);
 	}
 
-	private void scheduleUpdate(DataModel model)
+	private void scheduleUpdate(Manageable model)
 	{
 		queueTimer.schedule(updateTimerTask(model), model.nextUpdate());
 	}
 
-	private TimerTask updateTimerTask(final DataModel model)
+	private TimerTask updateTimerTask(final Manageable model)
 	{
 		return new MyTimerTask(() -> readyToUpdate(model));
 	}
 
-	private void updateAndSaveAndSchedule(final DataModel model, final ApiKey apiKey)
+	private void updateAndSaveAndSchedule(final Manageable model, final ApiKey apiKey)
 	{
 		try
 		{
