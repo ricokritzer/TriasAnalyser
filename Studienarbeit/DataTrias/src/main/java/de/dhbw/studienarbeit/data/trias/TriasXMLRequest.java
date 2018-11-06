@@ -59,7 +59,9 @@ public class TriasXMLRequest
 		List<Stop> stops = new ArrayList<>();
 		URLConnection con = createConnection();
 		request(con, getXML());
+		LOGGER.log(Level.FINE, getXML());
 		String responseXML = readResponse(con);
+		LOGGER.log(Level.FINE, responseXML);
 		DocumentBuilder parser;
 		try
 		{
@@ -86,7 +88,6 @@ public class TriasXMLRequest
 						new SqlCondition("destination", destinationText)) == 0)
 				{
 					Line line = new Line(publishedLineName, destinationText);
-					LOGGER.log(Level.INFO, line.getName());
 					new DatabaseSaver().save(line);
 				}
 				LineDB lineDB = new DatabaseTableLine().selectLines(new SqlCondition("name", publishedLineName),
