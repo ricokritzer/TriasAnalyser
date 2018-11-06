@@ -34,7 +34,7 @@ public class Settings
 	private String databaseManipulatorPassword;
 
 	private static Settings data = new Settings();
-
+	
 	public static Settings getInstance()
 	{
 		return data;
@@ -46,8 +46,7 @@ public class Settings
 		{
 			LOGGER.log(Level.INFO, "Reading configuration data...");
 
-			final ClassLoader classLoader = getClass().getClassLoader();
-			final File file = new File(classLoader.getResource("Configuration.conf").getFile());
+			final File file = new File("Configuration.conf");
 			final DocumentBuilder parser = factory.newDocumentBuilder();
 			final Document doc = parser.parse(new InputSource(new BufferedReader(new FileReader(file))));
 			final Element docElement = doc.getDocumentElement();
