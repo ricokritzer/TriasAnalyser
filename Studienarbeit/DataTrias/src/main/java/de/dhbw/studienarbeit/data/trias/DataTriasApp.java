@@ -12,6 +12,13 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 public class DataTriasApp
 {
 	List<Station> stations = new ArrayList<>();
+	
+	public static void main(String[] args) throws IOException
+	{
+		List<StationDB> testStations = new ArrayList<>();
+		testStations.add(new StationDB("de:08212:1", "Marktplatz", 49.01, 8.40, "Stadt", true));
+		new DataTriasApp().startDataCollection("kvv", testStations);
+	}
 
 	public void startDataCollection(String operator, List<StationDB> stationsDB) throws IOException
 	{

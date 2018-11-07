@@ -113,7 +113,6 @@ public class Station implements Manageable
 		if (nextUpdate == null)
 		{
 			nextUpdate = new Date();
-			return;
 		}
 
 		Calendar cal = Calendar.getInstance();

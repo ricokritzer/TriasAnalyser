@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.trias;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -74,8 +75,15 @@ public class Stop implements Saveable
 
 	public String getValues()
 	{
-		return "'" + stationID + "', " + line.getId() + ", '" + new Timestamp(timeTabledTime.getTime()) + "', '"
-				+ new Timestamp(realTime.getTime()) + "'";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(timeTabledTime);
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		Timestamp timeTabledECT = new Timestamp(cal.getTimeInMillis());
+		cal.setTime(realTime);
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		Timestamp realTimeECT = new Timestamp(cal.getTimeInMillis());
+		return "'" + stationID + "', " + line.getId() + ", '" + timeTabledECT + "', '"
+				+ realTimeECT + "'";
 	}
 	
 	@Override
