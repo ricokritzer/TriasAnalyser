@@ -28,13 +28,7 @@ public class TestApp
 	public static void main(String[] args) throws ParseException, IOException
 	{
 		manager = new DataManager(new DatabaseTableApi().selectApisByName("kvv"));
-		// kvv(); // Rücksprache halten
-		test(); // zum Ausprobieren
-	}
-
-	private static void test()
-	{
-		setMaximumRequests(1);
+		kvv();
 	}
 
 	private static void kvv() throws ParseException
