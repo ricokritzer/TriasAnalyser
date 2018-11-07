@@ -21,8 +21,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 
@@ -52,17 +52,18 @@ public class Weather implements Manageable, Saveable
 
 	public void updateData(final ApiKey apiKey) throws IOException
 	{
-		setNextUpdate(15);
 		try
 		{
 			final URLConnection con = connectToAPI(apiKey);
 			final String response = getResponse(con);
 			LOGGER.log(Level.FINE, "Response: " + response);
 			setData(response);
+			setNextUpdate(15);
 		}
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to update data.", e);
+			setNextUpdate(0);
 			throw e;
 		}
 	}
