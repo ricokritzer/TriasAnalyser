@@ -121,7 +121,6 @@ public class Station implements Manageable
 		{
 			cal.setTime(nextUpdate);
 			cal.add(Calendar.HOUR_OF_DAY, 2);
-			cal.add(Calendar.HOUR_OF_DAY, 1);
 			nextUpdate = cal.getTime();
 			return;
 		}
