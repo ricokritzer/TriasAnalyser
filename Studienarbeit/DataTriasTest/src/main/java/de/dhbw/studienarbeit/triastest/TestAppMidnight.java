@@ -3,16 +3,15 @@ package de.dhbw.studienarbeit.triastest;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Timer;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.trias.Station;
 
 public class TestAppMidnight
@@ -21,8 +20,8 @@ public class TestAppMidnight
 
 	public static void main(String[] args) throws ParseException, IOException
 	{
-		setLogLevel(Level.ALL);
-		
+		LogLevelHelper.setLogLevel(Level.ALL);
+
 		final ApiKey key = new DatabaseTableApi().selectApisByName("kvv").get(0);
 		final Station station = new Station("de:08212:1", "Marktplatz", 0.0, 0.0, "kvv");
 
@@ -44,12 +43,5 @@ public class TestAppMidnight
 		{
 			LOGGER.log(Level.INFO, "IOException thrown.", e);
 		}
-	}
-	
-	private static void setLogLevel(Level level)
-	{
-		final Logger rootLogger = LogManager.getLogManager().getLogger("");
-		rootLogger.setLevel(level);
-		Arrays.asList(rootLogger.getHandlers()).forEach(h -> h.setLevel(level));
 	}
 }
