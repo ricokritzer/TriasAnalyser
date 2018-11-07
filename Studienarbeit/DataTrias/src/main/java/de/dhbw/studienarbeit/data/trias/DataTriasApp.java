@@ -16,7 +16,7 @@ public class DataTriasApp
 	public static void main(String[] args) throws IOException
 	{
 		List<StationDB> testStations = new ArrayList<>();
-		testStations.add(new StationDB("de:08212:1", "Marktplatz", 49.01, 8.40, "Stadt", true));
+		testStations.add(new StationDB("de:08215:12663", "Untergrombach", 49.01, 8.40, "Stadt", true));
 		new DataTriasApp().startDataCollection("kvv", testStations);
 	}
 
