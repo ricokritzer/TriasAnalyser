@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.Settings;
+import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
 
@@ -79,8 +79,10 @@ public abstract class DatabaseTable extends DatabaseConnector
 	@Override
 	protected void connectToDatabase() throws SQLException
 	{
-		connectToDatabase(Settings.getInstance().getDatabaseReaderUser(),
-				Settings.getInstance().getDatabaseReaderPassword());
+		connectToDatabase(SettingsReadOnly.getInstance().getDatabaseHostname(),
+				SettingsReadOnly.getInstance().getDatabasePort(), SettingsReadOnly.getInstance().getDatabaseName(),
+				SettingsReadOnly.getInstance().getDatabaseReaderUser(),
+				SettingsReadOnly.getInstance().getDatabaseReaderPassword());
 	}
 
 	private Optional<Integer> getTotal(ResultSet result)

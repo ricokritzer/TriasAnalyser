@@ -1,10 +1,8 @@
-package de.dhbw.studienarbeit.data.helper;
+package de.dhbw.studienarbeit.data.reader;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,39 +13,31 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-
-public class Settings
+public class SettingsReadOnly
 {
-	private static final Logger LOGGER = Logger.getLogger(Settings.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SettingsReadOnly.class.getName());
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 	private String databaseHostname;
 	private String databasePort;
 	private String databaseName;
-	private String databaseWriterUser;
-	private String databaseWriterPassword;
 	private String databaseReaderUser;
 	private String databaseReaderPassword;
-	private String databaseManipulatorUser;
-	private String databaseManipulatorPassword;
 
-	private static Settings data = new Settings();
+	private static SettingsReadOnly data = new SettingsReadOnly();
 
-	public static Settings getInstance()
+	public static SettingsReadOnly getInstance()
 	{
 		return data;
 	}
 
-	private Settings()
+	private SettingsReadOnly()
 	{
 		try
 		{
 			LOGGER.log(Level.INFO, "Reading configuration data...");
 
-			final ClassLoader classLoader = getClass().getClassLoader();
-			final File file = new File(classLoader.getResource("Configuration.conf").getFile());
+			final File file = new File("Configuration.conf");
 			final DocumentBuilder parser = factory.newDocumentBuilder();
 			final Document doc = parser.parse(new InputSource(new BufferedReader(new FileReader(file))));
 			final Element docElement = doc.getDocumentElement();
@@ -59,10 +49,6 @@ public class Settings
 			databaseName = docElement.getElementsByTagName("name").item(0).getTextContent();
 
 			final Element users = (Element) database.getElementsByTagName("users").item(0);
-
-			final Element writer = (Element) users.getElementsByTagName("writer").item(0);
-			databaseWriterUser = writer.getElementsByTagName("name").item(0).getTextContent();
-			databaseWriterPassword = writer.getElementsByTagName("password").item(0).getTextContent();
 
 			final Element reader = (Element) users.getElementsByTagName("reader").item(0);
 			databaseReaderUser = reader.getElementsByTagName("name").item(0).getTextContent();
@@ -90,16 +76,6 @@ public class Settings
 		return databaseName;
 	}
 
-	public String getDatabaseWriterUser()
-	{
-		return databaseWriterUser;
-	}
-
-	public String getDatabaseWriterPassword()
-	{
-		return databaseWriterPassword;
-	}
-
 	public String getDatabaseReaderUser()
 	{
 		return databaseReaderUser;
@@ -108,24 +84,5 @@ public class Settings
 	public String getDatabaseReaderPassword()
 	{
 		return databaseReaderPassword;
-	}
-
-	public String getDatabaseManipulatorUser()
-	{
-		return databaseManipulatorUser;
-	}
-
-	public String getDatabaseManipulatorPassword()
-	{
-		return databaseManipulatorPassword;
-	}
-
-	/**
-	 * @deprecated use {@link #DatabaseTableApi().selectApisByName(name)} instead.
-	 */
-	@Deprecated
-	public List<ApiKey> getApiKeys(final String name) throws IOException
-	{
-		return new DatabaseTableApi().selectApisByName(name);
 	}
 }

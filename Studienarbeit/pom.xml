@@ -21,6 +21,8 @@
 		<module>Data</module>
     <module>DataRepairer</module>
     <module>DataTriasTest</module>
+    <module>DataReader</module>
+    <module>DataWriter</module>
 	</modules>
 	<dependencies>
 		<dependency>

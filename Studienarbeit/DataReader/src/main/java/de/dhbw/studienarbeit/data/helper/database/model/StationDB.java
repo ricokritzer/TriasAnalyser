@@ -46,7 +46,7 @@ public class StationDB implements Saveable
 	{
 		return operator;
 	}
-	
+
 	public boolean isObserve()
 	{
 		return observe;
@@ -60,6 +60,7 @@ public class StationDB implements Saveable
 
 	private String values()
 	{
-		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "', " + observe + ")";
+		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "', " + observe
+				+ ")";
 	}
 }
