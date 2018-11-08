@@ -60,8 +60,6 @@ public class MainView extends VerticalLayout
 
 		setValues();
 
-		add(new Label("Configuration.conf muss in " + System.getProperty("user.home")));
-
 		add(new Button("aktualisieren", e -> setValues()));
 	}
 
@@ -74,6 +72,9 @@ public class MainView extends VerticalLayout
 
 		final File file = new File(System.getProperty("user.home") + File.separator + "Studienarbeit" + File.separator
 				+ "Configuration.conf");
+
+		add(new Label("Configuration.conf muss in " + file.getAbsolutePath()));
+
 		try (BufferedReader br = new BufferedReader(new java.io.FileReader(file)))
 		{
 			lblCountWeathers.setText("hat geklappt");
