@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.WebView;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,6 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
+import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
@@ -29,6 +31,10 @@ public class MainView extends VerticalLayout
 	private final TextField txtCountLines = new TextField();
 	private final TextField txtCountStops = new TextField();
 	private final TextField txtCountWeathers = new TextField();
+
+	private final TextField txtDelaySum = new TextField();
+	private final TextField txtDelayAvg = new TextField();
+	private final TextField txtDelayMax = new TextField();
 
 	public MainView()
 	{
@@ -50,6 +56,18 @@ public class MainView extends VerticalLayout
 		txtCountWeathers.setReadOnly(true);
 		add(txtCountWeathers);
 
+		txtDelayMax.setLabel("Maximale Verspätung in Sekunden");
+		txtDelayMax.setReadOnly(true);
+		add(txtDelayMax);
+
+		txtDelayAvg.setLabel("Durchschnittliche Verspätung in Sekunden");
+		txtDelayAvg.setReadOnly(true);
+		add(txtDelayAvg);
+
+		txtDelaySum.setLabel("Verspätung in Summe in Sekunden");
+		txtDelaySum.setReadOnly(true);
+		add(txtDelaySum);
+
 		setValues();
 
 		add(new Button("aktualisieren", e -> setValues()));
@@ -61,6 +79,23 @@ public class MainView extends VerticalLayout
 		txtCountLines.setValue(getCountOf(new DatabaseTableLine()));
 		txtCountStops.setValue(getCountOf(new DatabaseTableStop()));
 		txtCountWeathers.setValue(getCountOf(new DatabaseTableWeather()));
+
+		try
+		{
+			DatabaseTableStop stop = new DatabaseTableStop();
+			Optional.ofNullable(stop.selectDelay().get(0)).ifPresent(this::setDelayValues);
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to get delay data", e);
+		}
+	}
+
+	private void setDelayValues(DelayDB delay)
+	{
+		txtDelayAvg.setValue(Double.toString(delay.getAverage()));
+		txtDelaySum.setValue(Double.toString(delay.getSummary()));
+		txtDelayMax.setValue(Double.toString(delay.getMaximum()));
 	}
 
 	private String getCountOf(DatabaseTable table)
