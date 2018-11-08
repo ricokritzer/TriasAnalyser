@@ -2,6 +2,8 @@ package de.dhbw.studienarbeit.WebView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -22,10 +24,12 @@ import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableWeather;
 @Route("")
 public class MainView extends VerticalLayout
 {
-	private Label lblCountStations = new Label();
-	private Label lblCountLines = new Label();
-	private Label lblCountStops = new Label();
-	private Label lblCountWeathers = new Label();
+	private static final Logger LOGGER = Logger.getLogger(MainView.class.getName());
+
+	private final Label lblCountStations = new Label();
+	private final Label lblCountLines = new Label();
+	private final Label lblCountStops = new Label();
+	private final Label lblCountWeathers = new Label();
 
 	public MainView()
 	{
@@ -84,6 +88,7 @@ public class MainView extends VerticalLayout
 		}
 		catch (IOException e)
 		{
+			LOGGER.log(Level.WARNING, "Unable to count data.", e);
 			return "Die Anzahl konnte nicht berechnet werden.";
 		}
 	}
