@@ -9,7 +9,6 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
@@ -71,10 +70,10 @@ public class MainView extends VerticalLayout
 
 		final File file = new File(System.getProperty("user.home") + File.separator + "Studienarbeit" + File.separator
 				+ "Configuration.conf");
-
-		add(new Label("Configuration.conf muss in " + file.getAbsolutePath()));
-
-		lblCountWeathers.setText(new SettingsReadOnly().getDatabaseHostname());
+		if (!file.canRead())
+		{
+			add(new Label("Datei kann nicht gelesen werden: " + file.getAbsolutePath()));
+		}
 	}
 
 	private String getCountOf(DatabaseTable table)
