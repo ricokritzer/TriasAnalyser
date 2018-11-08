@@ -1,0 +1,272 @@
+Nov 07, 2018 3:07:03 PM de.dhbw.studienarbeit.data.helper.SettingsReadOnly <init>
+INFORMATION: Reading configuration data...
+Nov 07, 2018 3:07:03 PM de.dhbw.studienarbeit.data.helper.SettingsReadOnly <init>
+INFORMATION: Reading configuration data completed successfully.
+Nov 07, 2018 3:07:03 PM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 07, 2018 3:07:04 PM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 07, 2018 3:07:04 PM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Api
+Nov 07, 2018 3:07:04 PM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 07, 2018 3:07:04 PM de.dhbw.studienarbeit.triastest.TestAppMidnight main
+INFORMATION: Marktplatz is scheduled to update at Thu Nov 08 00:01:00 CET 2018
+Nov 08, 2018 12:01:00 AM sun.net.www.protocol.http.HttpURLConnection plainConnect0
+AM FEINSTEN: ProxySelector Request for http://185.201.144.208/kritzertrias/trias
+Nov 08, 2018 12:01:00 AM sun.net.www.protocol.http.HttpURLConnection plainConnect0
+AM FEINSTEN: Proxy used: DIRECT
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.trias.TriasXMLRequest getResponse
+FEIN: <?xml version="1.0" encoding="UTF-8"?><Trias version="1.1" xmlns="http://www.vdv.de/trias" xmlns:siri="http://www.siri.org.uk/siri" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><ServiceRequest><siri:RequestorRef>7qzuxfx8EPvH</siri:RequestorRef><RequestPayload><StopEventRequest><Location><LocationRef><StopPointRef>de:08212:1</StopPointRef></LocationRef><DepArrTime>2018-11-08T00:01:00</DepArrTime></Location><Params><NumberOfResults>10</NumberOfResults><StopEventType>departure</StopEventType><IncludeRealtimeData>true</IncludeRealtimeData></Params></StopEventRequest></RequestPayload></ServiceRequest></Trias>
+Nov 08, 2018 12:01:00 AM sun.net.www.protocol.http.HttpURLConnection writeRequests
+FEIN: sun.net.www.MessageHeader@81320f19 pairs: {POST /kritzertrias/trias HTTP/1.1: null}{Content-Type: text/xml}{Cache-Control: no-cache}{Pragma: no-cache}{User-Agent: Java/1.8.0_181}{Host: 185.201.144.208}{Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2}{Connection: keep-alive}{Content-Length: 620}
+Nov 08, 2018 12:01:00 AM sun.net.www.protocol.http.HttpURLConnection getInputStream0
+FEIN: sun.net.www.MessageHeader@3d2418fc9 pairs: {null: HTTP/1.1 200 OK}{Server: EFAController/10.3.2.97/EFA03}{Date: Wed, 07 Nov 2018 23:00:59 GMT}{Content-Type: text/xml}{Accept-Ranges: none}{Content-Length: 33876}{Last-Modified: Wed, 07 Nov 2018 23:00:59 GMT}{Connection: close}{Set-Cookie: HASESSIONID=E; path=/}
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.trias.TriasXMLRequest getResponse
+FEIN: <?xml version="1.0" encoding="UTF-8"?><Trias xmlns="http://www.vdv.de/trias" version="1.1"><ServiceDelivery><ResponseTimestamp xmlns="http://www.siri.org.uk/siri">2018-11-07T23:00:59Z</ResponseTimestamp><ProducerRef xmlns="http://www.siri.org.uk/siri">EFAController10.3.2.97-EFA03</ProducerRef><Status xmlns="http://www.siri.org.uk/siri">true</Status><MoreData>false</MoreData><Language>de</Language><DeliveryPayload><StopEventResponse><StopEventResponseContext><Situations><PtSituation><CreationTime xmlns="http://www.siri.org.uk/siri">2018-09-05T08:22:00Z</CreationTime><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber><Version xmlns="http://www.siri.org.uk/siri">2</Version><Source xmlns="http://www.siri.org.uk/siri"><SourceType>other</SourceType></Source><Progress xmlns="http://www.siri.org.uk/siri">open</Progress><ValidityPeriod xmlns="http://www.siri.org.uk/siri"><StartTime>2018-09-08T23:00:00Z</StartTime><EndTime>2018-11-10T23:00:00Z</EndTime></ValidityPeriod><UnknownReason xmlns="http://www.siri.org.uk/siri">unknown</UnknownReason><Priority xmlns="http://www.siri.org.uk/siri">0</Priority><Audience xmlns="http://www.siri.org.uk/siri">public</Audience><ScopeType xmlns="http://www.siri.org.uk/siri">stopPoint</ScopeType><Planned xmlns="http://www.siri.org.uk/siri">false</Planned><Language xmlns="http://www.siri.org.uk/siri"></Language><Summary xmlns="http://www.siri.org.uk/siri" overridden="true">Karlsruhe: Gleisbauarbeiten am Mendelssohnplatz (Phase 3)</Summary><Description xmlns="http://www.siri.org.uk/siri" overridden="true">Linien S1, S4, S5, S7, S8, S11, S51, S52, 2, 5, NL1, NL2, NL3, NL4, NL5</Description><Detail xmlns="http://www.siri.org.uk/siri" overridden="true">&lt;p&gt;(kue) Wegen dem Einbau einer Hilfsbr&amp;uuml;cke zwischen Mendelssohnplatz und R&amp;uuml;ppurer Tor tritt&lt;/p&gt;&#xA;&lt;p&gt;&lt;span style="color: #9b2321;"&gt;&lt;strong&gt;von Sonntag, 09. September 2018 (01:15 Uhr)&lt;/strong&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="color: #9b2321;"&gt;&lt;strong&gt;bis Samstag, 10. November 2018 (01:15 Uhr)&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;&#xA;&lt;p&gt;die Baustellen-Phase 3 nach den Sommerferien in Kraft.&lt;/p&gt;&#xA;&lt;p&gt;Der Streckenabschnitt ab Gleisdreieck Kronenplatz bis Gleisviereck R&amp;uuml;ppurrer Tor bleibt weiterhin f&amp;uuml;r den Schienenverkehr in beiden Richtungen gesperrt.&lt;/p&gt;&#xA;&lt;p&gt;&lt;span style="text-decoration: underline;"&gt;&lt;strong&gt;Die Bahnen werden wie folgt umgleitet:&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;S1 / S11:&lt;/strong&gt; Albtal - Albtalbahnhof - Hbf Vorplatz - Tivoli - Konzerthaus - Karlstor - Europaplatz - Yorckstra&amp;szlig;e - Neureut / Hochstetten (und zur&amp;uuml;ck)&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;S4:&lt;/strong&gt; Kraichgau - Tullastra&amp;szlig;e - S&amp;uuml;dostbahn - Philipp-Reis-Stra&amp;szlig;e - Tivoli - Hbf Vorplatz - Albtalbahnhof (und zur&amp;uuml;ck)&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;S5:&lt;/strong&gt; Regelfahrten sind nicht betroffen. EILZUG-Fahrten und Fahrten vom Pfinztal kommend zum Albtalbahnhof werden ab der Tullastra&amp;szlig;e &amp;uuml;ber die S&amp;uuml;dostbahn - Philipp-Reis-Stra&amp;szlig;e - Hbf Vorplatz - Albtalbahnhof (und zur&amp;uuml;ck) geleitet&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;S51:&lt;/strong&gt; Germersheim - Karlsruhe West - Albtalbahnhof - Hbf Vorplatz - Tivoli - Konzerthaus (und zur&amp;uuml;ck)&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;S52:&lt;/strong&gt; Einsetzende Fahrten: Albtalbahnhof - Hbf Vorplatz - Tivoli - Konzerthaus - Karlstor - Europaplatz - Yorckstra&amp;szlig;e - W&amp;ouml;rth - Germersheim (und zur&amp;uuml;ck)&lt;br /&gt;Fahrten die mit der Linie S5 verkn&amp;uuml;pft sind, verkehren auf dem Regelfahrweg.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;S7 / S8:&lt;/strong&gt; Tullastra&amp;szlig;e (in der Tullastra&amp;szlig;e) - S&amp;uuml;dostbahn - Philipp-Reis-Stra&amp;szlig;e - Tivoli - Hbf Vorplatz - Albtalbahnhof - Rheintal / Murgtal (und zur&amp;uuml;ck)&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;T2:&lt;/strong&gt; Wolfartsweier - Tullastra&amp;szlig;e - S&amp;uuml;dostbahn - Philipp-Reis-Stra&amp;szlig;e - Tivoli - Hbf Vorplatz - ZKM - M&amp;uuml;hlburger Tor - Yorckstra&amp;szlig;e - Siemensallee (und zur&amp;uuml;ck)&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;T5:&lt;/strong&gt; Rintheim - Hauptfriedhof - Marktplatz - Europaplatz - Karlstor - Mathystra&amp;szlig;e - K&amp;uuml;hler Krug - Rheinhafen (und zur&amp;uuml;ck)&lt;/p&gt;&#xA;&lt;p&gt;&lt;span style="text-decoration: underline;"&gt;&lt;strong&gt;Nightliner-Abnahme:&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;&#xA;&lt;p&gt;Die zentrale Nightliner-Abnahme ist zur Minute 30 an den Europaplatz verlegt (samstags und sonntags zus&amp;auml;tzlich auch um 06:00 Uhr). Der Umstieg zwischen allen Nightliner-Linien (S1 / S11, S2, NL1, NL2, NL3, NL4, NL5) wird hier erm&amp;ouml;glicht.&lt;/p&gt;</Detail><Affects xmlns="http://www.siri.org.uk/siri"><StopPoints><AffectedStopPoint><StopPointRef>de:08212:83</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:84</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:621</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:90010</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:622</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:623</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:624</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:6</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:7</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:1</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:99</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:59</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:60</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:510</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:62</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:61</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:63</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:91</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:1201</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:89</StopPointRef></AffectedStopPoint><AffectedStopPoint><StopPointRef>de:08212:98</StopPointRef></AffectedStopPoint></StopPoints><VehicleJourneys><AffectedVehicleJourney><LineRef>kvv:21001:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21002:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21002:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21007:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21007:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22010:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22010:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21012:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22014:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22014:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22015:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22015:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22070:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22070:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22080:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22080:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22011:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22011:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22051:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22051:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22052:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22052:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21003:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21003:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21004:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21004:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21006:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21002:N:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21002:N:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21001:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21006:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21001:N:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21001:N:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21012:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:03094:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:03094:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21005:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21005:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21002:Z:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21002:Z:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21005:Y:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21006:Z:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21006:Z:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21017:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:03093:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:03093:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:03095:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:03095:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21005:Z:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:21005:Y:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:04114:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:04114:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:40070:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:40080:B:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:40071:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:40070:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:40080:B:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:40071:E:R:</LineRef></AffectedVehicleJourney></VehicleJourneys></Affects></PtSituation><PtSituation><CreationTime xmlns="http://www.siri.org.uk/siri">2018-10-24T06:11:00Z</CreationTime><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003651_KVV_ICSKVV</SituationNumber><Version xmlns="http://www.siri.org.uk/siri">7</Version><Source xmlns="http://www.siri.org.uk/siri"><SourceType>other</SourceType></Source><Progress xmlns="http://www.siri.org.uk/siri">open</Progress><ValidityPeriod xmlns="http://www.siri.org.uk/siri"><StartTime>2018-07-29T22:01:00Z</StartTime><EndTime>2500-12-30T23:00:59Z</EndTime></ValidityPeriod><UnknownReason xmlns="http://www.siri.org.uk/siri">unknown</UnknownReason><Priority xmlns="http://www.siri.org.uk/siri">0</Priority><Audience xmlns="http://www.siri.org.uk/siri">public</Audience><ScopeType xmlns="http://www.siri.org.uk/siri">line</ScopeType><Planned xmlns="http://www.siri.org.uk/siri">false</Planned><Language xmlns="http://www.siri.org.uk/siri"></Language><Summary xmlns="http://www.siri.org.uk/siri" overridden="true">Baden-Rheinpfalz: Sanierung der Rheinbrücke bei Maxau</Summary><Description xmlns="http://www.siri.org.uk/siri" overridden="true">Linien S5, S51, S52</Description><Detail xmlns="http://www.siri.org.uk/siri" overridden="true">&lt;p&gt;W&amp;auml;hrend der Sanierung der&amp;nbsp;Rheinbr&amp;uuml;cke bei Maxau wird das Fahrtangebot auf der Schiene erweitert und&amp;nbsp;an bestehende Z&amp;uuml;ge werden zus&amp;auml;tzliche Wagen angeh&amp;auml;ngt.&lt;/p&gt;&#xA;&lt;p&gt;Die AVG f&amp;auml;hrt Teile ihres Zusatzangebots&amp;nbsp;bereits. DB Regio bietet die zus&amp;auml;tzlichen Verbindungen auf der Linie S3 ab Montag, 10.09.2018 an.&lt;/p&gt;&#xA;&lt;p&gt;Die AVG erbringt folgende Entlastungen/Zusatzleistungen:&lt;br /&gt;&lt;br /&gt;Linie S5 (zus&amp;auml;tzliche Halte/Fahrzeit&amp;auml;nderungen):&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S5 84762 (Berghausen 11:01 &amp;ndash; KA Rheinbergstra&amp;szlig;e 11:46) wird Mo-Fr bis W&amp;ouml;rth Bf (Ankunft 11:56) verl&amp;auml;ngert &lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S5 84773 (KA Rheinbergstra&amp;szlig;e 12:13 -&amp;nbsp; S&amp;ouml;llingen 13:05) beginnt Mo-Fr bereits in W&amp;ouml;rth Bf (Abfahrt 12:01)&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S5 84772 (Berghausen 12:01 &amp;ndash; KA Rheinbergstra&amp;szlig;e 12:46) wird Mo-Fr bis W&amp;ouml;rth Bf (Ankunft 12:56) verl&amp;auml;ngert &lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S5 84783 (KA Rheinbergstra&amp;szlig;e 13:13 -&amp;nbsp; S&amp;ouml;llingen 14:05) beginnt Mo-Fr bereits in W&amp;ouml;rth Bf (Abfahrt 13:01) &lt;br /&gt;&lt;br /&gt;Linien S52 (zus&amp;auml;tzliche Halte/Fahrzeit&amp;auml;nderungen):&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S52-Eilzug 85722 (KA Albtalbahnhof 15:39 &amp;ndash; Germersheim 16:46) h&amp;auml;lt zus&amp;auml;tzlich in Rheinzabern Alte R&amp;ouml;merstra&amp;szlig;e und R&amp;uuml;lzheim Freizeitzentrum&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S52-Eilzug 85726 (KA Albtalbahnhof 16:39 &amp;ndash; Germersheim 17:39) verkehrt 8 Min fr&amp;uuml;her ab W&amp;ouml;rth Bf und h&amp;auml;lt zus&amp;auml;tzlich in Rheinzabern Alte R&amp;ouml;merstra&amp;szlig;e und R&amp;uuml;lzheim Freizeitzentrum&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S52-Eilzug 85730 (KA Albtalbahnhof 17:39 &amp;ndash; Germersheim 18:46) h&amp;auml;lt zus&amp;auml;tzlich in Rheinzabern Alte R&amp;ouml;merstra&amp;szlig;e und R&amp;uuml;lzheim Freizeitzentrum&lt;br /&gt;&lt;br /&gt;Um ausreichende Kapazit&amp;auml;ten f&amp;uuml;r die zu erwartende h&amp;ouml;here Nachfrage zu decken, werden au&amp;szlig;erdem folgende Fahrten mit einem zweiten Wagen verst&amp;auml;rkt:&lt;br /&gt;&lt;br /&gt;Linie S5 (Verst&amp;auml;rkungen):&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S5 84744 (KA Tullastra&amp;szlig;e 06:16 &amp;ndash; W&amp;ouml;rth Badepark 07:06)&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S5 85007 (W&amp;ouml;rth Badepark 07:15 &amp;ndash; S&amp;ouml;llingen Bf 08:25)&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S5 84733 (W&amp;ouml;rth Badepark 07:45 &amp;ndash; S&amp;ouml;llingen Bf 08:55)&lt;br /&gt;&lt;br /&gt;Linie S51/S52 (Verst&amp;auml;rkungen):&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S51 85719 (Germersheim 07:25 &amp;ndash; KA Europaplatz 08:30)&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S52-Eilzug 85722 (KA Albtalbahnhof 15:39 &amp;ndash; Germersheim 16:46)&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S52-Eilzug 85726 (KA Albtalbahnhof 16:39 &amp;ndash; Germersheim 17:39)&lt;br /&gt;&amp;bull;&amp;nbsp;&amp;nbsp; &amp;nbsp;S52-Eilzug 85730 (KA Albtalbahnhof 17:39 &amp;ndash; Germersheim 18:46)&lt;/p&gt;&#xA;&lt;p&gt;Ab Montag, 15. Oktober 2018 wird durch DB Regio folgende Zusatzleistung angeboten:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li style="text-align: left;"&gt;S3 von Germersheim (ab 6:03 Uhr) nach Karlsruhe Hbf (an 6:53 Uhr) mit zus&amp;auml;tzlichem Halt in Rheinzabern Alte R&amp;ouml;merstra&amp;szlig;e&lt;/li&gt;&#xA;&lt;li&gt;S3 von Karlsruhe Hbf (ab 18:45 Uhr) nach Germersheim (an 19:31 Uhr), weiter nach Ludwigshafen mit Halten in Rheinzabern Alte R&amp;ouml;merstra&amp;szlig;e und R&amp;uuml;lzheim Freizeitzentrum&lt;br /&gt;&lt;br /&gt;Die ge&amp;auml;nderten Fahrpl&amp;auml;ne sind bereits in den Reiseauskunftsmedien der DB, des KVV und des Landes eingepflegt.&lt;/li&gt;&#xA;&lt;/ul&gt;</Detail><Affects xmlns="http://www.siri.org.uk/siri"><VehicleJourneys><AffectedVehicleJourney><LineRef>kvv:22015:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22015:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22051:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22051:E:R:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22052:E:H:</LineRef></AffectedVehicleJourney><AffectedVehicleJourney><LineRef>kvv:22052:E:R:</LineRef></AffectedVehicleJourney></VehicleJourneys></Affects></PtSituation></Situations></StopEventResponseContext><StopEventResult><ResultId>ID-15D5A8AF-10D8-4771-8ACD-4BB0404FFC21</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:1</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:02:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:03:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>15</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:21004:E:H:s18:728</JourneyRef><LineRef>kvv:21004:E:H</LineRef><DirectionRef>outward</DirectionRef><Mode><PtMode>tram</PtMode><TramSubmode>cityTram</TramSubmode><Name><Text>Straßenbahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>Straßenbahn 4</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:02</OperatorRef><RouteDescription><Text>Waldstadt - Hauptfriedhof - Durlacher Tor - Europaplatz - Hbf Vorplatz - Tivoli</Text><Language>de</Language></RouteDescription><Attribute><Text><Text>Niederflurwagen</Text><Language>de</Language></Text><Code>29811</Code><Mandatory>false</Mandatory></Attribute><OriginStopPointRef>de:08212:3012:1:1</OriginStopPointRef><OriginText><Text>Waldstadt Europäische Schule</Text><Language>de</Language></OriginText><DestinationText><Text>4 Tivoli über Hbf</Text><Language>de</Language></DestinationText></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-8EC94A0B-D3D3-4107-A7B9-D545D63B8C44</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:1</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:08:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:08:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>22</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:21012:E:H:s18:2178</JourneyRef><LineRef>kvv:21012:E:H</LineRef><DirectionRef>outward</DirectionRef><Mode><PtMode>rail</PtMode><RailSubmode>suburbanRailway</RailSubmode><Name><Text>S-Bahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>S-Bahn S2</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:02</OperatorRef><RouteDescription><Text>Spöck - Friedrichstal - Blankenloch - Karlsruhe - Rheinstetten</Text><Language>de</Language></RouteDescription><Attribute><Text><Text>Niederflurwagen</Text><Language>de</Language></Text><Code>29812</Code><Mandatory>false</Mandatory></Attribute><OriginStopPointRef>de:08215:32296:1:1</OriginStopPointRef><OriginText><Text>Spöck Richard-Hecht-Schule</Text><Language>de</Language></OriginText><DestinationText><Text>S2 Rheinstetten</Text><Language>de</Language></DestinationText></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-04D18E21-FDEF-46C5-94C0-D6F857F71493</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:1</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:10:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:10:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>9</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:21005:E:H:s18:896</JourneyRef><LineRef>kvv:21005:E:H</LineRef><DirectionRef>outward</DirectionRef><Mode><PtMode>tram</PtMode><TramSubmode>cityTram</TramSubmode><Name><Text>Straßenbahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>Straßenbahn 5</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:02</OperatorRef><RouteDescription><Text>Rintheim - Durlacher Tor - Konzerthaus - Kühler Krug - Rheinhafen</Text><Language>de</Language></RouteDescription><Attribute><Text><Text>Niederflurwagen</Text><Language>de</Language></Text><Code>29813</Code><Mandatory>false</Mandatory></Attribute><OriginStopPointRef>de:08212:314:1:1</OriginStopPointRef><OriginText><Text>Rintheim</Text><Language>de</Language></OriginText><DestinationText><Text>5 Rheinhafen (Umleitung)</Text><Language>de</Language></DestinationText></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-09B96A7A-6CFE-4F18-9675-0116B2A7BCB2</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:1</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:10:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:10:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>12</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:21001:E:H:s18:196</JourneyRef><LineRef>kvv:21001:E:H</LineRef><DirectionRef>outward</DirectionRef><Mode><PtMode>tram</PtMode><TramSubmode>cityTram</TramSubmode><Name><Text>Straßenbahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>Straßenbahn 1</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:02</OperatorRef><RouteDescription><Text>Durlach Turmberg - Marktplatz - Europaplatz - Oberreut</Text><Language>de</Language></RouteDescription><Attribute><Text><Text>Niederflurwagen</Text><Language>de</Language></Text><Code>29814</Code><Mandatory>false</Mandatory></Attribute><OriginStopPointRef>de:08212:18:1:1</OriginStopPointRef><OriginText><Text>Durlach Turmberg</Text><Language>de</Language></OriginText><DestinationText><Text>1 Oberreut</Text><Language>de</Language></DestinationText></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-0F2161AA-9C08-4D4A-A2F0-93A13C49B6D9</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:2</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:10:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:10:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>15</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:21001:E:R:s18:659</JourneyRef><LineRef>kvv:21001:E:R</LineRef><DirectionRef>return</DirectionRef><Mode><PtMode>tram</PtMode><TramSubmode>cityTram</TramSubmode><Name><Text>Straßenbahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>Straßenbahn 1</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:02</OperatorRef><RouteDescription><Text>Oberreut - Europaplatz - Marktplatz - Durlach Turmberg </Text><Language>de</Language></RouteDescription><Attribute><Text><Text>Niederflurwagen</Text><Language>de</Language></Text><Code>29815</Code><Mandatory>false</Mandatory></Attribute><OriginStopPointRef>de:08212:611:2:2</OriginStopPointRef><OriginText><Text>Oberreut Badeniaplatz</Text><Language>de</Language></OriginText><DestinationText><Text>1 Durlach</Text><Language>de</Language></DestinationText></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-FC3652E4-6C04-4505-94E3-42EEE0732775</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:2</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:12:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:12:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>25</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:21012:E:R:s18:996</JourneyRef><LineRef>kvv:21012:E:R</LineRef><DirectionRef>return</DirectionRef><Mode><PtMode>rail</PtMode><RailSubmode>suburbanRailway</RailSubmode><Name><Text>S-Bahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>S-Bahn S2</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:02</OperatorRef><RouteDescription><Text>Rheinstetten - Karlsruhe - Blankenloch - Friedrichstal - Spöck</Text><Language>de</Language></RouteDescription><Attribute><Text><Text>Niederflurwagen</Text><Language>de</Language></Text><Code>29816</Code><Mandatory>false</Mandatory></Attribute><OriginStopPointRef>de:08215:1501:1:1</OriginStopPointRef><OriginText><Text>Mörsch Bach West</Text><Language>de</Language></OriginText><DestinationText><Text>S2 Reitschulschlag</Text><Language>de</Language></DestinationText></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-7C568FB4-0111-49FF-889A-D22E8BBAC06B</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:1</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:14:00Z</TimetabledTime></ServiceDeparture><StopSeqNumber>25</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:22015:E:H:s18:19326</JourneyRef><LineRef>kvv:22015:E:H</LineRef><DirectionRef>outward</DirectionRef><Mode><PtMode>rail</PtMode><RailSubmode>suburbanRailway</RailSubmode><Name><Text>S-Bahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>S-Bahn S5</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:01</OperatorRef><RouteDescription><Text>Bietigheim-Bissingen - Vaihingen (Enz) - Mühlacker - Pforzheim - Remchingen - Karlsruhe - Maximiliansau - Wörth Dorschberg</Text><Language>de</Language></RouteDescription><OriginStopPointRef>de:08231:50:2:2</OriginStopPointRef><OriginText><Text>Pforzheim Hauptbahnhof</Text><Language>de</Language></OriginText><DestinationText><Text>S5 Wörth Badepark</Text><Language>de</Language></DestinationText><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003651_KVV_ICSKVV</SituationNumber></SituationFullRef></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-FBF153FF-8B56-4556-9D30-17AD18D6214E</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:2</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:16:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:17:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>25</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:22015:E:R:s18:19331</JourneyRef><LineRef>kvv:22015:E:R</LineRef><DirectionRef>return</DirectionRef><Mode><PtMode>rail</PtMode><RailSubmode>suburbanRailway</RailSubmode><Name><Text>S-Bahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>S-Bahn S5</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:01</OperatorRef><RouteDescription><Text>Wörth Dorschberg - Maximiliansau - Karlsruhe - Remchingen  - Pforzheim - Mühlacker - Vaihingen (Enz) - Bietigheim-Bissingen</Text><Language>de</Language></RouteDescription><OriginStopPointRef>de:07334:1738:1:1</OriginStopPointRef><OriginText><Text>Wörth Badepark</Text><Language>de</Language></OriginText><DestinationText><Text>S5 Pforzheim Hbf</Text><Language>de</Language></DestinationText><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003651_KVV_ICSKVV</SituationNumber></SituationFullRef></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-A446D22A-5F87-49B2-9827-26F2BE623B0F</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:2</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:18:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:18:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>10</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:21004:E:R:s18:1582</JourneyRef><LineRef>kvv:21004:E:R</LineRef><DirectionRef>return</DirectionRef><Mode><PtMode>tram</PtMode><TramSubmode>cityTram</TramSubmode><Name><Text>Straßenbahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>Straßenbahn 4</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:02</OperatorRef><RouteDescription><Text>Tivoli - Hbf Vorplatz - Europaplatz - Durlacher Tor - Hauptfriedhof - Waldstadt</Text><Language>de</Language></RouteDescription><Attribute><Text><Text>Niederflurwagen</Text><Language>de</Language></Text><Code>29817</Code><Mandatory>false</Mandatory></Attribute><OriginStopPointRef>de:08212:84:3:3</OriginStopPointRef><OriginText><Text>Karlsruhe Tivoli</Text><Language>de</Language></OriginText><DestinationText><Text>4 Waldstadt</Text><Language>de</Language></DestinationText></Service></StopEvent></StopEventResult><StopEventResult><ResultId>ID-2127842F-5970-45A1-A319-BEC63F0FA3D3</ResultId><StopEvent><ThisCall><CallAtStop><StopPointRef>de:08212:1:0:2</StopPointRef><StopPointName><Text>Karlsruhe Marktplatz</Text><Language>de</Language></StopPointName><ServiceDeparture><TimetabledTime>2018-11-07T23:20:00Z</TimetabledTime><EstimatedTime>2018-11-07T23:20:00Z</EstimatedTime></ServiceDeparture><StopSeqNumber>14</StopSeqNumber><SituationFullRef><ParticipantRef xmlns="http://www.siri.org.uk/siri">KVV</ParticipantRef><SituationNumber xmlns="http://www.siri.org.uk/siri">110003752_KVV_ICSKVV</SituationNumber></SituationFullRef></CallAtStop></ThisCall><Service><OperatingDayRef>2018-11-07</OperatingDayRef><JourneyRef>kvv:21005:E:R:s18:1872</JourneyRef><LineRef>kvv:21005:E:R</LineRef><DirectionRef>return</DirectionRef><Mode><PtMode>tram</PtMode><TramSubmode>cityTram</TramSubmode><Name><Text>Straßenbahn</Text><Language>de</Language></Name></Mode><PublishedLineName><Text>Straßenbahn 5</Text><Language>de</Language></PublishedLineName><OperatorRef>kvv:02</OperatorRef><RouteDescription><Text>Rheinhafen - Kühler Krug - Konzerthaus - Durlacher Tor - Rintheim</Text><Language>de</Language></RouteDescription><Attribute><Text><Text>Niederflurwagen</Text><Language>de</Language></Text><Code>29818</Code><Mandatory>false</Mandatory></Attribute><OriginStopPointRef>de:08212:501:2:4</OriginStopPointRef><OriginText><Text>Karlsruhe Rheinhafen</Text><Language>de</Language></OriginText><DestinationText><Text>5 Rintheim (Umleitung)</Text><Language>de</Language></DestinationText></Service></StopEvent></StopEventResult></StopEventResponse></DeliveryPayload></ServiceDelivery></Trias>
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.saver.TextSaver <init>
+AM FEINSTEN: de.dhbw.studienarbeit.data.helper.database.saver.TextSaver created with parameter: errors.txt
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.Settings <init>
+INFORMATION: Reading configuration data...
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.Settings <init>
+INFORMATION: Reading configuration data completed successfully.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:00 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable count
+FEIN: 0 entries at Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver save
+FEIN: de.dhbw.studienarbeit.data.trias.Line@1f saved.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connecting to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector connectToDatabase
+FEIN: Connected to database.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable select
+FEIN: 1 entries read at table Line
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.helper.database.DatabaseConnector disconnect
+FEIN: Close database connection.
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station updateData
+FEIN: Stops gelesen: 
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 5, Wed Nov 07 23:02:00 CET 2018, Wed Nov 07 23:03:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 6, Wed Nov 07 23:08:00 CET 2018, Wed Nov 07 23:08:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 7, Wed Nov 07 23:10:00 CET 2018, Wed Nov 07 23:10:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 8, Wed Nov 07 23:10:00 CET 2018, Wed Nov 07 23:10:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 9, Wed Nov 07 23:10:00 CET 2018, Wed Nov 07 23:10:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 10, Wed Nov 07 23:12:00 CET 2018, Wed Nov 07 23:12:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 11, Wed Nov 07 23:14:00 CET 2018, Wed Nov 07 23:17:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 12, Wed Nov 07 23:16:00 CET 2018, Wed Nov 07 23:18:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station lambda$0
+FEIN: de:08212:1, 13, Wed Nov 07 23:18:00 CET 2018, Wed Nov 07 23:20:00 CET 2018
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.data.trias.Station getSQLQuerry
+FEIN: Stops gespeichert:
+Nov 08, 2018 12:01:01 AM de.dhbw.studienarbeit.triastest.TestAppMidnight update
+INFORMATION: Marktplatz updated.
