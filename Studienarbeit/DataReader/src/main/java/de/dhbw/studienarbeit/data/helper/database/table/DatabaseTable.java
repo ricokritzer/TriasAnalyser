@@ -121,6 +121,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 		}
 		catch (SQLException e)
 		{
+			LOGGER.log(Level.WARNING, "SQLException occured.", e);
 			throw new IOException("Counting does not succeed.", e);
 		}
 	}
