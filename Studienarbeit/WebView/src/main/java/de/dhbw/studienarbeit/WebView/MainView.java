@@ -9,6 +9,7 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
@@ -26,10 +27,10 @@ public class MainView extends VerticalLayout
 {
 	private static final Logger LOGGER = Logger.getLogger(MainView.class.getName());
 
-	private final Label lblCountStations = new Label();
-	private final Label lblCountLines = new Label();
-	private final Label lblCountStops = new Label();
-	private final Label lblCountWeathers = new Label();
+	private final TextField lblCountStations = new TextField();
+	private final TextField lblCountLines = new TextField();
+	private final TextField lblCountStops = new TextField();
+	private final TextField lblCountWeathers = new TextField();
 
 	public MainView()
 	{
@@ -67,10 +68,10 @@ public class MainView extends VerticalLayout
 
 	private void setValues()
 	{
-		lblCountStations.setText(getCountOf(new DatabaseTableStation()));
-		lblCountLines.setText(getCountOf(new DatabaseTableLine()));
-		lblCountStops.setText(getCountOf(new DatabaseTableStop()));
-		lblCountWeathers.setText(getCountOf(new DatabaseTableWeather()));
+		lblCountStations.setValue(getCountOf(new DatabaseTableStation()));
+		lblCountLines.setValue(getCountOf(new DatabaseTableLine()));
+		lblCountStops.setValue(getCountOf(new DatabaseTableStop()));
+		lblCountWeathers.setValue(getCountOf(new DatabaseTableWeather()));
 
 		final File file = new File(System.getProperty("user.home") + File.separator + "Studienarbeit" + File.separator
 				+ "Configuration.conf");
