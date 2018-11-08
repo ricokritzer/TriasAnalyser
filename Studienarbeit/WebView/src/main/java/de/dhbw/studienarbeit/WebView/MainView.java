@@ -1,13 +1,11 @@
 package de.dhbw.studienarbeit.WebView;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -27,39 +25,30 @@ public class MainView extends VerticalLayout
 {
 	private static final Logger LOGGER = Logger.getLogger(MainView.class.getName());
 
-	private final TextField lblCountStations = new TextField();
-	private final TextField lblCountLines = new TextField();
-	private final TextField lblCountStops = new TextField();
-	private final TextField lblCountWeathers = new TextField();
+	private final TextField txtCountStations = new TextField();
+	private final TextField txtCountLines = new TextField();
+	private final TextField txtCountStops = new TextField();
+	private final TextField txtCountWeathers = new TextField();
 
 	public MainView()
 	{
-		DatabaseTableStation dbtStation = new DatabaseTableStation();
-		DatabaseTableLine dbtLine = new DatabaseTableLine();
-		DatabaseTableStop dbtStop = new DatabaseTableStop();
-		Text txtStation1 = new Text("");
-		Text txtLine1 = new Text("");
-		Text txtStop1 = new Text("");
-		Text txtStation2 = new Text("");
-		Text txtLine2 = new Text("");
-		Text txtStop2 = new Text("");
-		Text txtStation3 = new Text("");
-		Text txtLine3 = new Text("");
-		Text txtStop3 = new Text("");
+		add(new Text("Unsere Daten im Testsystem"));
 
-		add(txtStation1);
-		add(txtLine1);
-		add(txtStop1);
+		txtCountLines.setLabel("Anzahl der Linien");
+		txtCountLines.setReadOnly(true);
+		add(txtCountLines);
 
-		lblCountLines.setTitle("Anzahl der Linien");
-		lblCountStations.setTitle("Anzahl der Stationen");
-		lblCountStops.setTitle("Anzahl der Stops");
-		lblCountWeathers.setTitle("Anzahl der Wettereinträge");
+		txtCountStations.setLabel("Anzahl der Stationen");
+		txtCountStations.setReadOnly(true);
+		add(txtCountStations);
 
-		add(lblCountLines);
-		add(lblCountStations);
-		add(lblCountStops);
-		add(lblCountWeathers);
+		txtCountStops.setLabel("Anzahl der Stops");
+		txtCountStops.setReadOnly(true);
+		add(txtCountStops);
+
+		txtCountWeathers.setLabel("Anzahl der Wettereinträge");
+		txtCountWeathers.setReadOnly(true);
+		add(txtCountWeathers);
 
 		setValues();
 
@@ -68,17 +57,10 @@ public class MainView extends VerticalLayout
 
 	private void setValues()
 	{
-		lblCountStations.setValue(getCountOf(new DatabaseTableStation()));
-		lblCountLines.setValue(getCountOf(new DatabaseTableLine()));
-		lblCountStops.setValue(getCountOf(new DatabaseTableStop()));
-		lblCountWeathers.setValue(getCountOf(new DatabaseTableWeather()));
-
-		final File file = new File(System.getProperty("user.home") + File.separator + "Studienarbeit" + File.separator
-				+ "Configuration.conf");
-		if (!file.canRead())
-		{
-			add(new Label("Datei kann nicht gelesen werden: " + file.getAbsolutePath()));
-		}
+		txtCountStations.setValue(getCountOf(new DatabaseTableStation()));
+		txtCountLines.setValue(getCountOf(new DatabaseTableLine()));
+		txtCountStops.setValue(getCountOf(new DatabaseTableStop()));
+		txtCountWeathers.setValue(getCountOf(new DatabaseTableWeather()));
 	}
 
 	private String getCountOf(DatabaseTable table)
