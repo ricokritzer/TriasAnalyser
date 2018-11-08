@@ -57,6 +57,8 @@ public class MainView extends VerticalLayout
 
 		setValues();
 
+		add(new Label("Configuration.conf muss in " + System.getProperty("user.home")));
+
 		add(new Button("aktualisieren", e -> setValues()));
 	}
 
