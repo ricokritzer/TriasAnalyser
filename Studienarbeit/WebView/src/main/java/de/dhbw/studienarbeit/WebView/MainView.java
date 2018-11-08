@@ -76,7 +76,7 @@ public class MainView extends VerticalLayout
 		}
 		catch (IOException e)
 		{
-			return "Die Anzahl konnte nicht berechnet werden.";
+			return "Die Anzahl konnte nicht berechnet werden. " + e.getMessage();
 		}
 	}
 }
