@@ -23,10 +23,23 @@ public abstract class DatabaseConnector
 		}
 	}
 
+	private void loadDatabaseDriver()
+	{
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		}
+		catch (InstantiationException | IllegalAccessException | ClassNotFoundException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to load database driver.", e);
+		}
+	}
+
 	protected void connectToDatabase(final String hostname, final String port, final String databaseName,
 			final String username, final String password) throws SQLException
 	{
 		LOGGER.log(Level.FINE, "Connecting to database.");
+		loadDatabaseDriver();
 		String url = "jdbc:mysql://" + hostname + ":" + port + "/" + databaseName
 				+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		connection = DriverManager.getConnection(url, username, password);
