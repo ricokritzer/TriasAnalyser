@@ -1,5 +1,8 @@
 package de.dhbw.studienarbeit.WebView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.vaadin.flow.component.Text;
@@ -68,6 +71,21 @@ public class MainView extends VerticalLayout
 		lblCountLines.setText(getCountOf(new DatabaseTableLine()));
 		lblCountStops.setText(getCountOf(new DatabaseTableStop()));
 		lblCountWeathers.setText(getCountOf(new DatabaseTableWeather()));
+
+		final File file = new File(System.getProperty("user.home") + File.separator + "Studienarbeit" + File.separator
+				+ "Configuration.conf");
+		try (BufferedReader br = new BufferedReader(new java.io.FileReader(file)))
+		{
+			lblCountWeathers.setText("hat geklappt");
+		}
+		catch (FileNotFoundException e)
+		{
+			lblCountLines.setText(e.getMessage());
+		}
+		catch (IOException e)
+		{
+			lblCountStops.setText(e.getMessage());
+		}
 	}
 
 	private String getCountOf(DatabaseTable table)
