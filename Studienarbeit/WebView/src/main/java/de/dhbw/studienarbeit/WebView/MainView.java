@@ -1,8 +1,6 @@
 package de.dhbw.studienarbeit.WebView;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.vaadin.flow.component.Text;
@@ -11,6 +9,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
+import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
@@ -75,18 +74,7 @@ public class MainView extends VerticalLayout
 
 		add(new Label("Configuration.conf muss in " + file.getAbsolutePath()));
 
-		try (BufferedReader br = new BufferedReader(new java.io.FileReader(file)))
-		{
-			lblCountWeathers.setText("hat geklappt");
-		}
-		catch (FileNotFoundException e)
-		{
-			lblCountLines.setText(e.getMessage());
-		}
-		catch (IOException e)
-		{
-			lblCountStops.setText(e.getMessage());
-		}
+		lblCountWeathers.setText(new SettingsReadOnly().getDatabaseHostname());
 	}
 
 	private String getCountOf(DatabaseTable table)
