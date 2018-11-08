@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -33,9 +34,10 @@ public class MainView extends VerticalLayout {
     	Text txtStation3 = new Text("");
     	Text txtLine3 = new Text("");
     	Text txtStop3 = new Text("");
-        
+    	
     	add(txtStation1);
     	add(txtLine1);
     	add(txtStop1);
+    	add(new Label("Hallo, I bims, 1 Test"));
     }
 }
