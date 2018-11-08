@@ -31,7 +31,7 @@ public class SettingsReadOnly
 		return data;
 	}
 
-	public SettingsReadOnly()
+	private SettingsReadOnly()
 	{
 		try
 		{
