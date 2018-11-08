@@ -18,6 +18,7 @@ import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.trias.Station;
 
 public class TestApp
@@ -27,6 +28,8 @@ public class TestApp
 
 	public static void main(String[] args) throws ParseException, IOException
 	{
+		LogLevelHelper.setLogLevel(Level.ALL);
+		
 		manager = new DataManager(new DatabaseTableApi().selectApisByName("kvv"));
 		kvv();
 	}
@@ -36,10 +39,10 @@ public class TestApp
 		final DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 		final Timer t = new Timer();
 
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(500)), format.parse("2018-11-08 09-00-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 09-25-00"));
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(1000)), format.parse("2018-11-08 09-30-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 09-55-00"));
+//		t.schedule(new MyTimerTask(() -> setMaximumRequests(500)), format.parse("2018-11-08 09-00-00"));
+//		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 09-25-00"));
+//		t.schedule(new MyTimerTask(() -> setMaximumRequests(1000)), format.parse("2018-11-08 09-49-00"));
+//		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 09-55-00"));
 		t.schedule(new MyTimerTask(() -> setMaximumRequests(1500)), format.parse("2018-11-08 10-00-00"));
 		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 10-25-00"));
 		t.schedule(new MyTimerTask(() -> setMaximumRequests(2000)), format.parse("2018-11-08 10-30-00"));

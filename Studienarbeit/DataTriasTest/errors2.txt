@@ -1,0 +1,2 @@
+2018-11-08-09-00-15	INSERT INTO Line (name, destination) VALUES ('RE 17603 Regional-Express', 'FDS Hauptbahnhof')
+2018-11-08-09-37-45	INSERT INTO Line (name, destination) VALUES ('Regionalbus 118', '118 Langensteinbach Bf ü. Palmbach Stupferich Mutschelbach')
