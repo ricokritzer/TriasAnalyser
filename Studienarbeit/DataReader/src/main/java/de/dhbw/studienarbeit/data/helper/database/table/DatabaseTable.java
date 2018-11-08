@@ -49,7 +49,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 		select(consumer, ALL, tableName, conditions);
 	}
 
-	private void select(Consumer<ResultSet> consumer, String what, String tableName, SqlCondition... conditions)
+	protected void select(Consumer<ResultSet> consumer, String what, String tableName, SqlCondition... conditions)
 			throws SQLException
 	{
 		reconnectIfNeccessary();

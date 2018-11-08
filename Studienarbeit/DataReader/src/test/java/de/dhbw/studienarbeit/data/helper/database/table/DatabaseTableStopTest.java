@@ -20,4 +20,17 @@ public class DatabaseTableStopTest
 			fail("Unable to count stations" + e.getMessage());
 		}
 	}
+	
+	@Test
+	void testGettingDelay() throws Exception
+	{
+		try
+		{
+			new DatabaseTableStop().selectDelay();
+		}
+		catch (IOException e)
+		{
+			fail("Unable to get delay." + e.getMessage());
+		}
+	}
 }

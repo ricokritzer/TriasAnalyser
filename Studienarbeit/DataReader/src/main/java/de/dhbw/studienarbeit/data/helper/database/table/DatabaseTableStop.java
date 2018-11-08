@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.model.StopDB;
 
 public class DatabaseTableStop extends DatabaseTable
@@ -37,6 +38,23 @@ public class DatabaseTableStop extends DatabaseTable
 		}
 	}
 
+	private Optional<DelayDB> getDelay(ResultSet result)
+	{
+		try
+		{
+			final double delaySummary = result.getDouble("delay_sum");
+			final double delayAverage = result.getDouble("delay_avg");
+			final double delayMaximum = result.getDouble("delay_max");
+
+			return Optional.of(new DelayDB(delaySummary, delayAverage, delayMaximum));
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
+			return Optional.empty();
+		}
+	}
+
 	@Override
 	protected String getTableName()
 	{
@@ -49,6 +67,23 @@ public class DatabaseTableStop extends DatabaseTable
 		{
 			final List<StopDB> list = new ArrayList<>();
 			select(r -> getStop(r).ifPresent(list::add), TABLE_NAME, conditions);
+			return list;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
+		}
+	}
+
+	public final List<DelayDB> selectDelay(SqlCondition... conditions) throws IOException
+	{
+		try
+		{
+			final List<DelayDB> list = new ArrayList<>();
+			final String what = " sum(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_sum,"
+					+ "        avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg,"
+					+ "        max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max";
+			select(r -> getDelay(r).ifPresent(list::add), what, TABLE_NAME, conditions);
 			return list;
 		}
 		catch (SQLException e)
