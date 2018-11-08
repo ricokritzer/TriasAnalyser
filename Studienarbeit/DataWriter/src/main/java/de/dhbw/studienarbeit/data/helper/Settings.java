@@ -37,7 +37,8 @@ public class Settings
 		{
 			LOGGER.log(Level.INFO, "Reading configuration data...");
 
-			final File file = new File("Configuration.conf");
+			final File file = new File(System.getProperty("user.home") + File.separator + "Studienarbeit"
+					+ File.separator + "Configuration.conf");
 			final DocumentBuilder parser = factory.newDocumentBuilder();
 			final Document doc = parser.parse(new InputSource(new BufferedReader(new FileReader(file))));
 			final Element docElement = doc.getDocumentElement();
