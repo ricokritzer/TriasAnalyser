@@ -23,6 +23,7 @@ public class DelayTab extends Tab
 
 	public DelayTab()
 	{
+		super();
 		txtDelayMax.setLabel("Maximale Verspätung in Sekunden");
 		txtDelayMax.setReadOnly(true);
 		add(txtDelayMax);

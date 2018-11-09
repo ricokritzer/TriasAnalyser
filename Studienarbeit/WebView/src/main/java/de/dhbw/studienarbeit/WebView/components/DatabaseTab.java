@@ -26,6 +26,7 @@ public class DatabaseTab extends Tab
 	
 	public DatabaseTab()
 	{
+		super();
 		txtCountLines.setLabel("Anzahl der Linien");
 		txtCountLines.setReadOnly(true);
 		add(txtCountLines);
