@@ -5,11 +5,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
@@ -40,49 +37,43 @@ public class MainView extends VerticalLayout
 
 	public MainView()
 	{
-		final Tabs tabs = new Tabs();
-
-		final Tab tabDatabase = new Tab("Daten");
-		tabs.add(tabDatabase);
+		setWidth("100%");
+		setAlignItems(Alignment.CENTER);
 
 		txtCountLines.setLabel("Anzahl der Linien");
 		txtCountLines.setReadOnly(true);
-		tabDatabase.add(txtCountLines);
+		add(txtCountLines);
 
 		txtCountStations.setLabel("Anzahl der Stationen");
 		txtCountStations.setReadOnly(true);
-		tabDatabase.add(txtCountStations);
+		add(txtCountStations);
 
 		txtCountStops.setLabel("Anzahl der Stops");
 		txtCountStops.setReadOnly(true);
-		tabDatabase.add(txtCountStops);
+		add(txtCountStops);
 
 		txtCountWeathers.setLabel("Anzahl der Wettereinträge");
 		txtCountWeathers.setReadOnly(true);
-		tabDatabase.add(txtCountWeathers);
+		add(txtCountWeathers);
 
-		final Tab tabDelay = new Tab("Verspätungen");
-		tabs.add(tabDelay);
+		add(new Button("aktualisieren", e -> setValuesDatabase()));
 
 		txtDelayMax.setLabel("Maximale Verspätung in Sekunden");
 		txtDelayMax.setReadOnly(true);
-		tabDelay.add(txtDelayMax);
+		add(txtDelayMax);
 
 		txtDelayAvg.setLabel("Durchschnittliche Verspätung in Sekunden");
 		txtDelayAvg.setReadOnly(true);
-		tabDelay.add(txtDelayAvg);
+		add(txtDelayAvg);
 
 		txtDelaySum.setLabel("Verspätung in Summe in Sekunden");
 		txtDelaySum.setReadOnly(true);
-		tabDelay.add(txtDelaySum);
+		add(txtDelaySum);
 
 		setValuesDelay();
 		setValuesDatabase();
 
-		tabDatabase.add(new Button("aktualisieren", e -> setValuesDatabase()));
-		tabDelay.add(new Button("aktualisieren", e -> setValuesDelay()));
-		
-		add(tabs);
+		add(new Button("aktualisieren", e -> setValuesDelay()));
 	}
 
 	private void setValuesDatabase()
