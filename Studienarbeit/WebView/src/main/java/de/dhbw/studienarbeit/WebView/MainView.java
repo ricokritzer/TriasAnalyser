@@ -40,6 +40,8 @@ public class MainView extends VerticalLayout
 		add(tabs);
 		add(divDatabase);
 		add(divDelay);
+		
+		divDatabase.setVisible(true);
 
 		tabs.addSelectedChangeListener(e -> {
 			for (Component div : tabsToPages.values())
