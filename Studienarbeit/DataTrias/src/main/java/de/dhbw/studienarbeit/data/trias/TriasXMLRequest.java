@@ -74,27 +74,12 @@ public class TriasXMLRequest
 				{
 					continue;
 				}
-				String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i)
-						.getTextContent();
-				publishedLineName = publishedLineName.substring(0, publishedLineName.length() - 2);
-				String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
-				destinationText = destinationText.substring(0, destinationText.length() - 2);
 				Date estimatedTime = sdf
 						.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
 				Date timetabledTime = sdf
 						.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
 
-				if (new DatabaseTableLine().count(new SqlCondition("name", publishedLineName),
-						new SqlCondition("destination", destinationText)) == 0)
-				{
-					Line line = new Line(publishedLineName, destinationText);
-					new DatabaseSaver().save(line);
-				}
-				LineDB lineDB = new DatabaseTableLine().selectLines(new SqlCondition("name", publishedLineName),
-						new SqlCondition("destination", destinationText)).get(0);
-
-				Line line = new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
-				stops.add(new Stop(stationID, line, timetabledTime, estimatedTime));
+				stops.add(new Stop(stationID, getLine(docElement, i), timetabledTime, estimatedTime));
 			}
 		}
 		catch (ParserConfigurationException | DOMException | ParseException | SAXException e)
@@ -102,7 +87,36 @@ public class TriasXMLRequest
 			e.printStackTrace();
 		}
 		sortStops(stops);
+		stops.forEach(System.out::println);
 		return stops;
+	}
+
+	private String getDestinationText(final Element docElement, int i)
+	{
+		String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
+		destinationText = destinationText.substring(0, destinationText.length() - 2);
+		return destinationText;
+	}
+
+	private Line getLine(Element docElement, int i) throws IOException
+	{
+		if (new DatabaseTableLine().count(new SqlCondition("name", getPublishedLineName(docElement, i)),
+				new SqlCondition("destination", getDestinationText(docElement, i))) == 0)
+		{
+			Line line = new Line(getPublishedLineName(docElement, i), getDestinationText(docElement, i));
+			new DatabaseSaver().save(line);
+		}
+		LineDB lineDB = new DatabaseTableLine().selectLines(new SqlCondition("name", getPublishedLineName(docElement, i)),
+				new SqlCondition("destination", getDestinationText(docElement, i))).get(0);
+
+		return new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
+	}
+
+	private String getPublishedLineName(Element docElement, int i)
+	{
+		String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i)
+				.getTextContent();
+		return publishedLineName.substring(0, publishedLineName.length() - 2);
 	}
 
 	/**
