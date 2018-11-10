@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.textfield.TextField;
 
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
@@ -15,16 +15,16 @@ import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableWeather;
 
 @SuppressWarnings("serial")
-public class DatabaseTab extends Tab
+public class DatabaseDiv extends Div
 {
-	private static final Logger LOGGER = Logger.getLogger(DatabaseTab.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DatabaseDiv.class.getName());
 	
 	private final TextField txtCountStations = new TextField();
 	private final TextField txtCountLines = new TextField();
 	private final TextField txtCountStops = new TextField();
 	private final TextField txtCountWeathers = new TextField();
 	
-	public DatabaseTab()
+	public DatabaseDiv()
 	{
 		super();
 		txtCountLines.setLabel("Anzahl der Linien");
@@ -44,9 +44,10 @@ public class DatabaseTab extends Tab
 		add(txtCountWeathers);
 		
 		add(new Button("aktualisieren", e -> setValues()));
-		
 
 		setValues();
+		
+		setVisible(false);
 	}
 	
 	private void setValues()

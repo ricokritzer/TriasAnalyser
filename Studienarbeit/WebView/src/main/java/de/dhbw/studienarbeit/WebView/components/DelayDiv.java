@@ -6,22 +6,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.textfield.TextField;
 
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
 
 @SuppressWarnings("serial")
-public class DelayTab extends Tab
+public class DelayDiv extends Div
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayTab.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DelayDiv.class.getName());
 
 	private final TextField txtDelaySum = new TextField();
 	private final TextField txtDelayAvg = new TextField();
 	private final TextField txtDelayMax = new TextField();
 
-	public DelayTab()
+	public DelayDiv()
 	{
 		super();
 		txtDelayMax.setLabel("Maximale Verspätung in Sekunden");
@@ -39,6 +39,8 @@ public class DelayTab extends Tab
 		add(new Button("aktualisieren", e -> setValuesDelay()));
 
 		setValuesDelay();
+		
+		setVisible(false);
 	}
 
 	private void setValuesDelay()
