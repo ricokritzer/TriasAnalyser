@@ -27,6 +27,8 @@ public class DatabaseDiv extends Div
 	public DatabaseDiv()
 	{
 		super();
+		this.setTitle("Unsere Daten");
+		
 		txtCountLines.setLabel("Anzahl der Linien");
 		txtCountLines.setReadOnly(true);
 		add(txtCountLines);

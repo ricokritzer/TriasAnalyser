@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.textfield.TextField;
 
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
@@ -24,22 +25,26 @@ public class DelayDiv extends Div
 	public DelayDiv()
 	{
 		super();
-		txtDelayMax.setLabel("Maximale Verspätung in Sekunden");
+		this.setTitle("Verspätungen");
+
+		add(new Label("Alle Verspätungen in Sekunden"));
+
+		txtDelayMax.setLabel("Maximal");
 		txtDelayMax.setReadOnly(true);
 		add(txtDelayMax);
 
-		txtDelayAvg.setLabel("Durchschnittliche Verspätung in Sekunden");
+		txtDelayAvg.setLabel("Durchschnitt");
 		txtDelayAvg.setReadOnly(true);
 		add(txtDelayAvg);
 
-		txtDelaySum.setLabel("Verspätung in Summe in Sekunden");
+		txtDelaySum.setLabel("Summe");
 		txtDelaySum.setReadOnly(true);
 		add(txtDelaySum);
 
 		add(new Button("aktualisieren", e -> setValuesDelay()));
 
 		setValuesDelay();
-		
+
 		setVisible(false);
 	}
 

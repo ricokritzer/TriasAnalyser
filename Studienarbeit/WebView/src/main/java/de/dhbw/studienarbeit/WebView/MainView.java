@@ -26,8 +26,8 @@ public class MainView extends VerticalLayout
 		setWidth("100%");
 		setAlignItems(Alignment.CENTER);
 
-		Tab tabDatabase = new Tab("Database");
-		Tab tabDelay = new Tab("Delay");
+		Tab tabDatabase = new Tab("Unsere Daten");
+		Tab tabDelay = new Tab("Verspätungen");
 		Tabs tabs = new Tabs(tabDatabase, tabDelay);
 
 		Div divDatabase = new DatabaseDiv();
