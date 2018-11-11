@@ -105,7 +105,7 @@ public class DelayDiv extends Div
 		txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
 		txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
 		txtDelayMax.setValue(convertTimeToString(delay.getMaximum()));
-		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(lastUpdate));
+		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(lastUpdate));
 	}
 
 	private String convertTimeToString(double time)
