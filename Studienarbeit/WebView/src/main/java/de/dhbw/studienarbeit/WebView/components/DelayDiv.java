@@ -32,7 +32,7 @@ public class DelayDiv extends Div
 
 	private static DelayDB delay;
 	private static Timer timer;
-	private static Date lastUpdate;
+	private static Date lastUpdate = new Date();
 
 	public DelayDiv()
 	{
@@ -42,10 +42,12 @@ public class DelayDiv extends Div
 		if (!Optional.ofNullable(delay).isPresent())
 		{
 			update();
+			LOGGER.log(Level.INFO, "Delay updated.");
 		}
 		if (!Optional.ofNullable(timer).isPresent())
 		{
 			setTimer();
+			LOGGER.log(Level.INFO, "Timer scheduled.");
 		}
 
 		HorizontalLayout layout = new HorizontalLayout();
