@@ -34,21 +34,20 @@ public class DelayDiv extends Div
 	private static Timer timer;
 	private static Date lastUpdate = new Date();
 
+	static
+	{
+		update();
+		LOGGER.log(Level.INFO, "Delay updated.");
+
+		DelayDiv.timer = new Timer();
+		timer.schedule(new MyTimerTask(DelayDiv::update), 60l * 1000);
+		LOGGER.log(Level.INFO, "Timer scheduled.");
+	}
+
 	public DelayDiv()
 	{
 		super();
 		this.setTitle("Verspätungen");
-
-		if (!Optional.ofNullable(delay).isPresent())
-		{
-			update();
-			LOGGER.log(Level.INFO, "Delay updated.");
-		}
-		if (!Optional.ofNullable(timer).isPresent())
-		{
-			setTimer();
-			LOGGER.log(Level.INFO, "Timer scheduled.");
-		}
 
 		HorizontalLayout layout = new HorizontalLayout();
 
@@ -92,12 +91,6 @@ public class DelayDiv extends Div
 	{
 		DelayDiv.lastUpdate = new Date();
 		DelayDiv.delay = delay;
-	}
-
-	private static void setTimer()
-	{
-		DelayDiv.timer = new Timer();
-		timer.schedule(new MyTimerTask(DelayDiv::update), 60l * 1000);
 	}
 
 	private void setDelayValues()
