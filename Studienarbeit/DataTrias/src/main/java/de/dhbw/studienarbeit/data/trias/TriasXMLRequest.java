@@ -70,16 +70,8 @@ public class TriasXMLRequest
 			final Element docElement = doc.getDocumentElement();
 			for (int i = 0; i < docElement.getElementsByTagName("TimetabledTime").getLength(); i++)
 			{
-				if (docElement.getElementsByTagName("EstimatedTime").item(i) == null)
-				{
-					continue;
-				}
-				Date estimatedTime = sdf
-						.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
-				Date timetabledTime = sdf
-						.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
-
-				stops.add(new Stop(stationID, getLine(docElement, i), timetabledTime, estimatedTime));
+				stops.add(new Stop(stationID, getLine(docElement, i), getTimetabledTime(docElement, i),
+						getEstimatedTime(docElement, i)));
 			}
 		}
 		catch (ParserConfigurationException | DOMException | ParseException | SAXException e)
@@ -89,6 +81,32 @@ public class TriasXMLRequest
 		sortStops(stops);
 		stops.forEach(System.out::println);
 		return stops;
+	}
+
+	private Date getTimetabledTime(final Element docElement, int i) throws ParseException
+	{
+		Date timetabledTime = sdf.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
+		return timetabledTime;
+	}
+
+	private Date getEstimatedTime(final Element docElement, int i) throws ParseException
+	{
+		if (stopIsCancelled(docElement, i))
+		{
+			return null;
+		}
+		if (docElement.getElementsByTagName("EstimatedTime").item(i) == null)
+		{
+			return new Date(0);
+		}
+		Date estimatedTime = sdf.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
+		return estimatedTime;
+	}
+
+	private Boolean stopIsCancelled(final Element docElement, int i)
+	{
+		return Boolean.valueOf(docElement.getElementsByTagName("Cancelled").item(i) != null
+				&& Boolean.valueOf(docElement.getElementsByTagName("Cancelled").item(i).getTextContent()));
 	}
 
 	private String getDestinationText(final Element docElement, int i)
@@ -106,16 +124,17 @@ public class TriasXMLRequest
 			Line line = new Line(getPublishedLineName(docElement, i), getDestinationText(docElement, i));
 			new DatabaseSaver().save(line);
 		}
-		LineDB lineDB = new DatabaseTableLine().selectLines(new SqlCondition("name", getPublishedLineName(docElement, i)),
-				new SqlCondition("destination", getDestinationText(docElement, i))).get(0);
+		LineDB lineDB = new DatabaseTableLine()
+				.selectLines(new SqlCondition("name", getPublishedLineName(docElement, i)),
+						new SqlCondition("destination", getDestinationText(docElement, i)))
+				.get(0);
 
 		return new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
 	}
 
 	private String getPublishedLineName(Element docElement, int i)
 	{
-		String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i)
-				.getTextContent();
+		String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i).getTextContent();
 		return publishedLineName.substring(0, publishedLineName.length() - 2);
 	}
 
@@ -128,7 +147,12 @@ public class TriasXMLRequest
 	private void sortStops(List<Stop> stops)
 	{
 		stops.sort((stop1, stop2) -> {
-			if (stop1.getRealTime().before(stop2.getRealTime()))
+			if (stop1.getRealTime() == null || stop1.getRealTime().equals(new Date(0)))
+			{
+				return 1;
+			}
+			if (stop2.getRealTime() == null || stop2.getRealTime().equals(new Date(0))
+					|| stop1.getRealTime().before(stop2.getRealTime()))
 			{
 				return -1;
 			}
