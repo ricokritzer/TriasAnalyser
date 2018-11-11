@@ -17,6 +17,9 @@ import de.dhbw.studienarbeit.data.helper.database.model.StopDB;
 
 public class DatabaseTableStop extends DatabaseTable
 {
+	private static final String DELAY_MAX = "delay_max";
+	private static final String DELAY_AVG = "delay_avg";
+	private static final String DELAY_SUM = "delay_sum";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableStop.class.getName());
 	private static final String TABLE_NAME = "Stop";
 
@@ -46,9 +49,9 @@ public class DatabaseTableStop extends DatabaseTable
 	{
 		try
 		{
-			final double delaySummary = result.getDouble("delay_sum");
-			final double delayAverage = result.getDouble("delay_avg");
-			final double delayMaximum = result.getDouble("delay_max");
+			final double delaySummary = result.getDouble(DELAY_SUM);
+			final double delayAverage = result.getDouble(DELAY_AVG);
+			final double delayMaximum = result.getDouble(DELAY_MAX);
 
 			return Optional.of(new DelayDB(delaySummary, delayAverage, delayMaximum));
 		}
@@ -79,6 +82,9 @@ public class DatabaseTableStop extends DatabaseTable
 		}
 	}
 
+	/*
+	 * use getDelay instead.
+	 */
 	@Deprecated
 	public final List<DelayDB> selectDelay(SqlCondition... conditions) throws IOException
 	{
@@ -103,21 +109,21 @@ public class DatabaseTableStop extends DatabaseTable
 		return delay;
 	}
 
-	public final void updateDelay() throws IOException
+	private final void updateDelay() throws IOException
 	{
 		Calendar nextUpdateNotBefore = Calendar.getInstance();
 		nextUpdateNotBefore.setTime(lastUpdated);
 		nextUpdateNotBefore.add(Calendar.MINUTE, 1);
 
-		if (nextUpdateNotBefore.after(new Date()))
+		if (nextUpdateNotBefore.after(new Date()) || !Optional.ofNullable(delay).isPresent())
 		{
 			try
 			{
 				final String delaySQL = "UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)";
 				final String what = new StringBuilder() //
-						.append("sum(").append(delaySQL).append(") AS").append("delay_sum") //
-						.append("avg(").append(delaySQL).append(") AS").append("delay_avg") //
-						.append("max(").append(delaySQL).append(") AS").append("delay_max") //
+						.append("sum(").append(delaySQL).append(") AS ").append(DELAY_SUM).append(", ") //
+						.append("avg(").append(delaySQL).append(") AS ").append(DELAY_AVG).append(", ") //
+						.append("max(").append(delaySQL).append(") AS ").append(DELAY_MAX)//
 						.toString();
 				select(DatabaseTableStop::setDelayDB, what, TABLE_NAME);
 			}
