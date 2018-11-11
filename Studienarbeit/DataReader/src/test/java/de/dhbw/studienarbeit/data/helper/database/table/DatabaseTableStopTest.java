@@ -1,10 +1,14 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
+
+import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 
 public class DatabaseTableStopTest
 {
@@ -20,13 +24,16 @@ public class DatabaseTableStopTest
 			fail("Unable to count stations" + e.getMessage());
 		}
 	}
-	
+
 	@Test
-	void testGettingDelay() throws Exception
+	void gettingDelayTwiceShouldBeUpdatedOnlyOnce() throws Exception
 	{
 		try
 		{
-			new DatabaseTableStop().selectDelay();
+			final DelayDB object = new DatabaseTableStop().getDelay();
+			final DelayDB object2 = new DatabaseTableStop().getDelay();
+
+			assertThat(object, Is.is(object2));
 		}
 		catch (IOException e)
 		{
