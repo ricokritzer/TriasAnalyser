@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
@@ -47,7 +47,7 @@ public class DelayDiv extends Div
 		super();
 		this.setTitle("Verspätungen");
 
-		HorizontalLayout layout = new HorizontalLayout();
+		VerticalLayout layout = new VerticalLayout();
 
 		txtDelayMax.setLabel("Maximal");
 		txtDelayMax.setReadOnly(true);

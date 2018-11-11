@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
@@ -19,19 +19,19 @@ import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableWeather;
 public class DatabaseDiv extends Div
 {
 	private static final Logger LOGGER = Logger.getLogger(DatabaseDiv.class.getName());
-	
+
 	private final TextField txtCountStations = new TextField();
 	private final TextField txtCountLines = new TextField();
 	private final TextField txtCountStops = new TextField();
 	private final TextField txtCountWeathers = new TextField();
-	
+
 	public DatabaseDiv()
 	{
 		super();
 		this.setTitle("Unsere Daten");
-		
-		HorizontalLayout layout = new HorizontalLayout();
-		
+
+		VerticalLayout layout = new VerticalLayout();
+
 		txtCountLines.setLabel("Anzahl der Linien");
 		txtCountLines.setReadOnly(true);
 		layout.add(txtCountLines);
@@ -47,16 +47,16 @@ public class DatabaseDiv extends Div
 		txtCountWeathers.setLabel("Anzahl der Wettereinträge");
 		txtCountWeathers.setReadOnly(true);
 		layout.add(txtCountWeathers);
-		
+
 		layout.add(new Button("aktualisieren", e -> setValues()));
-		
+
 		add(layout);
 
 		setValues();
-		
+
 		setVisible(false);
 	}
-	
+
 	private void setValues()
 	{
 		txtCountStations.setValue(getCountOf(new DatabaseTableStation()));
@@ -64,7 +64,7 @@ public class DatabaseDiv extends Div
 		txtCountStops.setValue(getCountOf(new DatabaseTableStop()));
 		txtCountWeathers.setValue(getCountOf(new DatabaseTableWeather()));
 	}
-	
+
 	private String getCountOf(DatabaseTable table)
 	{
 		try
