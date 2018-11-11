@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -99,38 +98,6 @@ public class DatabaseTableStop extends DatabaseTable
 		catch (SQLException e)
 		{
 			throw new IOException("Selecting does not succeed.", e);
-		}
-	}
-
-	@Deprecated
-	public final DelayDB getDelay() throws IOException
-	{
-		updateDelay();
-		return delay;
-	}
-
-	private final void updateDelay() throws IOException
-	{
-		Calendar nextUpdateNotBefore = Calendar.getInstance();
-		nextUpdateNotBefore.setTime(lastUpdated);
-		nextUpdateNotBefore.add(Calendar.MINUTE, 1);
-
-		if (nextUpdateNotBefore.after(new Date()) || !Optional.ofNullable(delay).isPresent())
-		{
-			try
-			{
-				final String delaySQL = "UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)";
-				final String what = new StringBuilder() //
-						.append("sum(").append(delaySQL).append(") AS ").append(DELAY_SUM).append(", ") //
-						.append("avg(").append(delaySQL).append(") AS ").append(DELAY_AVG).append(", ") //
-						.append("max(").append(delaySQL).append(") AS ").append(DELAY_MAX)//
-						.toString();
-				select(DatabaseTableStop::setDelayDB, what, TABLE_NAME);
-			}
-			catch (SQLException e)
-			{
-				throw new IOException("Selecting does not succeed.", e);
-			}
 		}
 	}
 
