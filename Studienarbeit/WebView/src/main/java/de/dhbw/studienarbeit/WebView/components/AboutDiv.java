@@ -25,10 +25,10 @@ public class AboutDiv extends Div
 		txtImpress.setLabel("Impressum");
 		txtImpress.setReadOnly(true);
 		txtImpress.setValue(new StringBuilder() //
-				.append("Duale Hochschule Baden-Württemberg Karlsruhe").append(System.lineSeparator()) //
+				.append("Duale Hochschule").append(System.lineSeparator()) //
 				.append("Erzbergerstraße 121").append(System.lineSeparator()) //
 				.append("76133 Karlsruhe").append(System.lineSeparator()) //
-				.append("Deutschland").append(System.lineSeparator()) //
+				.append("Deutschland") //
 				.toString());
 		layout.add(txtImpress);
 
