@@ -22,9 +22,6 @@ public class DatabaseTableStop extends DatabaseTable
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableStop.class.getName());
 	private static final String TABLE_NAME = "Stop";
 
-	protected static Date lastUpdated = new Date();
-	protected static DelayDB delay;
-
 	private static Optional<StopDB> getStop(ResultSet result)
 	{
 		try
@@ -85,12 +82,13 @@ public class DatabaseTableStop extends DatabaseTable
 	{
 		try
 		{
-			final String delaySQL = "UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)";
+			final String delaySQL = "(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime))";
+			final String as = " AS ";
 			final List<DelayDB> list = new ArrayList<>();
 			final String what = new StringBuilder() //
-					.append("sum(").append(delaySQL).append(") AS ").append(DELAY_SUM).append(", ") //
-					.append("avg(").append(delaySQL).append(") AS ").append(DELAY_AVG).append(", ") //
-					.append("max(").append(delaySQL).append(") AS ").append(DELAY_MAX)//
+					.append("sum").append(delaySQL).append(as).append(DELAY_SUM).append(", ") //
+					.append("avg").append(delaySQL).append(as).append(DELAY_AVG).append(", ") //
+					.append("max").append(delaySQL).append(as).append(DELAY_MAX) //
 					.toString();
 			select(r -> getDelay(r).ifPresent(list::add), what, TABLE_NAME, conditions);
 			return list;
@@ -98,15 +96,6 @@ public class DatabaseTableStop extends DatabaseTable
 		catch (SQLException e)
 		{
 			throw new IOException("Selecting does not succeed.", e);
-		}
-	}
-
-	private static final void setDelayDB(final ResultSet result)
-	{
-		final Optional<DelayDB> delayDB = getDelay(result);
-		if (delayDB.isPresent())
-		{
-			DatabaseTableStop.delay = delayDB.get();
 		}
 	}
 }
