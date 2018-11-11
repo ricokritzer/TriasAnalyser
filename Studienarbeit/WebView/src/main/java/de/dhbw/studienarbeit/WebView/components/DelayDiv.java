@@ -16,9 +16,10 @@ import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 
-@SuppressWarnings("serial")
 public class DelayDiv extends Div
 {
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger LOGGER = Logger.getLogger(DelayDiv.class.getName());
 
 	private static final int SECONDS_PER_MINUTE = 60;
