@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
@@ -29,21 +30,25 @@ public class DelayDiv extends Div
 	{
 		super();
 		this.setTitle("Verspätungen");
+		
+		HorizontalLayout layout = new HorizontalLayout();
 
 		txtDelayMax.setLabel("Maximal");
 		txtDelayMax.setReadOnly(true);
-		add(txtDelayMax);
+		layout.add(txtDelayMax);
 
 		txtDelayAvg.setLabel("Durchschnitt");
 		txtDelayAvg.setReadOnly(true);
-		add(txtDelayAvg);
+		layout.add(txtDelayAvg);
 
 		txtDelaySum.setLabel("Summe");
 		txtDelaySum.setReadOnly(true);
-		add(txtDelaySum);
+		layout.add(txtDelaySum);
 
-		add(new Button("aktualisieren", e -> setValuesDelay()));
+		layout.add(new Button("aktualisieren", e -> setValuesDelay()));
 
+		add(layout);
+		
 		setValuesDelay();
 
 		setVisible(false);

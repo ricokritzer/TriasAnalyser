@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
@@ -29,23 +30,27 @@ public class DatabaseDiv extends Div
 		super();
 		this.setTitle("Unsere Daten");
 		
+		HorizontalLayout layout = new HorizontalLayout();
+		
 		txtCountLines.setLabel("Anzahl der Linien");
 		txtCountLines.setReadOnly(true);
-		add(txtCountLines);
+		layout.add(txtCountLines);
 
 		txtCountStations.setLabel("Anzahl der Stationen");
 		txtCountStations.setReadOnly(true);
-		add(txtCountStations);
+		layout.add(txtCountStations);
 
 		txtCountStops.setLabel("Anzahl der Stops");
 		txtCountStops.setReadOnly(true);
-		add(txtCountStops);
+		layout.add(txtCountStops);
 
 		txtCountWeathers.setLabel("Anzahl der Wettereinträge");
 		txtCountWeathers.setReadOnly(true);
-		add(txtCountWeathers);
+		layout.add(txtCountWeathers);
 		
-		add(new Button("aktualisieren", e -> setValues()));
+		layout.add(new Button("aktualisieren", e -> setValues()));
+		
+		add(layout);
 
 		setValues();
 		
