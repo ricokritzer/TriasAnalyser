@@ -82,18 +82,17 @@ public class DatabaseTableStop extends DatabaseTable
 		}
 	}
 
-	/*
-	 * use getDelay instead.
-	 */
-	@Deprecated
 	public final List<DelayDB> selectDelay(SqlCondition... conditions) throws IOException
 	{
 		try
 		{
+			final String delaySQL = "UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)";
 			final List<DelayDB> list = new ArrayList<>();
-			final String what = " sum(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_sum,"
-					+ "        avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg,"
-					+ "        max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max";
+			final String what = new StringBuilder() //
+					.append("sum(").append(delaySQL).append(") AS ").append(DELAY_SUM).append(", ") //
+					.append("avg(").append(delaySQL).append(") AS ").append(DELAY_AVG).append(", ") //
+					.append("max(").append(delaySQL).append(") AS ").append(DELAY_MAX)//
+					.toString();
 			select(r -> getDelay(r).ifPresent(list::add), what, TABLE_NAME, conditions);
 			return list;
 		}
@@ -103,6 +102,7 @@ public class DatabaseTableStop extends DatabaseTable
 		}
 	}
 
+	@Deprecated
 	public final DelayDB getDelay() throws IOException
 	{
 		updateDelay();
