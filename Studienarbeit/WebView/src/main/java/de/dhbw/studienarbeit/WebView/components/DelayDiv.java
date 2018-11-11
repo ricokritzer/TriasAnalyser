@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.textfield.TextField;
 
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
@@ -18,6 +17,10 @@ public class DelayDiv extends Div
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayDiv.class.getName());
 
+	private static final int SECONDS_PER_MINUTE = 60;
+	private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;
+	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
+
 	private final TextField txtDelaySum = new TextField();
 	private final TextField txtDelayAvg = new TextField();
 	private final TextField txtDelayMax = new TextField();
@@ -26,8 +29,6 @@ public class DelayDiv extends Div
 	{
 		super();
 		this.setTitle("Verspätungen");
-
-		add(new Label("Alle Verspätungen in Sekunden"));
 
 		txtDelayMax.setLabel("Maximal");
 		txtDelayMax.setReadOnly(true);
@@ -63,8 +64,28 @@ public class DelayDiv extends Div
 
 	private void setDelayValues(DelayDB delay)
 	{
-		txtDelayAvg.setValue(Double.toString(delay.getAverage()));
-		txtDelaySum.setValue(Double.toString(delay.getSummary()));
-		txtDelayMax.setValue(Double.toString(delay.getMaximum()));
+		txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
+		txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
+		txtDelayMax.setValue(convertTimeToString(delay.getMaximum()));
+	}
+
+	private String convertTimeToString(double time)
+	{
+		if (time > SECONDS_PER_DAY)
+		{
+			final double days = time / SECONDS_PER_DAY;
+			return Double.toString(days) + " Tage";
+		}
+		if (time > SECONDS_PER_HOUR)
+		{
+			final double hours = time / SECONDS_PER_HOUR;
+			return Double.toString(hours) + " Stunden";
+		}
+		if (time > SECONDS_PER_MINUTE)
+		{
+			final double hours = time / SECONDS_PER_MINUTE;
+			return Double.toString(hours) + " Minuten";
+		}
+		return Double.toString(time) + " Sekunden";
 	}
 }
