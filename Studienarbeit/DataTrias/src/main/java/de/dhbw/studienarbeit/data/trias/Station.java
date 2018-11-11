@@ -69,10 +69,8 @@ public class Station implements Manageable
 				stopsToSave.add(stop);
 			}
 		}
-		LOGGER.log(Level.FINE, "Stops gespeichert:");
 		for (Stop stop : stopsToSave)
 		{
-			LOGGER.log(Level.FINE, stop.toString());
 			new DatabaseSaver().save(stop);
 		}
 	}
@@ -80,7 +78,6 @@ public class Station implements Manageable
 	@Override
 	public Date nextUpdate()
 	{
-		LOGGER.log(Level.FINE, "next Updated: " + nextUpdate.toString());
 		return nextUpdate;
 	}
 
@@ -94,10 +91,9 @@ public class Station implements Manageable
 		}
 		catch (IOException e)
 		{
+			LOGGER.log(Level.WARNING, "Timeout beim Anfragen von TRIAS");
 			currentStops = previousStops;
 		}
-		LOGGER.log(Level.FINE, "Stops gelesen: ");
-		currentStops.forEach(s -> LOGGER.log(Level.FINE, s.toString()));
 		calculateNextUpdate();
 	}
 
@@ -127,23 +123,29 @@ public class Station implements Manageable
 		}
 
 		Stop nextStop = currentStops.get(0);
+		LOGGER.log(Level.FINE, "Stop: " + nextStop);
 		
 		if (nextStop.getRealTime() == null)
 		{
 			Stop lastStop = currentStops.get(currentStops.size() - 1);
-			nextUpdate = lastStop.getTimeTabledTime();
+			cal.setTime(lastStop.getTimeTabledTime());
+			cal.add(Calendar.HOUR_OF_DAY, 1);
+			nextUpdate = cal.getTime();
+			LOGGER.log(Level.FINE, "Keine Echtzeitdaten, nextUpdate: " + nextUpdate);
 			return;
 		}
 		
 		if (nextStop.getRealTime().equals(new Date(0)))
 		{
 			cal.setTime(nextStop.getTimeTabledTime());
+			cal.add(Calendar.HOUR_OF_DAY, 1);
 			cal.add(Calendar.MINUTE, -1);
 			while (cal.getTime().before(new Date()))
 			{
 				cal.add(Calendar.MINUTE, 1);
 			}
 			nextUpdate = cal.getTime();
+			LOGGER.log(Level.FINE, "nextUpdate: " + nextUpdate);
 			return;
 		}
 		
@@ -163,10 +165,12 @@ public class Station implements Manageable
 				cal.add(Calendar.MINUTE, 1);
 			}
 			nextUpdate = cal.getTime();
+			LOGGER.log(Level.FINE, "nextUpdate: " + nextUpdate);
 			return;
 		}
 
 		nextUpdate = cal.getTime();
+		LOGGER.log(Level.FINE, "nextUpdate: " + nextUpdate);
 	}
 
 	@Override

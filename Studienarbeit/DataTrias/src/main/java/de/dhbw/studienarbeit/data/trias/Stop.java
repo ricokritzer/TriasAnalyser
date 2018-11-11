@@ -79,6 +79,12 @@ public class Stop implements Saveable
 		cal.setTime(timeTabledTime);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		Timestamp timeTabledECT = new Timestamp(cal.getTimeInMillis());
+
+		if (realTime == null)
+		{
+			return "'" + stationID + "', " + line.getId() + ", '" + timeTabledECT + "', null";
+		}
+		
 		cal.setTime(realTime);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		Timestamp realTimeECT = new Timestamp(cal.getTimeInMillis());
