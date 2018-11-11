@@ -36,11 +36,8 @@ public class DelayDiv extends Div
 
 	static
 	{
-		update();
-		LOGGER.log(Level.INFO, "Delay updated.");
-
 		DelayDiv.timer = new Timer();
-		timer.schedule(new MyTimerTask(DelayDiv::update), 60l * 1000);
+		timer.schedule(new MyTimerTask(DelayDiv::update), new Date(), 60l * 1000);
 		LOGGER.log(Level.INFO, "Timer scheduled.");
 	}
 
