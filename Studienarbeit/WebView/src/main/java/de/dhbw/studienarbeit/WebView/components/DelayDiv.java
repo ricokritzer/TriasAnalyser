@@ -34,21 +34,17 @@ public class DelayDiv extends Div
 	private static Timer timer;
 	private static Date lastUpdate = new Date();
 
+	static
+	{
+		DelayDiv.timer = new Timer();
+		timer.schedule(new MyTimerTask(DelayDiv::update), new Date(), 60l * 1000);
+		LOGGER.log(Level.INFO, "Timer scheduled.");
+	}
+
 	public DelayDiv()
 	{
 		super();
 		this.setTitle("Verspätungen");
-
-		if (!Optional.ofNullable(delay).isPresent())
-		{
-			update();
-			LOGGER.log(Level.INFO, "Delay updated.");
-		}
-		if (!Optional.ofNullable(timer).isPresent())
-		{
-			setTimer();
-			LOGGER.log(Level.INFO, "Timer scheduled.");
-		}
 
 		HorizontalLayout layout = new HorizontalLayout();
 
@@ -94,18 +90,12 @@ public class DelayDiv extends Div
 		DelayDiv.delay = delay;
 	}
 
-	private static void setTimer()
-	{
-		DelayDiv.timer = new Timer();
-		timer.schedule(new MyTimerTask(DelayDiv::update), 60l * 1000);
-	}
-
 	private void setDelayValues()
 	{
 		txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
 		txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
 		txtDelayMax.setValue(convertTimeToString(delay.getMaximum()));
-		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(lastUpdate));
+		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(lastUpdate));
 	}
 
 	private String convertTimeToString(double time)
