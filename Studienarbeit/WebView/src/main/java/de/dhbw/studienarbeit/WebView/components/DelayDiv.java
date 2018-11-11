@@ -74,18 +74,23 @@ public class DelayDiv extends Div
 		if (time > SECONDS_PER_DAY)
 		{
 			final double days = time / SECONDS_PER_DAY;
-			return Double.toString(days) + " Tage";
+			return Double.toString(round(days)) + " Tage";
 		}
 		if (time > SECONDS_PER_HOUR)
 		{
 			final double hours = time / SECONDS_PER_HOUR;
-			return Double.toString(hours) + " Stunden";
+			return Double.toString(round(hours)) + " Stunden";
 		}
 		if (time > SECONDS_PER_MINUTE)
 		{
-			final double hours = time / SECONDS_PER_MINUTE;
-			return Double.toString(hours) + " Minuten";
+			final double minutes = time / SECONDS_PER_MINUTE;
+			return Double.toString(round(minutes)) + " Minuten";
 		}
 		return Double.toString(time) + " Sekunden";
+	}
+
+	private double round(double value)
+	{
+		return Math.round(value * 100) / 100.0;
 	}
 }
