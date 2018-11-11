@@ -116,15 +116,37 @@ public class Station implements Manageable
 		}
 
 		Calendar cal = Calendar.getInstance();
+		
+		// if no train arrives today
 		if (currentStops.isEmpty())
 		{
 			cal.setTime(nextUpdate);
-			cal.add(Calendar.HOUR_OF_DAY, 2);
+			cal.add(Calendar.HOUR_OF_DAY, 24);
 			nextUpdate = cal.getTime();
 			return;
 		}
 
 		Stop nextStop = currentStops.get(0);
+		
+		if (nextStop.getRealTime() == null)
+		{
+			Stop lastStop = currentStops.get(currentStops.size() - 1);
+			nextUpdate = lastStop.getTimeTabledTime();
+			return;
+		}
+		
+		if (nextStop.getRealTime().equals(new Date(0)))
+		{
+			cal.setTime(nextStop.getTimeTabledTime());
+			cal.add(Calendar.MINUTE, -1);
+			while (cal.getTime().before(new Date()))
+			{
+				cal.add(Calendar.MINUTE, 1);
+			}
+			nextUpdate = cal.getTime();
+			return;
+		}
+		
 		cal.setTime(nextStop.getRealTime());
 		cal.add(Calendar.MINUTE, -5);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
