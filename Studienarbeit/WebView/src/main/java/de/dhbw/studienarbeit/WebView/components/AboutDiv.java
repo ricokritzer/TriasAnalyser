@@ -1,7 +1,7 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.TextArea;
 
 public class AboutDiv extends Div
 {
@@ -9,15 +9,15 @@ public class AboutDiv extends Div
 
 	public AboutDiv()
 	{
-		final TextField txtAbout = new TextField();
-		txtAbout.setTitle("Unsere Studienarbeit");
-		txtAbout.setEnabled(false);
+		final TextArea txtAbout = new TextArea();
+		txtAbout.setLabel("Unsere Studienarbeit");
+		txtAbout.setReadOnly(true);
 		txtAbout.setValue("Patrick Siewert" + System.lineSeparator() + "Rico Kritzer");
 		add(txtAbout);
 
-		final TextField txtImpress = new TextField();
-		txtImpress.setTitle("Impressum");
-		txtImpress.setEnabled(false);
+		final TextArea txtImpress = new TextArea();
+		txtImpress.setLabel("Impressum");
+		txtImpress.setReadOnly(true);
 		txtImpress.setValue(new StringBuilder() //
 				.append("Duale Hochschule Baden-Württemberg Karlsruhe").append(System.lineSeparator()) //
 				.append("Erzbergerstraße 121").append(System.lineSeparator()) //
