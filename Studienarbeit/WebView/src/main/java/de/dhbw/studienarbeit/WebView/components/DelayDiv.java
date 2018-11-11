@@ -1,6 +1,8 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -26,9 +28,11 @@ public class DelayDiv extends Div
 	private final TextField txtDelaySum = new TextField();
 	private final TextField txtDelayAvg = new TextField();
 	private final TextField txtDelayMax = new TextField();
+	private final TextField txtLastUpdate = new TextField();
 
 	private static DelayDB delay;
 	private static Timer timer;
+	private static Date lastUpdate;
 
 	public DelayDiv()
 	{
@@ -58,6 +62,10 @@ public class DelayDiv extends Div
 		txtDelaySum.setReadOnly(true);
 		layout.add(txtDelaySum);
 
+		txtLastUpdate.setLabel("Stand");
+		txtLastUpdate.setReadOnly(true);
+		layout.add(txtLastUpdate);
+
 		add(layout);
 
 		setDelayValues();
@@ -80,6 +88,7 @@ public class DelayDiv extends Div
 
 	private static void setDelay(DelayDB delay)
 	{
+		DelayDiv.lastUpdate = new Date();
 		DelayDiv.delay = delay;
 	}
 
@@ -94,6 +103,7 @@ public class DelayDiv extends Div
 		txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
 		txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
 		txtDelayMax.setValue(convertTimeToString(delay.getMaximum()));
+		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(lastUpdate));
 	}
 
 	private String convertTimeToString(double time)
