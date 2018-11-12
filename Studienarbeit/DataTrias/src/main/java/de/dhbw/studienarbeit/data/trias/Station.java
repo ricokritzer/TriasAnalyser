@@ -78,6 +78,7 @@ public class Station implements Manageable
 	@Override
 	public Date nextUpdate()
 	{
+		LOGGER.log(Level.FINEST, "next Update for " + name + ": " + nextUpdate);
 		return nextUpdate;
 	}
 

@@ -16,7 +16,7 @@ public class App
 {
 	public static void main(String[] args) throws IOException
 	{
-		LogLevelHelper.setLogLevel(Level.INFO);
+		LogLevelHelper.setLogLevel(Level.ALL);
 
 		final DatabaseTableStation databaseTableStation = new DatabaseTableStation();
 		final List<String> operators = databaseTableStation.selectObservedOperators();

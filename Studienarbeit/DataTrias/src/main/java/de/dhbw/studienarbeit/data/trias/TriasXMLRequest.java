@@ -37,7 +37,7 @@ public class TriasXMLRequest
 	private String key;
 	private String stationID;
 
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	private static final String formatString = "yyyy-MM-dd'T'HH:mm:ss";
 
 	private static final Logger LOGGER = Logger.getLogger(TriasXMLRequest.class.getName());
 
@@ -59,9 +59,9 @@ public class TriasXMLRequest
 		List<Stop> stops = new ArrayList<>();
 		URLConnection con = createConnection();
 		request(con, getXML());
-		LOGGER.log(Level.FINE, getXML());
+		LOGGER.log(Level.FINEST, getXML());
 		String responseXML = readResponse(con);
-		LOGGER.log(Level.FINE, responseXML);
+		LOGGER.log(Level.FINEST, responseXML);
 		DocumentBuilder parser;
 		try
 		{
@@ -79,13 +79,12 @@ public class TriasXMLRequest
 			e.printStackTrace();
 		}
 		sortStops(stops);
-		stops.forEach(System.out::println);
 		return stops;
 	}
 
 	private Date getTimetabledTime(final Element docElement, int i) throws ParseException
 	{
-		Date timetabledTime = sdf.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
+		Date timetabledTime = new SimpleDateFormat(formatString).parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
 		return timetabledTime;
 	}
 
@@ -99,7 +98,7 @@ public class TriasXMLRequest
 		{
 			return new Date(0);
 		}
-		Date estimatedTime = sdf.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
+		Date estimatedTime = new SimpleDateFormat(formatString).parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
 		return estimatedTime;
 	}
 
