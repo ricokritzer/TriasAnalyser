@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.ValueEquals;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStation extends DatabaseTable
@@ -91,7 +92,7 @@ public class DatabaseTableStation extends DatabaseTable
 		try
 		{
 			final Set<String> operators = new HashSet<>();
-			select(r -> getOperator(r).ifPresent(operators::add), TABLE_NAME, new SqlCondition("observe", true));
+			select(r -> getOperator(r).ifPresent(operators::add), TABLE_NAME, new ValueEquals("observe", true));
 			return new ArrayList<>(operators);
 		}
 		catch (SQLException e)
@@ -102,11 +103,11 @@ public class DatabaseTableStation extends DatabaseTable
 
 	public final List<StationDB> selectObservedStations() throws IOException
 	{
-		return selectStations(new SqlCondition("observe", true));
+		return selectStations(new ValueEquals("observe", true));
 	}
 
 	public final List<StationDB> selectObservedStations(final String name) throws IOException
 	{
-		return selectStations(new SqlCondition("observe", true), new SqlCondition("operator", name));
+		return selectStations(new ValueEquals("observe", true), new ValueEquals("operator", name));
 	}
 }

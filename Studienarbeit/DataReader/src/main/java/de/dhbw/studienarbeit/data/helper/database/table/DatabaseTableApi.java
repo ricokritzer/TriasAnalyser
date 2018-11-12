@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.ValueEquals;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class DatabaseTableApi extends DatabaseTable
@@ -55,6 +56,6 @@ public class DatabaseTableApi extends DatabaseTable
 
 	public final List<ApiKey> selectApisByName(final String name) throws IOException
 	{
-		return selectApis(new SqlCondition("name", name));
+		return selectApis(new ValueEquals("name", name));
 	}
 }
