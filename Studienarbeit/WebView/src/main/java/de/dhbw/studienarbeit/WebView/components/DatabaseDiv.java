@@ -40,6 +40,8 @@ public class DatabaseDiv extends Div
 
 	static
 	{
+		update();
+
 		DatabaseDiv.timer = new Timer();
 		timer.schedule(new MyTimerTask(DatabaseDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
 		LOGGER.log(Level.INFO, "Timer scheduled.");
