@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
-import de.dhbw.studienarbeit.data.helper.database.ValueNotNull;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.model.StopDB;
 
@@ -92,13 +90,7 @@ public class DatabaseTableStop extends DatabaseTable
 					.append("avg").append(delaySQL).append(as).append(DELAY_AVG).append(", ") //
 					.append("max").append(delaySQL).append(as).append(DELAY_MAX) //
 					.toString();
-
-			final List<SqlCondition> conditionsList = new ArrayList<>();
-			conditionsList.addAll(Arrays.asList(conditions));
-			conditionsList.add(new ValueNotNull("realTime"));
-
-			select(r -> getDelay(r).ifPresent(list::add), what, TABLE_NAME,
-					conditionsList.toArray(new SqlCondition[conditionsList.size()]));
+			select(r -> getDelay(r).ifPresent(list::add), what, TABLE_NAME, conditions);
 			return list;
 		}
 		catch (SQLException e)

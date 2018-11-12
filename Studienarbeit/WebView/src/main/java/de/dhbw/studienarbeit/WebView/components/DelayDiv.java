@@ -83,7 +83,7 @@ public class DelayDiv extends Div
 	{
 		try
 		{
-			DatabaseTableStop stop = new DatabaseTableStop();
+			final DatabaseTableStop stop = new DatabaseTableStop();
 			Optional.ofNullable(stop.selectDelay().get(0)).ifPresent(DelayDiv::setDelay);
 		}
 		catch (IOException e)
