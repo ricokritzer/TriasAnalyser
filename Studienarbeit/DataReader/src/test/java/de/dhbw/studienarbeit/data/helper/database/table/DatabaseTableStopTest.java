@@ -9,6 +9,7 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
+import de.dhbw.studienarbeit.data.helper.database.ValueNotNull;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 
 public class DatabaseTableStopTest
@@ -32,6 +33,20 @@ public class DatabaseTableStopTest
 		try
 		{
 			List<DelayDB> list = new DatabaseTableStop().selectDelay();
+			assertThat(list.size(), Is.is(1));
+		}
+		catch (IOException e)
+		{
+			fail("Unable to select delay" + e.getMessage());
+		}
+	}
+
+	@Test
+	void testDelayNotNull() throws Exception
+	{
+		try
+		{
+			List<DelayDB> list = new DatabaseTableStop().selectDelay(new ValueNotNull("realTime"));
 			assertThat(list.size(), Is.is(1));
 		}
 		catch (IOException e)
