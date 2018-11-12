@@ -8,6 +8,7 @@ import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
 import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.ValueEquals;
 
 public class DatabaseTableTest
 {
@@ -39,7 +40,7 @@ public class DatabaseTableTest
 	@Test
 	void testSQLWith1Condition() throws Exception
 	{
-		final String sql = databaseTable().createSQLStatement("bla", new SqlCondition("name", "test"));
+		final String sql = databaseTable().createSQLStatement("bla", new ValueEquals("name", "test"));
 		assertThat(sql, Is.is("SELECT * FROM bla WHERE name = 'test';"));
 	}
 
@@ -47,7 +48,7 @@ public class DatabaseTableTest
 	void testSQLWith2Condition() throws Exception
 	{
 		final String sql = databaseTable().createSQLStatement("bla", //
-				new SqlCondition("name", "test"), new SqlCondition("alter", 2));
+				new ValueEquals("name", "test"), new ValueEquals("alter", 2));
 		assertThat(sql, Is.is("SELECT * FROM bla WHERE name = 'test' AND alter = 2;"));
 	}
 }
