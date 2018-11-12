@@ -12,6 +12,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
+import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
 import de.dhbw.studienarbeit.data.helper.database.ValueNotNull;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
@@ -85,7 +86,9 @@ public class DelayDiv extends Div
 		try
 		{
 			final DatabaseTableStop stop = new DatabaseTableStop();
-			Optional.ofNullable(stop.selectDelay(new ValueNotNull("realTime")).get(0)).ifPresent(DelayDiv::setDelay);
+			final SqlCondition notNull = new ValueNotNull("realTime");
+			LOGGER.log(Level.FINE, "Condition for delay: " + notNull);
+			Optional.ofNullable(stop.selectDelay(notNull).get(0)).ifPresent(DelayDiv::setDelay);
 		}
 		catch (IOException e)
 		{
