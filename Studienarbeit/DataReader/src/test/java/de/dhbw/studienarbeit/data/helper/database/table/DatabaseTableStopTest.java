@@ -1,10 +1,15 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
+
+import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 
 public class DatabaseTableStopTest
 {
@@ -26,7 +31,8 @@ public class DatabaseTableStopTest
 	{
 		try
 		{
-			new DatabaseTableStop().selectDelay();
+			List<DelayDB> list = new DatabaseTableStop().selectDelay();
+			assertThat(list.size(), Is.is(1));
 		}
 		catch (IOException e)
 		{
