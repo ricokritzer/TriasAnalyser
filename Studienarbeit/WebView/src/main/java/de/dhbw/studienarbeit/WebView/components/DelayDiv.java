@@ -49,8 +49,8 @@ public class DelayDiv extends Div
 		super();
 		this.setTitle("Verspätungen");
 
-		final Timer timer = new Timer();
-		timer.schedule(new MyTimerTask(this::setDelayValues), UPDATE_RATE_SECONDS * 1000);
+		final Timer reloadTimer = new Timer();
+		reloadTimer.schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
 
 		VerticalLayout layout = new VerticalLayout();
 
