@@ -26,6 +26,8 @@ public class DelayDiv extends Div
 	private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;
 	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
+	private static final long UPDATE_RATE_SECONDS = 60;
+
 	private final TextField txtDelaySum = new TextField();
 	private final TextField txtDelayAvg = new TextField();
 	private final TextField txtDelayMax = new TextField();
@@ -38,7 +40,7 @@ public class DelayDiv extends Div
 	static
 	{
 		DelayDiv.timer = new Timer();
-		timer.schedule(new MyTimerTask(DelayDiv::update), new Date(), 60l * 1000);
+		timer.schedule(new MyTimerTask(DelayDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
 		LOGGER.log(Level.INFO, "Timer scheduled.");
 	}
 
@@ -46,6 +48,9 @@ public class DelayDiv extends Div
 	{
 		super();
 		this.setTitle("Verspätungen");
+
+		final Timer timer = new Timer();
+		timer.schedule(new MyTimerTask(this::setDelayValues), UPDATE_RATE_SECONDS * 1000);
 
 		VerticalLayout layout = new VerticalLayout();
 
