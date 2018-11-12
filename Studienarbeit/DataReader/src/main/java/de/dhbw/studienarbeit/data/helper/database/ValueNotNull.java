@@ -6,7 +6,7 @@ public class ValueNotNull implements SqlCondition
 
 	public ValueNotNull(final String name)
 	{
-		sql = new StringBuilder().append(name).append(" IS NOT NULL").toString();
+		sql = new StringBuilder(name).append(" IS NOT NULL").toString();
 	}
 
 	@Override
