@@ -77,6 +77,10 @@ public class DatabaseDiv extends Div
 		txtCountWeathers.setReadOnly(true);
 		layout.add(txtCountWeathers);
 
+		txtLastUpdate.setLabel("Stand");
+		txtLastUpdate.setReadOnly(true);
+		layout.add(txtLastUpdate);
+
 		add(layout);
 
 		setValues();
