@@ -35,7 +35,7 @@ public class DatabaseDiv extends Div
 	private static int countLines = 0;
 	private static int countStops = 0;
 	private static int countWeather = 0;
-	private static Date lastUpdate;
+	private static Date lastUpdate = new Date();
 	private static Timer timer;
 
 	static
