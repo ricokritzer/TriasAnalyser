@@ -39,8 +39,6 @@ public class DelayDiv extends Div
 
 	static
 	{
-		update();
-
 		DelayDiv.timer = new Timer();
 		timer.schedule(new MyTimerTask(DelayDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
 		LOGGER.log(Level.INFO, "Timer scheduled.");
@@ -100,10 +98,12 @@ public class DelayDiv extends Div
 
 	private void setDelayValues()
 	{
-		txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
-		txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
-		txtDelayMax.setValue(convertTimeToString(delay.getMaximum()));
-		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(lastUpdate));
+		Optional.ofNullable(delay).ifPresent(d -> {
+			txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
+			txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
+			txtDelayMax.setValue(convertTimeToString(delay.getMaximum()));
+			txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(lastUpdate));
+		});
 	}
 
 	private String convertTimeToString(double time)
