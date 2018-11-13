@@ -37,14 +37,14 @@ public class DelayDiv extends Div
 	private static Timer timer;
 	private static Date lastUpdate = new Date();
 
-//	static
-//	{
-//		update();
-//
-//		DelayDiv.timer = new Timer();
-//		timer.schedule(new MyTimerTask(DelayDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
-//		LOGGER.log(Level.INFO, "Timer scheduled.");
-//	}
+	static
+	{
+		update();
+
+		DelayDiv.timer = new Timer();
+		timer.schedule(new MyTimerTask(DelayDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
+		LOGGER.log(Level.INFO, "Timer scheduled.");
+	}
 
 	public DelayDiv()
 	{
