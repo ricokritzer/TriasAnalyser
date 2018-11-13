@@ -126,8 +126,7 @@ public class TriasXMLRequest
 			new DatabaseSaver().save(line);
 		}
 		LineDB lineDB = new DatabaseTableLine()
-				.selectLines(new ValueEquals("name", getPublishedLineName(docElement, i)),
-						new ValueEquals("destination", getDestinationText(docElement, i)))
+				.selectLinesByNameAndDestination(getPublishedLineName(docElement, i), getDestinationText(docElement, i))
 				.get(0);
 
 		return new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());

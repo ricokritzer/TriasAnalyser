@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
 
 public class DatabaseTableLine extends DatabaseTable
@@ -38,18 +38,20 @@ public class DatabaseTableLine extends DatabaseTable
 	{
 		return TABLE_NAME;
 	}
-	
-	/*
-	 * @deprecated add your own method below
-	 */
-	@Deprecated
-	public final List<LineDB> selectLines(Condition... conditions) throws IOException
+
+	public List<LineDB> selectLinesByNameAndDestination(String name, String destination) throws IOException
 	{
-		try
+		reconnectIfNeccessary();
+
+		final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ? AND destination = ?;";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			final List<LineDB> list = new ArrayList<>();
-			select(r -> getLine(r).ifPresent(list::add), TABLE_NAME, conditions);
-			return list;
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, destination);
+
+			final List<LineDB> lines = new ArrayList<>();
+			select(r -> getLine(r).ifPresent(lines::add), preparedStatement);
+			return lines;
 		}
 		catch (SQLException e)
 		{
