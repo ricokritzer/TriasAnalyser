@@ -83,8 +83,8 @@ public class TriasXMLRequest
 
 	private Date getTimetabledTime(final Element docElement, int i) throws ParseException
 	{
-		Date timetabledTime = new SimpleDateFormat(formatString)
-				.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
+		Date timetabledTime = new Date(new SimpleDateFormat(formatString)
+				.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent()).getTime());
 		return timetabledTime;
 	}
 
@@ -98,8 +98,8 @@ public class TriasXMLRequest
 		{
 			return new Date(0);
 		}
-		Date estimatedTime = new SimpleDateFormat(formatString)
-				.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
+		Date estimatedTime = new Date(new SimpleDateFormat(formatString)
+				.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent()).getTime());
 		return estimatedTime;
 	}
 
@@ -118,8 +118,8 @@ public class TriasXMLRequest
 
 	private Line getLine(Element docElement, int i) throws IOException
 	{
-		String name = getPublishedLineName(docElement, i).replaceAll("'", "");
-		String destination = getDestinationText(docElement, i).replaceAll("'", "");
+		String name = getPublishedLineName(docElement, i);
+		String destination = getDestinationText(docElement, i);
 
 		List<LineDB> lineDBs = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination);
 
@@ -229,6 +229,6 @@ public class TriasXMLRequest
 
 	private String currentTime()
 	{
-		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
+		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new java.util.Date());
 	}
 }

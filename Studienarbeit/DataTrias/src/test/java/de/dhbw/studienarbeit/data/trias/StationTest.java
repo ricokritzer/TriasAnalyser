@@ -2,12 +2,10 @@ package de.dhbw.studienarbeit.data.trias;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class StationTest
 {
@@ -37,12 +35,4 @@ class StationTest
 		Line line = new Line("name", "destination");
 		assertThat(line.getSQLQuerry(), is("INSERT INTO Line (name, destination) VALUES ('name', 'destination')"));
 	}
-	
-	@Test
-	void testName()
-	{
-		Stop stop = Mockito.mock(Stop.class);
-		Mockito.when(stop.getRealTime()).thenReturn(new Date());
-	}
-
 }

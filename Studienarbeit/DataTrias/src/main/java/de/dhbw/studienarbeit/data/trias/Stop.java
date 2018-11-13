@@ -1,13 +1,16 @@
 package de.dhbw.studienarbeit.data.trias;
 
+import java.sql.Connection;
+import java.util.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saveable2;
 
-public class Stop implements Saveable
+public class Stop implements Saveable2
 {
 	private String stationID;
 	private Line line;
@@ -43,12 +46,6 @@ public class Stop implements Saveable
 	}
 
 	@Override
-	public String getSQLQuerry()
-	{
-		return "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (" + getValues() + ")";
-	}
-
-	@Override
 	public boolean equals(Object obj)
 	{
 		if (super.equals(obj))
@@ -73,28 +70,28 @@ public class Stop implements Saveable
 		return Objects.hash(stationID, line, timeTabledTime);
 	}
 
-	public String getValues()
-	{
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(timeTabledTime);
-		cal.add(Calendar.HOUR_OF_DAY, 1);
-		Timestamp timeTabledECT = new Timestamp(cal.getTimeInMillis());
-
-		if (realTime == null)
-		{
-			return "'" + stationID + "', " + line.getId() + ", '" + timeTabledECT + "', null";
-		}
-		
-		cal.setTime(realTime);
-		cal.add(Calendar.HOUR_OF_DAY, 1);
-		Timestamp realTimeECT = new Timestamp(cal.getTimeInMillis());
-		return "'" + stationID + "', " + line.getId() + ", '" + timeTabledECT + "', '"
-				+ realTimeECT + "'";
-	}
-	
 	@Override
 	public String toString()
 	{
 		return String.join(", ", stationID, String.valueOf(line.getId()), String.valueOf(timeTabledTime), String.valueOf(realTime));
+	}
+
+	@Override
+	public PreparedStatement getPreparedStatement(Connection connection) throws SQLException
+	{
+		String query = "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (?, ?, ?, ?)";
+		try (PreparedStatement statement = connection.prepareStatement(query))
+		{
+			statement.setString(1, stationID);
+			statement.setInt(2, line.getId());
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(timeTabledTime);
+			cal.add(Calendar.HOUR_OF_DAY, 1);
+			statement.setTimestamp(3, new Timestamp(cal.getTimeInMillis()));
+			cal.setTime(realTime);
+			cal.add(Calendar.HOUR_OF_DAY, 1);
+			statement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
+			return statement;
+		}
 	}
 }
