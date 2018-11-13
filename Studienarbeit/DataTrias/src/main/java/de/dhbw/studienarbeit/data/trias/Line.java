@@ -60,7 +60,7 @@ public class Line implements Saveable2
 	@Override
 	public PreparedStatement getPreparedStatement(Connection connection) throws SQLException
 	{
-		String query = "INSERT INTO Line (name, destination) VALUES (?, ?)";
+		String query = "INSERT INTO Line (name, destination) VALUES (?, ?);";
 		try (PreparedStatement statement = connection.prepareStatement(query))
 		{
 			statement.setString(1, name);

@@ -1,11 +1,11 @@
 package de.dhbw.studienarbeit.data.trias;
 
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable2;
@@ -73,13 +73,14 @@ public class Stop implements Saveable2
 	@Override
 	public String toString()
 	{
-		return String.join(", ", stationID, String.valueOf(line.getId()), String.valueOf(timeTabledTime), String.valueOf(realTime));
+		return String.join(", ", stationID, String.valueOf(line.getId()), String.valueOf(timeTabledTime),
+				String.valueOf(realTime));
 	}
 
 	@Override
 	public PreparedStatement getPreparedStatement(Connection connection) throws SQLException
 	{
-		String query = "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (?, ?, ?, ?)";
+		String query = "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (?, ?, ?, ?);";
 		try (PreparedStatement statement = connection.prepareStatement(query))
 		{
 			statement.setString(1, stationID);
