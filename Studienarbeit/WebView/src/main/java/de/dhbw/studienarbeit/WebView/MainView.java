@@ -23,34 +23,22 @@ public class MainView extends VerticalLayout
 {
 	private static final long serialVersionUID = 4L;
 
+	private final Tabs tabs = new Tabs();
+	private final Map<Tab, Component> tabsToPages = new HashMap<>();
+
 	public MainView()
 	{
 		setWidth("100%");
 		setAlignItems(Alignment.CENTER);
 
-		Tab tabDatabase = new Tab("Unsere Daten");
-		Tab tabDelay = new Tab("Verspätungen");
-		Tab tabHeatmap = new Tab("Heatmap");
-		Tab tabAbout = new Tab("Über uns");
+		final Div divDatabase = new DatabaseDiv();
 
-		Tabs tabs = new Tabs(tabDatabase, tabDelay, tabHeatmap, tabAbout);
-
-		Div divDatabase = new DatabaseDiv();
-		Div divDelay = new DelayDiv();
-		Div divAbout = new AboutDiv();
-		Div divHeatmap = new HeatmapDiv();
-
-		Map<Tab, Component> tabsToPages = new HashMap<>();
-		tabsToPages.put(tabDatabase, divDatabase);
-		tabsToPages.put(tabDelay, divDelay);
-		tabsToPages.put(tabAbout, divAbout);
-		tabsToPages.put(tabHeatmap, divHeatmap);
+		addTab("Unsere Daten", divDatabase);
+		addTab("Verspätungen", new DelayDiv());
+		addTab("Heatmap", new HeatmapDiv());
+		addTab("Über uns", new AboutDiv());
 
 		add(tabs);
-		add(divDatabase);
-		add(divDelay);
-		add(divHeatmap);
-		add(divAbout);
 
 		divDatabase.setVisible(true);
 
@@ -58,5 +46,14 @@ public class MainView extends VerticalLayout
 			tabsToPages.values().forEach(div -> div.setVisible(false));
 			tabsToPages.get(tabs.getSelectedTab()).setVisible(true);
 		});
+	}
+
+	private void addTab(String name, Div div)
+	{
+		final Tab tab = new Tab(name);
+		tabs.add(tab);
+		tabsToPages.put(tab, div);
+		div.setVisible(false);
+		add(div);
 	}
 }
