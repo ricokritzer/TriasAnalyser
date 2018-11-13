@@ -23,7 +23,7 @@ public class DelayDB
 		return average;
 	}
 
-	public double getSummary()
+	public double getSum()
 	{
 		return summary;
 	}

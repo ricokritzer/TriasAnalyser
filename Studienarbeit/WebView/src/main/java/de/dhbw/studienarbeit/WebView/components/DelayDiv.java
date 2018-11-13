@@ -34,7 +34,7 @@ public class DelayDiv extends Div
 	private final TextField txtDelayMax = new TextField();
 	private final TextField txtLastUpdate = new TextField();
 
-	private Binder<DelayDB> delayMaxBinder = new Binder<>();
+	private Binder<DelayDB> delayBinder = new Binder<>();
 
 	private static DelayDB delay;
 	private static Timer timer;
@@ -59,7 +59,11 @@ public class DelayDiv extends Div
 
 		VerticalLayout layout = new VerticalLayout();
 
-		delayMaxBinder.forField(txtDelayMax).bind(db -> String.valueOf(db.getMaximum()), null);
+		delayBinder.forField(txtDelayMax).bind(db -> convertTimeToString(db.getMaximum()), null);
+		delayBinder.forField(txtDelayAvg).bind(db -> convertTimeToString(db.getAverage()), null);
+		delayBinder.forField(txtDelaySum).bind(db -> convertTimeToString(db.getSum()), null);
+		delayBinder.forField(txtLastUpdate).bind(db -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(lastUpdate),
+				null);
 
 		txtDelayMax.setLabel("Maximal");
 		txtDelayMax.setReadOnly(true);
@@ -105,12 +109,10 @@ public class DelayDiv extends Div
 
 	private void setDelayValues()
 	{
-		delayMaxBinder.readBean(delay);
-		Optional.ofNullable(delay).ifPresent(d -> {
-			txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
-			txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
-			txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(lastUpdate));
-		});
+		if (delay != null)
+		{
+			delayBinder.readBean(delay);
+		}
 	}
 
 	private String convertTimeToString(double time)
