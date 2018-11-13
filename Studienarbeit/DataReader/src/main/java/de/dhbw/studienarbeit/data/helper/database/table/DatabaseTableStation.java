@@ -1,18 +1,16 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
-import de.dhbw.studienarbeit.data.helper.database.conditions.ValueEquals;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStation extends DatabaseTable
@@ -59,8 +57,14 @@ public class DatabaseTableStation extends DatabaseTable
 		return TABLE_NAME;
 	}
 
+	/*
+	 * @deprecated add your own method below
+	 */
+	@Deprecated
 	public final List<StationDB> selectStations(Condition... conditions) throws IOException
 	{
+		reconnectIfNeccessary();
+
 		try
 		{
 			final List<StationDB> stations = new ArrayList<>();
@@ -75,11 +79,14 @@ public class DatabaseTableStation extends DatabaseTable
 
 	public final List<String> selectOperators() throws IOException
 	{
-		try
+		reconnectIfNeccessary();
+
+		final String sql = "SELECT DISTINCT operator FROM Station";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			final Set<String> operators = new HashSet<>();
-			select(r -> getOperator(r).ifPresent(operators::add), TABLE_NAME);
-			return new ArrayList<>(operators);
+			final List<String> observedStations = new ArrayList<>();
+			select(r -> getOperator(r).ifPresent(observedStations::add), preparedStatement);
+			return observedStations;
 		}
 		catch (SQLException e)
 		{
@@ -89,11 +96,14 @@ public class DatabaseTableStation extends DatabaseTable
 
 	public final List<String> selectObservedOperators() throws IOException
 	{
-		try
+		reconnectIfNeccessary();
+
+		final String sql = "SELECT DISTINCT operator FROM Station WHERE observe = true;";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			final Set<String> operators = new HashSet<>();
-			select(r -> getOperator(r).ifPresent(operators::add), TABLE_NAME, new ValueEquals("observe", true));
-			return new ArrayList<>(operators);
+			final List<String> observedStations = new ArrayList<>();
+			select(r -> getOperator(r).ifPresent(observedStations::add), preparedStatement);
+			return observedStations;
 		}
 		catch (SQLException e)
 		{
@@ -103,11 +113,38 @@ public class DatabaseTableStation extends DatabaseTable
 
 	public final List<StationDB> selectObservedStations() throws IOException
 	{
-		return selectStations(new ValueEquals("observe", true));
+		reconnectIfNeccessary();
+
+		final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE observe = true;";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
+		{
+			final List<StationDB> observedStations = new ArrayList<>();
+			select(r -> getStation(r).ifPresent(observedStations::add), preparedStatement);
+			return observedStations;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
+		}
 	}
 
-	public final List<StationDB> selectObservedStations(final String name) throws IOException
+	public final List<StationDB> selectObservedStations(final String operator) throws IOException
 	{
-		return selectStations(new ValueEquals("observe", true), new ValueEquals("operator", name));
+		reconnectIfNeccessary();
+
+		final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE observe = true AND operator = ?;";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
+		{
+			preparedStatement.setString(1, operator);
+
+			final List<StationDB> observedStations = new ArrayList<>();
+			select(r -> getStation(r).ifPresent(observedStations::add), preparedStatement);
+			return observedStations;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
+		}
+
 	}
 }

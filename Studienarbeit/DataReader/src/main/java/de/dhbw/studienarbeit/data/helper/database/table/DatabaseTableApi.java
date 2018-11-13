@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,8 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
-import de.dhbw.studienarbeit.data.helper.database.conditions.ValueEquals;
-import de.dhbw.studienarbeit.data.helper.database.conditions.ValueNotNull;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class DatabaseTableApi extends DatabaseTable
@@ -41,10 +40,15 @@ public class DatabaseTableApi extends DatabaseTable
 		return TABLE_NAME;
 	}
 
+	/*
+	 * @deprecated use {@link #selectApisByName(String name)} instead.
+	 */
+	@Deprecated
 	public final List<ApiKey> selectApis(Condition... conditions) throws IOException
 	{
 		try
 		{
+
 			final List<ApiKey> list = new ArrayList<>();
 			select(r -> getApiKey(r).ifPresent(list::add), TABLE_NAME, conditions);
 			return list;
@@ -57,6 +61,17 @@ public class DatabaseTableApi extends DatabaseTable
 
 	public final List<ApiKey> selectApisByName(final String name) throws IOException
 	{
-		return selectApis(new ValueEquals("name", name), new ValueNotNull("name"));
+		final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ?;";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
+		{
+			final List<ApiKey> list = new ArrayList<>();
+			select(r -> getApiKey(r).ifPresent(list::add), preparedStatement);
+			return list;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Unable to select apis by name " + name, e);
+		}
 	}
 }

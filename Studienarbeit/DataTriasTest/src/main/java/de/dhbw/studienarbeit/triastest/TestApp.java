@@ -28,8 +28,8 @@ public class TestApp
 
 	public static void main(String[] args) throws ParseException, IOException
 	{
-		LogLevelHelper.setLogLevel(Level.ALL);
-		
+		LogLevelHelper.setLogLevel(Level.INFO);
+
 		manager = new DataManager(new DatabaseTableApi().selectApisByName("kvv"));
 		kvv();
 	}
@@ -39,14 +39,20 @@ public class TestApp
 		final DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 		final Timer t = new Timer();
 
-//		t.schedule(new MyTimerTask(() -> setMaximumRequests(500)), format.parse("2018-11-08 09-00-00"));
-//		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 09-25-00"));
-//		t.schedule(new MyTimerTask(() -> setMaximumRequests(1000)), format.parse("2018-11-08 09-49-00"));
-//		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 09-55-00"));
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(1500)), format.parse("2018-11-08 10-00-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 10-25-00"));
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(2000)), format.parse("2018-11-08 10-30-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08 10-55-00"));
+		// t.schedule(new MyTimerTask(() -> setMaximumRequests(500)),
+		// format.parse("2018-11-08 09-00-00"));
+		// t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08
+		// 09-25-00"));
+		// t.schedule(new MyTimerTask(() -> setMaximumRequests(1000)),
+		// format.parse("2018-11-08 09-49-00"));
+		// t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08
+		// 09-55-00"));
+		// t.schedule(new MyTimerTask(() -> setMaximumRequests(1500)),
+		// format.parse("2018-11-08 10-00-00"));
+		// t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08
+		// 10-25-00"));
+		t.schedule(new MyTimerTask(() -> setMaximumRequests(100)), format.parse("2018-11-13 10-18-00"));
+		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-13 10-19-00"));
 	}
 
 	private static void stop()

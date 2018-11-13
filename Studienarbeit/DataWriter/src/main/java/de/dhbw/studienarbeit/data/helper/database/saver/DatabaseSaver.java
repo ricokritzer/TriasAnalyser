@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.data.helper.database.saver;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 			statement.executeUpdate();
 			LOGGER.log(Level.FINE, model.toString() + " saved.");
 		}
-		catch (SQLException e)
+		catch (SQLException | IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to save " + model.toString(), e);
 			saver.save(model);

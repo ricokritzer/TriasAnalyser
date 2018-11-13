@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.data.helper.database.table;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +20,8 @@ public class DatabaseTableStopTest
 	{
 		try
 		{
-			new DatabaseTableStop().count();
+			int count = new DatabaseTableStop().count();
+			assertTrue(count > 0);
 		}
 		catch (IOException e)
 		{
@@ -46,7 +48,7 @@ public class DatabaseTableStopTest
 	{
 		try
 		{
-			List<DelayDB> list = new DatabaseTableStop().selectDelay(new ValueNotNull("realTime"));
+			List<DelayDB> list = new DatabaseTableStop().selectDelay();
 			assertThat(list.size(), Is.is(1));
 		}
 		catch (IOException e)

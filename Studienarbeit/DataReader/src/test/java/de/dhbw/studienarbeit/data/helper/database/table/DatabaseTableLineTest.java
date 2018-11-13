@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
@@ -13,7 +14,8 @@ public class DatabaseTableLineTest
 	{
 		try
 		{
-			new DatabaseTableLine().count();
+			int count = new DatabaseTableLine().count();
+			assertTrue(count > 0);
 		}
 		catch (IOException e)
 		{

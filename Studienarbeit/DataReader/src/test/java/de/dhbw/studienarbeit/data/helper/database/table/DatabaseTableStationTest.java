@@ -17,7 +17,8 @@ public class DatabaseTableStationTest
 	{
 		try
 		{
-			new DatabaseTableStation().count();
+			int count = new DatabaseTableStation().count();
+			assertTrue(count > 0);
 		}
 		catch (IOException e)
 		{
@@ -52,14 +53,14 @@ public class DatabaseTableStationTest
 			fail("Unable to count stations" + e.getMessage());
 		}
 	}
-	
+
 	@Test
 	void testSelectingObservedKVV() throws Exception
 	{
 		try
 		{
-			List<StationDB> operators = new DatabaseTableStation().selectObservedStations("kvv");
-			assertTrue(operators.size() > 0);
+			List<StationDB> stations = new DatabaseTableStation().selectObservedStations("kvv");
+			assertTrue(stations.size() > 0);
 		}
 		catch (IOException e)
 		{

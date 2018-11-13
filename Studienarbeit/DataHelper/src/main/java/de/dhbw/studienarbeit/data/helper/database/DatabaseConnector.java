@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.data.helper.database;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,11 +16,19 @@ public abstract class DatabaseConnector
 
 	protected abstract void connectToDatabase() throws SQLException;
 
-	protected void reconnectIfNeccessary() throws SQLException
+	protected void reconnectIfNeccessary() throws IOException
 	{
-		if (!Optional.ofNullable(connection).isPresent() || connection.isClosed())
+		try
 		{
-			connectToDatabase();
+			if (!Optional.ofNullable(connection).isPresent() || connection.isClosed())
+			{
+				connectToDatabase();
+			}
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to reconnect.", e);
+			throw new IOException("Unable to connect to database.", e);
 		}
 	}
 

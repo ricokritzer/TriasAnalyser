@@ -38,7 +38,11 @@ public class DatabaseTableLine extends DatabaseTable
 	{
 		return TABLE_NAME;
 	}
-
+	
+	/*
+	 * @deprecated add your own method below
+	 */
+	@Deprecated
 	public final List<LineDB> selectLines(Condition... conditions) throws IOException
 	{
 		try

@@ -1,16 +1,12 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 import de.dhbw.studienarbeit.data.helper.database.model.WeatherDB;
 
 public class DatabaseTableWeather extends DatabaseTable
@@ -45,19 +41,5 @@ public class DatabaseTableWeather extends DatabaseTable
 	protected String getTableName()
 	{
 		return TABLE_NAME;
-	}
-
-	public final List<WeatherDB> selectWeather(Condition... conditions) throws IOException
-	{
-		try
-		{
-			final List<WeatherDB> list = new ArrayList<>();
-			select(r -> getLine(r).ifPresent(list::add), TABLE_NAME, conditions);
-			return list;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
 	}
 }
