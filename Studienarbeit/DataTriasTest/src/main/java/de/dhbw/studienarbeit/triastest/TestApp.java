@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
@@ -24,35 +25,27 @@ import de.dhbw.studienarbeit.data.trias.Station;
 public class TestApp
 {
 	private static final Logger LOGGER = Logger.getLogger(TestApp.class.getName());
+	private static final DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 	private static DataManager manager;
+	private static final Timer timer = new Timer();
 
-	public static void main(String[] args) throws ParseException, IOException
+	public static void main(String[] args) throws ParseException
 	{
 		LogLevelHelper.setLogLevel(Level.INFO);
 
-		manager = new DataManager(new DatabaseTableApi().selectApisByName("kvv"));
-		kvv();
+		scheduleTest(200, "2018-11-13 14-29-00", "2018-11-13 14-30-00");
 	}
 
-	private static void kvv() throws ParseException
+	private static void scheduleTest(int maximumRequests, String start, String end) throws ParseException
 	{
-		final DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
-		final Timer t = new Timer();
+		scheduleTest(maximumRequests, FORMAT.parse(start), FORMAT.parse(end));
+		LOGGER.log(Level.INFO, "Test scheduled: " + maximumRequests + " requests, start: " + start + " end: " + end);
+	}
 
-		// t.schedule(new MyTimerTask(() -> setMaximumRequests(500)),
-		// format.parse("2018-11-08 09-00-00"));
-		// t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08
-		// 09-25-00"));
-		// t.schedule(new MyTimerTask(() -> setMaximumRequests(1000)),
-		// format.parse("2018-11-08 09-49-00"));
-		// t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08
-		// 09-55-00"));
-		// t.schedule(new MyTimerTask(() -> setMaximumRequests(1500)),
-		// format.parse("2018-11-08 10-00-00"));
-		// t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-08
-		// 10-25-00"));
-		t.schedule(new MyTimerTask(() -> setMaximumRequests(100)), format.parse("2018-11-13 10-18-00"));
-		t.schedule(new MyTimerTask(TestApp::stop), format.parse("2018-11-13 10-19-00"));
+	private static void scheduleTest(int maximumRequests, Date start, Date end)
+	{
+		timer.schedule(new MyTimerTask(() -> setMaximumRequests(maximumRequests)), start);
+		timer.schedule(new MyTimerTask(TestApp::stop), end);
 	}
 
 	private static void stop()
