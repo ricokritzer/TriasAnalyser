@@ -18,7 +18,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 
 	private static final String fileName = "errors.txt";
 
-	private static final TextSaver saver = new TextSaver(fileName);
+	private static final Saver saver = new TextSaver(fileName);
 
 	public static DatabaseSaver getInstance()
 	{
@@ -61,6 +61,23 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 		finally
 		{
 			closeStatement(statement);
+		}
+	}
+
+	@Override
+	public void save(Saveable2 model) throws IOException
+	{
+		try (PreparedStatement statement = model.getPreparedStatement())
+		{
+			reconnectIfNeccessary();
+			statement.executeUpdate();
+			LOGGER.log(Level.FINE, model.toString() + " saved.");
+		}
+		catch (SQLException | IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to save " + model.toString(), e);
+			saver.save(model);
+			throw new IOException("Unable to save " + model.toString() + ". Saving SQL in " + fileName);
 		}
 	}
 

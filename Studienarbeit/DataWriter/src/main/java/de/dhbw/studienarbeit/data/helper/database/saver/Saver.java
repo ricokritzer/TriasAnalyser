@@ -5,4 +5,6 @@ import java.io.IOException;
 public interface Saver
 {
 	public void save(Saveable model) throws IOException;
+
+	public void save(Saveable2 model) throws IOException;
 }

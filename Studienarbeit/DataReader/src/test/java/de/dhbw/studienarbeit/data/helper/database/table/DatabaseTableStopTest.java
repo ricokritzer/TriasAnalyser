@@ -10,7 +10,6 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.conditions.ValueNotNull;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 
 public class DatabaseTableStopTest
