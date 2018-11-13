@@ -7,6 +7,9 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,11 +25,11 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saveable2;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 
-public class Weather implements Manageable, Saveable
+public class Weather implements Manageable, Saveable2
 {
 	private static final Logger LOGGER = Logger.getLogger(Weather.class.getName());
 	private static final DocumentBuilderFactory FACTORY = DocumentBuilderFactory.newInstance();
@@ -203,5 +206,25 @@ public class Weather implements Manageable, Saveable
 	{
 		updateData(apiKey);
 		DatabaseSaver.getInstance().save(this);
+	}
+
+	@Override
+	public PreparedStatement getPreparedStatement(Connection connection) throws SQLException
+	{
+		final String sql = "INSERT INTO Weather VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		try (PreparedStatement stmt = connection.prepareStatement(sql))
+		{
+			stmt.setDouble(1, lat);
+			stmt.setDouble(2, lon);
+			stmt.setTimestamp(3, new Timestamp(date.getTime()));
+			stmt.setDouble(4, temp);
+			stmt.setDouble(5, humidity);
+			stmt.setDouble(6, pressure);
+			stmt.setDouble(7, wind);
+			stmt.setDouble(8, clouds);
+			stmt.setString(9, text);
+
+			return stmt;
+		}
 	}
 }

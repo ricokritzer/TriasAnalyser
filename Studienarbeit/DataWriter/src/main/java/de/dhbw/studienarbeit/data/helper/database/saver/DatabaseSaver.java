@@ -67,13 +67,14 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 	@Override
 	public void save(Saveable2 model) throws IOException
 	{
-		try (PreparedStatement statement = model.getPreparedStatement())
+		reconnectIfNeccessary();
+
+		try (PreparedStatement statement = model.getPreparedStatement(connection))
 		{
-			reconnectIfNeccessary();
 			statement.executeUpdate();
 			LOGGER.log(Level.FINE, model.toString() + " saved.");
 		}
-		catch (SQLException | IOException e)
+		catch (SQLException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to save " + model.toString(), e);
 			saver.save(model);
