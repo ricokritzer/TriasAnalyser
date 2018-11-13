@@ -12,7 +12,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.function.ValueProvider;
 
 import de.dhbw.studienarbeit.data.helper.database.conditions.ValueNotNull;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
@@ -58,9 +57,9 @@ public class DelayDiv extends Div
 		reloadTimer.schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
 
 		VerticalLayout layout = new VerticalLayout();
-		
+
 		Binder<DelayDB> delayMaxBinder = new Binder<>();
-		delayMaxBinder.bind(txtDelayMax, "maximum");
+		delayMaxBinder.bind(txtDelayMax, db -> String.valueOf(db.getMaximum()), null);
 
 		txtDelayMax.setLabel("Maximal");
 		txtDelayMax.setReadOnly(true);
