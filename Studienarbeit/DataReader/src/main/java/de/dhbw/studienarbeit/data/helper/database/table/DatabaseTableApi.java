@@ -47,6 +47,8 @@ public class DatabaseTableApi extends DatabaseTable
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
+			preparedStatement.setString(1, name);
+
 			final List<ApiKey> list = new ArrayList<>();
 			select(r -> getApiKey(r).ifPresent(list::add), preparedStatement);
 			return list;
