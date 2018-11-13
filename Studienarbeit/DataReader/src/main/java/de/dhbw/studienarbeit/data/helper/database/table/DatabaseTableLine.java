@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
 
 public class DatabaseTableLine extends DatabaseTable
@@ -39,7 +39,7 @@ public class DatabaseTableLine extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	public final List<LineDB> selectLines(SqlCondition... conditions) throws IOException
+	public final List<LineDB> selectLines(Condition... conditions) throws IOException
 	{
 		try
 		{

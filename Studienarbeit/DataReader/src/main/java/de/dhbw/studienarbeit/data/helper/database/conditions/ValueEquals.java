@@ -1,6 +1,6 @@
-package de.dhbw.studienarbeit.data.helper.database;
+package de.dhbw.studienarbeit.data.helper.database.conditions;
 
-public class ValueEquals implements SqlCondition
+public class ValueEquals implements Condition
 {
 	private final String sql;
 
@@ -25,7 +25,7 @@ public class ValueEquals implements SqlCondition
 	}
 
 	@Override
-	public String toString()
+	public String getSqlStatement()
 	{
 		return sql;
 	}

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
-import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 
 public abstract class DatabaseTable extends DatabaseConnector
 {
@@ -22,16 +22,16 @@ public abstract class DatabaseTable extends DatabaseConnector
 	private static final String ALL = "*";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTable.class.getName());
 
-	protected String createSQLStatement(final String tableName, final SqlCondition... condition)
+	protected String createSQLStatement(final String tableName, final Condition... condition)
 	{
 		return createSQLStatement(ALL, tableName, condition);
 	}
 
-	private String createSQLStatement(final String what, final String tableName, final SqlCondition... condition)
+	private String createSQLStatement(final String what, final String tableName, final Condition... condition)
 	{
 		final StringBuilder sb = new StringBuilder("SELECT ").append(what).append(" FROM ").append(tableName);
 		final List<String> conditionStrings = new ArrayList<>();
-		Arrays.asList(condition).forEach(c -> conditionStrings.add(c.toString()));
+		Arrays.asList(condition).forEach(c -> conditionStrings.add(c.getSqlStatement()));
 
 		if (!conditionStrings.isEmpty())
 		{
@@ -43,13 +43,12 @@ public abstract class DatabaseTable extends DatabaseConnector
 		return sb.toString();
 	}
 
-	protected void select(Consumer<ResultSet> consumer, String tableName, SqlCondition... conditions)
-			throws SQLException
+	protected void select(Consumer<ResultSet> consumer, String tableName, Condition... conditions) throws SQLException
 	{
 		select(consumer, ALL, tableName, conditions);
 	}
 
-	protected void select(Consumer<ResultSet> consumer, String what, String tableName, SqlCondition... conditions)
+	protected void select(Consumer<ResultSet> consumer, String what, String tableName, Condition... conditions)
 			throws SQLException
 	{
 		reconnectIfNeccessary();
@@ -97,7 +96,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 		}
 	}
 
-	protected int count(final String tableName, final SqlCondition... conditions) throws SQLException
+	protected int count(final String tableName, final Condition... conditions) throws SQLException
 	{
 		final String what = "COUNT(*) AS total";
 		final List<Integer> count = new ArrayList<>();
@@ -113,7 +112,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 	protected abstract String getTableName();
 
-	public int count(SqlCondition... conditions) throws IOException
+	public int count(Condition... conditions) throws IOException
 	{
 		try
 		{

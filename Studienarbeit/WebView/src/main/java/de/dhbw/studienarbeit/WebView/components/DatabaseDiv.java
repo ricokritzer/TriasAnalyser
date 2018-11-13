@@ -38,14 +38,14 @@ public class DatabaseDiv extends Div
 	private static Date lastUpdate = new Date();
 	private static Timer timer;
 
-	static
-	{
-		update();
-
-		DatabaseDiv.timer = new Timer();
-		timer.schedule(new MyTimerTask(DatabaseDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
-		LOGGER.log(Level.INFO, "Timer scheduled.");
-	}
+//	static
+//	{
+//		update();
+//
+//		DatabaseDiv.timer = new Timer();
+//		timer.schedule(new MyTimerTask(DatabaseDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
+//		LOGGER.log(Level.INFO, "Timer scheduled.");
+//	}
 
 	public DatabaseDiv()
 	{

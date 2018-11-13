@@ -11,8 +11,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
-import de.dhbw.studienarbeit.data.helper.database.ValueEquals;
+import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
+import de.dhbw.studienarbeit.data.helper.database.conditions.ValueEquals;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStation extends DatabaseTable
@@ -59,7 +59,7 @@ public class DatabaseTableStation extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	public final List<StationDB> selectStations(SqlCondition... conditions) throws IOException
+	public final List<StationDB> selectStations(Condition... conditions) throws IOException
 	{
 		try
 		{

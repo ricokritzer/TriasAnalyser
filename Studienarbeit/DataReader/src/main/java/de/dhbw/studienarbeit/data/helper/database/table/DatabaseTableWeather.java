@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 import de.dhbw.studienarbeit.data.helper.database.model.WeatherDB;
 
 public class DatabaseTableWeather extends DatabaseTable
@@ -47,7 +47,7 @@ public class DatabaseTableWeather extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	public final List<WeatherDB> selectWeather(SqlCondition... conditions) throws IOException
+	public final List<WeatherDB> selectWeather(Condition... conditions) throws IOException
 	{
 		try
 		{

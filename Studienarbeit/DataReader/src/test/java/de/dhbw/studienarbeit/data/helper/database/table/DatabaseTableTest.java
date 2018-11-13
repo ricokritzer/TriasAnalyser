@@ -7,8 +7,8 @@ import java.io.IOException;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
-import de.dhbw.studienarbeit.data.helper.database.ValueEquals;
+import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
+import de.dhbw.studienarbeit.data.helper.database.conditions.ValueEquals;
 
 public class DatabaseTableTest
 {
@@ -17,7 +17,7 @@ public class DatabaseTableTest
 		return new DatabaseTable()
 		{
 			@Override
-			public int count(SqlCondition... conditions)
+			public int count(Condition... conditions)
 			{
 				return 0;
 			}

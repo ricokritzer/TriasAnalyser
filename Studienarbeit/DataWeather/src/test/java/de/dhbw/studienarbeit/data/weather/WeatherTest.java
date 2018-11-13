@@ -6,11 +6,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class WeatherTest
 {
@@ -44,7 +46,10 @@ public class WeatherTest
 		final Weather coordinates = new Weather(49.01, 8.4);
 		try
 		{
-			coordinates.updateData(new DatabaseTableApi().selectApisByName("weather").get(0));
+			final DatabaseTableApi databaseTableApi = new DatabaseTableApi();
+			final List<ApiKey> apiKeys = databaseTableApi.selectApisByName("weather");
+			final ApiKey apiWeather = apiKeys.get(0);
+			coordinates.updateData(apiWeather);
 		}
 		catch (IOException e)
 		{

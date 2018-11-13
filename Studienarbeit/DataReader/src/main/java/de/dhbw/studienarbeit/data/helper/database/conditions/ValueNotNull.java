@@ -1,6 +1,6 @@
-package de.dhbw.studienarbeit.data.helper.database;
+package de.dhbw.studienarbeit.data.helper.database.conditions;
 
-public class ValueNotNull implements SqlCondition
+public class ValueNotNull implements Condition
 {
 	private final String sql;
 
@@ -10,7 +10,7 @@ public class ValueNotNull implements SqlCondition
 	}
 
 	@Override
-	public String toString()
+	public String getSqlStatement()
 	{
 		return sql;
 	}

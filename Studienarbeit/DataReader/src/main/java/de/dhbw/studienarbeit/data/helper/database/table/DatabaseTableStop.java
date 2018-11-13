@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.model.StopDB;
 
@@ -64,7 +64,7 @@ public class DatabaseTableStop extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	public final List<StopDB> selectStops(SqlCondition... conditions) throws IOException
+	public final List<StopDB> selectStops(Condition... conditions) throws IOException
 	{
 		try
 		{
@@ -78,7 +78,7 @@ public class DatabaseTableStop extends DatabaseTable
 		}
 	}
 
-	public final List<DelayDB> selectDelay(SqlCondition... conditions) throws IOException
+	public final List<DelayDB> selectDelay(Condition... conditions) throws IOException
 	{
 		try
 		{

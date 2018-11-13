@@ -25,7 +25,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import de.dhbw.studienarbeit.data.helper.database.SqlCondition;
+import de.dhbw.studienarbeit.data.helper.database.conditions.ValueEquals;
 import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
@@ -84,7 +84,8 @@ public class TriasXMLRequest
 
 	private Date getTimetabledTime(final Element docElement, int i) throws ParseException
 	{
-		Date timetabledTime = new SimpleDateFormat(formatString).parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
+		Date timetabledTime = new SimpleDateFormat(formatString)
+				.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent());
 		return timetabledTime;
 	}
 
@@ -98,7 +99,8 @@ public class TriasXMLRequest
 		{
 			return new Date(0);
 		}
-		Date estimatedTime = new SimpleDateFormat(formatString).parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
+		Date estimatedTime = new SimpleDateFormat(formatString)
+				.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent());
 		return estimatedTime;
 	}
 
@@ -117,15 +119,15 @@ public class TriasXMLRequest
 
 	private Line getLine(Element docElement, int i) throws IOException
 	{
-		if (new DatabaseTableLine().count(new SqlCondition("name", getPublishedLineName(docElement, i)),
-				new SqlCondition("destination", getDestinationText(docElement, i))) == 0)
+		if (new DatabaseTableLine().count(new ValueEquals("name", getPublishedLineName(docElement, i)),
+				new ValueEquals("destination", getDestinationText(docElement, i))) == 0)
 		{
 			Line line = new Line(getPublishedLineName(docElement, i), getDestinationText(docElement, i));
 			new DatabaseSaver().save(line);
 		}
 		LineDB lineDB = new DatabaseTableLine()
-				.selectLines(new SqlCondition("name", getPublishedLineName(docElement, i)),
-						new SqlCondition("destination", getDestinationText(docElement, i)))
+				.selectLines(new ValueEquals("name", getPublishedLineName(docElement, i)),
+						new ValueEquals("destination", getDestinationText(docElement, i)))
 				.get(0);
 
 		return new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
