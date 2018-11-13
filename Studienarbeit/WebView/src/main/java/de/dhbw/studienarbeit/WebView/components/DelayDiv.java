@@ -80,9 +80,7 @@ public class DelayDiv extends Div
 
 		add(layout);
 		
-		setDelayValues();
-
-//		new Timer().schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
+		new Timer().schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
 
 		setVisible(false);
 	}
