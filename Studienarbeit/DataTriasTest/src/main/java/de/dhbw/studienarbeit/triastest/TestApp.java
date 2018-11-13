@@ -25,7 +25,7 @@ import de.dhbw.studienarbeit.data.trias.Station;
 public class TestApp
 {
 	private static final Logger LOGGER = Logger.getLogger(TestApp.class.getName());
-	private static final DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+	private static final DateFormat FORMAT = new SimpleDateFormat("dd.MM.yyyy hh:mm");
 	private static DataManager manager;
 	private static final Timer timer = new Timer();
 
@@ -33,7 +33,7 @@ public class TestApp
 	{
 		LogLevelHelper.setLogLevel(Level.INFO);
 
-		scheduleTest(200, "2018-11-13 14-29-00", "2018-11-13 14-30-00");
+		scheduleTest(150, "13.11.2018 16:36", "13.11.2018 16:37");
 	}
 
 	private static void scheduleTest(int maximumRequests, String start, String end) throws ParseException
