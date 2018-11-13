@@ -107,7 +107,6 @@ public class DelayDiv extends Div
 		Optional.ofNullable(delay).ifPresent(d -> {
 			txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
 			txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
-			txtDelayMax.setValue(convertTimeToString(delay.getMaximum()));
 			txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(lastUpdate));
 		});
 	}
