@@ -34,6 +34,8 @@ public class DelayDiv extends Div
 	private final TextField txtDelayMax = new TextField();
 	private final TextField txtLastUpdate = new TextField();
 
+	private Binder<DelayDB> delayMaxBinder = new Binder<>();
+
 	private static DelayDB delay;
 	private static Timer timer;
 	private static Date lastUpdate = new Date();
@@ -57,8 +59,7 @@ public class DelayDiv extends Div
 
 		VerticalLayout layout = new VerticalLayout();
 
-		Binder<DelayDB> delayMaxBinder = new Binder<>();
-		delayMaxBinder.bind(txtDelayMax, db -> String.valueOf(db.getMaximum()), null);
+		delayMaxBinder.forField(txtDelayMax).bind(db -> String.valueOf(db.getMaximum()), null);
 
 		txtDelayMax.setLabel("Maximal");
 		txtDelayMax.setReadOnly(true);
@@ -104,6 +105,7 @@ public class DelayDiv extends Div
 
 	private void setDelayValues()
 	{
+		delayMaxBinder.readBean(delay);
 		Optional.ofNullable(delay).ifPresent(d -> {
 			txtDelayAvg.setValue(convertTimeToString(delay.getAverage()));
 			txtDelaySum.setValue(convertTimeToString(delay.getSummary()));
