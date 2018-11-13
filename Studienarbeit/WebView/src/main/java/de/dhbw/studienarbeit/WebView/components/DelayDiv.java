@@ -54,9 +54,6 @@ public class DelayDiv extends Div
 		super();
 		this.setTitle("Verspätungen");
 
-		final Timer reloadTimer = new Timer();
-		reloadTimer.schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
-
 		VerticalLayout layout = new VerticalLayout();
 
 		delayBinder.forField(txtDelayMax).bind(db -> convertTimeToString(db.getMaximum()), null);
@@ -83,7 +80,7 @@ public class DelayDiv extends Div
 
 		add(layout);
 
-		setDelayValues();
+		new Timer().schedule(new MyTimerTask(DelayDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
 
 		setVisible(false);
 	}
@@ -109,10 +106,7 @@ public class DelayDiv extends Div
 
 	private void setDelayValues()
 	{
-		if (delay != null)
-		{
-			delayBinder.readBean(delay);
-		}
+		Optional.ofNullable(delay).ifPresent(d -> delayBinder.readBean(d));
 	}
 
 	private String convertTimeToString(double time)
