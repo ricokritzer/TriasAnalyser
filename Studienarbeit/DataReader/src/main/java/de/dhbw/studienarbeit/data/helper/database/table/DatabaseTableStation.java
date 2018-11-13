@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStation extends DatabaseTable
@@ -55,26 +54,6 @@ public class DatabaseTableStation extends DatabaseTable
 	protected String getTableName()
 	{
 		return TABLE_NAME;
-	}
-
-	/*
-	 * @deprecated add your own method below
-	 */
-	@Deprecated
-	public final List<StationDB> selectStations(Condition... conditions) throws IOException
-	{
-		reconnectIfNeccessary();
-
-		try
-		{
-			final List<StationDB> stations = new ArrayList<>();
-			select(r -> getStation(r).ifPresent(stations::add), TABLE_NAME, conditions);
-			return stations;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
 	}
 
 	public final List<String> selectOperators() throws IOException
@@ -145,6 +124,5 @@ public class DatabaseTableStation extends DatabaseTable
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-
 	}
 }

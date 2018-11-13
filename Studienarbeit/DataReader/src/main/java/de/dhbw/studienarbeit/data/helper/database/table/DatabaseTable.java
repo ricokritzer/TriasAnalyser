@@ -53,16 +53,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 		return sb.toString();
 	}
 
-	/*
-	 * @deprecated use {@link #select(Consumer<ResultSet> consumer,
-	 * PreparedStatement statement)} instead.
-	 */
-	@Deprecated
-	protected void select(Consumer<ResultSet> consumer, String tableName, Condition... conditions) throws SQLException
-	{
-		select(consumer, ALL, tableName, conditions);
-	}
-
 	protected void select(Consumer<ResultSet> consumer, PreparedStatement statement) throws SQLException
 	{
 		try (ResultSet result = statement.executeQuery())
@@ -81,18 +71,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 		{
 			disconnect();
 		}
-	}
-
-	/*
-	 * @deprecated use {@link #select(Consumer<ResultSet> consumer,
-	 * PreparedStatement statement)} instead.
-	 */
-	@Deprecated
-	protected void select(Consumer<ResultSet> consumer, String what, String tableName, Condition... conditions)
-			throws SQLException
-	{
-		final String sql = createSQLStatement(what, tableName, conditions);
-		select(consumer, connection.prepareStatement(sql));
 	}
 
 	@Override
@@ -114,26 +92,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 		{
 			return Optional.empty();
 		}
-	}
-
-	/*
-	 * @deprecated use {@link #select(Consumer<ResultSet> consumer,
-	 * PreparedStatement statement)} instead.
-	 */
-	@Deprecated
-	protected int count(final String tableName, final Condition... conditions) throws SQLException
-	{
-		final String what = "COUNT(*) AS total";
-		final List<Integer> count = new ArrayList<>();
-		final String sql = createSQLStatement(tableName, what, conditions);
-		select(result -> getTotal(result).ifPresent(count::add), sql);
-		if (count.isEmpty())
-		{
-			throw new SQLException("Unable to count entries in " + tableName);
-		}
-		int c = count.get(0);
-		LOGGER.log(Level.FINE, c + " entries at " + tableName);
-		return count.get(0);
 	}
 
 	protected abstract String getTableName();
@@ -175,36 +133,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 					// ignore
 				}
 			});
-		}
-	}
-
-	/*
-	 * @deprecated use {@link #count()} instead.
-	 */
-	public int count(Condition... conditions) throws IOException
-	{
-		final String what = "COUNT(*) AS total";
-		final StringBuilder sb = new StringBuilder("SELECT ").append(what).append(" FROM ").append(getTableName());
-
-		final List<String> conditionStrings = new ArrayList<>();
-		Arrays.asList(conditions).forEach(c -> conditionStrings.add(c.getSqlStatement()));
-
-		if (!conditionStrings.isEmpty())
-		{
-			sb.append(" WHERE ");
-		}
-
-		sb.append(String.join(" AND ", conditionStrings));
-		sb.append(";");
-
-		try
-		{
-			return count(getTableName(), conditions);
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "SQLException occured.", e);
-			throw new IOException("Counting does not succeed.", e);
 		}
 	}
 }
