@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -14,44 +13,12 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
-import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 
 public abstract class DatabaseTable extends DatabaseConnector
 {
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
 	private static final String ALL = "*";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTable.class.getName());
-
-	/*
-	 * @deprecated use {@link #select(Consumer<ResultSet> consumer,
-	 * PreparedStatement statement)} instead.
-	 */
-	@Deprecated
-	protected String createSQLStatement(final String tableName, final Condition... condition)
-	{
-		return createSQLStatement(ALL, tableName, condition);
-	}
-
-	/*
-	 * @deprecated use {@link #select(Consumer<ResultSet> consumer,
-	 * PreparedStatement statement)} instead.
-	 */
-	@Deprecated
-	private String createSQLStatement(final String what, final String tableName, final Condition... condition)
-	{
-		final StringBuilder sb = new StringBuilder("SELECT ").append(what).append(" FROM ").append(tableName);
-		final List<String> conditionStrings = new ArrayList<>();
-		Arrays.asList(condition).forEach(c -> conditionStrings.add(c.getSqlStatement()));
-
-		if (!conditionStrings.isEmpty())
-		{
-			sb.append(" WHERE ");
-		}
-
-		sb.append(String.join(" AND ", conditionStrings));
-		sb.append(";");
-		return sb.toString();
-	}
 
 	protected void select(Consumer<ResultSet> consumer, PreparedStatement statement) throws SQLException
 	{
