@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -16,6 +17,7 @@ import com.vaadin.flow.data.binder.Binder;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import elemental.html.Window;
 
 public class DelayDiv extends Div
 {
@@ -39,6 +41,8 @@ public class DelayDiv extends Div
 	private static DelayDB delay;
 	private static Timer timer;
 	private static Date lastUpdate = new Date();
+
+	Notification notification = new Notification("This notification has text content", 3000);
 
 	static
 	{
@@ -79,19 +83,8 @@ public class DelayDiv extends Div
 		layout.add(txtLastUpdate);
 
 		add(layout);
-		
-		elemental.util.Timer updateTimer = new elemental.util.Timer()
-		{
-			
-			@Override
-			public void run()
-			{
-				setDelayValues();
-			}
-		};
-		updateTimer.scheduleRepeating((int) UPDATE_RATE_SECONDS * 1000);
-		
-//		new Timer().schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
+
+		new Timer().schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
 
 		setVisible(false);
 	}
@@ -117,7 +110,8 @@ public class DelayDiv extends Div
 
 	private void setDelayValues()
 	{
-		Optional.ofNullable(delay).ifPresent(d -> delayBinder.setBean(d));
+		notification.open();
+		Optional.ofNullable(delay).ifPresent(d -> delayBinder.setBean(delay));
 	}
 
 	private String convertTimeToString(double time)
