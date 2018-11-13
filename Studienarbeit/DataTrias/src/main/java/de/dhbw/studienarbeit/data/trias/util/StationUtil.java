@@ -14,7 +14,7 @@ import de.dhbw.studienarbeit.data.helper.database.saver.Saver;
 public class StationUtil
 {
 	private static final String KVV = "kvv";
-	
+
 	public static void main(String[] args)
 	{
 		getAllStations();
@@ -38,11 +38,11 @@ public class StationUtil
 					String stationIDLong = splittedStop[0].replaceAll("\"", "");
 					String[] stationIDSplitted = stationIDLong.split(":");
 					String stationID = stationIDSplitted[0] + ":" + stationIDSplitted[1] + ":" + stationIDSplitted[2];
-					
+
 					String name = splittedStop[1];
 					Double lat = Double.valueOf(splittedStop[2]);
 					Double lon = Double.valueOf(splittedStop[3].replaceAll("\"", ""));
-					
+
 					if (testAlreadySaved(stations, stationID))
 					{
 						continue;
@@ -56,7 +56,16 @@ public class StationUtil
 			}
 			reader.close();
 			Saver saver = new DatabaseSaver();
-			stations.forEach(station -> saver.save(station));
+			stations.forEach(station -> {
+				try
+				{
+					saver.save(station);
+				}
+				catch (IOException e)
+				{
+					// ignore.
+				}
+			});
 		}
 		catch (IOException e)
 		{

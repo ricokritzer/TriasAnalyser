@@ -44,7 +44,16 @@ public class DataRepairerApp
 	{
 		final List<String> dataToRepair = dataToRepair();
 		deleteErrorFile();
-		dataToRepair.forEach(data -> saver.save(new RepairData(data.split("\t")[1])));
+		dataToRepair.forEach(data -> {
+			try
+			{
+				saver.save(new RepairData(data.split("\t")[1]));
+			}
+			catch (IOException e)
+			{
+				// unrepairable data -> ignore.
+			}
+		});
 		LOGGER.log(Level.INFO, "Repairing completed.");
 	}
 

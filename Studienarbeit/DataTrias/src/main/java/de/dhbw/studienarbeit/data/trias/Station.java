@@ -22,7 +22,7 @@ public class Station implements Manageable
 	private List<Stop> previousStops = new ArrayList<>();
 	private List<Stop> currentStops = new ArrayList<>();
 	private Date nextUpdate;
-	
+
 	private static final Logger LOGGER = Logger.getLogger(Station.class.getName());
 
 	public Station(String stationID, String name, Double lat, Double lon, String operator)
@@ -71,7 +71,14 @@ public class Station implements Manageable
 		}
 		for (Stop stop : stopsToSave)
 		{
-			new DatabaseSaver().save(stop);
+			try
+			{
+				new DatabaseSaver().save(stop);
+			}
+			catch (IOException e)
+			{
+				// ignore. DataRepairer will handle it.
+			}
 		}
 	}
 
@@ -113,7 +120,7 @@ public class Station implements Manageable
 		}
 
 		Calendar cal = Calendar.getInstance();
-		
+
 		// if no train arrives today
 		if (currentStops.isEmpty())
 		{
@@ -125,7 +132,7 @@ public class Station implements Manageable
 
 		Stop nextStop = currentStops.get(0);
 		LOGGER.log(Level.FINE, "Stop: " + nextStop);
-		
+
 		if (nextStop.getRealTime() == null)
 		{
 			Stop lastStop = currentStops.get(currentStops.size() - 1);
@@ -135,7 +142,7 @@ public class Station implements Manageable
 			LOGGER.log(Level.FINE, "Keine Echtzeitdaten, nextUpdate: " + nextUpdate);
 			return;
 		}
-		
+
 		if (nextStop.getRealTime().equals(new Date(0)))
 		{
 			cal.setTime(nextStop.getTimeTabledTime());
@@ -149,7 +156,7 @@ public class Station implements Manageable
 			LOGGER.log(Level.FINE, "nextUpdate: " + nextUpdate);
 			return;
 		}
-		
+
 		cal.setTime(nextStop.getRealTime());
 		cal.add(Calendar.MINUTE, -5);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
