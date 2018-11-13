@@ -66,7 +66,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName, e);
+			LOGGER.log(Level.WARNING, UNABLE_TO_READ + tableName + "(" + sql + ").", e);
 			throw e;
 		}
 		finally
