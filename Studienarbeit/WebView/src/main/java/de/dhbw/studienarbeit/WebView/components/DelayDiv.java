@@ -17,7 +17,6 @@ import com.vaadin.flow.data.binder.Binder;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
-import elemental.html.Window;
 
 public class DelayDiv extends Div
 {
