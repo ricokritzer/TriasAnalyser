@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -121,16 +120,17 @@ public class TriasXMLRequest
 	{
 		final String name = getPublishedLineName(docElement, i);
 		final String destination = getDestinationText(docElement, i);
-		LineDB lineDB = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination).get(0);
 
-		if (!Optional.ofNullable(lineDB).isPresent())
+		List<LineDB> lineDBs = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination);
+
+		if (lineDBs.isEmpty())
 		{
 			Line line = new Line(getPublishedLineName(docElement, i), getDestinationText(docElement, i));
 			new DatabaseSaver().save(line);
-
-			lineDB = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination).get(0);
+			lineDBs = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination);
 		}
 
+		final LineDB lineDB = lineDBs.get(0);
 		return new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
 	}
 
