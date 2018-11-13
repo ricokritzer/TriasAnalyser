@@ -32,13 +32,12 @@ public class MainView extends VerticalLayout
 		setAlignItems(Alignment.CENTER);
 
 		final Div divDatabase = new DatabaseDiv();
+		add(tabs);
 
 		addTab("Unsere Daten", divDatabase);
 		addTab("Verspätungen", new DelayDiv());
 		addTab("Heatmap", new HeatmapDiv());
 		addTab("Über uns", new AboutDiv());
-
-		add(tabs);
 
 		divDatabase.setVisible(true);
 
