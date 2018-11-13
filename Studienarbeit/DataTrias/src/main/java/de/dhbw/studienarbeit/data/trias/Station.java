@@ -22,6 +22,7 @@ public class Station implements Manageable
 	private List<Stop> previousStops = new ArrayList<>();
 	private List<Stop> currentStops = new ArrayList<>();
 	private Date nextUpdate;
+	private boolean updated;
 
 	private static final Logger LOGGER = Logger.getLogger(Station.class.getName());
 
@@ -59,25 +60,13 @@ public class Station implements Manageable
 		return operator;
 	}
 
-	public void getSQLQuerry()
+	public void saveStops() throws IOException
 	{
-		List<Stop> stopsToSave = new ArrayList<>();
 		for (Stop stop : previousStops)
 		{
 			if (!currentStops.contains(stop))
 			{
-				stopsToSave.add(stop);
-			}
-		}
-		for (Stop stop : stopsToSave)
-		{
-			try
-			{
 				new DatabaseSaver().save(stop);
-			}
-			catch (IOException e)
-			{
-				// ignore. DataRepairer will handle it.
 			}
 		}
 	}
@@ -85,24 +74,24 @@ public class Station implements Manageable
 	@Override
 	public Date nextUpdate()
 	{
-		LOGGER.log(Level.FINEST, "next Update for " + name + ": " + nextUpdate);
-		return nextUpdate;
+		return calculateNextUpdate();
 	}
 
-	private void updateData(ApiKey apiKey) throws IOException
+	private void updateStops(ApiKey apiKey) throws IOException
 	{
 		previousStops = currentStops;
 		TriasXMLRequest request = new TriasXMLRequest(apiKey, this);
 		try
 		{
 			currentStops = request.getResponse();
+			updated = true;
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.WARNING, "Timeout beim Anfragen von TRIAS");
 			currentStops = previousStops;
+			updated = false;
+			throw new IOException();
 		}
-		calculateNextUpdate();
 	}
 
 	/**
@@ -112,51 +101,42 @@ public class Station implements Manageable
 	 * arrives. If no trains with real time data arrive in the next 2 hours, the
 	 * station is updated in 2 hours.
 	 */
-	private void calculateNextUpdate()
+	private Date calculateNextUpdate()
 	{
 		if (nextUpdate == null)
 		{
-			nextUpdate = new Date();
+			return initialUpdate();
 		}
 
-		Calendar cal = Calendar.getInstance();
-
-		// if no train arrives today
 		if (currentStops.isEmpty())
 		{
-			cal.setTime(nextUpdate);
-			cal.add(Calendar.HOUR_OF_DAY, 24);
-			nextUpdate = cal.getTime();
-			return;
+			if (!updated)
+			{
+				return initialUpdate();
+			}
+			return tomorrow();
 		}
 
 		Stop nextStop = currentStops.get(0);
-		LOGGER.log(Level.FINE, "Stop: " + nextStop);
-
+		
+		// all Trains are cancelled
 		if (nextStop.getRealTime() == null)
 		{
-			Stop lastStop = currentStops.get(currentStops.size() - 1);
-			cal.setTime(lastStop.getTimeTabledTime());
-			cal.add(Calendar.HOUR_OF_DAY, 1);
-			nextUpdate = cal.getTime();
-			LOGGER.log(Level.FINE, "Keine Echtzeitdaten, nextUpdate: " + nextUpdate);
-			return;
+			return timeOfLastPlannedTrain();
 		}
 
+		// no Train with realtime data
 		if (nextStop.getRealTime().equals(new Date(0)))
 		{
-			cal.setTime(nextStop.getTimeTabledTime());
-			cal.add(Calendar.HOUR_OF_DAY, 1);
-			cal.add(Calendar.MINUTE, -1);
-			while (cal.getTime().before(new Date()))
-			{
-				cal.add(Calendar.MINUTE, 1);
-			}
-			nextUpdate = cal.getTime();
-			LOGGER.log(Level.FINE, "nextUpdate: " + nextUpdate);
-			return;
+			return timeOfNextPlannedTrain(nextStop);
 		}
 
+		return fiveMinutesBeforeNextTrain(nextStop);
+	}
+
+	private Date fiveMinutesBeforeNextTrain(Stop nextStop)
+	{
+		Calendar cal = Calendar.getInstance();
 		cal.setTime(nextStop.getRealTime());
 		cal.add(Calendar.MINUTE, -5);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
@@ -173,18 +153,62 @@ public class Station implements Manageable
 				cal.add(Calendar.MINUTE, 1);
 			}
 			nextUpdate = cal.getTime();
-			LOGGER.log(Level.FINE, "nextUpdate: " + nextUpdate);
-			return;
+			LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+			return nextUpdate;
 		}
 
 		nextUpdate = cal.getTime();
-		LOGGER.log(Level.FINE, "nextUpdate: " + nextUpdate);
+		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		return nextUpdate;
+	}
+
+	private Date timeOfNextPlannedTrain(Stop nextStop)
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(nextStop.getTimeTabledTime());
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		cal.add(Calendar.MINUTE, -1);
+		while (cal.getTime().before(new Date()))
+		{
+			cal.add(Calendar.MINUTE, 1);
+		}
+		nextUpdate = cal.getTime();
+		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		return nextUpdate;
+	}
+
+	private Date timeOfLastPlannedTrain()
+	{
+		Calendar cal = Calendar.getInstance();
+		Stop lastStop = currentStops.get(currentStops.size() - 1);
+		cal.setTime(lastStop.getTimeTabledTime());
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		nextUpdate = cal.getTime();
+		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		return nextUpdate;
+	}
+
+	private Date tomorrow()
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(nextUpdate);
+		cal.add(Calendar.HOUR_OF_DAY, 24);
+		nextUpdate = cal.getTime();
+		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		return nextUpdate;
+	}
+
+	private Date initialUpdate()
+	{
+		nextUpdate = new Date();
+		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		return nextUpdate;
 	}
 
 	@Override
 	public void updateAndSaveData(ApiKey apiKey) throws IOException
 	{
-		updateData(apiKey);
-		getSQLQuerry();
+		updateStops(apiKey);
+		saveStops();
 	}
 }
