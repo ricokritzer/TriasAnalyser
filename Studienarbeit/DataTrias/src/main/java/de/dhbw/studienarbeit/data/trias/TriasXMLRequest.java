@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +26,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import de.dhbw.studienarbeit.data.helper.database.conditions.ValueEquals;
 import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
@@ -119,15 +119,17 @@ public class TriasXMLRequest
 
 	private Line getLine(Element docElement, int i) throws IOException
 	{
-		if (new DatabaseTableLine().count(new ValueEquals("name", getPublishedLineName(docElement, i)),
-				new ValueEquals("destination", getDestinationText(docElement, i))) == 0)
+		final String name = getPublishedLineName(docElement, i);
+		final String destination = getDestinationText(docElement, i);
+		LineDB lineDB = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination).get(0);
+
+		if (!Optional.ofNullable(lineDB).isPresent())
 		{
 			Line line = new Line(getPublishedLineName(docElement, i), getDestinationText(docElement, i));
 			new DatabaseSaver().save(line);
+
+			lineDB = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination).get(0);
 		}
-		LineDB lineDB = new DatabaseTableLine()
-				.selectLinesByNameAndDestination(getPublishedLineName(docElement, i), getDestinationText(docElement, i))
-				.get(0);
 
 		return new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
 	}
