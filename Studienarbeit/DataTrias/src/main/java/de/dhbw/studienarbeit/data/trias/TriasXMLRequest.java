@@ -118,8 +118,8 @@ public class TriasXMLRequest
 
 	private Line getLine(Element docElement, int i) throws IOException
 	{
-		final String name = getPublishedLineName(docElement, i);
-		final String destination = getDestinationText(docElement, i);
+		String name = getPublishedLineName(docElement, i).replaceAll("'", "");
+		String destination = getDestinationText(docElement, i).replaceAll("'", "");
 
 		List<LineDB> lineDBs = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination);
 
