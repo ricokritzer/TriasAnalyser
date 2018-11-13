@@ -35,5 +35,6 @@ public class HeatmapDiv extends Div
 		// layout.add(leafletMap);
 
 		this.add(layout);
+		setVisible(false);
 	}
 }
