@@ -11,7 +11,6 @@ public class AboutDiv extends Div
 	public AboutDiv()
 	{
 		super();
-		this.setTitle("Unsere Daten");
 
 		VerticalLayout layout = new VerticalLayout();
 
