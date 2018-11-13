@@ -149,7 +149,7 @@ public class TriasXMLRequest
 	private void sortStops(List<Stop> stops)
 	{
 		stops.sort((stop1, stop2) -> {
-			if (stop1.getRealTime() == null || stop1.getRealTime().equals(new Date(0)))
+			if (stop1.getRealTime() == null || (stop1.getRealTime().equals(new Date(0)) && stop2.getRealTime() != null))
 			{
 				return 1;
 			}
