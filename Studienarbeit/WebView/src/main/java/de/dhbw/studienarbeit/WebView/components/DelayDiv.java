@@ -79,8 +79,10 @@ public class DelayDiv extends Div
 		layout.add(txtLastUpdate);
 
 		add(layout);
+		
+		setDelayValues();
 
-		new Timer().schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
+//		new Timer().schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
 
 		setVisible(false);
 	}
@@ -106,7 +108,7 @@ public class DelayDiv extends Div
 
 	private void setDelayValues()
 	{
-		Optional.ofNullable(delay).ifPresent(d -> delayBinder.readBean(d));
+		Optional.ofNullable(delay).ifPresent(d -> delayBinder.setBean(d));
 	}
 
 	private String convertTimeToString(double time)
