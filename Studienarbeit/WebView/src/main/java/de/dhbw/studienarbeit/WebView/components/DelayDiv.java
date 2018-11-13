@@ -80,7 +80,18 @@ public class DelayDiv extends Div
 
 		add(layout);
 		
-		new Timer().schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
+		elemental.util.Timer updateTimer = new elemental.util.Timer()
+		{
+			
+			@Override
+			public void run()
+			{
+				setDelayValues();
+			}
+		};
+		updateTimer.scheduleRepeating((int) UPDATE_RATE_SECONDS * 1000);
+		
+//		new Timer().schedule(new MyTimerTask(this::setDelayValues), new Date(), UPDATE_RATE_SECONDS * 1000);
 
 		setVisible(false);
 	}
