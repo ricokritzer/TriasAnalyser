@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.conditions.Condition;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class DatabaseTableApi extends DatabaseTable
@@ -40,27 +39,10 @@ public class DatabaseTableApi extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	/*
-	 * @deprecated use {@link #selectApisByName(String name)} instead.
-	 */
-	@Deprecated
-	public final List<ApiKey> selectApis(Condition... conditions) throws IOException
-	{
-		try
-		{
-
-			final List<ApiKey> list = new ArrayList<>();
-			select(r -> getApiKey(r).ifPresent(list::add), TABLE_NAME, conditions);
-			return list;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
-	}
-
 	public final List<ApiKey> selectApisByName(final String name) throws IOException
 	{
+		reconnectIfNeccessary();
+
 		final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ?;";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
