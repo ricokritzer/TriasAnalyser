@@ -7,7 +7,6 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -25,11 +24,11 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.database.saver.Saveable2;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 
-public class Weather implements Manageable, Saveable2
+public class Weather implements Manageable, Saveable
 {
 	private static final Logger LOGGER = Logger.getLogger(Weather.class.getName());
 	private static final DocumentBuilderFactory FACTORY = DocumentBuilderFactory.newInstance();
@@ -140,29 +139,6 @@ public class Weather implements Manageable, Saveable2
 		}
 	}
 
-	public String getSQLQuerry()
-	{
-		final String seperator = ", ";
-		return new StringBuilder() //
-				.append("INSERT INTO Weather VALUES (") //
-				.append(lat).append(seperator) //
-				.append(lon).append(seperator) //
-				.append(inQuotes(new Timestamp(date.getTime()).toString())).append(seperator) //
-				.append(temp).append(seperator) //
-				.append(humidity).append(seperator) //
-				.append(pressure).append(seperator) //
-				.append(wind).append(seperator) //
-				.append(clouds).append(seperator) //
-				.append(inQuotes(text)) //
-				.append(");") //
-				.toString();
-	}
-
-	private String inQuotes(String string)
-	{
-		return new StringBuilder().append("'").append(string).append("'").toString();
-	}
-
 	@Override
 	public Date nextUpdate()
 	{
@@ -208,22 +184,22 @@ public class Weather implements Manageable, Saveable2
 		DatabaseSaver.getInstance().save(this);
 	}
 
-	@Override
-	public PreparedStatement getPreparedStatement(Connection connection) throws SQLException
+	public String getSQLQuerry()
 	{
-		final String sql = "INSERT INTO Weather VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		final PreparedStatement stmt = connection.prepareStatement(sql);
-		
-		stmt.setDouble(1, lat);
-		stmt.setDouble(2, lon);
-		stmt.setTimestamp(3, new Timestamp(date.getTime()));
-		stmt.setDouble(4, temp);
-		stmt.setDouble(5, humidity);
-		stmt.setDouble(6, pressure);
-		stmt.setDouble(7, wind);
-		stmt.setDouble(8, clouds);
-		stmt.setString(9, text);
+		return "INSERT INTO Weather VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	}
 
-		return stmt;
+	@Override
+	public void setValues(PreparedStatement preparedStatement) throws SQLException
+	{
+		preparedStatement.setDouble(1, lat);
+		preparedStatement.setDouble(2, lon);
+		preparedStatement.setTimestamp(3, new Timestamp(date.getTime()));
+		preparedStatement.setDouble(4, temp);
+		preparedStatement.setDouble(5, humidity);
+		preparedStatement.setDouble(6, pressure);
+		preparedStatement.setDouble(7, wind);
+		preparedStatement.setDouble(8, clouds);
+		preparedStatement.setString(9, text);
 	}
 }
