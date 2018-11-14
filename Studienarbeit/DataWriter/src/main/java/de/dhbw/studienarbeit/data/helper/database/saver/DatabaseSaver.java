@@ -43,24 +43,20 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 			return;
 		}
 
-		PreparedStatement statement = null;
-		try
-		{
-			reconnectIfNeccessary();
+		reconnectIfNeccessary();
 
-			statement = connection.prepareStatement(model.getSQLQuerry());
+		try (PreparedStatement statement = connection.prepareStatement(sqlQuerry))
+		{
+			model.setValues(statement);
 			statement.executeUpdate();
 			LOGGER.log(Level.FINE, model.toString() + " saved.");
 		}
-		catch (SQLException | IOException e)
+		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to save " + model.toString(), e);
+			final String whatHappens = "Unable to save " + model.toString() + ". Saving SQL in " + fileName;
+			LOGGER.log(Level.WARNING, whatHappens, e);
 			saver.save(model);
-			throw new IOException("Unable to save " + model.toString() + ". Saving SQL in " + fileName);
-		}
-		finally
-		{
-			closeStatement(statement);
+			throw new IOException(whatHappens, e);
 		}
 	}
 
