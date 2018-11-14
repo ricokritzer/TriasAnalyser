@@ -98,7 +98,7 @@ public class Station implements Manageable
 		{
 			currentStops = previousStops;
 			updated = false;
-			throw new IOException();
+			throw new IOException("Station " + name + " could not be updated", e);
 		}
 	}
 
