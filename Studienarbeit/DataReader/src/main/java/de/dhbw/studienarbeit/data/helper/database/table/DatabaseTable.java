@@ -17,7 +17,6 @@ import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 public abstract class DatabaseTable extends DatabaseConnector
 {
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
-	private static final String ALL = "*";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTable.class.getName());
 
 	protected void select(Consumer<ResultSet> consumer, PreparedStatement statement) throws SQLException
@@ -67,19 +66,18 @@ public abstract class DatabaseTable extends DatabaseConnector
 	{
 		final String countEntries = "SELECT COUNT(*) AS total FROM " + getTableName() + ";";
 
-		PreparedStatement preparedStatement = null;
-		try
+		reconnectIfNeccessary();
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(countEntries))
 		{
-			reconnectIfNeccessary();
-
-			preparedStatement = connection.prepareStatement(countEntries);
-
 			final List<Integer> count = new ArrayList<>();
 			select(result -> getTotal(result).ifPresent(count::add), preparedStatement);
+
 			if (count.isEmpty())
 			{
 				throw new SQLException("Unable to count entries in " + getTableName());
 			}
+
 			int c = count.get(0);
 			LOGGER.log(Level.FINE, c + " entries at " + getTableName());
 			return count.get(0);
@@ -87,19 +85,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 		catch (SQLException e)
 		{
 			throw new IOException("Unable to count " + getTableName(), e);
-		}
-		finally
-		{
-			Optional.ofNullable(preparedStatement).ifPresent(stmt -> {
-				try
-				{
-					stmt.close();
-				}
-				catch (SQLException e)
-				{
-					// ignore
-				}
-			});
 		}
 	}
 }
