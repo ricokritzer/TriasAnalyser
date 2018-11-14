@@ -64,7 +64,7 @@ public class Station implements Manageable
 	{
 		for (Stop stop : previousStops)
 		{
-			if (!currentStops.contains(stop))
+			if (!currentStops.contains(stop) && !stop.getRealTime().equals(new Date(0)))
 			{
 				new DatabaseSaver().save(stop);
 			}
