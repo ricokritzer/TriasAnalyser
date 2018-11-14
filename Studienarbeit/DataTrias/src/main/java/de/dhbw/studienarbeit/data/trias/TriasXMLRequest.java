@@ -30,6 +30,7 @@ import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class TriasXMLRequest
 {
@@ -78,7 +79,8 @@ public class TriasXMLRequest
 		{
 			e.printStackTrace();
 		}
-		sortStops(stops);
+		Collections.sort(stops);
+		stops.forEach(System.out::println);
 		return stops;
 	}
 
@@ -139,28 +141,6 @@ public class TriasXMLRequest
 	{
 		String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i).getTextContent();
 		return publishedLineName.substring(0, publishedLineName.length() - 2);
-	}
-
-	/**
-	 * sorts stops by estimated arrival time
-	 * 
-	 * @param List
-	 *            of stops
-	 */
-	private void sortStops(List<Stop> stops)
-	{
-		stops.sort((stop1, stop2) -> {
-			if (!stop1.getRealTime().isPresent() || (stop1.getRealTime().get().equals(new Date(0)) && stop2.getRealTime().isPresent()))
-			{
-				return 1;
-			}
-			if (!stop2.getRealTime().isPresent() || stop2.getRealTime().get().equals(new Date(0))
-					|| stop1.getRealTime().get().before(stop2.getRealTime().get()))
-			{
-				return -1;
-			}
-			return 1;
-		});
 	}
 
 	private String readResponse(final URLConnection connection) throws IOException

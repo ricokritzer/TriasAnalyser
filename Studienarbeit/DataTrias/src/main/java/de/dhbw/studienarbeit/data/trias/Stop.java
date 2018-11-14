@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
-public class Stop implements Saveable
+public class Stop implements Saveable, Comparable<Stop>
 {
 	private String stationID;
 	private Line line;
@@ -103,5 +103,35 @@ public class Stop implements Saveable
 		{
 			preparedStatement.setTimestamp(4, null);
 		}
+	}
+
+	@Override
+	public int compareTo(Stop stop)
+	{
+		if (!stop.getRealTime().isPresent() && !this.getRealTime().isPresent())
+		{
+			return 0;
+		}
+		if (!stop.getRealTime().isPresent())
+		{
+			return -1;
+		}
+		if (!this.getRealTime().isPresent())
+		{
+			return 1;
+		}
+		if (stop.getRealTime().get().equals(new Date(0)) && this.getRealTime().get().equals(new Date(0)))
+		{
+			return 0;
+		}
+		if (stop.getRealTime().get().equals(new Date(0)))
+		{
+			return -1;
+		}
+		if (this.getRealTime().get().equals(new Date(0)))
+		{
+			return 1;
+		}
+		return this.getRealTime().get().compareTo(stop.getRealTime().get());
 	}
 }
