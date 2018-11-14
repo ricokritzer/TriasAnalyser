@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.data.trias;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -8,9 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.Saveable2;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
-public class Stop implements Saveable2
+public class Stop implements Saveable
 {
 	private String stationID;
 	private Line line;
@@ -78,21 +77,22 @@ public class Stop implements Saveable2
 	}
 
 	@Override
-	public PreparedStatement getPreparedStatement(Connection connection) throws SQLException
+	public String getSQLQuerry()
 	{
-		String query = "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (?, ?, ?, ?);";
-		try (PreparedStatement statement = connection.prepareStatement(query))
-		{
-			statement.setString(1, stationID);
-			statement.setInt(2, line.getId());
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(timeTabledTime);
-			cal.add(Calendar.HOUR_OF_DAY, 1);
-			statement.setTimestamp(3, new Timestamp(cal.getTimeInMillis()));
-			cal.setTime(realTime);
-			cal.add(Calendar.HOUR_OF_DAY, 1);
-			statement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
-			return statement;
-		}
+		return "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (?, ?, ?, ?);";
+	}
+
+	@Override
+	public void setValues(PreparedStatement preparedStatement) throws SQLException
+	{
+		preparedStatement.setString(1, stationID);
+		preparedStatement.setInt(2, line.getId());
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(timeTabledTime);
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		preparedStatement.setTimestamp(3, new Timestamp(cal.getTimeInMillis()));
+		cal.setTime(realTime);
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
 	}
 }

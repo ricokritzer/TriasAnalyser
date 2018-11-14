@@ -1,13 +1,12 @@
 package de.dhbw.studienarbeit.data.trias;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Objects;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.Saveable2;
+import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
-public class Line implements Saveable2
+public class Line implements Saveable
 {
 	private int id;
 	private String name;
@@ -58,14 +57,15 @@ public class Line implements Saveable2
 	}
 
 	@Override
-	public PreparedStatement getPreparedStatement(Connection connection) throws SQLException
+	public String getSQLQuerry()
 	{
-		String query = "INSERT INTO Line (name, destination) VALUES (?, ?);";
-		try (PreparedStatement statement = connection.prepareStatement(query))
-		{
-			statement.setString(1, name);
-			statement.setString(2, destination);
-			return statement;
-		}
+		return "INSERT INTO Line (name, destination) VALUES (?, ?);";
+	}
+
+	@Override
+	public void setValues(PreparedStatement preparedStatement) throws SQLException
+	{
+		preparedStatement.setString(1, name);
+		preparedStatement.setString(2, destination);
 	}
 }
