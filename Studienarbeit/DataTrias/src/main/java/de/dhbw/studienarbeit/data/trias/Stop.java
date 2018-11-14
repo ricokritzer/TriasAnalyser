@@ -15,7 +15,7 @@ public class Stop implements Saveable, Comparable<Stop>
 	private String stationID;
 	private Line line;
 	private Date timeTabledTime;
-	private Optional<Date> realTime;
+	private Optional<Date> realTime = Optional.empty();
 
 	public Stop(String stationID, Line line, Date timetabled, Optional<Date> realTime)
 	{

@@ -94,7 +94,7 @@ public class TriasXMLRequest
 	{
 		if (stopIsCancelled(docElement, i))
 		{
-			return null;
+			return Optional.empty();
 		}
 		if (docElement.getElementsByTagName("EstimatedTime").item(i) == null)
 		{
