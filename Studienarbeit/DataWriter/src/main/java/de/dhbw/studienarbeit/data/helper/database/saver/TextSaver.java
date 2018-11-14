@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TextSaver implements Saver
+public class TextSaver
 {
 	private static final Logger LOGGER = Logger.getLogger(TextSaver.class.getName());
 	public final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
@@ -32,7 +32,7 @@ public class TextSaver implements Saver
 		LOGGER.log(Level.WARNING, "Error occured " + ex.getMessage(), ex);
 	}
 
-	private void write(final String text)
+	void write(final String text)
 	{
 		final Date date = new Date();
 
@@ -48,11 +48,5 @@ public class TextSaver implements Saver
 		{
 			LOGGER.log(Level.ALL, ex.getMessage());
 		}
-	}
-
-	@Override
-	public void save(Saveable2 model) throws IOException
-	{
-		write(model.toString());
 	}
 }

@@ -3,7 +3,6 @@ package de.dhbw.studienarbeit.data.helper.database.saver;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +17,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 
 	private static final String fileName = "errors.txt";
 
-	private static final Saver saver = new TextSaver(fileName);
+	private static final TextSaver saver = new TextSaver(fileName);
 
 	public static DatabaseSaver getInstance()
 	{
@@ -45,17 +44,21 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 
 		reconnectIfNeccessary();
 
+		String sql = "Building SQL failed.";
+
 		try (PreparedStatement statement = connection.prepareStatement(sqlQuerry))
 		{
 			model.setValues(statement);
+			sql = statement.toString();
 			statement.executeUpdate();
 			LOGGER.log(Level.FINE, model.toString() + " saved.");
 		}
 		catch (SQLException e)
 		{
-			final String whatHappens = "Unable to save " + model.toString() + ". Saving SQL in " + fileName;
+			final String whatHappens = new StringBuilder().append("Unable to save ").append(model)
+					.append(". Saving SQL in ").append(fileName).append(". SQL: ").append(sql).toString();
 			LOGGER.log(Level.WARNING, whatHappens, e);
-			saver.save(model);
+			saver.write(sql);
 			throw new IOException(whatHappens, e);
 		}
 	}
@@ -73,22 +76,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 		catch (SQLException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to save " + model.toString(), e);
-			saver.save(model);
-			throw new IOException("Unable to save " + model.toString() + ". Saving SQL in " + fileName);
+			throw new IOException("Unable to save " + model.toString(), e);
 		}
-	}
-
-	private void closeStatement(PreparedStatement statement)
-	{
-		Optional.ofNullable(statement).ifPresent(e -> {
-			try
-			{
-				e.close();
-			}
-			catch (SQLException e1)
-			{
-				LOGGER.log(Level.WARNING, "Unable to close PreparedStatement.", e1);
-			}
-		});
 	}
 }
