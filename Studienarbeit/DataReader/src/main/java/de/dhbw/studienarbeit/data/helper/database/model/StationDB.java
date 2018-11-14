@@ -1,5 +1,8 @@
 package de.dhbw.studienarbeit.data.helper.database.model;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
 public class StationDB implements Saveable
@@ -55,12 +58,17 @@ public class StationDB implements Saveable
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Station " + values() + ";";
+		return "INSERT INTO Station VALUES(?, ?, ?, ?, ?, ?);";
 	}
 
-	private String values()
+	@Override
+	public void setValues(PreparedStatement preparedStatement) throws SQLException
 	{
-		return "values ('" + stationID + "', '" + name + "', " + lat + ", " + lon + ", '" + operator + "', " + observe
-				+ ")";
+		preparedStatement.setString(1, stationID);
+		preparedStatement.setString(2, name);
+		preparedStatement.setDouble(3, lat);
+		preparedStatement.setDouble(4, lon);
+		preparedStatement.setString(5, operator);
+		preparedStatement.setBoolean(6, observe);
 	}
 }

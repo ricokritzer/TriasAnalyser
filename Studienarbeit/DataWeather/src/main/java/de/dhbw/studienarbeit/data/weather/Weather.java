@@ -212,19 +212,18 @@ public class Weather implements Manageable, Saveable2
 	public PreparedStatement getPreparedStatement(Connection connection) throws SQLException
 	{
 		final String sql = "INSERT INTO Weather VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		try (PreparedStatement stmt = connection.prepareStatement(sql))
-		{
-			stmt.setDouble(1, lat);
-			stmt.setDouble(2, lon);
-			stmt.setTimestamp(3, new Timestamp(date.getTime()));
-			stmt.setDouble(4, temp);
-			stmt.setDouble(5, humidity);
-			stmt.setDouble(6, pressure);
-			stmt.setDouble(7, wind);
-			stmt.setDouble(8, clouds);
-			stmt.setString(9, text);
+		final PreparedStatement stmt = connection.prepareStatement(sql);
+		
+		stmt.setDouble(1, lat);
+		stmt.setDouble(2, lon);
+		stmt.setTimestamp(3, new Timestamp(date.getTime()));
+		stmt.setDouble(4, temp);
+		stmt.setDouble(5, humidity);
+		stmt.setDouble(6, pressure);
+		stmt.setDouble(7, wind);
+		stmt.setDouble(8, clouds);
+		stmt.setString(9, text);
 
-			return stmt;
-		}
+		return stmt;
 	}
 }
