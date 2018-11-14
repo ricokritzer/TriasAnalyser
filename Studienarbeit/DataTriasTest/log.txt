@@ -1,0 +1,2 @@
+Nov 14, 2018 5:56:24 PM de.dhbw.studienarbeit.triastest.TestApp scheduleTest
+INFORMATION: Test scheduled: 350 requests, start: 14.11.2018 18:00 end: 14.11.2018 20:00
