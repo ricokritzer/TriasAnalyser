@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
@@ -91,8 +92,17 @@ public class Stop implements Saveable
 		cal.setTime(timeTabledTime);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		preparedStatement.setTimestamp(3, new Timestamp(cal.getTimeInMillis()));
-		cal.setTime(realTime);
-		cal.add(Calendar.HOUR_OF_DAY, 1);
-		preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
+
+		Optional<Date> real = Optional.ofNullable(realTime);
+		if (real.isPresent())
+		{
+			cal.setTime(realTime);
+			cal.add(Calendar.HOUR_OF_DAY, 1);
+			preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
+		}
+		else
+		{
+			preparedStatement.setTimestamp(4, null);
+		}
 	}
 }
