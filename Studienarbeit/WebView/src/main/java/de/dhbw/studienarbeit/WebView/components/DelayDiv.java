@@ -41,7 +41,7 @@ public class DelayDiv extends Div
 	private static Timer timer;
 	private static Date lastUpdate = new Date();
 
-	Notification notification = new Notification("This notification has text content", 3000);
+	private static Notification notification = new Notification("This notification has text content", 3000);
 
 	static
 	{
@@ -103,13 +103,13 @@ public class DelayDiv extends Div
 
 	private static void setDelay(DelayDB delay)
 	{
+		notification.open();
 		DelayDiv.lastUpdate = new Date();
 		DelayDiv.delay = delay;
 	}
 
 	private void setDelayValues()
 	{
-		notification.open();
 		Optional.ofNullable(delay).ifPresent(d -> delayBinder.setBean(delay));
 	}
 
