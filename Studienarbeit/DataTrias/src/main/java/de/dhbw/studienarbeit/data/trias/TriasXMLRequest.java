@@ -80,7 +80,6 @@ public class TriasXMLRequest
 			e.printStackTrace();
 		}
 		Collections.sort(stops);
-		stops.forEach(System.out::println);
 		return stops;
 	}
 
