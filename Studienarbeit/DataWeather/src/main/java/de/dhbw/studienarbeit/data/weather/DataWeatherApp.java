@@ -5,16 +5,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
+import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 
 public class DataWeatherApp
 {
 	public static void main(String[] args) throws IOException
 	{
+		LogLevelHelper.setLogLevel(Level.ALL);
+
 		List<StationDB> testStations = new ArrayList<>();
 		testStations.add(new StationDB("de:test:Karlsruhe", "Karlsruhe", 49.01, 8.40, "Stadt", true));
 		testStations.add(new StationDB("de:test:Berlin", "Berlin", 52.521918, 13.413215, "Stadt", true));
