@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -88,7 +89,7 @@ public class TriasXMLRequest
 		return timetabledTime;
 	}
 
-	private Date getEstimatedTime(final Element docElement, int i) throws ParseException
+	private Optional<Date> getEstimatedTime(final Element docElement, int i) throws ParseException
 	{
 		if (stopIsCancelled(docElement, i))
 		{
@@ -96,11 +97,11 @@ public class TriasXMLRequest
 		}
 		if (docElement.getElementsByTagName("EstimatedTime").item(i) == null)
 		{
-			return new Date(0);
+			return Optional.ofNullable(new Date(0));
 		}
 		Date estimatedTime = new Date(new SimpleDateFormat(formatString)
 				.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent()).getTime());
-		return estimatedTime;
+		return Optional.ofNullable(estimatedTime);
 	}
 
 	private Boolean stopIsCancelled(final Element docElement, int i)
@@ -149,12 +150,12 @@ public class TriasXMLRequest
 	private void sortStops(List<Stop> stops)
 	{
 		stops.sort((stop1, stop2) -> {
-			if (stop1.getRealTime() == null || (stop1.getRealTime().equals(new Date(0)) && stop2.getRealTime() != null))
+			if (!stop1.getRealTime().isPresent() || (stop1.getRealTime().get().equals(new Date(0)) && stop2.getRealTime().isPresent()))
 			{
 				return 1;
 			}
-			if (stop2.getRealTime() == null || stop2.getRealTime().equals(new Date(0))
-					|| stop1.getRealTime().before(stop2.getRealTime()))
+			if (!stop2.getRealTime().isPresent() || stop2.getRealTime().get().equals(new Date(0))
+					|| stop1.getRealTime().get().before(stop2.getRealTime().get()))
 			{
 				return -1;
 			}

@@ -64,9 +64,17 @@ public class Station implements Manageable
 	{
 		for (Stop stop : previousStops)
 		{
-			if (!currentStops.contains(stop) && !stop.getRealTime().equals(new Date(0)))
+			if (!currentStops.contains(stop) && stop.getRealTime().isPresent() && !stop.getRealTime().get().equals(new Date(0)))
 			{
-				new DatabaseSaver().save(stop);
+				if (!stop.getRealTime().isPresent())
+				{
+					new DatabaseSaver().save(stop);
+					continue;
+				}
+				if (!stop.getRealTime().get().equals(new Date(0)))
+				{
+					new DatabaseSaver().save(stop);
+				}
 			}
 		}
 	}
@@ -120,13 +128,13 @@ public class Station implements Manageable
 		Stop nextStop = currentStops.get(0);
 		
 		// all Trains are cancelled
-		if (nextStop.getRealTime() == null)
+		if (!nextStop.getRealTime().isPresent())
 		{
 			return timeOfLastPlannedTrain();
 		}
 
 		// no Train with realtime data
-		if (nextStop.getRealTime().equals(new Date(0)))
+		if (nextStop.getRealTime().get().equals(new Date(0)))
 		{
 			return timeOfNextPlannedTrain(nextStop);
 		}
@@ -137,7 +145,7 @@ public class Station implements Manageable
 	private Date fiveMinutesBeforeNextTrain(Stop nextStop)
 	{
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(nextStop.getRealTime());
+		cal.setTime(nextStop.getRealTime().get());
 		cal.add(Calendar.MINUTE, -5);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 

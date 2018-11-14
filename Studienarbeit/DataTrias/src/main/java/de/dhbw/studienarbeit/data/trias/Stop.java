@@ -15,9 +15,9 @@ public class Stop implements Saveable
 	private String stationID;
 	private Line line;
 	private Date timeTabledTime;
-	private Date realTime;
+	private Optional<Date> realTime;
 
-	public Stop(String stationID, Line line, Date timetabled, Date realTime)
+	public Stop(String stationID, Line line, Date timetabled, Optional<Date> realTime)
 	{
 		this.stationID = stationID;
 		this.line = line;
@@ -40,7 +40,7 @@ public class Stop implements Saveable
 		return timeTabledTime;
 	}
 
-	public Date getRealTime()
+	public Optional<Date> getRealTime()
 	{
 		return realTime;
 	}
@@ -93,10 +93,9 @@ public class Stop implements Saveable
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		preparedStatement.setTimestamp(3, new Timestamp(cal.getTimeInMillis()));
 
-		Optional<Date> real = Optional.ofNullable(realTime);
-		if (real.isPresent())
+		if (realTime.isPresent())
 		{
-			cal.setTime(realTime);
+			cal.setTime(realTime.get());
 			cal.add(Calendar.HOUR_OF_DAY, 1);
 			preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
 		}
