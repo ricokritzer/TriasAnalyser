@@ -52,7 +52,7 @@ public class DataManager
 	{
 		return new MyTimerTask(() -> new Thread(new Runnable()
 		{
-			
+
 			@Override
 			public void run()
 			{
@@ -68,6 +68,7 @@ public class DataManager
 
 	private void readyToUpdate(Manageable model)
 	{
+		LOGGER.log(Level.FINEST, "New model is ready to update. Currently waiting: " + waitingForUpdate.size());
 		waitingForUpdate.add(model);
 	}
 
