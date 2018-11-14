@@ -64,7 +64,8 @@ public class Station implements Manageable
 	{
 		for (Stop stop : previousStops)
 		{
-			if (!currentStops.contains(stop) && stop.getRealTime().isPresent() && !stop.getRealTime().get().equals(new Date(0)))
+			if (!currentStops.contains(stop) && stop.getRealTime().isPresent()
+					&& !stop.getRealTime().get().equals(new Date(0)))
 			{
 				if (!stop.getRealTime().isPresent())
 				{
@@ -126,7 +127,7 @@ public class Station implements Manageable
 		}
 
 		Stop nextStop = currentStops.get(0);
-		
+
 		// all Trains are cancelled
 		if (!nextStop.getRealTime().isPresent())
 		{
@@ -149,22 +150,10 @@ public class Station implements Manageable
 		cal.add(Calendar.MINUTE, -5);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 
-		Calendar inFiveMinutes = Calendar.getInstance();
-		inFiveMinutes.setTime(new Date());
-		inFiveMinutes.add(Calendar.MINUTE, 5);
-
-		if (cal.before(inFiveMinutes))
+		if (cal.getTime().before(new Date()))
 		{
-			cal.add(Calendar.MINUTE, 4);
-			while (cal.getTime().before(new Date()))
-			{
-				cal.add(Calendar.MINUTE, 1);
-			}
-			nextUpdate = cal.getTime();
-			LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
-			return nextUpdate;
+			cal.add(Calendar.MINUTE, 5);
 		}
-
 		nextUpdate = cal.getTime();
 		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
 		return nextUpdate;
@@ -175,13 +164,13 @@ public class Station implements Manageable
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(nextStop.getTimeTabledTime());
 		cal.add(Calendar.HOUR_OF_DAY, 1);
-		cal.add(Calendar.MINUTE, -1);
-		while (cal.getTime().before(new Date()))
+		cal.add(Calendar.MINUTE, -5);
+		if (cal.getTime().before(new Date()))
 		{
-			cal.add(Calendar.MINUTE, 1);
+			cal.add(Calendar.MINUTE, 5);
 		}
 		nextUpdate = cal.getTime();
-		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		LOGGER.log(Level.FINE, "No trains with real time, next Update for " + name + " " + nextUpdate);
 		return nextUpdate;
 	}
 
@@ -192,7 +181,7 @@ public class Station implements Manageable
 		cal.setTime(lastStop.getTimeTabledTime());
 		cal.add(Calendar.HOUR_OF_DAY, 1);
 		nextUpdate = cal.getTime();
-		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		LOGGER.log(Level.FINE, "All trains cancelled, next Update for " + name + " " + nextUpdate);
 		return nextUpdate;
 	}
 
@@ -202,14 +191,14 @@ public class Station implements Manageable
 		cal.setTime(nextUpdate);
 		cal.add(Calendar.HOUR_OF_DAY, 24);
 		nextUpdate = cal.getTime();
-		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		LOGGER.log(Level.FINE, "No trains arriving today, next Update for " + name + " " + nextUpdate);
 		return nextUpdate;
 	}
 
 	private Date initialUpdate()
 	{
 		nextUpdate = new Date();
-		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
+		LOGGER.log(Level.FINE, "Initial update, next Update for " + name + " " + nextUpdate);
 		return nextUpdate;
 	}
 
