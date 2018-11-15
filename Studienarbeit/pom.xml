@@ -67,6 +67,15 @@
 
 	<build>
 		<plugins>
+			<!-- Jetty plugin for easy testing without a server -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.11.v20180605</version>
+				<configuration>
+					<scanIntervalSeconds>1</scanIntervalSeconds>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

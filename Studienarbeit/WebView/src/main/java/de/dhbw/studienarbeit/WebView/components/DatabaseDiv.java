@@ -38,22 +38,9 @@ public class DatabaseDiv extends Div
 	private static Date lastUpdate = new Date();
 	private static Timer timer;
 
-	static
-	{
-		update();
-
-		DatabaseDiv.timer = new Timer();
-		timer.schedule(new MyTimerTask(DatabaseDiv::update), new Date(), UPDATE_RATE_SECONDS * 1000);
-		LOGGER.log(Level.INFO, "Timer scheduled.");
-	}
-
 	public DatabaseDiv()
 	{
 		super();
-		this.setTitle("Unsere Daten");
-
-		final Timer reloadTimer = new Timer();
-		reloadTimer.schedule(new MyTimerTask(this::setValues), new Date(), UPDATE_RATE_SECONDS * 1000);
 
 		VerticalLayout layout = new VerticalLayout();
 

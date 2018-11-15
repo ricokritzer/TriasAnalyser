@@ -11,8 +11,6 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.vaadin.flow.component.notification.Notification;
-
 import de.dhbw.studienarbeit.WebView.components.DelayDiv;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
@@ -23,15 +21,15 @@ public class DelayDataProvider
 	private static final int ONE_MINUTE = 60000;
 	private static DelayDataProvider instance = null;
 	private Set<DelayDiv> queuedDivs;
-	private DelayDB delayDB;
-	
+	private DelayDB delayDB = new DelayDB(0, 0, 0);
+
 	private static final Logger LOGGER = Logger.getLogger(DelayDataProvider.class.getName());
-	
+
 	private DelayDataProvider()
 	{
 		queuedDivs = new HashSet<>();
 	}
-	
+
 	public static DelayDataProvider getInstance()
 	{
 		if (instance == null)
@@ -42,23 +40,22 @@ public class DelayDataProvider
 		}
 		return instance;
 	}
-	
+
 	private void startUpdating()
 	{
 		new Timer().schedule(new MyTimerTask(this::updateDivs), new Date(), ONE_MINUTE);
 	}
-	
+
 	private void updateDivs()
 	{
-		Notification.show("TEST");
 		List<DelayDiv> updatableDivs = new ArrayList<>();
 		updatableDivs.addAll(queuedDivs);
 		queuedDivs.clear();
-		getNewData();
-		updatableDivs.forEach(div -> div.update(delayDB));
+		DelayBean bean = getNewData();
+		updatableDivs.forEach(div -> div.update(bean));
 	}
-	
-	private void getNewData()
+
+	private DelayBean getNewData()
 	{
 		try
 		{
@@ -68,15 +65,17 @@ public class DelayDataProvider
 		{
 			LOGGER.log(Level.WARNING, "Unable to get delay data", e);
 		}
+		
+		return new DelayBean(delayDB.getSum(), delayDB.getMaximum(), delayDB.getAverage(), new Date());
 	}
-	
+
 	public void readyForUpdate(DelayDiv div)
 	{
 		queuedDivs.add(div);
 	}
-	
+
 	public void getDataFor(DelayDiv div)
 	{
-		div.update(delayDB);
+		div.update(new DelayBean(delayDB.getSum(), delayDB.getMaximum(), delayDB.getAverage(), new Date()));
 	}
 }
