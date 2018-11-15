@@ -5,30 +5,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.WebView.components.DelayDiv;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
-import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 
-public class DelayDataProvider
+public class DelayDataProvider extends DataProvider
 {
-	private static final int ONE_MINUTE = 60000;
 	private static DelayDataProvider instance = null;
-	private Set<DelayDiv> queuedDivs;
-	private DelayDB delayDB = new DelayDB(0, 0, 0);
+	private Set<DelayDiv> queuedDivs = new HashSet<>();
+	private DelayBean delayBean = new DelayBean(0, 0, 0, new Date());
 
 	private static final Logger LOGGER = Logger.getLogger(DelayDataProvider.class.getName());
-
-	private DelayDataProvider()
-	{
-		queuedDivs = new HashSet<>();
-	}
 
 	public static DelayDataProvider getInstance()
 	{
@@ -41,34 +32,6 @@ public class DelayDataProvider
 		return instance;
 	}
 
-	private void startUpdating()
-	{
-		new Timer().schedule(new MyTimerTask(this::updateDivs), new Date(), ONE_MINUTE);
-	}
-
-	private void updateDivs()
-	{
-		List<DelayDiv> updatableDivs = new ArrayList<>();
-		updatableDivs.addAll(queuedDivs);
-		queuedDivs.clear();
-		DelayBean bean = getNewData();
-		updatableDivs.forEach(div -> div.update(bean));
-	}
-
-	private DelayBean getNewData()
-	{
-		try
-		{
-			delayDB = Optional.ofNullable(new DatabaseTableStop().selectDelay().get(0)).orElse(delayDB);
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to get delay data", e);
-		}
-		
-		return new DelayBean(delayDB.getSum(), delayDB.getMaximum(), delayDB.getAverage(), new Date());
-	}
-
 	public void readyForUpdate(DelayDiv div)
 	{
 		queuedDivs.add(div);
@@ -76,6 +39,36 @@ public class DelayDataProvider
 
 	public void getDataFor(DelayDiv div)
 	{
-		div.update(new DelayBean(delayDB.getSum(), delayDB.getMaximum(), delayDB.getAverage(), new Date()));
+		div.update(delayBean);
+	}
+
+	private DelayBean convertToBean(DelayDB delay)
+	{
+		return new DelayBean(delay.getSum(), delay.getMaximum(), delay.getAverage(), new Date());
+	}
+
+	@Override
+	protected void updateDivs()
+	{
+		List<DelayDiv> updatableDivs = new ArrayList<>();
+		updatableDivs.addAll(queuedDivs);
+		queuedDivs.clear();
+		
+		updateBean();
+		updatableDivs.forEach(div -> div.update(delayBean));
+	}
+
+	@Override
+	protected void updateBean()
+	{
+		try
+		{
+			final List<DelayDB> delays = new DatabaseTableStop().selectDelay();
+			delays.stream().findFirst().ifPresent(db -> delayBean = convertToBean(db));
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to update delay data.", e);
+		}
 	}
 }
