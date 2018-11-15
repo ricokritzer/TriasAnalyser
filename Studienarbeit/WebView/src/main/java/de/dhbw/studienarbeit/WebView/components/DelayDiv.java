@@ -7,7 +7,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.server.Command;
 import com.vaadin.flow.shared.communication.PushMode;
 
 import de.dhbw.studienarbeit.WebView.data.DelayBean;
@@ -40,7 +39,8 @@ public class DelayDiv extends Div
 		delayBinder.forField(txtDelayMax).bind(db -> convertTimeToString(db.getMax()), null);
 		delayBinder.forField(txtDelayAvg).bind(db -> convertTimeToString(db.getAvg()), null);
 		delayBinder.forField(txtDelaySum).bind(db -> convertTimeToString(db.getSum()), null);
-		delayBinder.forField(txtLastUpdate).bind(db -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(db.getLastUpdate()), null);
+		delayBinder.forField(txtLastUpdate)
+				.bind(db -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(db.getLastUpdate()), null);
 
 		txtDelayMax.setLabel("Maximal");
 		txtDelayMax.setReadOnly(true);
@@ -68,26 +68,22 @@ public class DelayDiv extends Div
 
 	public void update(DelayBean bean)
 	{
-		try
+		try // TODO is this neccessary?
 		{
-			getUI().get().access(new Command()
-			{
-				@Override
-				public void execute()
-				{
-					getUI().get().getPushConfiguration().setPushMode(PushMode.MANUAL);
-					delayBinder.readBean(bean);
-					getUI().get().push();
-				}
-			});
+			getUI().ifPresent(ui -> ui.access(() -> {
+				ui.getPushConfiguration().setPushMode(PushMode.MANUAL);
+				delayBinder.readBean(bean);
+				ui.push();
+			}));
+		}
+		catch (Exception e) // TODO which Exception?
+		{
+			e.printStackTrace(); // TODO log it.
+		}
+		finally
+		{
 			dataProvider.readyForUpdate(this);
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			dataProvider.readyForUpdate(this);
-		}
-
 	}
 
 	private String convertTimeToString(double time)
