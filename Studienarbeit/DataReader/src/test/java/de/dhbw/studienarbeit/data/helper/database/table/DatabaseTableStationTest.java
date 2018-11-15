@@ -17,7 +17,7 @@ public class DatabaseTableStationTest
 	{
 		try
 		{
-			int count = new DatabaseTableStation().count();
+			long count = new DatabaseTableStation().count();
 			assertTrue(count > 0);
 		}
 		catch (IOException e)

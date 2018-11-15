@@ -59,15 +59,15 @@ public class DatabaseDataProvider extends DataProvider
 	@Override
 	protected void updateBean()
 	{
-		final int countStation = getCountOf(new DatabaseTableStation());
-		final int countLines = getCountOf(new DatabaseTableLine());
-		final int countStops = getCountOf(new DatabaseTableStop());
-		final int countWeather = getCountOf(new DatabaseTableWeather());
+		final long countStation = getCountOf(new DatabaseTableStation());
+		final long countLines = getCountOf(new DatabaseTableLine());
+		final long countStops = getCountOf(new DatabaseTableStop());
+		final long countWeather = getCountOf(new DatabaseTableWeather());
 
 		databaseBean = new DatabaseBean(countStation, countLines, countStops, countWeather, new Date());
 	}
 
-	private int getCountOf(DatabaseTable table)
+	private long getCountOf(DatabaseTable table)
 	{
 		try
 		{

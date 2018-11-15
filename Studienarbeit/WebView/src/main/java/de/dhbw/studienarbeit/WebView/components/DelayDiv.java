@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -22,6 +23,9 @@ public class DelayDiv extends Div
 	private static final int SECONDS_PER_MINUTE = 60;
 	private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;
 	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
+	private static final int NUM_ROWS = 10;
+	
+	private final Grid<DelayBean> grid = new Grid<>();
 
 	private final TextField txtDelaySum = new TextField();
 	private final TextField txtDelayAvg = new TextField();
@@ -57,6 +61,12 @@ public class DelayDiv extends Div
 		txtLastUpdate.setLabel("Stand");
 		txtLastUpdate.setReadOnly(true);
 		layout.add(txtLastUpdate);
+		
+//		grid.addColumn(db -> convertTimeToString(db.getMax())).setHeader("Maximal").setSortable(false);
+//		grid.addColumn(db -> convertTimeToString(db.getAvg())).setHeader("Durchschnitt").setSortable(false);
+//		grid.addColumn(db -> convertTimeToString(db.getSum())).setHeader("Summe").setSortable(false);
+//		grid.addColumn(db -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(db.getLastUpdate())).setSortable(false);
+//		grid.setHeightByRows(true);
 
 		add(layout);
 
@@ -69,6 +79,7 @@ public class DelayDiv extends Div
 		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
 			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
 			delayBinder.readBean(bean);
+//			grid.setItems(delayItems);
 			currentUI.push();
 		}));
 		DelayDataProvider.getInstance().readyForUpdate(this);

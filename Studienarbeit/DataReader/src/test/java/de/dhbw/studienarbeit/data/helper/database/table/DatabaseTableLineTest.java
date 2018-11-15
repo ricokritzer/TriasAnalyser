@@ -14,7 +14,7 @@ public class DatabaseTableLineTest
 	{
 		try
 		{
-			int count = new DatabaseTableLine().count();
+			long count = new DatabaseTableLine().count();
 			assertTrue(count > 0);
 		}
 		catch (IOException e)

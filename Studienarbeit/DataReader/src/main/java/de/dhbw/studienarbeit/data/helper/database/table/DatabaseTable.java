@@ -62,7 +62,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 	protected abstract String getTableName();
 
-	public int count() throws IOException
+	public long count() throws IOException
 	{
 		final String countEntries = "SELECT COUNT(*) AS total FROM " + getTableName() + ";";
 

@@ -19,7 +19,7 @@ public class DatabaseTableStopTest
 	{
 		try
 		{
-			int count = new DatabaseTableStop().count();
+			long count = new DatabaseTableStop().count();
 			assertTrue(count > 0);
 		}
 		catch (IOException e)

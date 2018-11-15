@@ -63,9 +63,9 @@ public class DatabaseDiv extends Div
 		setVisible(false);
 	}
 
-	private String getStringOf(int value)
+	private String getStringOf(long value)
 	{
-		return Integer.toString(value);
+		return Long.toString(value);
 	}
 
 	public void update(DatabaseBean bean)

@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class DatabaseBean
 {
-	private int countStations = 0;
-	private int countLines = 0;
-	private int countStops = 0;
-	private int countWeather = 0;
+	private long countStations = 0;
+	private long countLines = 0;
+	private long countStops = 0;
+	private long countWeather = 0;
 	private Date lastUpdate = new Date();
 
-	public DatabaseBean(int countStation, int countLines, int countStops, int countWeather, Date lastUpdate)
+	public DatabaseBean(long countStation, long countLines, long countStops, long countWeather, Date lastUpdate)
 	{
 		this.countStations = countStation;
 		this.countLines = countLines;
@@ -19,22 +19,22 @@ public class DatabaseBean
 		this.lastUpdate = lastUpdate;
 	}
 
-	public int getCountStations()
+	public long getCountStations()
 	{
 		return countStations;
 	}
 
-	public int getCountLines()
+	public long getCountLines()
 	{
 		return countLines;
 	}
 
-	public int getCountStops()
+	public long getCountStops()
 	{
 		return countStops;
 	}
 
-	public int getCountWeather()
+	public long getCountWeather()
 	{
 		return countWeather;
 	}

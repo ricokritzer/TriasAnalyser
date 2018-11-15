@@ -14,7 +14,7 @@ public class DatabaseTableWeatherTest
 	{
 		try
 		{
-			int count = new DatabaseTableWeather().count();
+			long count = new DatabaseTableWeather().count();
 			assertTrue(count > 0);
 		}
 		catch (IOException e)

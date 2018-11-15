@@ -14,7 +14,7 @@ public class DatabaseTableApiTest
 	{
 		try
 		{
-			int count = new DatabaseTableApi().count();
+			long count = new DatabaseTableApi().count();
 			assertTrue(count > 0);
 		}
 		catch (IOException e)
