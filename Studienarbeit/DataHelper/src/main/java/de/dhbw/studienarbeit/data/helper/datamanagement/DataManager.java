@@ -18,11 +18,13 @@ public class DataManager
 
 	private final Timer queueTimer = new Timer();
 	private final List<Timer> requestTimers = new ArrayList<>();
+	private final String name;
 
 	private final Queue<Manageable> waitingForUpdate = new LinkedBlockingQueue<>();
 
 	public DataManager(String name, final List<ApiKey> apiKeys)
 	{
+		this.name = name;
 		addApiKey(apiKeys);
 	}
 
@@ -105,6 +107,6 @@ public class DataManager
 
 	public WaitingQueueCount getWaitingQueueCount()
 	{
-		return new WaitingQueueCount("name", waitingForUpdate.size());
+		return new WaitingQueueCount(name, waitingForUpdate.size());
 	}
 }
