@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.WebView.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,6 @@ import de.dhbw.studienarbeit.WebView.components.DelayDiv;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class DelayDataProvider
 {
@@ -43,7 +43,7 @@ public class DelayDataProvider
 	
 	private void startUpdating()
 	{
-		new Timer().schedule(new MyTimerTask(this::updateDivs), ONE_MINUTE);
+		new Timer().schedule(new MyTimerTask(this::updateDivs), new Date(), ONE_MINUTE);
 	}
 	
 	private void updateDivs()

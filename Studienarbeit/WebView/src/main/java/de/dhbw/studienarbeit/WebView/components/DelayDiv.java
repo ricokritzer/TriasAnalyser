@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -67,6 +68,7 @@ public class DelayDiv extends Div
 
 	public void update(DelayDB delayDB)
 	{
+		Notification.show("TEST");
 		delayBinder.readBean(delayDB);
 		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date()));
 		dataProvider.readyForUpdate(this);
