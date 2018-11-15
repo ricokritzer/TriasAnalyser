@@ -2,15 +2,20 @@ package de.dhbw.studienarbeit.data.weather;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
 import java.util.logging.Level;
 
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
+import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 
 public class DataWeatherApp
@@ -28,9 +33,26 @@ public class DataWeatherApp
 	public void startDataCollection(final List<StationDB> stations) throws IOException
 	{
 		final List<ApiKey> apiKeys = new DatabaseTableApi().selectApisByName("weather");
-		final DataManager manager = new DataManager("no name", apiKeys);
+		final Date start = new Date();
+		final DataManager manager = new DataManager("weather", apiKeys);
 		final List<Weather> weather = convertToWeather(stations);
 		manager.add(weather);
+
+		final Timer monitorTimer = new Timer();
+		monitorTimer.scheduleAtFixedRate(new MyTimerTask(() -> saveWaitingQueueCount(manager.getWaitingQueueCount())),
+				start, 60000l);
+	}
+
+	private void saveWaitingQueueCount(WaitingQueueCount waitingQueueCount)
+	{
+		try
+		{
+			new DatabaseSaver().save(waitingQueueCount);
+		}
+		catch (IOException e)
+		{
+			// ignore
+		}
 	}
 
 	protected List<Weather> convertToWeather(List<StationDB> stations)
