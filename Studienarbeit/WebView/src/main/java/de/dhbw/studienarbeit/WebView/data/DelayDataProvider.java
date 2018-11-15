@@ -11,6 +11,8 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.vaadin.flow.component.notification.Notification;
+
 import de.dhbw.studienarbeit.WebView.components.DelayDiv;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
@@ -48,6 +50,7 @@ public class DelayDataProvider
 	
 	private void updateDivs()
 	{
+		Notification.show("TEST");
 		List<DelayDiv> updatableDivs = new ArrayList<>();
 		updatableDivs.addAll(queuedDivs);
 		queuedDivs.clear();

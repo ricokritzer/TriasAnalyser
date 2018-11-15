@@ -68,7 +68,6 @@ public class DelayDiv extends Div
 
 	public void update(DelayDB delayDB)
 	{
-		Notification.show("TEST");
 		delayBinder.readBean(delayDB);
 		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date()));
 		dataProvider.readyForUpdate(this);
