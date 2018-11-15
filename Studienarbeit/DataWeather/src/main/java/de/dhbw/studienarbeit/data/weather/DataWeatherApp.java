@@ -28,7 +28,7 @@ public class DataWeatherApp
 	public void startDataCollection(final List<StationDB> stations) throws IOException
 	{
 		final List<ApiKey> apiKeys = new DatabaseTableApi().selectApisByName("weather");
-		final DataManager manager = new DataManager(apiKeys);
+		final DataManager manager = new DataManager("no name", apiKeys);
 		final List<Weather> weather = convertToWeather(stations);
 		manager.add(weather);
 	}

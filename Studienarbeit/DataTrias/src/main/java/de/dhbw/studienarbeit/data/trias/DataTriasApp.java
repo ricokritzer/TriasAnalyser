@@ -25,7 +25,7 @@ public class DataTriasApp
 		stations = stationsDB.parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
 				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
 				.collect(Collectors.toList());
-		DataManager dm = new DataManager(new DatabaseTableApi().selectApisByName(operator));
+		DataManager dm = new DataManager("no name", new DatabaseTableApi().selectApisByName(operator));
 		dm.add(stations);
 	}
 }

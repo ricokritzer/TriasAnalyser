@@ -21,7 +21,7 @@ public class DataManager
 
 	private final Queue<Manageable> waitingForUpdate = new LinkedBlockingQueue<>();
 
-	public DataManager(final List<ApiKey> apiKeys)
+	public DataManager(String name, final List<ApiKey> apiKeys)
 	{
 		addApiKey(apiKeys);
 	}
@@ -101,5 +101,10 @@ public class DataManager
 		queueTimer.cancel();
 		requestTimers.forEach(Timer::cancel);
 		LOGGER.log(Level.INFO, "Timer stopped.");
+	}
+
+	public WaitingQueueCount getWaitingQueueCount()
+	{
+		return new WaitingQueueCount("name", waitingForUpdate.size());
 	}
 }

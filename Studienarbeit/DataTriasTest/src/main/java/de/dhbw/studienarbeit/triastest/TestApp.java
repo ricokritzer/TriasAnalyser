@@ -61,7 +61,7 @@ public class TestApp
 		{
 			final ApiKey keyFromDB = new DatabaseTableApi().selectApisByName("kvv").get(0);
 			final ApiKey testApiKey = new ApiKey(keyFromDB.getKey(), number, keyFromDB.getUrl());
-			manager = new DataManager(new ArrayList<>());
+			manager = new DataManager("no name", new ArrayList<>());
 			manager.addApiKey(testApiKey);
 
 			final List<StationDB> stationsDB = new DatabaseTableStation().selectObservedStations("kvv");

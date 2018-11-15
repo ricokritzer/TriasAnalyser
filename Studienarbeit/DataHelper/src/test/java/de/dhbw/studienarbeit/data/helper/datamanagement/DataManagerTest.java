@@ -36,7 +36,7 @@ public class DataManagerTest
 		final List<ApiKey> apiKeys = new ArrayList<>();
 		apiKeys.add(new ApiKey("foo", 60, "bar"));
 
-		final DataManager manager = new DataManager(apiKeys);
+		final DataManager manager = new DataManager("no name", apiKeys);
 		manager.add(data);
 
 		Thread.sleep(6000);
