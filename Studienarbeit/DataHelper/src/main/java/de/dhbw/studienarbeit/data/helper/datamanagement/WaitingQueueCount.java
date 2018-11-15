@@ -10,28 +10,29 @@ import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 public class WaitingQueueCount implements Saveable
 {
 	private String name;
-	private int count;
+	private int number;
 
-	public WaitingQueueCount(String name, int count)
+	public WaitingQueueCount(String name, int number)
 	{
 		super();
-		this.count = count;
+		this.number = number;
+		this.name = name;
 	}
 
 	public int getCount()
 	{
-		return count;
+		return number;
 	}
 
 	public void setCount(int count)
 	{
-		this.count = count;
+		this.number = count;
 	}
 
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Monitor (name, timeStamp, count) VALUES (?, ?, ?);";
+		return "INSERT INTO Monitor (name, timeStamp, number) VALUES (?, ?, ?);";
 	}
 
 	@Override
@@ -39,6 +40,6 @@ public class WaitingQueueCount implements Saveable
 	{
 		preparedStatement.setString(1, name);
 		preparedStatement.setTimestamp(2, new Timestamp(new Date().getTime()));
-		preparedStatement.setInt(3, count);
+		preparedStatement.setInt(3, number);
 	}
 }
