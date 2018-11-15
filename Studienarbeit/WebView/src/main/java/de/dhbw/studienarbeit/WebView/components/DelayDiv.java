@@ -28,7 +28,7 @@ public class DelayDiv extends Div
 
 	private Binder<DelayBean> delayBinder = new Binder<>();
 
-	private DelayDataProvider dataProvider;
+	private DelayDataProvider dataProvider; // why is this neccessary? U can use a instance, don't you?
 
 	public DelayDiv()
 	{
