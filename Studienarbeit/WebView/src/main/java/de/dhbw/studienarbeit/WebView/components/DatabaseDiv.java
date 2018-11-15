@@ -1,29 +1,19 @@
 package de.dhbw.studienarbeit.WebView.components;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.shared.communication.PushMode;
 
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableWeather;
-import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import de.dhbw.studienarbeit.WebView.data.DatabaseBean;
+import de.dhbw.studienarbeit.WebView.data.DatabaseDataProvider;
 
-@SuppressWarnings("serial")
 public class DatabaseDiv extends Div
 {
-	private static final Logger LOGGER = Logger.getLogger(DatabaseDiv.class.getName());
-
-	private static final long UPDATE_RATE_SECONDS = 60;
+	private static final long serialVersionUID = 2L;
 
 	private final TextField txtCountStations = new TextField();
 	private final TextField txtCountLines = new TextField();
@@ -31,12 +21,7 @@ public class DatabaseDiv extends Div
 	private final TextField txtCountWeathers = new TextField();
 	private final TextField txtLastUpdate = new TextField();
 
-	private static int countStation = 0;
-	private static int countLines = 0;
-	private static int countStops = 0;
-	private static int countWeather = 0;
-	private static Date lastUpdate = new Date();
-	private static Timer timer;
+	private Binder<DatabaseBean> databaseBinder = new Binder<>();
 
 	public DatabaseDiv()
 	{
@@ -60,28 +45,22 @@ public class DatabaseDiv extends Div
 		txtCountWeathers.setReadOnly(true);
 		layout.add(txtCountWeathers);
 
-		txtCountWeathers.setLabel("Anzahl der Wettereinträge");
-		txtCountWeathers.setReadOnly(true);
-		layout.add(txtCountWeathers);
-
 		txtLastUpdate.setLabel("Stand");
 		txtLastUpdate.setReadOnly(true);
 		layout.add(txtLastUpdate);
 
+		databaseBinder.forField(txtCountLines).bind(db -> getStringOf(db.getCountLines()), null);
+		databaseBinder.forField(txtCountStations).bind(db -> getStringOf(db.getCountStations()), null);
+		databaseBinder.forField(txtCountStops).bind(db -> getStringOf(db.getCountStops()), null);
+		databaseBinder.forField(txtCountWeathers).bind(db -> getStringOf(db.getCountWeather()), null);
+		databaseBinder.forField(txtLastUpdate)
+				.bind(db -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(db.getLastUpdate()), null);
+
 		add(layout);
 
-		setValues();
+		DatabaseDataProvider.getInstance().getDataFor(this);
 
 		setVisible(false);
-	}
-
-	private void setValues()
-	{
-		txtCountStations.setValue(getStringOf(countStation));
-		txtCountLines.setValue(getStringOf(countLines));
-		txtCountStops.setValue(getStringOf(countStops));
-		txtCountWeathers.setValue(getStringOf(countWeather));
-		txtLastUpdate.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(lastUpdate));
 	}
 
 	private String getStringOf(int value)
@@ -89,24 +68,13 @@ public class DatabaseDiv extends Div
 		return Integer.toString(value);
 	}
 
-	private static int getCountOf(DatabaseTable table)
+	public void update(DatabaseBean bean)
 	{
-		try
-		{
-			return table.count();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update.", e);
-			return -1;
-		}
-	}
-
-	private static void update()
-	{
-		countStation = getCountOf(new DatabaseTableStation());
-		countLines = getCountOf(new DatabaseTableLine());
-		countStops = getCountOf(new DatabaseTableStop());
-		countWeather = getCountOf(new DatabaseTableWeather());
+		getUI().ifPresent(ui -> ui.access(() -> {
+			ui.getPushConfiguration().setPushMode(PushMode.MANUAL);
+			databaseBinder.readBean(bean);
+			ui.push();
+		}));
+		DatabaseDataProvider.getInstance().readyForUpdate(this);
 	}
 }
