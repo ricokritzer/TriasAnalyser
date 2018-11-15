@@ -14,11 +14,9 @@ import de.dhbw.studienarbeit.WebView.components.AboutDiv;
 import de.dhbw.studienarbeit.WebView.components.DatabaseDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayDiv;
 import de.dhbw.studienarbeit.WebView.components.HeatmapDiv;
-import elemental.html.Window;
+import de.dhbw.studienarbeit.WebView.data.DatabaseDataProvider;
+import de.dhbw.studienarbeit.WebView.data.DelayDataProvider;
 
-/**
- * The main view contains a button and a click listener.
- */
 @Route("")
 public class MainView extends VerticalLayout
 {
@@ -32,20 +30,26 @@ public class MainView extends VerticalLayout
 		setWidth("100%");
 		setAlignItems(Alignment.CENTER);
 
-		final Div divDatabase = new DatabaseDiv();
-		add(tabs);
+		final DelayDiv divDelay = new DelayDiv();
+		final DatabaseDiv divDatabase = new DatabaseDiv();
 
+		add(tabs);
 		addTab("Unsere Daten", divDatabase);
-		addTab("Verspätungen", new DelayDiv());
+		addTab("Verspätungen", divDelay);
 		addTab("Heatmap", new HeatmapDiv());
 		addTab("Über uns", new AboutDiv());
 
 		divDatabase.setVisible(true);
-
+		
 		tabs.addSelectedChangeListener(e -> {
 			tabsToPages.values().forEach(div -> div.setVisible(false));
 			tabsToPages.get(tabs.getSelectedTab()).setVisible(true);
 		});
+		
+		DelayDataProvider.getInstance().getDataFor(divDelay);
+		DelayDataProvider.getInstance().readyForUpdate(divDelay);
+		DatabaseDataProvider.getInstance().getDataFor(divDatabase);
+		DatabaseDataProvider.getInstance().readyForUpdate(divDatabase);
 	}
 
 	private void addTab(String name, Div div)

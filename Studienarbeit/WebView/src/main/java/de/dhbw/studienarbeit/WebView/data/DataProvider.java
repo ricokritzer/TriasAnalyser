@@ -15,6 +15,7 @@ public abstract class DataProvider
 
 	protected void startUpdating()
 	{
+		updateBean();
 		final Timer timer = new Timer();
 		timer.schedule(new MyTimerTask(this::updateDivs), new Date(), ONE_MINUTE);
 	}

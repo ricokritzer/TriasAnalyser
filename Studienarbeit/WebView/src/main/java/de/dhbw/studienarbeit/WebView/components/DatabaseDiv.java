@@ -1,7 +1,9 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -58,8 +60,6 @@ public class DatabaseDiv extends Div
 
 		add(layout);
 
-		DatabaseDataProvider.getInstance().getDataFor(this);
-
 		setVisible(false);
 	}
 
@@ -70,10 +70,11 @@ public class DatabaseDiv extends Div
 
 	public void update(DatabaseBean bean)
 	{
-		getUI().ifPresent(ui -> ui.access(() -> {
-			ui.getPushConfiguration().setPushMode(PushMode.MANUAL);
+		UI ui = getUI().orElse(UI.getCurrent());
+		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
+			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
 			databaseBinder.readBean(bean);
-			ui.push();
+			currentUI.push();
 		}));
 		DatabaseDataProvider.getInstance().readyForUpdate(this);
 	}

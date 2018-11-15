@@ -1,7 +1,9 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -27,8 +29,6 @@ public class DelayDiv extends Div
 	private final TextField txtLastUpdate = new TextField();
 
 	private Binder<DelayBean> delayBinder = new Binder<>();
-
-	private DelayDataProvider dataProvider; // why is this neccessary? U can use a instance, don't you?
 
 	public DelayDiv()
 	{
@@ -60,30 +60,18 @@ public class DelayDiv extends Div
 
 		add(layout);
 
-		dataProvider = DelayDataProvider.getInstance();
-		dataProvider.getDataFor(this);
-
 		setVisible(false);
 	}
 
 	public void update(DelayBean bean)
 	{
-		try // TODO is this neccessary?
-		{
-			getUI().ifPresent(ui -> ui.access(() -> {
-				ui.getPushConfiguration().setPushMode(PushMode.MANUAL);
-				delayBinder.readBean(bean);
-				ui.push();
-			}));
-		}
-		catch (Exception e) // TODO which Exception?
-		{
-			e.printStackTrace(); // TODO log it.
-		}
-		finally
-		{
-			dataProvider.readyForUpdate(this);
-		}
+		UI ui = getUI().orElse(UI.getCurrent());
+		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
+			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
+			delayBinder.readBean(bean);
+			currentUI.push();
+		}));
+		DelayDataProvider.getInstance().readyForUpdate(this);
 	}
 
 	private String convertTimeToString(double time)
