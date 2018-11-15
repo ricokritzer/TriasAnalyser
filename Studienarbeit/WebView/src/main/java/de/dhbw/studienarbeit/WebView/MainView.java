@@ -14,6 +14,7 @@ import de.dhbw.studienarbeit.WebView.components.AboutDiv;
 import de.dhbw.studienarbeit.WebView.components.DatabaseDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayDiv;
 import de.dhbw.studienarbeit.WebView.components.HeatmapDiv;
+import elemental.html.Window;
 
 /**
  * The main view contains a button and a click listener.
