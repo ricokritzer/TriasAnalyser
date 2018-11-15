@@ -25,10 +25,9 @@ public class DelayDataProvider
 	
 	private static final Logger LOGGER = Logger.getLogger(DelayDataProvider.class.getName());
 	
-	@SuppressWarnings("unchecked")
 	private DelayDataProvider()
 	{
-		queuedDivs = (Set<DelayDiv>) Collections.synchronizedCollection(new HashSet<>());
+		queuedDivs = new HashSet<>();
 	}
 	
 	public static DelayDataProvider getInstance()
