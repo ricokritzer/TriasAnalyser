@@ -53,7 +53,8 @@ public class DataManager
 	private TimerTask schedulerTimerTask(final ApiKey apiKey)
 	{
 		return new MyTimerTask(
-				new Thread(() -> firstWaitingDataModel().ifPresent(d -> updateSaveAndSchedule(d, apiKey)))::start);
+				() -> new Thread(() -> firstWaitingDataModel().ifPresent(d -> updateSaveAndSchedule(d, apiKey)))
+						.start());
 	}
 
 	private Optional<Manageable> firstWaitingDataModel()
