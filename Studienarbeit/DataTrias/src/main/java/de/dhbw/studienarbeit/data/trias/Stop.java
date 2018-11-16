@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.data.trias;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -8,31 +9,29 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
 public class Stop implements Saveable, Comparable<Stop>
 {
 	private String stationID;
-	private Line line;
 	private Date timeTabledTime;
 	private Optional<Date> realTime = Optional.empty();
+	private String lineName;
+	private String destination;
 
-	public Stop(String stationID, Line line, Date timetabled, Optional<Date> realTime)
+	public Stop(String stationID, String lineName, String destination, Date timetabled, Optional<Date> realTime)
 	{
 		this.stationID = stationID;
-		this.line = line;
 		this.timeTabledTime = timetabled;
 		this.realTime = realTime;
+		this.lineName = lineName;
+		this.destination = destination;
 	}
 
 	public String getStationID()
 	{
 		return stationID;
-	}
-
-	public Line getLine()
-	{
-		return line;
 	}
 
 	public Date getTimeTabledTime()
@@ -55,8 +54,8 @@ public class Stop implements Saveable, Comparable<Stop>
 		if (obj instanceof Stop)
 		{
 			Stop stop = (Stop) obj;
-			if (stop.getStationID().equals(stationID) && stop.getLine().equals(line)
-					&& stop.getTimeTabledTime().equals(timeTabledTime))
+			if (stop.getStationID().equals(stationID) && stop.lineName.equals(lineName)
+					&& stop.destination.equals(destination) && stop.getTimeTabledTime().equals(timeTabledTime))
 			{
 				return true;
 			}
@@ -67,41 +66,44 @@ public class Stop implements Saveable, Comparable<Stop>
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(stationID, line, timeTabledTime);
+		return Objects.hash(stationID, lineName, destination, timeTabledTime);
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.join(", ", stationID, String.valueOf(line.getId()), String.valueOf(timeTabledTime),
+		return String.join(", ", stationID, lineName, destination, String.valueOf(timeTabledTime),
 				String.valueOf(realTime));
 	}
 
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime) VALUES (?, ?, ?, ?);";
+		return "INSERT INTO Stop (stationID, lineID, timeTabledTime, realTime)"
+				+ " VALUES (?, (SELECT lineID FROM Line WHERE name = ? AND destination = ?), ?, ?);";
 	}
 
 	@Override
 	public void setValues(PreparedStatement preparedStatement) throws SQLException
 	{
 		preparedStatement.setString(1, stationID);
-		preparedStatement.setInt(2, line.getId());
+		preparedStatement.setString(2, lineName);
+		preparedStatement.setString(3, destination);
+
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(timeTabledTime);
 		cal.add(Calendar.HOUR_OF_DAY, 1);
-		preparedStatement.setTimestamp(3, new Timestamp(cal.getTimeInMillis()));
+		preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
 
 		if (realTime.isPresent())
 		{
 			cal.setTime(realTime.get());
 			cal.add(Calendar.HOUR_OF_DAY, 1);
-			preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
+			preparedStatement.setTimestamp(5, new Timestamp(cal.getTimeInMillis()));
 		}
 		else
 		{
-			preparedStatement.setTimestamp(4, null);
+			preparedStatement.setTimestamp(5, null);
 		}
 	}
 
@@ -133,5 +135,12 @@ public class Stop implements Saveable, Comparable<Stop>
 			return 1;
 		}
 		return this.getRealTime().get().compareTo(stop.getRealTime().get());
+	}
+
+	public void save() throws IOException
+	{
+		DatabaseSaver saver = new DatabaseSaver();
+		saver.save(new Line(lineName, destination));
+		saver.save(this);
 	}
 }

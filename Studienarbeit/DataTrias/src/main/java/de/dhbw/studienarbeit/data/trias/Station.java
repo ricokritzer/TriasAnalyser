@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 
@@ -70,13 +69,13 @@ public class Station implements Manageable
 				// Train cancelled
 				if (!stop.getRealTime().isPresent())
 				{
-					new DatabaseSaver().save(stop);
+					stop.save();
 					continue;
 				}
 				// Train has real time data
 				if (!stop.getRealTime().get().equals(new Date(0)))
 				{
-					new DatabaseSaver().save(stop);
+					stop.save();
 				}
 			}
 		}

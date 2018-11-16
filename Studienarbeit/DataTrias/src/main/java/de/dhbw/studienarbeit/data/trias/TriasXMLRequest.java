@@ -26,8 +26,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -70,8 +68,8 @@ public class TriasXMLRequest
 			final Element docElement = doc.getDocumentElement();
 			for (int i = 0; i < docElement.getElementsByTagName("TimetabledTime").getLength(); i++)
 			{
-				stops.add(new Stop(stationID, getLine(docElement, i), getTimetabledTime(docElement, i),
-						getEstimatedTime(docElement, i)));
+				stops.add(new Stop(stationID, getPublishedLineName(docElement, i), getDestinationText(docElement, i),
+						getTimetabledTime(docElement, i), getEstimatedTime(docElement, i)));
 			}
 		}
 		catch (ParserConfigurationException | DOMException | ParseException | SAXException e)
@@ -115,27 +113,6 @@ public class TriasXMLRequest
 		String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
 		destinationText = destinationText.substring(0, destinationText.length() - 2);
 		return destinationText;
-	}
-
-	private Line getLine(Element docElement, int i) throws IOException
-	{
-		final String name = getPublishedLineName(docElement, i);
-		final String destination = getDestinationText(docElement, i);
-		final Optional<Integer> lineID = new DatabaseTableLine().getLineID(name, destination);
-		if (lineID.isPresent())
-		{
-			return new Line(lineID.get(), name, destination);
-		}
-
-		saveLine(name, destination);
-
-		final Optional<Integer> lineIDDatabase = new DatabaseTableLine().getLineID(name, destination);
-		return new Line(lineIDDatabase.orElse(-1), name, destination);
-	}
-
-	private void saveLine(String name, String destination) throws IOException
-	{
-		new DatabaseSaver().save(new Line(name, destination));
 	}
 
 	private String getPublishedLineName(Element docElement, int i)

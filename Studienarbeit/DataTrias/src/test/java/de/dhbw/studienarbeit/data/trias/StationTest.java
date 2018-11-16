@@ -14,9 +14,8 @@ class StationTest
 	@Test
 	void equalMethodReturnsTrue_forTwoStops_ThatAreEqual()
 	{
-		Line line = new Line("test", "test");
-		Stop stop1 = new Stop("test", line, new Date(1000), Optional.ofNullable(new Date(2000)));
-		Stop stop2 = new Stop("test", line, new Date(1000), Optional.ofNullable(new Date(2000)));
+		Stop stop1 = new Stop("test", "test", "test", new Date(1000), Optional.ofNullable(new Date(2000)));
+		Stop stop2 = new Stop("test", "test", "test", new Date(1000), Optional.ofNullable(new Date(2000)));
 		assertThat(stop1.equals(stop1), is(true));
 		assertThat(stop1.equals(stop2), is(true));
 	}
@@ -24,9 +23,8 @@ class StationTest
 	@Test
 	void equalMethodReturnsTrue_forTwoStops_ThatHaveDifferentRealTime()
 	{
-		Line line = new Line("test", "test");
-		Stop stop1 = new Stop("test", line, new Date(1000), Optional.ofNullable(new Date(2000)));
-		Stop stop2 = new Stop("test", line, new Date(1000), Optional.ofNullable(new Date(3000)));
+		Stop stop1 = new Stop("test", "test", "test", new Date(1000), Optional.ofNullable(new Date(2000)));
+		Stop stop2 = new Stop("test", "test", "test", new Date(1000), Optional.ofNullable(new Date(3000)));
 		assertThat(stop1.equals(stop2), is(true));
 	}
 }
