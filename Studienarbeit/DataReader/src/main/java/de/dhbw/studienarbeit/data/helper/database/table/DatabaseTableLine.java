@@ -42,30 +42,6 @@ public class DatabaseTableLine extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	/*
-	 * @deprecated: use cached method getLineID instead.
-	 */
-	@Deprecated
-	public List<LineDB> selectLinesByNameAndDestination(String name, String destination) throws IOException
-	{
-		reconnectIfNeccessary();
-
-		final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ? AND destination = ?;";
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
-		{
-			preparedStatement.setString(1, name);
-			preparedStatement.setString(2, destination);
-
-			final List<LineDB> lines = new ArrayList<>();
-			select(r -> getLine(r).ifPresent(lines::add), preparedStatement);
-			return lines;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
-	}
-
 	public Optional<Integer> getLineID(String lineName, String destination) throws IOException
 	{
 		Optional<Integer> lineIDFromCache = getLineIDFromCache(lineName, destination);
