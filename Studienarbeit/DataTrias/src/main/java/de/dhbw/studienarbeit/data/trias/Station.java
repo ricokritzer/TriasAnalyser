@@ -152,8 +152,14 @@ public class Station implements Manageable
 
 		if (cal.getTime().before(new Date()))
 		{
-			cal.add(Calendar.MINUTE, 5);
+			cal.add(Calendar.MINUTE, 3);
 		}
+		
+		if (cal.getTime().before(new Date()))
+		{
+			cal.add(Calendar.MINUTE, 2);
+		}
+		
 		nextUpdate = cal.getTime();
 		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
 		return nextUpdate;
