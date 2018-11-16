@@ -161,6 +161,11 @@ public class Station implements Manageable
 		{
 			cal.add(Calendar.MINUTE, 2);
 		}
+		
+		while (cal.getTime().before(new Date()))
+		{
+			cal.add(Calendar.MINUTE, 1);
+		}
 
 		nextUpdate = cal.getTime();
 		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
@@ -176,6 +181,10 @@ public class Station implements Manageable
 		if (cal.getTime().before(new Date()))
 		{
 			cal.add(Calendar.MINUTE, 5);
+		}
+		while (cal.getTime().before(new Date()))
+		{
+			cal.add(Calendar.MINUTE, 1);
 		}
 		nextUpdate = cal.getTime();
 		LOGGER.log(Level.FINE, "No trains with real time, next Update for " + name + " " + nextUpdate);
