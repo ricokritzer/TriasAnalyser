@@ -18,7 +18,7 @@ public class DatabaseTableLine extends DatabaseTable
 {
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableLine.class.getName());
 	private static final String TABLE_NAME = "Line";
-	private static final Map<String, Map<String, Integer>> CACHE = new HashMap<>();
+	private static final Map<LineCache, Integer> CACHE = new HashMap<>();
 
 	private final Optional<LineDB> getLine(ResultSet result)
 	{
@@ -108,26 +108,13 @@ public class DatabaseTableLine extends DatabaseTable
 
 	private void cache(LineDB line)
 	{
-		final Optional<Map<String, Integer>> cachedDestinations = Optional.ofNullable(CACHE.get(line.getName()));
-		final Map<String, Integer> destinations = cachedDestinations.orElse(new HashMap<>());
-		destinations.put(line.getDestination(), line.getLineID());
-		CACHE.put(line.getName(), destinations);
+		final LineCache lineCache = new LineCache(line.getName(), line.getDestination());
+		CACHE.put(lineCache, line.getLineID());
 	}
 
 	protected Optional<Integer> getLineIDFromCache(String lineName, String destination)
 	{
-		final Optional<Map<String, Integer>> destinations = getDirectionsOf(lineName);
-		if (!destinations.isPresent())
-		{
-			return Optional.empty();
-		}
-
-		final Map<String, Integer> dir = destinations.get();
-		return Optional.ofNullable(dir.get(destination));
-	}
-
-	private Optional<Map<String, Integer>> getDirectionsOf(String lineName)
-	{
-		return Optional.ofNullable(CACHE.get(lineName));
+		final LineCache line = new LineCache(lineName, destination);
+		return Optional.ofNullable(CACHE.get(line));
 	}
 }
