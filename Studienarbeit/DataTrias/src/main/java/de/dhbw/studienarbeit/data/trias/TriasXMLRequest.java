@@ -26,7 +26,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import de.dhbw.studienarbeit.data.helper.database.model.LineDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
@@ -120,20 +119,19 @@ public class TriasXMLRequest
 
 	private Line getLine(Element docElement, int i) throws IOException
 	{
-		String name = getPublishedLineName(docElement, i);
-		String destination = getDestinationText(docElement, i);
-
-		List<LineDB> lineDBs = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination);
-
-		if (lineDBs.isEmpty())
+		final String name = getPublishedLineName(docElement, i);
+		final String destination = getDestinationText(docElement, i);
+		final Optional<Integer> lineID = new DatabaseTableLine().getLineID(name, destination);
+		if (lineID.isPresent())
 		{
-			Line line = new Line(getPublishedLineName(docElement, i), getDestinationText(docElement, i));
-			new DatabaseSaver().save(line);
-			lineDBs = new DatabaseTableLine().selectLinesByNameAndDestination(name, destination);
+			return new Line(lineID.get(), name, destination);
 		}
 
-		final LineDB lineDB = lineDBs.get(0);
-		return new Line(lineDB.getLineID(), lineDB.getName(), lineDB.getDestination());
+		final Line lineToSave = new Line(name, destination);
+		new DatabaseSaver().save(lineToSave);
+
+		final Optional<Integer> lineIDDatabase = new DatabaseTableLine().getLineID(name, destination);
+		return new Line(lineIDDatabase.orElse(-1), name, destination);
 	}
 
 	private String getPublishedLineName(Element docElement, int i)
