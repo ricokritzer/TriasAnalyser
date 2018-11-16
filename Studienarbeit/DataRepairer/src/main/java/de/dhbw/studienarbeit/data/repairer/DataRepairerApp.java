@@ -47,7 +47,7 @@ public class DataRepairerApp
 		dataToRepair.forEach(data -> {
 			try
 			{
-				saver.save(new RepairData(data.split("\t")[1]));
+				saver.save(new RepairData(data.split(": ")[1]));
 			}
 			catch (IOException e)
 			{

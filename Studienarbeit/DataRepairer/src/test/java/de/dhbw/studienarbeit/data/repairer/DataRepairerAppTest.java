@@ -19,7 +19,7 @@ public class DataRepairerAppTest
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter("errors.txt")))
 		{
-			bw.write("2018-MM-JJJJ-hh-mm-ss\tfoo");
+			bw.write("2018-MM-JJJJ-hh-mm-ss bla bla bla: foo");
 		}
 
 		app.repairData();
