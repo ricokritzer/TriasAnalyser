@@ -15,9 +15,9 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 
 	private static final DatabaseSaver INSTANCE = new DatabaseSaver();
 
-	private static final String fileName = "errors.txt";
+	private static final String FILE_NAME = "errors.txt";
 
-	private static final TextSaver saver = new TextSaver(fileName);
+	private static final TextSaver saver = new TextSaver(FILE_NAME);
 
 	public static DatabaseSaver getInstance()
 	{
@@ -56,7 +56,7 @@ public class DatabaseSaver extends DatabaseConnector implements Saver
 		catch (SQLException e)
 		{
 			final String whatHappens = new StringBuilder().append("Unable to save ").append(model)
-					.append(". Saving SQL in ").append(fileName).append(". SQL: ").append(sql).toString();
+					.append(". Saving SQL in ").append(FILE_NAME).append(". SQL: ").append(sql).toString();
 			LOGGER.log(Level.WARNING, whatHappens, e);
 			saver.write(sql);
 			throw new IOException(whatHappens, e);
