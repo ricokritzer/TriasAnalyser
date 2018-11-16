@@ -127,11 +127,15 @@ public class TriasXMLRequest
 			return new Line(lineID.get(), name, destination);
 		}
 
-		final Line lineToSave = new Line(name, destination);
-		new DatabaseSaver().save(lineToSave);
+		saveLine(name, destination);
 
 		final Optional<Integer> lineIDDatabase = new DatabaseTableLine().getLineID(name, destination);
 		return new Line(lineIDDatabase.orElse(-1), name, destination);
+	}
+
+	private void saveLine(String name, String destination) throws IOException
+	{
+		new DatabaseSaver().save(new Line(name, destination));
 	}
 
 	private String getPublishedLineName(Element docElement, int i)
