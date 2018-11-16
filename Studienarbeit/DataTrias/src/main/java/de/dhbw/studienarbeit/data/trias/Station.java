@@ -64,14 +64,16 @@ public class Station implements Manageable
 	{
 		for (Stop stop : previousStops)
 		{
-			if (!currentStops.contains(stop) && stop.getRealTime().isPresent()
-					&& !stop.getRealTime().get().equals(new Date(0)))
+			// Train disappeared from display board, so it will be saved
+			if (!currentStops.contains(stop))
 			{
+				// Train cancelled
 				if (!stop.getRealTime().isPresent())
 				{
 					new DatabaseSaver().save(stop);
 					continue;
 				}
+				// Train has real time data
 				if (!stop.getRealTime().get().equals(new Date(0)))
 				{
 					new DatabaseSaver().save(stop);
@@ -154,12 +156,12 @@ public class Station implements Manageable
 		{
 			cal.add(Calendar.MINUTE, 3);
 		}
-		
+
 		if (cal.getTime().before(new Date()))
 		{
 			cal.add(Calendar.MINUTE, 2);
 		}
-		
+
 		nextUpdate = cal.getTime();
 		LOGGER.log(Level.FINE, "next Update for " + name + " " + nextUpdate);
 		return nextUpdate;
