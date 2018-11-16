@@ -59,8 +59,7 @@ public class Line implements Saveable
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Line (name, destination)" + "SELECT * FROM (SELECT ?, ?) AS tmp "
-				+ "WHERE NOT EXISTS (SELECT name FROM Line WHERE name = ? AND destination = ?);";
+		return "INSERT INTO Line (name, destination) SELECT * FROM (SELECT ? n, ? d) AS tmp WHERE NOT EXISTS (SELECT name FROM Line WHERE name = n AND destination = d);";
 	}
 
 	@Override
@@ -68,7 +67,5 @@ public class Line implements Saveable
 	{
 		preparedStatement.setString(1, name);
 		preparedStatement.setString(2, destination);
-		preparedStatement.setString(3, name);
-		preparedStatement.setString(4, destination);
 	}
 }
