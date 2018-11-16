@@ -1,6 +1,8 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.vaadin.flow.component.UI;
@@ -26,6 +28,7 @@ public class DelayDiv extends Div
 	private static final int NUM_ROWS = 10;
 	
 	private final Grid<DelayBean> grid = new Grid<>();
+	private List<DelayBean> delayItems = new ArrayList<>();
 
 	private final TextField txtDelaySum = new TextField();
 	private final TextField txtDelayAvg = new TextField();
@@ -37,6 +40,7 @@ public class DelayDiv extends Div
 	public DelayDiv()
 	{
 		super();
+		setSizeFull();
 
 		VerticalLayout layout = new VerticalLayout();
 
@@ -62,12 +66,15 @@ public class DelayDiv extends Div
 		txtLastUpdate.setReadOnly(true);
 		layout.add(txtLastUpdate);
 		
-//		grid.addColumn(db -> convertTimeToString(db.getMax())).setHeader("Maximal").setSortable(false);
-//		grid.addColumn(db -> convertTimeToString(db.getAvg())).setHeader("Durchschnitt").setSortable(false);
-//		grid.addColumn(db -> convertTimeToString(db.getSum())).setHeader("Summe").setSortable(false);
-//		grid.addColumn(db -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(db.getLastUpdate())).setSortable(false);
-//		grid.setHeightByRows(true);
+		grid.addColumn(db -> convertTimeToString(db.getMax())).setHeader("Maximal").setSortable(false);
+		grid.addColumn(db -> convertTimeToString(db.getAvg())).setHeader("Durchschnitt").setSortable(false);
+		grid.addColumn(db -> convertTimeToString(db.getSum())).setHeader("Summe").setSortable(false);
+		grid.addColumn(db -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(db.getLastUpdate())).setSortable(false).setHeader("Stand");
+		grid.setHeightByRows(true);
+		grid.setSizeFull();
 
+		layout.add(grid);
+		
 		add(layout);
 
 		setVisible(false);
@@ -75,14 +82,24 @@ public class DelayDiv extends Div
 
 	public void update(DelayBean bean)
 	{
+		addItem(bean);
 		UI ui = getUI().orElse(UI.getCurrent());
 		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
 			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
 			delayBinder.readBean(bean);
-//			grid.setItems(delayItems);
+			grid.setItems(delayItems);
 			currentUI.push();
 		}));
 		DelayDataProvider.getInstance().readyForUpdate(this);
+	}
+
+	private void addItem(DelayBean bean)
+	{
+		delayItems.add(0, bean);
+		while (delayItems.size() > NUM_ROWS)
+		{
+			delayItems.remove(delayItems.size() - 1);
+		}
 	}
 
 	private String convertTimeToString(double time)

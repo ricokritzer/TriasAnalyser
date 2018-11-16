@@ -27,7 +27,6 @@ public class MainView extends VerticalLayout
 
 	public MainView()
 	{
-		setWidth("100%");
 		setAlignItems(Alignment.CENTER);
 
 		final DelayDiv divDelay = new DelayDiv();
@@ -38,6 +37,7 @@ public class MainView extends VerticalLayout
 		addTab("Verspätungen", divDelay);
 		addTab("Heatmap", new HeatmapDiv());
 		addTab("Über uns", new AboutDiv());
+		tabs.setFlexGrowForEnclosedTabs(1);
 
 		divDatabase.setVisible(true);
 		
