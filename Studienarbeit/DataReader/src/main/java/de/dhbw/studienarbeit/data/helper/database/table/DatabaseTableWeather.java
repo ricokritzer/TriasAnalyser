@@ -14,7 +14,7 @@ public class DatabaseTableWeather extends DatabaseTable
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableWeather.class.getName());
 	private static final String TABLE_NAME = "Weather";
 
-	private final Optional<WeatherDB> getLine(ResultSet result)
+	private final Optional<WeatherDB> getWeather(ResultSet result)
 	{
 		try
 		{
