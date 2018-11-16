@@ -52,15 +52,8 @@ public class DataManager
 
 	private TimerTask schedulerTimerTask(final ApiKey apiKey)
 	{
-		return new MyTimerTask(() -> new Thread(new Runnable()
-		{
-
-			@Override
-			public void run()
-			{
-				firstWaitingDataModel().ifPresent(d -> updateAndSaveAndSchedule(d, apiKey));
-			}
-		}).start());
+		return new MyTimerTask(
+				new Thread(() -> firstWaitingDataModel().ifPresent(d -> updateSaveAndSchedule(d, apiKey)))::start);
 	}
 
 	private Optional<Manageable> firstWaitingDataModel()
@@ -83,7 +76,7 @@ public class DataManager
 		return new MyTimerTask(() -> readyToUpdate(model));
 	}
 
-	private void updateAndSaveAndSchedule(final Manageable model, final ApiKey apiKey)
+	private void updateSaveAndSchedule(final Manageable model, final ApiKey apiKey)
 	{
 		try
 		{
