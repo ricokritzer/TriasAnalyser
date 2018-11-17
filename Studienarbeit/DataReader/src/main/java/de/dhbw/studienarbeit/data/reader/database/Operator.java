@@ -26,7 +26,7 @@ public class Operator
 		return name;
 	}
 
-	public static final Optional<Operator> getOperator(ResultSet result)
+	private static final Optional<Operator> getOperator(ResultSet result)
 	{
 		try
 		{

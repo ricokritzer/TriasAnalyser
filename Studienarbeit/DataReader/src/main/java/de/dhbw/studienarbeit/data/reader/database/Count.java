@@ -42,8 +42,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader()
-			{}.count("Stop");
+			return new DatabaseReader().count("Stop");
 		}
 		catch (IOException e)
 		{
@@ -56,8 +55,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader()
-			{}.count("Weather");
+			return new DatabaseReader().count("Weather");
 		}
 		catch (IOException e)
 		{
@@ -70,8 +68,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader()
-			{}.count("Station");
+			return new DatabaseReader().count("Station");
 		}
 		catch (IOException e)
 		{
@@ -84,8 +81,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader()
-			{}.count("Line");
+			return new DatabaseReader().count("Line");
 		}
 		catch (IOException e)
 		{

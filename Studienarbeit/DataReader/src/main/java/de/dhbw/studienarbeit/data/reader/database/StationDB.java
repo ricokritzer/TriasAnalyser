@@ -81,7 +81,7 @@ public class StationDB implements Saveable
 		preparedStatement.setBoolean(6, observe);
 	}
 
-	public static final Optional<StationDB> getStation(ResultSet result)
+	private static final Optional<StationDB> getStation(ResultSet result)
 	{
 		try
 		{

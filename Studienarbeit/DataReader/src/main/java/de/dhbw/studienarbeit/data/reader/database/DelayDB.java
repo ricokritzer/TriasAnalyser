@@ -44,7 +44,7 @@ public class DelayDB
 		return summary;
 	}
 
-	public static final Optional<DelayDB> getDelay(ResultSet result)
+	private static final Optional<DelayDB> getDelay(ResultSet result)
 	{
 		try
 		{
