@@ -103,7 +103,7 @@ public class StationDB implements Saveable
 	public static final List<StationDB> getObservedStations() throws IOException
 	{
 		final String sql = "SELECT * FROM Station WHERE observe = true;";
-		final DatabaseTable database = new DatabaseTable();
+		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<StationDB> list = new ArrayList<>();
@@ -119,7 +119,7 @@ public class StationDB implements Saveable
 	public static final List<StationDB> getObservedStations(Operator operator) throws IOException
 	{
 		final String sql = "SELECT * FROM Station WHERE observe = true AND operator = ?;";
-		final DatabaseTable database = new DatabaseTable();
+		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			preparedStatement.setString(1, operator.getName());

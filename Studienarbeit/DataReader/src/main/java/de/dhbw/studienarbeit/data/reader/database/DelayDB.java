@@ -68,7 +68,7 @@ public class DelayDB
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
 				+ "FROM Stop, Line WHERE realTime IS NOT NULL;";
-		final DatabaseTable database = new DatabaseTable();
+		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<DelayDB> list = new ArrayList<>();

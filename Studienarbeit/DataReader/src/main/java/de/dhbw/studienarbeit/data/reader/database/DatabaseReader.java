@@ -11,11 +11,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
+import de.dhbw.studienarbeit.data.reader.SettingsReadOnly;
 
-public class DatabaseTable extends DatabaseConnector
+public class DatabaseReader extends DatabaseConnector
 {
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
-	private static final Logger LOGGER = Logger.getLogger(DatabaseTable.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DatabaseReader.class.getName());
 
 	public void select(Consumer<ResultSet> consumer, PreparedStatement statement) throws SQLException
 	{

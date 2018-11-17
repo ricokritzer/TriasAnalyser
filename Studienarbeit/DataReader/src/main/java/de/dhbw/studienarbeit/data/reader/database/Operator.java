@@ -43,7 +43,7 @@ public class Operator
 	public static final List<Operator> getAllOperators() throws IOException
 	{
 		final String sql = "SELECT DISTINCT operator FROM Station;";
-		final DatabaseTable database = new DatabaseTable();
+		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<Operator> list = new ArrayList<>();
@@ -59,7 +59,7 @@ public class Operator
 	public static final List<Operator> getObservedOperators() throws IOException
 	{
 		final String sql = "SELECT DISTINCT operator FROM Station WHERE observe = true;";
-		final DatabaseTable database = new DatabaseTable();
+		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<Operator> list = new ArrayList<>();

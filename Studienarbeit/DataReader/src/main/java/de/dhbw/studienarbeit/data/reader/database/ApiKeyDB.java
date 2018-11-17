@@ -40,7 +40,7 @@ public class ApiKeyDB extends ApiKey
 	public static final List<ApiKey> getApiKeys(Operator operator) throws IOException
 	{
 		final String sql = "SELECT * FROM Api WHERE name = ?;";
-		final DatabaseTable database = new DatabaseTable();
+		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			preparedStatement.setString(1, operator.getName());

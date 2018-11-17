@@ -42,7 +42,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseTable()
+			return new DatabaseReader()
 			{}.count("Stop");
 		}
 		catch (IOException e)
@@ -56,7 +56,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseTable()
+			return new DatabaseReader()
 			{}.count("Weather");
 		}
 		catch (IOException e)
@@ -70,7 +70,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseTable()
+			return new DatabaseReader()
 			{}.count("Station");
 		}
 		catch (IOException e)
@@ -84,7 +84,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseTable()
+			return new DatabaseReader()
 			{}.count("Line");
 		}
 		catch (IOException e)
