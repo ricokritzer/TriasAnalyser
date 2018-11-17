@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.helper.database.model.ApiKeyDB;
 import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
@@ -24,7 +25,7 @@ public class DatabaseTableApi extends DatabaseTable
 			preparedStatement.setString(1, operator.getName());
 
 			final List<ApiKey> list = new ArrayList<>();
-			select(r -> ApiKey.getApiKey(r).ifPresent(list::add), preparedStatement);
+			select(r -> ApiKeyDB.getApiKey(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
