@@ -10,9 +10,6 @@ public class DelayLineDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayLineDB.class.getName());
 
-	private static final String DELAY_MAX = "delay_max";
-	private static final String DELAY_AVG = "delay_avg";
-
 	private final double maximum;
 	private final double average;
 	private final String lineName;
@@ -46,12 +43,20 @@ public class DelayLineDB
 		return lineDestination;
 	}
 
+	public static final String getSQL()
+	{
+		return "SELECT " + "name, destination, "
+				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
+				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
+				+ "FROM Stop, Line WHERE realTime IS NOT NULL AND Stop.lineID = Line.lineID GROUP BY Stop.lineID;";
+	}
+
 	public static final Optional<DelayLineDB> getDelayLine(ResultSet result)
 	{
 		try
 		{
-			final double delayMaximum = result.getDouble(DELAY_MAX);
-			final double delayAverage = result.getDouble(DELAY_AVG);
+			final double delayMaximum = result.getDouble("delay_max");
+			final double delayAverage = result.getDouble("delay_avg");
 			final String name = result.getString("name");
 			final String destination = result.getString("destination");
 

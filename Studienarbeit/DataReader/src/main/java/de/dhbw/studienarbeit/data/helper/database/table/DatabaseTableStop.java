@@ -50,10 +50,7 @@ public class DatabaseTableStop extends DatabaseTable
 	{
 		reconnectIfNeccessary();
 
-		final String sql = "SELECT name, destination, "
-				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
-				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
-				+ "FROM Stop, Line WHERE realTime IS NOT NULL AND Stop.lineID = Line.lineID GROUP BY Stop.lineID;";
+		final String sql = DelayLineDB.getSQL();
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
 			final List<DelayLineDB> list = new ArrayList<>();
