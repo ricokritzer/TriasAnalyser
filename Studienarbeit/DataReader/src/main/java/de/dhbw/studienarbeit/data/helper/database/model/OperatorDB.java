@@ -6,22 +6,16 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class OperatorDB
+import de.dhbw.studienarbeit.data.helper.model.Operator;
+
+public class OperatorDB extends Operator
 {
-	private static final Logger LOGGER = Logger.getLogger(OperatorDB.class.getName());
-
-	private String name;
-
 	public OperatorDB(String name)
 	{
-		super();
-		this.name = name;
+		super(name);
 	}
 
-	public String getName()
-	{
-		return name;
-	}
+	private static final Logger LOGGER = Logger.getLogger(OperatorDB.class.getName());
 
 	public static final Optional<OperatorDB> getOperator(ResultSet result)
 	{
