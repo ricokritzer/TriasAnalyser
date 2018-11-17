@@ -5,14 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.model.OperatorDB;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStation extends DatabaseTable
 {
-	private static final Logger LOGGER = Logger.getLogger(DatabaseTableStation.class.getName());
 	private static final String TABLE_NAME = "Station";
 
 	@Override

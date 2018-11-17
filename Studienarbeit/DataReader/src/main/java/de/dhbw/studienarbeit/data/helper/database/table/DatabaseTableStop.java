@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayLineDB;
@@ -15,7 +14,6 @@ public class DatabaseTableStop extends DatabaseTable
 	private static final String DELAY_MAX = "delay_max";
 	private static final String DELAY_AVG = "delay_avg";
 	private static final String DELAY_SUM = "delay_sum";
-	private static final Logger LOGGER = Logger.getLogger(DatabaseTableStop.class.getName());
 	private static final String TABLE_NAME = "Stop";
 
 	@Override
