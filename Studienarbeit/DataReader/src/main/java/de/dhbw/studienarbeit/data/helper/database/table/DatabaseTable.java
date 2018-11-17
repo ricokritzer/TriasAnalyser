@@ -14,12 +14,12 @@ import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 import de.dhbw.studienarbeit.data.helper.database.model.Count;
 
-public abstract class DatabaseTable extends DatabaseConnector
+public class DatabaseTable extends DatabaseConnector
 {
 	private static final String UNABLE_TO_READ = "Unable to read at table ";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTable.class.getName());
 
-	protected void select(Consumer<ResultSet> consumer, PreparedStatement statement) throws SQLException
+	public void select(Consumer<ResultSet> consumer, PreparedStatement statement) throws SQLException
 	{
 		try (ResultSet result = statement.executeQuery())
 		{
@@ -70,6 +70,19 @@ public abstract class DatabaseTable extends DatabaseConnector
 		catch (SQLException e)
 		{
 			throw new IOException("Unable to count " + table, e);
+		}
+	}
+
+	public PreparedStatement getPreparedStatement(String sql) throws IOException
+	{
+		reconnectIfNeccessary();
+		try
+		{
+			return connection.prepareStatement(sql);
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Unable to prepare statement.", e);
 		}
 	}
 }

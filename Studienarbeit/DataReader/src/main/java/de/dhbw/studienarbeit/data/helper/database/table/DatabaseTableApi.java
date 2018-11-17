@@ -1,9 +1,6 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.database.model.ApiKeyDB;
@@ -14,23 +11,12 @@ public class DatabaseTableApi extends DatabaseTable
 {
 	private static final String TABLE_NAME = "Api";
 
+	/*
+	 * use ApiKeysDB.getApiKeys(Operator operator) instead.
+	 */
+	@Deprecated
 	public final List<ApiKey> selectApisByName(final Operator operator) throws IOException
 	{
-		reconnectIfNeccessary();
-
-		final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ?;";
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
-		{
-			preparedStatement.setString(1, operator.getName());
-
-			final List<ApiKey> list = new ArrayList<>();
-			select(r -> ApiKeyDB.getApiKey(r).ifPresent(list::add), preparedStatement);
-			return list;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Unable to select apis by name " + operator.getName(), e);
-		}
+		return ApiKeyDB.getApiKeys(operator);
 	}
 }
