@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.WebView.components.DelayDiv;
-import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayDB;
 
 public class DelayDataProvider extends DataProvider
 {

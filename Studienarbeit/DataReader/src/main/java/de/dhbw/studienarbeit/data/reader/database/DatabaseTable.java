@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper.database.table;
+package de.dhbw.studienarbeit.data.reader.database;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -10,9 +10,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
-import de.dhbw.studienarbeit.data.helper.database.model.Count;
 
 public class DatabaseTable extends DatabaseConnector
 {

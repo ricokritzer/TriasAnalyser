@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper.database.model;
+package de.dhbw.studienarbeit.data.reader.database;
 
 import static org.junit.Assert.assertTrue;
 

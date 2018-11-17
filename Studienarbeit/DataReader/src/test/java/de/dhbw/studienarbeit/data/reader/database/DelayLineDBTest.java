@@ -1,10 +1,12 @@
-package de.dhbw.studienarbeit.data.helper.database.model;
+package de.dhbw.studienarbeit.data.reader.database;
 
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 
 public class DelayLineDBTest
 {

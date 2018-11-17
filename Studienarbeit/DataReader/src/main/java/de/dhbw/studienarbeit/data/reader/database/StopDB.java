@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper.database.model;
+package de.dhbw.studienarbeit.data.reader.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

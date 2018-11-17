@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.WebView.components.DatabaseDiv;
-import de.dhbw.studienarbeit.data.helper.database.model.Count;
+import de.dhbw.studienarbeit.data.reader.database.Count;
 
 public class DatabaseDataProvider extends DataProvider
 {

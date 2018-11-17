@@ -12,7 +12,7 @@ import com.vaadin.flow.shared.communication.PushMode;
 
 import de.dhbw.studienarbeit.WebView.data.DatabaseBean;
 import de.dhbw.studienarbeit.WebView.data.DatabaseDataProvider;
-import de.dhbw.studienarbeit.data.helper.database.model.Count;
+import de.dhbw.studienarbeit.data.reader.database.Count;
 
 public class DatabaseDiv extends Div
 {

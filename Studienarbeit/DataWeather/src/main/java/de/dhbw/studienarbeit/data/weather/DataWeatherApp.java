@@ -9,15 +9,15 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.logging.Level;
 
-import de.dhbw.studienarbeit.data.helper.database.model.ApiKeyDB;
-import de.dhbw.studienarbeit.data.helper.database.model.Operator;
-import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
+import de.dhbw.studienarbeit.data.reader.database.ApiKeyDB;
+import de.dhbw.studienarbeit.data.reader.database.Operator;
+import de.dhbw.studienarbeit.data.reader.database.StationDB;
 
 public class DataWeatherApp
 {

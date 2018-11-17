@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper;
+package de.dhbw.studienarbeit.data.reader.database;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -11,9 +11,9 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.model.ApiKeyDB;
-import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.reader.database.ApiKeyDB;
+import de.dhbw.studienarbeit.data.reader.database.Operator;
 
 public class WeatherTest
 {

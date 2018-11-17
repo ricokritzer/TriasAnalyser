@@ -2,7 +2,7 @@ package de.dhbw.studienarbeit.WebView.data;
 
 import java.util.Date;
 
-import de.dhbw.studienarbeit.data.helper.database.model.Count;
+import de.dhbw.studienarbeit.data.reader.database.Count;
 
 public class DatabaseBean
 {
