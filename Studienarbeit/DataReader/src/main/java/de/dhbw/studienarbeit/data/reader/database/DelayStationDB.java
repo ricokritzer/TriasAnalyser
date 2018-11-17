@@ -10,21 +10,19 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DelayLineDB
+public class DelayStationDB
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayLineDB.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DelayStationDB.class.getName());
 
 	private final double maximum;
 	private final double average;
-	private final String lineName;
-	private final String lineDestination;
+	private final String stationName;
 
-	public DelayLineDB(double delayAverage, double delayMaximum, String lineName, String lineDestination)
+	public DelayStationDB(double delayAverage, double delayMaximum, String stationName)
 	{
 		this.average = delayAverage;
 		this.maximum = delayMaximum;
-		this.lineName = lineName;
-		this.lineDestination = lineDestination;
+		this.stationName = stationName;
 	}
 
 	public double getMaximum()
@@ -37,45 +35,39 @@ public class DelayLineDB
 		return average;
 	}
 
-	public String getLineName()
+	public String getStationName()
 	{
-		return lineName;
+		return stationName;
 	}
 
-	public String getLineDestination()
-	{
-		return lineDestination;
-	}
-
-	private static final Optional<DelayLineDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayStationDB> getDelayLine(ResultSet result)
 	{
 		try
 		{
 			final double delayMaximum = result.getDouble("delay_max");
 			final double delayAverage = result.getDouble("delay_avg");
 			final String name = result.getString("name");
-			final String destination = result.getString("destination");
 
-			return Optional.of(new DelayLineDB(delayAverage, delayMaximum, name, destination));
+			return Optional.of(new DelayStationDB(delayAverage, delayMaximum, name));
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
+			LOGGER.log(Level.WARNING, "Unable to parse to DelayStationDB.", e);
 			return Optional.empty();
 		}
 	}
 
-	public static final List<DelayLineDB> getDelays() throws IOException
+	public static final List<DelayStationDB> getDelays() throws IOException
 	{
-		final String sql = "SELECT " + "name, destination, "
+		final String sql = "SELECT " + "name, "
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
-				+ "FROM Stop, Line WHERE realTime IS NOT NULL AND Stop.lineID = Line.lineID GROUP BY Stop.lineID ORDER BY delay_avg DESC LIMIT 20;";
+				+ "FROM Stop, Station WHERE realTime IS NOT NULL AND Stop.stationID = Station.stationID GROUP BY Station.stationID ORDER BY delay_avg DESC LIMIT 20;";
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayLineDB> list = new ArrayList<>();
-			database.select(r -> DelayLineDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
+			final List<DelayStationDB> list = new ArrayList<>();
+			database.select(r -> DelayStationDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)

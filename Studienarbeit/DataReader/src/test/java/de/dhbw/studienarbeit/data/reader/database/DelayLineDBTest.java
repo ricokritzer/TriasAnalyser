@@ -13,7 +13,7 @@ public class DelayLineDBTest
 	@Test
 	void testSelectingDelaysByName() throws Exception
 	{
-		List<DelayLineDB> list = DelayLineDB.getDelaysByLineName();
+		List<DelayLineDB> list = DelayLineDB.getDelays();
 		assertTrue(list.size() > 0);
 	}
 }
