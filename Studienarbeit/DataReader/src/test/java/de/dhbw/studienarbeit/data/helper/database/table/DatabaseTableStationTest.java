@@ -14,34 +14,6 @@ import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 public class DatabaseTableStationTest
 {
 	@Test
-	void testSelectingOperators() throws Exception
-	{
-		try
-		{
-			List<Operator> operators = new DatabaseTableStation().selectOperators();
-			assertTrue(operators.size() > 0);
-		}
-		catch (IOException e)
-		{
-			fail("Unable to count stations" + e.getMessage());
-		}
-	}
-
-	@Test
-	void testSelectingObservedOperators() throws Exception
-	{
-		try
-		{
-			List<Operator> operators = new DatabaseTableStation().selectObservedOperators();
-			assertTrue(operators.size() > 0);
-		}
-		catch (IOException e)
-		{
-			fail("Unable to count stations" + e.getMessage());
-		}
-	}
-
-	@Test
 	void testSelectingObservedKVV() throws Exception
 	{
 		try

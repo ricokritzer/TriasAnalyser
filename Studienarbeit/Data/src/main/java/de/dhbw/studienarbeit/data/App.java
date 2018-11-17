@@ -20,7 +20,7 @@ public class App
 		LogLevelHelper.setLogLevel(Level.ALL);
 
 		final DatabaseTableStation databaseTableStation = new DatabaseTableStation();
-		final List<Operator> operators = databaseTableStation.selectObservedOperators();
+		final List<Operator> operators = Operator.getObservedOperators();
 		for (Operator operator : operators)
 		{
 			final List<StationDB> stationsOfOperator = databaseTableStation.selectObservedStations(operator);

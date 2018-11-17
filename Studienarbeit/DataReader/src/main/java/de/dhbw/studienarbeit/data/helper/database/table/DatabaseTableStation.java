@@ -14,40 +14,6 @@ public class DatabaseTableStation extends DatabaseTable
 {
 	private static final String TABLE_NAME = "Station";
 
-	public final List<Operator> selectOperators() throws IOException
-	{
-		reconnectIfNeccessary();
-
-		final String sql = "SELECT DISTINCT operator FROM Station";
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
-		{
-			final List<Operator> observedStations = new ArrayList<>();
-			select(r -> Operator.getOperator(r).ifPresent(observedStations::add), preparedStatement);
-			return observedStations;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
-	}
-
-	public final List<Operator> selectObservedOperators() throws IOException
-	{
-		reconnectIfNeccessary();
-
-		final String sql = "SELECT DISTINCT operator FROM Station WHERE observe = true;";
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
-		{
-			final List<Operator> observedStations = new ArrayList<>();
-			select(r -> Operator.getOperator(r).ifPresent(observedStations::add), preparedStatement);
-			return observedStations;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
-	}
-
 	public final List<StationDB> selectObservedStations() throws IOException
 	{
 		reconnectIfNeccessary();
