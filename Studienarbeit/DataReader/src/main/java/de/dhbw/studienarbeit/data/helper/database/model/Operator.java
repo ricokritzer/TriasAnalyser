@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 
 public class Operator
 {
+	private static final Logger LOGGER = Logger.getLogger(Operator.class.getName());
+
 	private String name;
 
 	public Operator(String name)
@@ -19,8 +21,6 @@ public class Operator
 	{
 		return name;
 	}
-
-	private static final Logger LOGGER = Logger.getLogger(Operator.class.getName());
 
 	public static final Optional<Operator> getOperator(ResultSet result)
 	{
