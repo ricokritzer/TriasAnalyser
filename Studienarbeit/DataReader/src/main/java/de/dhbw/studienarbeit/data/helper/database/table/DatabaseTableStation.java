@@ -19,15 +19,15 @@ public class DatabaseTableStation extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	public final List<String> selectOperators() throws IOException
+	public final List<OperatorDB> selectOperators() throws IOException
 	{
 		reconnectIfNeccessary();
 
 		final String sql = "SELECT DISTINCT operator FROM Station";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			final List<String> observedStations = new ArrayList<>();
-			select(r -> OperatorDB.getOperator(r).ifPresent(o -> observedStations.add(o.getName())), preparedStatement);
+			final List<OperatorDB> observedStations = new ArrayList<>();
+			select(r -> OperatorDB.getOperator(r).ifPresent(observedStations::add), preparedStatement);
 			return observedStations;
 		}
 		catch (SQLException e)
@@ -36,15 +36,15 @@ public class DatabaseTableStation extends DatabaseTable
 		}
 	}
 
-	public final List<String> selectObservedOperators() throws IOException
+	public final List<OperatorDB> selectObservedOperators() throws IOException
 	{
 		reconnectIfNeccessary();
 
 		final String sql = "SELECT DISTINCT operator FROM Station WHERE observe = true;";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			final List<String> observedStations = new ArrayList<>();
-			select(r -> OperatorDB.getOperator(r).ifPresent(o -> observedStations.add(o.getName())), preparedStatement);
+			final List<OperatorDB> observedStations = new ArrayList<>();
+			select(r -> OperatorDB.getOperator(r).ifPresent(observedStations::add), preparedStatement);
 			return observedStations;
 		}
 		catch (SQLException e)

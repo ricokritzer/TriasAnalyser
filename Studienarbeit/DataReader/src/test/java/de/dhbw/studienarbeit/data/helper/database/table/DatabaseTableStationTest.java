@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import de.dhbw.studienarbeit.data.helper.database.model.OperatorDB;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStationTest
@@ -31,7 +32,7 @@ public class DatabaseTableStationTest
 	{
 		try
 		{
-			List<String> operators = new DatabaseTableStation().selectOperators();
+			List<OperatorDB> operators = new DatabaseTableStation().selectOperators();
 			assertTrue(operators.size() > 0);
 		}
 		catch (IOException e)
@@ -45,7 +46,7 @@ public class DatabaseTableStationTest
 	{
 		try
 		{
-			List<String> operators = new DatabaseTableStation().selectObservedOperators();
+			List<OperatorDB> operators = new DatabaseTableStation().selectObservedOperators();
 			assertTrue(operators.size() > 0);
 		}
 		catch (IOException e)
