@@ -15,16 +15,6 @@ public class Count
 		this.count = count;
 	}
 
-	/*
-	 * Do not extract the value. For better type safety make your own count object
-	 * and override the toString() method.
-	 */
-	@Deprecated
-	public long getValue()
-	{
-		return count;
-	}
-
 	@Override
 	public String toString()
 	{
