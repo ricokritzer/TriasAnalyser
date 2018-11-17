@@ -2,53 +2,18 @@ package de.dhbw.studienarbeit.data.helper.database.table;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.helper.database.model.OperatorDB;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStation extends DatabaseTable
 {
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTableStation.class.getName());
 	private static final String TABLE_NAME = "Station";
-
-	private final Optional<StationDB> getStation(ResultSet result)
-	{
-		try
-		{
-			final String stationID = result.getString("stationID");
-			final String name = result.getString("name");
-			final double lat = result.getDouble("lat");
-			final double lon = result.getDouble("lon");
-			final String operator = result.getString("operator");
-			final boolean observe = result.getBoolean("observe");
-			return Optional.of(new StationDB(stationID, name, lat, lon, operator, observe));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to station.", e);
-			return Optional.empty();
-		}
-	}
-
-	private final Optional<String> getOperator(ResultSet result)
-	{
-		try
-		{
-			final String operator = result.getString("operator");
-			return Optional.of(operator);
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to Operator.", e);
-			return Optional.empty();
-		}
-	}
 
 	@Override
 	protected String getTableName()
@@ -64,7 +29,7 @@ public class DatabaseTableStation extends DatabaseTable
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
 			final List<String> observedStations = new ArrayList<>();
-			select(r -> getOperator(r).ifPresent(observedStations::add), preparedStatement);
+			select(r -> OperatorDB.getOperator(r).ifPresent(o -> observedStations.add(o.getName())), preparedStatement);
 			return observedStations;
 		}
 		catch (SQLException e)
@@ -81,7 +46,7 @@ public class DatabaseTableStation extends DatabaseTable
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
 			final List<String> observedStations = new ArrayList<>();
-			select(r -> getOperator(r).ifPresent(observedStations::add), preparedStatement);
+			select(r -> OperatorDB.getOperator(r).ifPresent(o -> observedStations.add(o.getName())), preparedStatement);
 			return observedStations;
 		}
 		catch (SQLException e)
@@ -98,7 +63,7 @@ public class DatabaseTableStation extends DatabaseTable
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
 			final List<StationDB> observedStations = new ArrayList<>();
-			select(r -> getStation(r).ifPresent(observedStations::add), preparedStatement);
+			select(r -> StationDB.getStation(r).ifPresent(observedStations::add), preparedStatement);
 			return observedStations;
 		}
 		catch (SQLException e)
@@ -117,7 +82,7 @@ public class DatabaseTableStation extends DatabaseTable
 			preparedStatement.setString(1, operator);
 
 			final List<StationDB> observedStations = new ArrayList<>();
-			select(r -> getStation(r).ifPresent(observedStations::add), preparedStatement);
+			select(r -> StationDB.getStation(r).ifPresent(observedStations::add), preparedStatement);
 			return observedStations;
 		}
 		catch (SQLException e)
