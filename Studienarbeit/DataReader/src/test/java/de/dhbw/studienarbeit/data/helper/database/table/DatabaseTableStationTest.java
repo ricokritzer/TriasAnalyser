@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -9,26 +8,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.model.Count;
 import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStationTest
 {
-	@Test
-	void testCounting() throws Exception
-	{
-		try
-		{
-			Count count = new DatabaseTableStation().count();
-			assertFalse(count.equals(Count.UNABLE_TO_COUNT));
-		}
-		catch (IOException e)
-		{
-			fail("Unable to count stations" + e.getMessage());
-		}
-	}
-
 	@Test
 	void testSelectingOperators() throws Exception
 	{

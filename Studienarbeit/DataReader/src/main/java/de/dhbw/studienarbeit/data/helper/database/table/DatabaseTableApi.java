@@ -13,12 +13,6 @@ public class DatabaseTableApi extends DatabaseTable
 {
 	private static final String TABLE_NAME = "Api";
 
-	@Override
-	protected String getTableName()
-	{
-		return TABLE_NAME;
-	}
-
 	public final List<ApiKey> selectApisByName(final Operator operator) throws IOException
 	{
 		reconnectIfNeccessary();

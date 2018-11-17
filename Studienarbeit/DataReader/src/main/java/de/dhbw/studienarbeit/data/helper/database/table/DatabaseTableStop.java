@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.helper.database.model.Count;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayLineDB;
 
@@ -15,12 +16,6 @@ public class DatabaseTableStop extends DatabaseTable
 	private static final String DELAY_AVG = "delay_avg";
 	private static final String DELAY_SUM = "delay_sum";
 	private static final String TABLE_NAME = "Stop";
-
-	@Override
-	protected String getTableName()
-	{
-		return TABLE_NAME;
-	}
 
 	public final List<DelayDB> selectDelay() throws IOException
 	{
@@ -61,5 +56,14 @@ public class DatabaseTableStop extends DatabaseTable
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	/*
+	 * use Count.countLines() instead.
+	 */
+	@Deprecated
+	public Count count()
+	{
+		return Count.countStops();
 	}
 }

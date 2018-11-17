@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,26 +10,11 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.model.Count;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayLineDB;
 
 public class DatabaseTableStopTest
 {
-	@Test
-	void testCounting() throws Exception
-	{
-		try
-		{
-			Count count = new DatabaseTableStop().count();
-			assertFalse(count.equals(Count.UNABLE_TO_COUNT));
-		}
-		catch (IOException e)
-		{
-			fail("Unable to count stations" + e.getMessage());
-		}
-	}
-
 	@Test
 	void testDelay() throws Exception
 	{

@@ -48,8 +48,6 @@ public abstract class DatabaseTable extends DatabaseConnector
 				SettingsReadOnly.getInstance().getDatabaseReaderPassword());
 	}
 
-	protected abstract String getTableName();
-
 	public Count count(String table) throws IOException
 	{
 		reconnectIfNeccessary();
@@ -62,43 +60,16 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 			if (count.isEmpty())
 			{
-				throw new SQLException("Unable to count entries in " + getTableName());
+				throw new SQLException("Unable to count entries in " + table);
 			}
 
 			Count c = count.get(0);
-			LOGGER.log(Level.FINE, c + " entries at " + getTableName());
+			LOGGER.log(Level.FINEST, c + " entries at " + table);
 			return count.get(0);
 		}
 		catch (SQLException e)
 		{
-			throw new IOException("Unable to count " + getTableName(), e);
-		}
-	}
-
-	@Deprecated
-	public Count count() throws IOException
-	{
-		final String countEntries = "SELECT COUNT(*) AS total FROM " + getTableName() + ";";
-
-		reconnectIfNeccessary();
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(countEntries))
-		{
-			final List<Count> count = new ArrayList<>();
-			select(result -> Count.getCount(result).ifPresent(count::add), preparedStatement);
-
-			if (count.isEmpty())
-			{
-				throw new SQLException("Unable to count entries in " + getTableName());
-			}
-
-			Count c = count.get(0);
-			LOGGER.log(Level.FINE, c + " entries at " + getTableName());
-			return count.get(0);
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Unable to count " + getTableName(), e);
+			throw new IOException("Unable to count " + table, e);
 		}
 	}
 }

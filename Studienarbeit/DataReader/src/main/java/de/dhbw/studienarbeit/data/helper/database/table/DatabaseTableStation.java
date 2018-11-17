@@ -6,18 +6,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.helper.database.model.Count;
 import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStation extends DatabaseTable
 {
 	private static final String TABLE_NAME = "Station";
-
-	@Override
-	protected String getTableName()
-	{
-		return TABLE_NAME;
-	}
 
 	public final List<Operator> selectOperators() throws IOException
 	{
@@ -87,5 +82,14 @@ public class DatabaseTableStation extends DatabaseTable
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	/*
+	 * use Count.countLines() instead.
+	 */
+	@Deprecated
+	public Count count()
+	{
+		return Count.countLines();
 	}
 }

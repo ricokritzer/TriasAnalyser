@@ -45,13 +45,7 @@ public class Count
 		try
 		{
 			return new DatabaseTable()
-			{
-				@Override
-				protected String getTableName()
-				{
-					return "Stop";
-				}
-			}.count();
+			{}.count("Stop");
 		}
 		catch (IOException e)
 		{
@@ -65,13 +59,7 @@ public class Count
 		try
 		{
 			return new DatabaseTable()
-			{
-				@Override
-				protected String getTableName()
-				{
-					return "Weather";
-				}
-			}.count();
+			{}.count("Weather");
 		}
 		catch (IOException e)
 		{
@@ -85,13 +73,7 @@ public class Count
 		try
 		{
 			return new DatabaseTable()
-			{
-				@Override
-				protected String getTableName()
-				{
-					return "Station";
-				}
-			}.count();
+			{}.count("Station");
 		}
 		catch (IOException e)
 		{
@@ -105,13 +87,7 @@ public class Count
 		try
 		{
 			return new DatabaseTable()
-			{
-				@Override
-				protected String getTableName()
-				{
-					return "Line";
-				}
-			}.count();
+			{}.count("Line");
 		}
 		catch (IOException e)
 		{
