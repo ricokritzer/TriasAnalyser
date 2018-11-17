@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import de.dhbw.studienarbeit.data.helper.database.model.ApiKeyDB;
 import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
@@ -66,7 +65,7 @@ public class TestApp
 			manager = new DataManager("no name", new ArrayList<>());
 			manager.addApiKey(testApiKey);
 
-			final List<StationDB> stationsDB = new DatabaseTableStation().selectObservedStations(operator);
+			final List<StationDB> stationsDB = StationDB.getObservedStations(operator);
 			manager.add(stationsDB
 					.parallelStream().map(stationDB -> new Station(stationDB.getStationID(), stationDB.getName(),
 							stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))

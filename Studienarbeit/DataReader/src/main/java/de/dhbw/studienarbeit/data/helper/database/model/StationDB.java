@@ -1,13 +1,17 @@
 package de.dhbw.studienarbeit.data.helper.database.model;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
+import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
 
 public class StationDB implements Saveable
 {
@@ -94,6 +98,40 @@ public class StationDB implements Saveable
 		{
 			LOGGER.log(Level.WARNING, "Unable to parse to station.", e);
 			return Optional.empty();
+		}
+	}
+
+	public static final List<StationDB> getObservedStations() throws IOException
+	{
+		final String sql = "SELECT * FROM Station WHERE observe = true;";
+		final DatabaseTable database = new DatabaseTable();
+		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
+		{
+			final List<StationDB> list = new ArrayList<>();
+			database.select(r -> StationDB.getStation(r).ifPresent(list::add), preparedStatement);
+			return list;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
+		}
+	}
+
+	public static final List<StationDB> getObservedStations(Operator operator) throws IOException
+	{
+		final String sql = "SELECT * FROM Station WHERE observe = true AND operator = ?;";
+		final DatabaseTable database = new DatabaseTable();
+		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
+		{
+			preparedStatement.setString(1, operator.getName());
+
+			final List<StationDB> list = new ArrayList<>();
+			database.select(r -> StationDB.getStation(r).ifPresent(list::add), preparedStatement);
+			return list;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
 		}
 	}
 }
