@@ -13,9 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import de.dhbw.studienarbeit.data.helper.database.model.ApiKeyDB;
 import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
@@ -61,7 +61,7 @@ public class TestApp
 		try
 		{
 			final Operator operator = new Operator("kvv");
-			final ApiKey keyFromDB = new DatabaseTableApi().selectApisByName(operator).get(0);
+			final ApiKey keyFromDB = ApiKeyDB.getApiKeys(operator).get(0);
 			final ApiKey testApiKey = new ApiKey(keyFromDB.getKey(), number, keyFromDB.getUrl());
 			manager = new DataManager("no name", new ArrayList<>());
 			manager.addApiKey(testApiKey);

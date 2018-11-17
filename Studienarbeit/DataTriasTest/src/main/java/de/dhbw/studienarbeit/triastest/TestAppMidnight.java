@@ -8,8 +8,8 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.helper.database.model.ApiKeyDB;
 import de.dhbw.studienarbeit.data.helper.database.model.Operator;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
@@ -24,7 +24,7 @@ public class TestAppMidnight
 		LogLevelHelper.setLogLevel(Level.ALL);
 
 		final Operator operator = new Operator("kvv");
-		final ApiKey key = new DatabaseTableApi().selectApisByName(operator).get(0);
+		final ApiKey key = ApiKeyDB.getApiKeys(operator).get(0);
 		final Station station = new Station("de:08212:1", "Marktplatz", 0.0, 0.0, "kvv");
 
 		final Date date = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").parse("2018-11-08 00-01-00");
