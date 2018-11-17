@@ -8,7 +8,7 @@ public class CountDB
 {
 	public static final CountDB UNABLE_TO_COUNT = new CountDB(-1);
 
-	private long count;
+	protected long count;
 
 	public CountDB(long count)
 	{
@@ -23,6 +23,12 @@ public class CountDB
 	public long getValue()
 	{
 		return count;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return Long.toString(count);
 	}
 
 	public static final Optional<CountDB> getCount(ResultSet result)

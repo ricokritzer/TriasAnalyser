@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.WebView.components.DatabaseDiv;
+import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableLine;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
@@ -20,7 +21,7 @@ public class DatabaseDataProvider extends DataProvider
 {
 	private static DatabaseDataProvider instance = null;
 	private Set<DatabaseDiv> queuedDivs = new HashSet<>();
-	private DatabaseBean databaseBean = new DatabaseBean(0, 0, 0, 0, new Date());
+	private DatabaseBean databaseBean = DatabaseBean.EMPTY;
 
 	private static final Logger LOGGER = Logger.getLogger(DatabaseDataProvider.class.getName());
 
@@ -59,24 +60,24 @@ public class DatabaseDataProvider extends DataProvider
 	@Override
 	protected void updateBean()
 	{
-		final long countStation = getCountOf(new DatabaseTableStation());
-		final long countLines = getCountOf(new DatabaseTableLine());
-		final long countStops = getCountOf(new DatabaseTableStop());
-		final long countWeather = getCountOf(new DatabaseTableWeather());
+		final CountDB countStation = getCountOf(new DatabaseTableStation());
+		final CountDB countLines = getCountOf(new DatabaseTableLine());
+		final CountDB countStops = getCountOf(new DatabaseTableStop());
+		final CountDB countWeather = getCountOf(new DatabaseTableWeather());
 
 		databaseBean = new DatabaseBean(countStation, countLines, countStops, countWeather, new Date());
 	}
 
-	private long getCountOf(DatabaseTable table)
+	private CountDB getCountOf(DatabaseTable table)
 	{
 		try
 		{
-			return table.count().getValue();
+			return table.count();
 		}
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to update.", e);
-			return -1;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 }

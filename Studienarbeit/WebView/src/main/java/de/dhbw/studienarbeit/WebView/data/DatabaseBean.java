@@ -2,15 +2,21 @@ package de.dhbw.studienarbeit.WebView.data;
 
 import java.util.Date;
 
+import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
+
 public class DatabaseBean
 {
-	private long countStations = 0;
-	private long countLines = 0;
-	private long countStops = 0;
-	private long countWeather = 0;
+	public static final DatabaseBean EMPTY = new DatabaseBean(CountDB.UNABLE_TO_COUNT, CountDB.UNABLE_TO_COUNT,
+			CountDB.UNABLE_TO_COUNT, CountDB.UNABLE_TO_COUNT, new Date());
+
+	private CountDB countStations = CountDB.UNABLE_TO_COUNT;
+	private CountDB countLines = CountDB.UNABLE_TO_COUNT;
+	private CountDB countStops = CountDB.UNABLE_TO_COUNT;
+	private CountDB countWeather = CountDB.UNABLE_TO_COUNT;
 	private Date lastUpdate = new Date();
 
-	public DatabaseBean(long countStation, long countLines, long countStops, long countWeather, Date lastUpdate)
+	public DatabaseBean(CountDB countStation, CountDB countLines, CountDB countStops, CountDB countWeather,
+			Date lastUpdate)
 	{
 		this.countStations = countStation;
 		this.countLines = countLines;
@@ -19,22 +25,22 @@ public class DatabaseBean
 		this.lastUpdate = lastUpdate;
 	}
 
-	public long getCountStations()
+	public CountDB getCountStations()
 	{
 		return countStations;
 	}
 
-	public long getCountLines()
+	public CountDB getCountLines()
 	{
 		return countLines;
 	}
 
-	public long getCountStops()
+	public CountDB getCountStops()
 	{
 		return countStops;
 	}
 
-	public long getCountWeather()
+	public CountDB getCountWeather()
 	{
 		return countWeather;
 	}
