@@ -1,10 +1,16 @@
 package de.dhbw.studienarbeit.data.helper.database.model;
 
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTable;
 
 public class DelayLineDB
 {
@@ -66,6 +72,25 @@ public class DelayLineDB
 		{
 			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
 			return Optional.empty();
+		}
+	}
+
+	public static final List<DelayLineDB> getDelaysByLineName() throws IOException
+	{
+		final String sql = "SELECT " + "name, destination, "
+				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
+				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
+				+ "FROM Stop, Line WHERE realTime IS NOT NULL AND Stop.lineID = Line.lineID GROUP BY Stop.lineID;";
+		final DatabaseTable database = new DatabaseTable();
+		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
+		{
+			final List<DelayLineDB> list = new ArrayList<>();
+			database.select(r -> DelayLineDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
+			return list;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
 		}
 	}
 }

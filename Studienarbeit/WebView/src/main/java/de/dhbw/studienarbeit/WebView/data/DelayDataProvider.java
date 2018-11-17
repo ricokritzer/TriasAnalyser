@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.WebView.components.DelayDiv;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
-import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStop;
 
 public class DelayDataProvider extends DataProvider
 {
@@ -53,7 +52,7 @@ public class DelayDataProvider extends DataProvider
 		List<DelayDiv> updatableDivs = new ArrayList<>();
 		updatableDivs.addAll(queuedDivs);
 		queuedDivs.clear();
-		
+
 		updateBean();
 		updatableDivs.forEach(div -> div.update(delayBean));
 	}
@@ -63,7 +62,7 @@ public class DelayDataProvider extends DataProvider
 	{
 		try
 		{
-			final List<DelayDB> delays = new DatabaseTableStop().selectDelay();
+			final List<DelayDB> delays = DelayDB.getDelay();
 			delays.stream().findFirst().ifPresent(db -> delayBean = convertToBean(db));
 		}
 		catch (IOException e)
