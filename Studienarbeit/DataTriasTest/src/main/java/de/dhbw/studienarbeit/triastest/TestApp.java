@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
@@ -59,7 +60,7 @@ public class TestApp
 
 		try
 		{
-			final ApiKey keyFromDB = new DatabaseTableApi().selectApisByName("kvv").get(0);
+			final ApiKey keyFromDB = new DatabaseTableApi().selectApisByName(new Operator("kvv")).get(0);
 			final ApiKey testApiKey = new ApiKey(keyFromDB.getKey(), number, keyFromDB.getUrl());
 			manager = new DataManager("no name", new ArrayList<>());
 			manager.addApiKey(testApiKey);

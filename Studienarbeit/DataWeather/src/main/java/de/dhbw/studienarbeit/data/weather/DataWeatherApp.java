@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.logging.Level;
 
+import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
@@ -32,7 +33,8 @@ public class DataWeatherApp
 
 	public void startDataCollection(final List<StationDB> stations) throws IOException
 	{
-		final List<ApiKey> apiKeys = new DatabaseTableApi().selectApisByName("weather");
+		final Operator weatherOperator = new Operator("weather");
+		final List<ApiKey> apiKeys = new DatabaseTableApi().selectApisByName(weatherOperator);
 		final Date start = new Date();
 		final DataManager manager = new DataManager("weather", apiKeys);
 		final List<Weather> weather = convertToWeather(stations);

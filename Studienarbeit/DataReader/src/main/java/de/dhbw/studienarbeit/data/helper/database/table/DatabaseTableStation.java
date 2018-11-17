@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dhbw.studienarbeit.data.helper.database.model.OperatorDB;
+import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
 public class DatabaseTableStation extends DatabaseTable
@@ -19,15 +19,15 @@ public class DatabaseTableStation extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	public final List<OperatorDB> selectOperators() throws IOException
+	public final List<Operator> selectOperators() throws IOException
 	{
 		reconnectIfNeccessary();
 
 		final String sql = "SELECT DISTINCT operator FROM Station";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			final List<OperatorDB> observedStations = new ArrayList<>();
-			select(r -> OperatorDB.getOperator(r).ifPresent(observedStations::add), preparedStatement);
+			final List<Operator> observedStations = new ArrayList<>();
+			select(r -> Operator.getOperator(r).ifPresent(observedStations::add), preparedStatement);
 			return observedStations;
 		}
 		catch (SQLException e)
@@ -36,15 +36,15 @@ public class DatabaseTableStation extends DatabaseTable
 		}
 	}
 
-	public final List<OperatorDB> selectObservedOperators() throws IOException
+	public final List<Operator> selectObservedOperators() throws IOException
 	{
 		reconnectIfNeccessary();
 
 		final String sql = "SELECT DISTINCT operator FROM Station WHERE observe = true;";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			final List<OperatorDB> observedStations = new ArrayList<>();
-			select(r -> OperatorDB.getOperator(r).ifPresent(observedStations::add), preparedStatement);
+			final List<Operator> observedStations = new ArrayList<>();
+			select(r -> Operator.getOperator(r).ifPresent(observedStations::add), preparedStatement);
 			return observedStations;
 		}
 		catch (SQLException e)

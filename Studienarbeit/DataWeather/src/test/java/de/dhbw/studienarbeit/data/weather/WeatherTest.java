@@ -11,6 +11,7 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
+import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
@@ -47,7 +48,7 @@ public class WeatherTest
 		try
 		{
 			final DatabaseTableApi databaseTableApi = new DatabaseTableApi();
-			final List<ApiKey> apiKeys = databaseTableApi.selectApisByName("weather");
+			final List<ApiKey> apiKeys = databaseTableApi.selectApisByName(new Operator("weather"));
 			final ApiKey apiWeather = apiKeys.get(0);
 			coordinates.updateData(apiWeather);
 		}

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 
-import de.dhbw.studienarbeit.data.helper.database.model.OperatorDB;
+import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableStation;
@@ -20,12 +20,12 @@ public class App
 		LogLevelHelper.setLogLevel(Level.ALL);
 
 		final DatabaseTableStation databaseTableStation = new DatabaseTableStation();
-		final List<OperatorDB> operators = databaseTableStation.selectObservedOperators();
-		for (OperatorDB operator : operators)
+		final List<Operator> operators = databaseTableStation.selectObservedOperators();
+		for (Operator operator : operators)
 		{
 			final List<StationDB> stationsOfOperator = databaseTableStation.selectObservedStations(operator.getName());
 			new DataWeatherApp().startDataCollection(stationsOfOperator);
-			new DataTriasApp().startDataCollection(operator.getName(), stationsOfOperator);
+			new DataTriasApp().startDataCollection(operator, stationsOfOperator);
 		}
 
 		new DataRepairerApp(new DatabaseSaver()).startDataRepairing();

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 
 public class DatabaseTableApi extends DatabaseTable
@@ -18,7 +19,7 @@ public class DatabaseTableApi extends DatabaseTable
 		return TABLE_NAME;
 	}
 
-	public final List<ApiKey> selectApisByName(final String name) throws IOException
+	public final List<ApiKey> selectApisByName(final Operator operator) throws IOException
 	{
 		reconnectIfNeccessary();
 
@@ -26,7 +27,7 @@ public class DatabaseTableApi extends DatabaseTable
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			preparedStatement.setString(1, name);
+			preparedStatement.setString(1, operator.getName());
 
 			final List<ApiKey> list = new ArrayList<>();
 			select(r -> ApiKey.getApiKey(r).ifPresent(list::add), preparedStatement);
@@ -34,7 +35,7 @@ public class DatabaseTableApi extends DatabaseTable
 		}
 		catch (SQLException e)
 		{
-			throw new IOException("Unable to select apis by name " + name, e);
+			throw new IOException("Unable to select apis by name " + operator.getName(), e);
 		}
 	}
 }

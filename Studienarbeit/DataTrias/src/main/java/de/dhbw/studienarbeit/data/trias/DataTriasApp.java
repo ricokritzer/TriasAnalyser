@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.stream.Collectors;
 
+import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.table.DatabaseTableApi;
@@ -22,16 +23,17 @@ public class DataTriasApp
 	{
 		List<StationDB> testStations = new ArrayList<>();
 		testStations.add(new StationDB("de:08212:1", "Schulbustest", 49.01, 8.40, "kvv", true));
-		new DataTriasApp().startDataCollection("kvv", testStations);
+		new DataTriasApp().startDataCollection(new Operator("kvv"), testStations);
 	}
 
-	public void startDataCollection(String operator, List<StationDB> stationsDB) throws IOException
+	public void startDataCollection(Operator operator, List<StationDB> stationsDB) throws IOException
 	{
 		stations = stationsDB.parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
 				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
 				.collect(Collectors.toList());
 		final Date start = new Date();
-		final DataManager manager = new DataManager(operator, new DatabaseTableApi().selectApisByName(operator));
+		final DataManager manager = new DataManager(operator.getName(),
+				new DatabaseTableApi().selectApisByName(operator));
 		manager.add(stations);
 
 		final Timer monitorTimer = new Timer();
