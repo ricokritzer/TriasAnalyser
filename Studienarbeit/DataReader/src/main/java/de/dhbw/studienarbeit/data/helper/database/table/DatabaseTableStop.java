@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
+import de.dhbw.studienarbeit.data.helper.database.model.DelayLineDB;
 import de.dhbw.studienarbeit.data.helper.database.model.StopDB;
 
 public class DatabaseTableStop extends DatabaseTable
@@ -58,6 +59,24 @@ public class DatabaseTableStop extends DatabaseTable
 		}
 	}
 
+	private static Optional<DelayLineDB> getDelayLine(ResultSet result)
+	{
+		try
+		{
+			final double delayMaximum = result.getDouble(DELAY_MAX);
+			final double delayAverage = result.getDouble(DELAY_AVG);
+			final String name = result.getString("name");
+			final String destination = result.getString("destination");
+
+			return Optional.of(new DelayLineDB(delayAverage, delayMaximum, name, destination));
+		}
+		catch (SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
+			return Optional.empty();
+		}
+	}
+
 	@Override
 	protected String getTableName()
 	{
@@ -80,6 +99,26 @@ public class DatabaseTableStop extends DatabaseTable
 		{
 			final List<DelayDB> list = new ArrayList<>();
 			select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
+			return list;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
+		}
+	}
+
+	public final List<DelayLineDB> selectDelaysByLineName() throws IOException
+	{
+		reconnectIfNeccessary();
+
+		final String sql = "SELECT name, destination, "
+				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
+				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
+				+ "FROM Stop, Line WHERE realTime IS NOT NULL AND Stop.lineID = Line.lineID GROUP BY Stop.lineID;";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
+		{
+			final List<DelayLineDB> list = new ArrayList<>();
+			select(r -> getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)

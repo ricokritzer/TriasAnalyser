@@ -11,6 +11,7 @@ import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
+import de.dhbw.studienarbeit.data.helper.database.model.DelayLineDB;
 
 public class DatabaseTableStopTest
 {
@@ -53,6 +54,36 @@ public class DatabaseTableStopTest
 		catch (IOException e)
 		{
 			fail("Unable to select delay" + e.getMessage());
+		}
+	}
+
+	@Test
+	void testDelaysByName() throws Exception
+	{
+		try
+		{
+			List<DelayLineDB> list = new DatabaseTableStop().selectDelaysByLineName();
+			assertTrue(list.size() > 0);
+		}
+		catch (IOException e)
+		{
+			fail("Unable to select delays by name" + e.getMessage());
+		}
+	}
+
+	@Test
+	void testDelaysByNameMaximumAndAverageNotMixedUp() throws Exception
+	{
+		try
+		{
+			List<DelayLineDB> list = new DatabaseTableStop().selectDelaysByLineName();
+			assertTrue(list.size() > 0);
+			DelayLineDB example = list.get(0);
+			assertTrue(example.getAverage() <= example.getMaximum());
+		}
+		catch (IOException e)
+		{
+			fail("Unable to select delays by name" + e.getMessage());
 		}
 	}
 }
