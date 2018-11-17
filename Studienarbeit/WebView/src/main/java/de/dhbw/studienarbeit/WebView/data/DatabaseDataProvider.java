@@ -71,7 +71,7 @@ public class DatabaseDataProvider extends DataProvider
 	{
 		try
 		{
-			return table.count();
+			return table.count().getValue();
 		}
 		catch (IOException e)
 		{

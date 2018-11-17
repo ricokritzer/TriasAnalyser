@@ -1,11 +1,13 @@
 package de.dhbw.studienarbeit.data.helper.database.table;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
+
+import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
 
 public class DatabaseTableLineTest
 {
@@ -14,8 +16,8 @@ public class DatabaseTableLineTest
 	{
 		try
 		{
-			long count = new DatabaseTableLine().count();
-			assertTrue(count > 0);
+			CountDB count = new DatabaseTableLine().count();
+			assertFalse(count.equals(CountDB.UNABLE_TO_COUNT));
 		}
 		catch (IOException e)
 		{

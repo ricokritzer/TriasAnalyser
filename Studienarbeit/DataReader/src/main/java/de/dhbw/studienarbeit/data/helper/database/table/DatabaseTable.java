@@ -6,13 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
+import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
 
 public abstract class DatabaseTable extends DatabaseConnector
 {
@@ -48,21 +48,9 @@ public abstract class DatabaseTable extends DatabaseConnector
 				SettingsReadOnly.getInstance().getDatabaseReaderPassword());
 	}
 
-	private Optional<Integer> getTotal(ResultSet result)
-	{
-		try
-		{
-			return Optional.ofNullable(result.getInt("total"));
-		}
-		catch (SQLException e)
-		{
-			return Optional.empty();
-		}
-	}
-
 	protected abstract String getTableName();
 
-	public long count() throws IOException
+	public CountDB count() throws IOException
 	{
 		final String countEntries = "SELECT COUNT(*) AS total FROM " + getTableName() + ";";
 
@@ -70,15 +58,15 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(countEntries))
 		{
-			final List<Integer> count = new ArrayList<>();
-			select(result -> getTotal(result).ifPresent(count::add), preparedStatement);
+			final List<CountDB> count = new ArrayList<>();
+			select(result -> CountDB.getCount(result).ifPresent(count::add), preparedStatement);
 
 			if (count.isEmpty())
 			{
 				throw new SQLException("Unable to count entries in " + getTableName());
 			}
 
-			int c = count.get(0);
+			CountDB c = count.get(0);
 			LOGGER.log(Level.FINE, c + " entries at " + getTableName());
 			return count.get(0);
 		}
