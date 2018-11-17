@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
-import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
+import de.dhbw.studienarbeit.data.helper.database.model.Count;
 
 public abstract class DatabaseTable extends DatabaseConnector
 {
@@ -50,7 +50,7 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 	protected abstract String getTableName();
 
-	public CountDB count() throws IOException
+	public Count count() throws IOException
 	{
 		final String countEntries = "SELECT COUNT(*) AS total FROM " + getTableName() + ";";
 
@@ -58,15 +58,15 @@ public abstract class DatabaseTable extends DatabaseConnector
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(countEntries))
 		{
-			final List<CountDB> count = new ArrayList<>();
-			select(result -> CountDB.getCount(result).ifPresent(count::add), preparedStatement);
+			final List<Count> count = new ArrayList<>();
+			select(result -> Count.getCount(result).ifPresent(count::add), preparedStatement);
 
 			if (count.isEmpty())
 			{
 				throw new SQLException("Unable to count entries in " + getTableName());
 			}
 
-			CountDB c = count.get(0);
+			Count c = count.get(0);
 			LOGGER.log(Level.FINE, c + " entries at " + getTableName());
 			return count.get(0);
 		}

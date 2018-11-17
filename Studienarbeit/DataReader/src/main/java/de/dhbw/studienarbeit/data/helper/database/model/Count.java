@@ -4,13 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class CountDB
+public class Count
 {
-	public static final CountDB UNABLE_TO_COUNT = new CountDB(-1);
+	public static final Count UNABLE_TO_COUNT = new Count(-1);
 
 	protected long count;
 
-	public CountDB(long count)
+	public Count(long count)
 	{
 		this.count = count;
 	}
@@ -24,18 +24,18 @@ public class CountDB
 	{
 		return count;
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		return Long.toString(count);
 	}
 
-	public static final Optional<CountDB> getCount(ResultSet result)
+	public static final Optional<Count> getCount(ResultSet result)
 	{
 		try
 		{
-			return Optional.ofNullable(new CountDB(result.getLong("total")));
+			return Optional.ofNullable(new Count(result.getLong("total")));
 		}
 		catch (SQLException e)
 		{

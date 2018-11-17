@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
+import de.dhbw.studienarbeit.data.helper.database.model.Count;
 
 public class DatabaseTableApiTest
 {
@@ -16,8 +16,8 @@ public class DatabaseTableApiTest
 	{
 		try
 		{
-			CountDB count = new DatabaseTableApi().count();
-			assertFalse(count.equals(CountDB.UNABLE_TO_COUNT));
+			Count count = new DatabaseTableApi().count();
+			assertFalse(count.equals(Count.UNABLE_TO_COUNT));
 		}
 		catch (IOException e)
 		{

@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
+import de.dhbw.studienarbeit.data.helper.database.model.Count;
 import de.dhbw.studienarbeit.data.helper.database.model.Operator;
 import de.dhbw.studienarbeit.data.helper.database.model.StationDB;
 
@@ -20,8 +20,8 @@ public class DatabaseTableStationTest
 	{
 		try
 		{
-			CountDB count = new DatabaseTableStation().count();
-			assertFalse(count.equals(CountDB.UNABLE_TO_COUNT));
+			Count count = new DatabaseTableStation().count();
+			assertFalse(count.equals(Count.UNABLE_TO_COUNT));
 		}
 		catch (IOException e)
 		{

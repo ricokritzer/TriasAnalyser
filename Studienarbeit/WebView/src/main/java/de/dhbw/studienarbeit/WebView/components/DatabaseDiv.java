@@ -12,7 +12,7 @@ import com.vaadin.flow.shared.communication.PushMode;
 
 import de.dhbw.studienarbeit.WebView.data.DatabaseBean;
 import de.dhbw.studienarbeit.WebView.data.DatabaseDataProvider;
-import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
+import de.dhbw.studienarbeit.data.helper.database.model.Count;
 
 public class DatabaseDiv extends Div
 {
@@ -64,9 +64,9 @@ public class DatabaseDiv extends Div
 		setVisible(false);
 	}
 
-	private String getStringOf(CountDB value)
+	private String getStringOf(Count value)
 	{
-		if (value.equals(CountDB.UNABLE_TO_COUNT))
+		if (value.equals(Count.UNABLE_TO_COUNT))
 		{
 			return "NaN";
 		}

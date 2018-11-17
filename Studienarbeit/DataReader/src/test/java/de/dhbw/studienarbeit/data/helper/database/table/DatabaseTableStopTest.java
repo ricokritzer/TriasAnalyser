@@ -11,7 +11,7 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
+import de.dhbw.studienarbeit.data.helper.database.model.Count;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayDB;
 import de.dhbw.studienarbeit.data.helper.database.model.DelayLineDB;
 
@@ -22,8 +22,8 @@ public class DatabaseTableStopTest
 	{
 		try
 		{
-			CountDB count = new DatabaseTableStop().count();
-			assertFalse(count.equals(CountDB.UNABLE_TO_COUNT));
+			Count count = new DatabaseTableStop().count();
+			assertFalse(count.equals(Count.UNABLE_TO_COUNT));
 		}
 		catch (IOException e)
 		{

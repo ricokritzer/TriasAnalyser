@@ -2,20 +2,20 @@ package de.dhbw.studienarbeit.WebView.data;
 
 import java.util.Date;
 
-import de.dhbw.studienarbeit.data.helper.database.model.CountDB;
+import de.dhbw.studienarbeit.data.helper.database.model.Count;
 
 public class DatabaseBean
 {
-	public static final DatabaseBean EMPTY = new DatabaseBean(CountDB.UNABLE_TO_COUNT, CountDB.UNABLE_TO_COUNT,
-			CountDB.UNABLE_TO_COUNT, CountDB.UNABLE_TO_COUNT, new Date());
+	public static final DatabaseBean EMPTY = new DatabaseBean(Count.UNABLE_TO_COUNT, Count.UNABLE_TO_COUNT,
+			Count.UNABLE_TO_COUNT, Count.UNABLE_TO_COUNT, new Date());
 
-	private CountDB countStations = CountDB.UNABLE_TO_COUNT;
-	private CountDB countLines = CountDB.UNABLE_TO_COUNT;
-	private CountDB countStops = CountDB.UNABLE_TO_COUNT;
-	private CountDB countWeather = CountDB.UNABLE_TO_COUNT;
+	private Count countStations = Count.UNABLE_TO_COUNT;
+	private Count countLines = Count.UNABLE_TO_COUNT;
+	private Count countStops = Count.UNABLE_TO_COUNT;
+	private Count countWeather = Count.UNABLE_TO_COUNT;
 	private Date lastUpdate = new Date();
 
-	public DatabaseBean(CountDB countStation, CountDB countLines, CountDB countStops, CountDB countWeather,
+	public DatabaseBean(Count countStation, Count countLines, Count countStops, Count countWeather,
 			Date lastUpdate)
 	{
 		this.countStations = countStation;
@@ -25,22 +25,22 @@ public class DatabaseBean
 		this.lastUpdate = lastUpdate;
 	}
 
-	public CountDB getCountStations()
+	public Count getCountStations()
 	{
 		return countStations;
 	}
 
-	public CountDB getCountLines()
+	public Count getCountLines()
 	{
 		return countLines;
 	}
 
-	public CountDB getCountStops()
+	public Count getCountStops()
 	{
 		return countStops;
 	}
 
-	public CountDB getCountWeather()
+	public Count getCountWeather()
 	{
 		return countWeather;
 	}
