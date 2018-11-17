@@ -23,7 +23,7 @@ public class App
 		final List<Operator> operators = databaseTableStation.selectObservedOperators();
 		for (Operator operator : operators)
 		{
-			final List<StationDB> stationsOfOperator = databaseTableStation.selectObservedStations(operator.getName());
+			final List<StationDB> stationsOfOperator = databaseTableStation.selectObservedStations(operator);
 			new DataWeatherApp().startDataCollection(stationsOfOperator);
 			new DataTriasApp().startDataCollection(operator, stationsOfOperator);
 		}

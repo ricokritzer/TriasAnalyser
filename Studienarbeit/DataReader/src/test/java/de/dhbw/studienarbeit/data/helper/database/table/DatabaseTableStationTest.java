@@ -60,7 +60,7 @@ public class DatabaseTableStationTest
 	{
 		try
 		{
-			List<StationDB> stations = new DatabaseTableStation().selectObservedStations("kvv");
+			List<StationDB> stations = new DatabaseTableStation().selectObservedStations(new Operator("kvv"));
 			assertTrue(stations.size() > 0);
 		}
 		catch (IOException e)

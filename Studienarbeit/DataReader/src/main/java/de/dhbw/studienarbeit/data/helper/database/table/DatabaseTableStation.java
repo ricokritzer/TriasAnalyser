@@ -70,14 +70,14 @@ public class DatabaseTableStation extends DatabaseTable
 		}
 	}
 
-	public final List<StationDB> selectObservedStations(final String operator) throws IOException
+	public final List<StationDB> selectObservedStations(Operator operator) throws IOException
 	{
 		reconnectIfNeccessary();
 
 		final String sql = "SELECT * FROM " + TABLE_NAME + " WHERE observe = true AND operator = ?;";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
-			preparedStatement.setString(1, operator);
+			preparedStatement.setString(1, operator.getName());
 
 			final List<StationDB> observedStations = new ArrayList<>();
 			select(r -> StationDB.getStation(r).ifPresent(observedStations::add), preparedStatement);

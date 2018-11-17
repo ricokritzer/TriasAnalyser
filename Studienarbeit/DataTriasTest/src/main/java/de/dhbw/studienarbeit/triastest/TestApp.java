@@ -60,12 +60,13 @@ public class TestApp
 
 		try
 		{
-			final ApiKey keyFromDB = new DatabaseTableApi().selectApisByName(new Operator("kvv")).get(0);
+			final Operator operator = new Operator("kvv");
+			final ApiKey keyFromDB = new DatabaseTableApi().selectApisByName(operator).get(0);
 			final ApiKey testApiKey = new ApiKey(keyFromDB.getKey(), number, keyFromDB.getUrl());
 			manager = new DataManager("no name", new ArrayList<>());
 			manager.addApiKey(testApiKey);
 
-			final List<StationDB> stationsDB = new DatabaseTableStation().selectObservedStations("kvv");
+			final List<StationDB> stationsDB = new DatabaseTableStation().selectObservedStations(operator);
 			manager.add(stationsDB
 					.parallelStream().map(stationDB -> new Station(stationDB.getStationID(), stationDB.getName(),
 							stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
