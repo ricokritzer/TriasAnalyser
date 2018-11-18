@@ -10,6 +10,6 @@ public class SituationTest
 	void testSavingSituation() throws Exception
 	{
 		final Situation situation = new Situation("Testsituation");
-		new DatabaseSaver().save(situation);
+		DatabaseSaver.saveData(situation);
 	}
 }

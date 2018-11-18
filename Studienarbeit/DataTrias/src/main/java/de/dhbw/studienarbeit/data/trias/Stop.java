@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.data.trias;
 
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -137,10 +136,9 @@ public class Stop implements Saveable, Comparable<Stop>
 		return this.getRealTime().get().compareTo(stop.getRealTime().get());
 	}
 
-	public void save() throws IOException
+	public void save()
 	{
-		DatabaseSaver saver = new DatabaseSaver();
-		saver.save(new Line(lineName, destination));
-		saver.save(this);
+		DatabaseSaver.saveData(new Line(lineName, destination));
+		DatabaseSaver.saveData(this);
 	}
 }

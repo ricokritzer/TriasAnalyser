@@ -42,13 +42,6 @@ public class DataTriasApp
 
 	private void saveWaitingQueueCount(WaitingQueueCount waitingQueueCount)
 	{
-		try
-		{
-			new DatabaseSaver().save(waitingQueueCount);
-		}
-		catch (IOException e)
-		{
-			// ignore
-		}
+		DatabaseSaver.saveData(waitingQueueCount);
 	}
 }

@@ -87,13 +87,4 @@ public class DatabaseSaver extends DatabaseConnector
 			throw new IOException(whatHappens, e);
 		}
 	}
-
-	/*
-	 * @deprecated: use static method DataSaver.saveData(Saveable s) instead.
-	 */
-	@Deprecated
-	public void save(Saveable model) throws IOException
-	{
-		DatabaseSaver.saveData(model);
-	}
 }

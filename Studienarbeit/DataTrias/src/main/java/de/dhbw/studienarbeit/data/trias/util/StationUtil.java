@@ -54,17 +54,7 @@ public class StationUtil
 				}
 			}
 			reader.close();
-			DatabaseSaver saver = new DatabaseSaver();
-			stations.forEach(station -> {
-				try
-				{
-					saver.save(station);
-				}
-				catch (IOException e)
-				{
-					// ignore.
-				}
-			});
+			stations.forEach(DatabaseSaver::saveData);
 		}
 		catch (IOException e)
 		{
