@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.database.Operator;
 import de.dhbw.studienarbeit.data.reader.database.StationDB;
-import de.dhbw.studienarbeit.data.repairer.DataRepairerApp;
 import de.dhbw.studienarbeit.data.trias.DataTriasApp;
 import de.dhbw.studienarbeit.data.weather.DataWeatherApp;
 
@@ -25,8 +23,5 @@ public class App
 			new DataWeatherApp().startDataCollection(stationsOfOperator);
 			new DataTriasApp().startDataCollection(operator, stationsOfOperator);
 		}
-
-		new DataRepairerApp(new DatabaseSaver()).startDataRepairing();
 	}
-
 }

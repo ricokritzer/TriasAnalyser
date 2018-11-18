@@ -55,7 +55,7 @@ public class StationUtil
 				}
 			}
 			reader.close();
-			Saver saver = new DatabaseSaver();
+			DatabaseSaver saver = new DatabaseSaver();
 			stations.forEach(station -> {
 				try
 				{
