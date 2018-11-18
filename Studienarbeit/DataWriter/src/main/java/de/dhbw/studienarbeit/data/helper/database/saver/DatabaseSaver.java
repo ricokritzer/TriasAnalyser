@@ -38,12 +38,6 @@ public class DatabaseSaver extends DatabaseConnector
 		Optional.ofNullable(WAITING_FOR_SAVE.poll()).ifPresent(DatabaseSaver::saveData);
 	}
 
-	@Deprecated
-	public static DatabaseSaver getInstance()
-	{
-		return INSTANCE;
-	}
-
 	@Override
 	protected void connectToDatabase() throws SQLException
 	{
@@ -95,8 +89,7 @@ public class DatabaseSaver extends DatabaseConnector
 	}
 
 	/*
-	 * @see de.dhbw.studienarbeit.data.helper.database.saver.Saver#save(de.dhbw.
-	 * studienarbeit.data.helper.database.saver.Saveable)
+	 * @deprecated: use static method DataSaver.saveData(Saveable s) instead.
 	 */
 	@Deprecated
 	public void save(Saveable model) throws IOException

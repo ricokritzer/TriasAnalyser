@@ -181,7 +181,7 @@ public class Weather implements Manageable, Saveable
 	public void updateAndSaveData(ApiKey apiKey) throws IOException
 	{
 		updateData(apiKey);
-		DatabaseSaver.getInstance().save(this);
+		DatabaseSaver.saveData(this);
 	}
 
 	public String getSQLQuerry()
