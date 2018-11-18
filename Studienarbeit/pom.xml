@@ -14,14 +14,10 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<modules>
-
 		<module>DataWeather</module>
 		<module>DataHelper</module>
-
-
 		<module>DataTrias</module>
 		<module>Data</module>
-		<module>DataRepairer</module>
 		<module>DataTriasTest</module>
 		<module>DataReader</module>
 		<module>DataWriter</module>
