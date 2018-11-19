@@ -23,8 +23,15 @@ public class StopSituation implements Saveable
 	@Override
 	public String getSQLQuerry()
 	{
+		if (stop.getRealTime().isPresent())
+		{
+			return "INSERT INTO StopSituation (situationID, version, stopID) "
+					+ "SELECT * FROM (SELECT ? id, ? v, (SELECT stopID FROM Stop WHERE stationID = ? AND lineID = (SELECT lineID FROM Line WHERE name = ? AND destination = ?) AND timeTabledTime = ? AND realTime = ?) s) AS tmp "
+					+ "WHERE NOT EXISTS (SELECT * FROM StopSituation WHERE situationID = id AND version = v AND "
+					+ "stopID = s);";
+		}
 		return "INSERT INTO StopSituation (situationID, version, stopID) "
-				+ "SELECT * FROM (SELECT ? id, ? v, (SELECT stopID FROM Stop WHERE stationID = ? AND lineID = (SELECT lineID FROM Line WHERE name = ? AND destination = ?) AND timeTabledTime = ? AND realTime = ?) s) AS tmp "
+				+ "SELECT * FROM (SELECT ? id, ? v, (SELECT stopID FROM Stop WHERE stationID = ? AND lineID = (SELECT lineID FROM Line WHERE name = ? AND destination = ?) AND timeTabledTime = ? AND realTime IS NULL) s) AS tmp "
 				+ "WHERE NOT EXISTS (SELECT * FROM StopSituation WHERE situationID = id AND version = v AND "
 				+ "stopID = s);";
 	}
@@ -44,15 +51,11 @@ public class StopSituation implements Saveable
 		{
 			preparedStatement.setString(7, convertToStringWithoutMillis(realTime.get()));
 		}
-		else
-		{
-			preparedStatement.setTimestamp(7, null);
-		}
 	}
 
 	private String convertToStringWithoutMillis(Date date)
 	{
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-
+		final Date rounded = new Date(((date.getTime() + 500) / 1000) * 1000);
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rounded);
 	}
 }
