@@ -9,7 +9,7 @@ public class SituationTest
 	@Test
 	void testSavingSituation() throws Exception
 	{
-		final Situation situation = new Situation("Testsituation");
+		final Situation situation = new Situation("Testsituation", 1, "Testsituation");
 		DatabaseSaver.saveData(situation);
 	}
 }

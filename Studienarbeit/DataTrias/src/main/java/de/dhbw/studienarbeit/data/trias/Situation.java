@@ -7,11 +7,15 @@ import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
 public class Situation implements Saveable
 {
-	private String value;
+	private String id;
+	private int version;
+	private String summary;
 
-	public Situation(String value)
+	public Situation(String id, int version, String summary)
 	{
-		this.value = value;
+		this.id = id;
+		this.version = version;
+		this.summary = summary;
 	}
 
 	@Override
@@ -23,6 +27,8 @@ public class Situation implements Saveable
 	@Override
 	public void setValues(PreparedStatement preparedStatement) throws SQLException
 	{
-		preparedStatement.setString(1, value);
+		preparedStatement.setString(1, id);
+		preparedStatement.setInt(2, version);
+		preparedStatement.setString(3, summary);
 	}
 }
