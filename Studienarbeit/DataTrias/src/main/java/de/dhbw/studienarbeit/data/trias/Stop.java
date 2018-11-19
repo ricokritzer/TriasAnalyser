@@ -26,8 +26,18 @@ public class Stop implements Saveable, Comparable<Stop>
 			Situation... situations)
 	{
 		this.stationID = stationID;
-		this.timeTabledTime = timetabled;
-		this.realTime = realTime;
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(timeTabledTime);
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		this.timeTabledTime = cal.getTime();
+
+		realTime.ifPresent(real -> {
+			cal.setTime(real);
+			cal.add(Calendar.HOUR_OF_DAY, 1);
+			this.realTime = Optional.ofNullable(cal.getTime());
+		});
+
 		this.lineName = lineName;
 		this.destination = destination;
 		this.situations = Arrays.asList(situations);
@@ -94,16 +104,11 @@ public class Stop implements Saveable, Comparable<Stop>
 		preparedStatement.setString(2, lineName);
 		preparedStatement.setString(3, destination);
 
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(timeTabledTime);
-		cal.add(Calendar.HOUR_OF_DAY, 1);
-		preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
+		preparedStatement.setTimestamp(4, new Timestamp(timeTabledTime.getTime()));
 
 		if (realTime.isPresent())
 		{
-			cal.setTime(realTime.get());
-			cal.add(Calendar.HOUR_OF_DAY, 1);
-			preparedStatement.setTimestamp(5, new Timestamp(cal.getTimeInMillis()));
+			preparedStatement.setTimestamp(5, new Timestamp(realTime.get().getTime()));
 		}
 		else
 		{
