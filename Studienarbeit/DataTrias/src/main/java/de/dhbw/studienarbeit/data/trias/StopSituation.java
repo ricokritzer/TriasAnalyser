@@ -26,12 +26,12 @@ public class StopSituation implements Saveable
 		if (stop.getRealTime().isPresent())
 		{
 			return "INSERT INTO StopSituation (situationID, version, stopID) "
-					+ "SELECT * FROM (SELECT ? id, ? v, (SELECT stopID FROM Stop WHERE stationID = ? AND lineID = (SELECT lineID FROM Line WHERE name = ? AND destination = ?) AND timeTabledTime = ? AND realTime = ?) s) AS tmp "
+					+ "SELECT * FROM (SELECT ? id, ? v, (SELECT stopID FROM Stop WHERE stationID = ? AND lineID = (SELECT lineID FROM Line WHERE name = ? AND destination = ?) AND timeTabledTime = ? AND realTime = ? LIMIT 1) s) AS tmp "
 					+ "WHERE NOT EXISTS (SELECT * FROM StopSituation WHERE situationID = id AND version = v AND "
 					+ "stopID = s);";
 		}
 		return "INSERT INTO StopSituation (situationID, version, stopID) "
-				+ "SELECT * FROM (SELECT ? id, ? v, (SELECT stopID FROM Stop WHERE stationID = ? AND lineID = (SELECT lineID FROM Line WHERE name = ? AND destination = ?) AND timeTabledTime = ? AND realTime IS NULL) s) AS tmp "
+				+ "SELECT * FROM (SELECT ? id, ? v, (SELECT stopID FROM Stop WHERE stationID = ? AND lineID = (SELECT lineID FROM Line WHERE name = ? AND destination = ?) AND timeTabledTime = ? AND realTime IS NULL LIMIT 1) s) AS tmp "
 				+ "WHERE NOT EXISTS (SELECT * FROM StopSituation WHERE situationID = id AND version = v AND "
 				+ "stopID = s);";
 	}
