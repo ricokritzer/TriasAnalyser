@@ -22,7 +22,7 @@ public class Stop implements Saveable, Comparable<Stop>
 	private String destination;
 	private List<Situation> situations;
 
-	public Stop(String stationID, String lineName, String destination, Date timetabled, Optional<Date> realTime,
+	public Stop(String stationID, String lineName, String destination, Date timeTabledTime, Optional<Date> realTime,
 			Situation... situations)
 	{
 		this.stationID = stationID;
