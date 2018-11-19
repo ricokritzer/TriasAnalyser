@@ -3,8 +3,10 @@ package de.dhbw.studienarbeit.data.trias;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,14 +20,17 @@ public class Stop implements Saveable, Comparable<Stop>
 	private Optional<Date> realTime = Optional.empty();
 	private String lineName;
 	private String destination;
+	private List<Situation> situations;
 
-	public Stop(String stationID, String lineName, String destination, Date timetabled, Optional<Date> realTime)
+	public Stop(String stationID, String lineName, String destination, Date timetabled, Optional<Date> realTime,
+			Situation... situations)
 	{
 		this.stationID = stationID;
 		this.timeTabledTime = timetabled;
 		this.realTime = realTime;
 		this.lineName = lineName;
 		this.destination = destination;
+		this.situations = Arrays.asList(situations);
 	}
 
 	public String getStationID()
@@ -140,5 +145,22 @@ public class Stop implements Saveable, Comparable<Stop>
 	{
 		DatabaseSaver.saveData(new Line(lineName, destination));
 		DatabaseSaver.saveData(this);
+		situations.forEach(DatabaseSaver::saveData);
+		situations.forEach(situation -> DatabaseSaver.saveData(new StopSituation(situation, this)));
+	}
+
+	public String getLineName()
+	{
+		return lineName;
+	}
+
+	public String getDestination()
+	{
+		return destination;
+	}
+
+	public List<Situation> getSituations()
+	{
+		return situations;
 	}
 }

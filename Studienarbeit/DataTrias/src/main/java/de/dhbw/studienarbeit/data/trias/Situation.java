@@ -21,7 +21,9 @@ public class Situation implements Saveable
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Situation (text) SELECT * FROM (SELECT ? t) AS tmp WHERE NOT EXISTS (SELECT text FROM Situation WHERE text = t);";
+		return "INSERT INTO Situation (situationID, version, text) "
+				+ "SELECT * FROM (SELECT ? s, ? v, ? t) AS tmp WHERE NOT EXISTS "
+				+ "(SELECT * FROM Situation WHERE situationID = s AND version = v AND text = t);";
 	}
 
 	@Override
@@ -30,5 +32,20 @@ public class Situation implements Saveable
 		preparedStatement.setString(1, id);
 		preparedStatement.setInt(2, version);
 		preparedStatement.setString(3, summary);
+	}
+
+	public String getId()
+	{
+		return id;
+	}
+
+	public int getVersion()
+	{
+		return version;
+	}
+
+	public String getSummary()
+	{
+		return summary;
 	}
 }
