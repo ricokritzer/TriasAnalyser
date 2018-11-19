@@ -2,7 +2,7 @@ package de.dhbw.studienarbeit.data.trias;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -37,16 +37,22 @@ public class StopSituation implements Saveable
 		preparedStatement.setString(3, stop.getStationID());
 		preparedStatement.setString(4, stop.getLineName());
 		preparedStatement.setString(5, stop.getDestination());
-		preparedStatement.setTimestamp(6, new Timestamp(stop.getTimeTabledTime().getTime()));
+		preparedStatement.setString(6, convertToStringWithoutMillis(stop.getTimeTabledTime()));
 
 		final Optional<Date> realTime = stop.getRealTime();
 		if (realTime.isPresent())
 		{
-			preparedStatement.setTimestamp(7, new Timestamp(realTime.get().getTime()));
+			preparedStatement.setString(7, convertToStringWithoutMillis(realTime.get()));
 		}
 		else
 		{
 			preparedStatement.setTimestamp(7, null);
 		}
+	}
+
+	private String convertToStringWithoutMillis(Date date)
+	{
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+
 	}
 }
