@@ -60,7 +60,7 @@ public class Station implements Manageable
 		return operator;
 	}
 
-	public void saveStops() throws IOException
+	public void saveStops()
 	{
 		for (Stop stop : previousStops)
 		{
@@ -88,7 +88,7 @@ public class Station implements Manageable
 		return calculateNextUpdate();
 	}
 
-	private void updateStops(ApiKey apiKey) throws IOException, ServerNotAvailableException
+	private void updateStops(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
 	{
 		previousStops = currentStops;
 		TriasXMLRequest request = new TriasXMLRequest(apiKey, this);
@@ -99,15 +99,8 @@ public class Station implements Manageable
 		}
 		catch (IOException e)
 		{
-			currentStops = previousStops;
 			updated = false;
-			throw new IOException("Station " + name + " could not be updated", e);
-		}
-		catch (ServerNotAvailableException e)
-		{
-			currentStops = previousStops;
-			updated = false;
-			throw new IOException("Station " + name + " could not be updated, Response code 503", e);
+			throw new UpdateException("Station " + name + " could not be updated", e);
 		}
 	}
 
@@ -218,14 +211,7 @@ public class Station implements Manageable
 	@Override
 	public void updateAndSaveData(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
 	{
-		try
-		{
-			updateStops(apiKey);
-			saveStops();
-		}
-		catch (IOException e)
-		{
-			// TODO throw exception
-		}
+		updateStops(apiKey);
+		saveStops();
 	}
 }
