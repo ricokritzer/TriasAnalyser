@@ -62,23 +62,16 @@ public class Station implements Manageable
 
 	public void saveStops()
 	{
-		for (Stop stop : previousStops)
+		previousStops.forEach(this::saveStopIfNotExists);
+	}
+
+	private void saveStopIfNotExists(Stop stop)
+	{
+		// Train disappeared from display board, so it will be saved
+		// if train is canceled or has realTimeData
+		if (!currentStops.contains(stop) && (stop.isCanceled() || stop.realTimeDataExists()))
 		{
-			// Train disappeared from display board, so it will be saved
-			if (!currentStops.contains(stop))
-			{
-				// Train cancelled
-				if (!stop.getRealTime().isPresent())
-				{
-					stop.save();
-					continue;
-				}
-				// Train has real time data
-				if (!stop.getRealTime().get().equals(new Date(0)))
-				{
-					stop.save();
-				}
-			}
+			stop.save();
 		}
 	}
 

@@ -164,4 +164,18 @@ public class Stop implements Saveable, Comparable<Stop>
 	{
 		return situations;
 	}
+
+	public boolean isCanceled()
+	{
+		return !realTime.isPresent();
+	}
+
+	public boolean realTimeDataExists()
+	{
+		if (getRealTime().isPresent())
+		{
+			return !getRealTime().get().equals(new Date(0));
+		}
+		return false;
+	}
 }
