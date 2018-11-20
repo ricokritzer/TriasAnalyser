@@ -222,7 +222,11 @@ public class Weather implements Manageable, Saveable
 	{
 		preparedStatement.setDouble(1, lat);
 		preparedStatement.setDouble(2, lon);
-		preparedStatement.setTimestamp(3, new Timestamp(date.getTime()));
+
+		final Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.HOUR, 1);
+		preparedStatement.setTimestamp(3, new Timestamp(c.getTimeInMillis()));
 		preparedStatement.setDouble(4, temp);
 		preparedStatement.setDouble(5, humidity);
 		preparedStatement.setDouble(6, pressure);
