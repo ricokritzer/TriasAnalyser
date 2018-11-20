@@ -73,7 +73,7 @@ public class DataManager
 
 	private void scheduleUpdate(Manageable model)
 	{
-		queueTimer.schedule(updateTimerTask(model), model.nextUpdate());
+		queueTimer.schedule(updateTimerTask(model), Optional.ofNullable(model.nextUpdate()).orElse(new Date()));
 	}
 
 	private TimerTask updateTimerTask(final Manageable model)
