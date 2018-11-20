@@ -95,6 +95,11 @@ public class Station implements Manageable
 			updated = false;
 			throw new UpdateException("Station " + name + " could not be updated", e);
 		}
+		catch (ServerNotAvailableException e)
+		{
+			updated = false;
+			throw new ServerNotAvailableException("Station " + name + " could not be updated, code 503");
+		}
 	}
 
 	/**
@@ -154,7 +159,7 @@ public class Station implements Manageable
 			cal.add(Calendar.MINUTE, 1);
 		}
 
-		LOGGER.log(Level.FINE, "next Update for " + name + " " + cal.getTime());
+		LOGGER.log(Level.FINEST, "next Update for " + name + " " + cal.getTime());
 		return cal.getTime();
 	}
 
@@ -172,7 +177,7 @@ public class Station implements Manageable
 		{
 			cal.add(Calendar.MINUTE, 1);
 		}
-		LOGGER.log(Level.FINE, "No trains with real time, next Update for " + name + " " + cal.getTime());
+		LOGGER.log(Level.FINEST, "No trains with real time, next Update for " + name + " " + cal.getTime());
 		return cal.getTime();
 	}
 
@@ -182,7 +187,7 @@ public class Station implements Manageable
 		Stop lastStop = currentStops.get(currentStops.size() - 1);
 		cal.setTime(lastStop.getTimeTabledTime());
 		cal.add(Calendar.HOUR_OF_DAY, 1);
-		LOGGER.log(Level.FINE, "All trains cancelled, next Update for " + name + " " + cal.getTime());
+		LOGGER.log(Level.FINEST, "All trains cancelled, next Update for " + name + " " + cal.getTime());
 		return cal.getTime();
 	}
 
@@ -191,13 +196,13 @@ public class Station implements Manageable
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.HOUR_OF_DAY, 24);
-		LOGGER.log(Level.FINE, "No trains arriving today, next Update for " + name + " " + cal.getTime());
+		LOGGER.log(Level.FINEST, "No trains arriving today, next Update for " + name + " " + cal.getTime());
 		return cal.getTime();
 	}
 
 	private Date initialUpdate()
 	{
-		LOGGER.log(Level.FINE, "Initial update, next Update for " + name + " " + new Date());
+		LOGGER.log(Level.FINEST, "Initial update, next Update for " + name + " " + new Date());
 		return new Date();
 	}
 

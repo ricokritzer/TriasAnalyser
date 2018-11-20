@@ -51,9 +51,7 @@ public class TriasXMLRequest
 	}
 
 	/**
-	 * 
-	 * @return List of next stops that have real time data. Empty list, if no trains
-	 *         with real time data arrive in the next 2 hours.
+	 * @return List of next stops.
 	 * @throws IOException
 	 * @throws ServerNotAvailableException 
 	 */
@@ -89,7 +87,7 @@ public class TriasXMLRequest
 		}
 		catch (ParserConfigurationException | DOMException | ParseException | SAXException e)
 		{
-			e.printStackTrace();
+			LOGGER.log(Level.FINE, "Exception when parsing XML Response from TRIAS");
 		}
 		Collections.sort(stops);
 		return stops;
