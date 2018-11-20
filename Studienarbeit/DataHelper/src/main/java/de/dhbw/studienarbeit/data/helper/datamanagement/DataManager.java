@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.data.helper.datamanagement;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -83,7 +82,7 @@ public class DataManager
 		{
 			model.updateAndSaveData(apiKey);
 		}
-		catch (IOException e)
+		catch (TimeOutException | ServerNotAvailableException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to update " + model.toString(), e);
 		}

@@ -2,7 +2,6 @@ package de.dhbw.studienarbeit.data.helper.datamanagement;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +23,7 @@ public class DataManagerTest
 		}
 
 		@Override
-		public void updateAndSaveData(ApiKey apiKey) throws IOException
+		public void updateAndSaveData(ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
 		{
 			updates++;
 		}

@@ -27,6 +27,8 @@ import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
+import de.dhbw.studienarbeit.data.helper.datamanagement.TimeOutException;
 
 public class Weather implements Manageable, Saveable
 {
@@ -178,9 +180,16 @@ public class Weather implements Manageable, Saveable
 	}
 
 	@Override
-	public void updateAndSaveData(ApiKey apiKey) throws IOException
+	public void updateAndSaveData(ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
 	{
-		updateData(apiKey);
+		try
+		{
+			updateData(apiKey);
+		}
+		catch (IOException e)
+		{
+			// TODO throw Exception
+		}
 		DatabaseSaver.saveData(this);
 	}
 

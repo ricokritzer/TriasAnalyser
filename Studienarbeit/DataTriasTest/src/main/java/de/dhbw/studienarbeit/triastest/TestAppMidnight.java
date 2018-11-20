@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
+import de.dhbw.studienarbeit.data.helper.datamanagement.TimeOutException;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.database.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.database.Operator;
@@ -41,7 +43,7 @@ public class TestAppMidnight
 			station.updateAndSaveData(key);
 			LOGGER.log(Level.INFO, station.getName() + " updated.");
 		}
-		catch (IOException e)
+		catch (TimeOutException | ServerNotAvailableException e)
 		{
 			LOGGER.log(Level.INFO, "IOException thrown.", e);
 		}
