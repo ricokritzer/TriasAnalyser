@@ -97,7 +97,7 @@ public class DataManager
 			{
 				serverAvailable = false;
 				final long MILLIS_PER_MINUTE = 60000l;
-				new Timer().schedule(new MyTimerTask(() -> serverAvailable = true), 30 * MILLIS_PER_MINUTE);
+				new Timer().schedule(new MyTimerTask(() -> serverAvailable = true), 5 * MILLIS_PER_MINUTE);
 			}
 			LOGGER.log(Level.WARNING, "Server now available, unable to update: " + model.toString(), e);
 		}
