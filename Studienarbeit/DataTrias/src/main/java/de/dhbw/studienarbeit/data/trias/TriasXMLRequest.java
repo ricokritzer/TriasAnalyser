@@ -36,7 +36,7 @@ public class TriasXMLRequest
 	private String url;
 	private String key;
 	private String stationID;
-	
+
 	private static final String formatString = "yyyy-MM-dd'T'HH:mm:ss";
 
 	private static final Logger LOGGER = Logger.getLogger(TriasXMLRequest.class.getName());
@@ -77,10 +77,11 @@ public class TriasXMLRequest
 				String summary = ptSituation.getElementsByTagName("Summary").item(0).getTextContent();
 				situations.put(id, new Situation(id, version, summary));
 			}
-			for (int i = 0; i < docElement.getElementsByTagName("TimetabledTime").getLength(); i++)
+			for (int i = 0; i < docElement.getElementsByTagName("StopEvent").getLength(); i++)
 			{
-				stops.add(new Stop(stationID, getPublishedLineName(docElement, i), getDestinationText(docElement, i),
-						getTimetabledTime(docElement, i), getEstimatedTime(docElement, i)));
+				Element stopEvent = (Element) docElement.getElementsByTagName("StopEvent").item(i);
+				stops.add(new Stop(stationID, getPublishedLineName(stopEvent), getDestinationText(stopEvent),
+						getTimetabledTime(stopEvent), getEstimatedTime(stopEvent), getSituations(stopEvent, situations)));
 			}
 		}
 		catch (ParserConfigurationException | DOMException | ParseException | SAXException e)
@@ -91,44 +92,54 @@ public class TriasXMLRequest
 		return stops;
 	}
 
-	private Date getTimetabledTime(final Element docElement, int i) throws ParseException
+	private Situation[] getSituations(Element stopEvent, Map<String, Situation> situations)
+	{
+		Situation[] situationsForStop = new Situation[stopEvent.getElementsByTagName("SituationNumber").getLength()];
+		for (int i = 0; i < stopEvent.getElementsByTagName("SituationNumber").getLength(); i++)
+		{
+			situationsForStop[i] =  situations.get(stopEvent.getElementsByTagName("SituationNumber").item(i).getTextContent());
+		}
+		return situationsForStop;
+	}
+
+	private Date getTimetabledTime(final Element stopEvent) throws ParseException
 	{
 		Date timetabledTime = new Date(new SimpleDateFormat(formatString)
-				.parse(docElement.getElementsByTagName("TimetabledTime").item(i).getTextContent()).getTime());
+				.parse(stopEvent.getElementsByTagName("TimetabledTime").item(0).getTextContent()).getTime());
 		return timetabledTime;
 	}
 
-	private Optional<Date> getEstimatedTime(final Element docElement, int i) throws ParseException
+	private Optional<Date> getEstimatedTime(final Element stopEvent) throws ParseException
 	{
-		if (stopIsCancelled(docElement, i))
+		if (stopIsCancelled(stopEvent))
 		{
 			return Optional.empty();
 		}
-		if (docElement.getElementsByTagName("EstimatedTime").item(i) == null)
+		if (stopEvent.getElementsByTagName("EstimatedTime").item(0) == null)
 		{
 			return Optional.ofNullable(new Date(0));
 		}
 		Date estimatedTime = new Date(new SimpleDateFormat(formatString)
-				.parse(docElement.getElementsByTagName("EstimatedTime").item(i).getTextContent()).getTime());
+				.parse(stopEvent.getElementsByTagName("EstimatedTime").item(0).getTextContent()).getTime());
 		return Optional.ofNullable(estimatedTime);
 	}
 
-	private Boolean stopIsCancelled(final Element docElement, int i)
+	private Boolean stopIsCancelled(final Element stopEvent)
 	{
-		return Boolean.valueOf(docElement.getElementsByTagName("Cancelled").item(i) != null
-				&& Boolean.valueOf(docElement.getElementsByTagName("Cancelled").item(i).getTextContent()));
+		return stopEvent.getElementsByTagName("Cancelled").item(0) != null
+				&& Boolean.valueOf(stopEvent.getElementsByTagName("Cancelled").item(0).getTextContent());
 	}
 
-	private String getDestinationText(final Element docElement, int i)
+	private String getDestinationText(final Element stopEvent)
 	{
-		String destinationText = docElement.getElementsByTagName("DestinationText").item(i).getTextContent();
+		String destinationText = stopEvent.getElementsByTagName("DestinationText").item(0).getTextContent();
 		destinationText = destinationText.substring(0, destinationText.length() - 2);
 		return destinationText;
 	}
 
-	private String getPublishedLineName(Element docElement, int i)
+	private String getPublishedLineName(Element stopEvent)
 	{
-		String publishedLineName = docElement.getElementsByTagName("PublishedLineName").item(i).getTextContent();
+		String publishedLineName = stopEvent.getElementsByTagName("PublishedLineName").item(0).getTextContent();
 		return publishedLineName.substring(0, publishedLineName.length() - 2);
 	}
 
