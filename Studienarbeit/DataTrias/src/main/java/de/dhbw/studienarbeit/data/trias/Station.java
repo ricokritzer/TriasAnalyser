@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
+import de.dhbw.studienarbeit.data.helper.datamanagement.TimeOutException;
 
 public class Station implements Manageable
 {
@@ -154,7 +156,7 @@ public class Station implements Manageable
 		{
 			cal.add(Calendar.MINUTE, 2);
 		}
-		
+
 		while (cal.getTime().before(new Date()))
 		{
 			cal.add(Calendar.MINUTE, 1);
@@ -208,9 +210,16 @@ public class Station implements Manageable
 	}
 
 	@Override
-	public void updateAndSaveData(ApiKey apiKey) throws IOException
+	public void updateAndSaveData(ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
 	{
-		updateStops(apiKey);
-		saveStops();
+		try
+		{
+			updateStops(apiKey);
+			saveStops();
+		}
+		catch (IOException e)
+		{
+			// TODO throw exception
+		}
 	}
 }
