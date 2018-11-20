@@ -11,7 +11,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +36,7 @@ public class TriasXMLRequest
 	private String url;
 	private String key;
 	private String stationID;
-
+	
 	private static final String formatString = "yyyy-MM-dd'T'HH:mm:ss";
 
 	private static final Logger LOGGER = Logger.getLogger(TriasXMLRequest.class.getName());
@@ -66,6 +68,15 @@ public class TriasXMLRequest
 			parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			final Document doc = parser.parse(new InputSource(new StringReader(responseXML)));
 			final Element docElement = doc.getDocumentElement();
+			Map<String, Situation> situations = new HashMap<>();
+			for (int i = 0; i < docElement.getElementsByTagName("PtSituation").getLength(); i++)
+			{
+				Element ptSituation = (Element) docElement.getElementsByTagName("PtSituation").item(i);
+				String id = ptSituation.getElementsByTagName("SituationNumber").item(0).getTextContent();
+				int version = Integer.valueOf(ptSituation.getElementsByTagName("Version").item(0).getTextContent());
+				String summary = ptSituation.getElementsByTagName("Summary").item(0).getTextContent();
+				situations.put(id, new Situation(id, version, summary));
+			}
 			for (int i = 0; i < docElement.getElementsByTagName("TimetabledTime").getLength(); i++)
 			{
 				stops.add(new Stop(stationID, getPublishedLineName(docElement, i), getDestinationText(docElement, i),

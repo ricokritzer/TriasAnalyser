@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.data.trias;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
@@ -47,5 +48,22 @@ public class Situation implements Saveable
 	public String getSummary()
 	{
 		return summary;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null || !(obj instanceof Situation))
+		{
+			return false;
+		}
+		Situation other = (Situation) obj;
+		return this.id.equals(other.getId()) && this.version == other.getVersion() && this.summary.equals(other.summary);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(id, version, summary);
 	}
 }
