@@ -116,6 +116,10 @@ public class Weather implements Manageable, Saveable
 		{
 			throw new UpdateException("Timeout");
 		}
+		if (statusCode == 500)
+		{
+			throw new UpdateException("Internal server error - will work fine next request");
+		}
 
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
 		{
