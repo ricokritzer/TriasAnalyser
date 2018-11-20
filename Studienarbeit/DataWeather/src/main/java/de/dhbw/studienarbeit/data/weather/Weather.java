@@ -200,8 +200,15 @@ public class Weather implements Manageable, Saveable
 	@Override
 	public void updateAndSaveData(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
 	{
-		updateData(apiKey);
-		DatabaseSaver.saveData(this);
+		try
+		{
+			updateData(apiKey);
+			DatabaseSaver.saveData(this);
+		}
+		catch (UpdateException e)
+		{
+			LOGGER.log(Level.FINE, e.getMessage(), e);
+		}
 	}
 
 	@Override
