@@ -4,7 +4,7 @@ import java.util.Date;
 
 public interface Manageable
 {
-	void updateAndSaveData(final ApiKey apiKey) throws TimeOutException, ServerNotAvailableException;
+	void updateAndSaveData(final ApiKey apiKey) throws UpdateException, ServerNotAvailableException;
 
 	Date nextUpdate();
 }

@@ -87,9 +87,9 @@ public class DataManager
 		{
 			model.updateAndSaveData(apiKey);
 		}
-		catch (TimeOutException e)
+		catch (UpdateException e)
 		{
-			LOGGER.log(Level.WARNING, "Timeout while updating: " + model.toString(), e);
+			LOGGER.log(Level.WARNING, "Update does not succeed: " + model.toString(), e);
 		}
 		catch (ServerNotAvailableException e)
 		{

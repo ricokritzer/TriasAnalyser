@@ -28,7 +28,7 @@ import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
-import de.dhbw.studienarbeit.data.helper.datamanagement.TimeOutException;
+import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
 
 public class Weather implements Manageable, Saveable
 {
@@ -54,7 +54,7 @@ public class Weather implements Manageable, Saveable
 		this.lon = round(lon, 2);
 	}
 
-	public void updateData(final ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
+	protected void updateData(final ApiKey apiKey) throws UpdateException, ServerNotAvailableException
 	{
 		try
 		{
@@ -66,8 +66,8 @@ public class Weather implements Manageable, Saveable
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to update data.", e);
 			setNextUpdate(0);
+			throw new UpdateException("Unable to update data: " + this.toString(), e);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class Weather implements Manageable, Saveable
 	}
 
 	private String getResponse(HttpURLConnection connection)
-			throws IOException, ServerNotAvailableException, TimeOutException
+			throws IOException, ServerNotAvailableException, UpdateException
 	{
 		int statusCode = connection.getResponseCode();
 
@@ -114,7 +114,7 @@ public class Weather implements Manageable, Saveable
 		}
 		if (statusCode == 408 || statusCode == 504)
 		{
-			throw new TimeOutException("Timeout");
+			throw new UpdateException("Timeout");
 		}
 
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
@@ -194,12 +194,13 @@ public class Weather implements Manageable, Saveable
 	}
 
 	@Override
-	public void updateAndSaveData(ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
+	public void updateAndSaveData(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
 	{
 		updateData(apiKey);
 		DatabaseSaver.saveData(this);
 	}
 
+	@Override
 	public String getSQLQuerry()
 	{
 		return "INSERT INTO Weather VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";

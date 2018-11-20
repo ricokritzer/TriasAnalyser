@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
-import de.dhbw.studienarbeit.data.helper.datamanagement.TimeOutException;
+import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
 
 public class Station implements Manageable
 {
@@ -216,7 +216,7 @@ public class Station implements Manageable
 	}
 
 	@Override
-	public void updateAndSaveData(ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
+	public void updateAndSaveData(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
 	{
 		try
 		{

@@ -14,7 +14,7 @@ public class App
 {
 	public static void main(String[] args) throws IOException
 	{
-		LogLevelHelper.setLogLevel(Level.ALL);
+		LogLevelHelper.setLogLevel(Level.WARNING);
 
 		final List<Operator> operators = Operator.getObservedOperators();
 		for (Operator operator : operators)

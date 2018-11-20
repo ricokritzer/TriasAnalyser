@@ -23,7 +23,7 @@ public class DataManagerTest
 		}
 
 		@Override
-		public void updateAndSaveData(ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
+		public void updateAndSaveData(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
 		{
 			updates++;
 		}
