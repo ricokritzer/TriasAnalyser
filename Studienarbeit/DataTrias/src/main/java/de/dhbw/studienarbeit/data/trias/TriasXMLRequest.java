@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
@@ -29,6 +30,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 public class TriasXMLRequest
@@ -53,11 +55,12 @@ public class TriasXMLRequest
 	 * @return List of next stops that have real time data. Empty list, if no trains
 	 *         with real time data arrive in the next 2 hours.
 	 * @throws IOException
+	 * @throws ServerNotAvailableException 
 	 */
-	public List<Stop> getResponse() throws IOException
+	public List<Stop> getResponse() throws IOException, ServerNotAvailableException
 	{
 		List<Stop> stops = new ArrayList<>();
-		URLConnection con = createConnection();
+		HttpURLConnection con = createConnection();
 		request(con, getXML());
 		LOGGER.log(Level.FINEST, getXML());
 		String responseXML = readResponse(con);
@@ -143,8 +146,12 @@ public class TriasXMLRequest
 		return publishedLineName.substring(0, publishedLineName.length() - 2);
 	}
 
-	private String readResponse(final URLConnection connection) throws IOException
+	private String readResponse(final HttpURLConnection connection) throws IOException, ServerNotAvailableException
 	{
+		if (connection.getResponseCode() == 503)
+		{
+			throw new ServerNotAvailableException("Trias server response 503");
+		}
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
 		{
 			final StringBuilder sbResponse = new StringBuilder();
@@ -164,10 +171,10 @@ public class TriasXMLRequest
 		writer.close();
 	}
 
-	private URLConnection createConnection() throws IOException
+	private HttpURLConnection createConnection() throws IOException
 	{
 		final URL triasURL = new URL(url);
-		final URLConnection con = triasURL.openConnection();
+		final HttpURLConnection con = (HttpURLConnection) triasURL.openConnection();
 		con.setDoInput(true);
 		con.setDoOutput(true);
 		con.setConnectTimeout(1000);

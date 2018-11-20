@@ -88,7 +88,7 @@ public class Station implements Manageable
 		return calculateNextUpdate();
 	}
 
-	private void updateStops(ApiKey apiKey) throws IOException
+	private void updateStops(ApiKey apiKey) throws IOException, ServerNotAvailableException
 	{
 		previousStops = currentStops;
 		TriasXMLRequest request = new TriasXMLRequest(apiKey, this);
@@ -102,6 +102,12 @@ public class Station implements Manageable
 			currentStops = previousStops;
 			updated = false;
 			throw new IOException("Station " + name + " could not be updated", e);
+		}
+		catch (ServerNotAvailableException e)
+		{
+			currentStops = previousStops;
+			updated = false;
+			throw new IOException("Station " + name + " could not be updated, Response code 503", e);
 		}
 	}
 
