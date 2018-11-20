@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -54,11 +54,11 @@ public class Weather implements Manageable, Saveable
 		this.lon = round(lon, 2);
 	}
 
-	public void updateData(final ApiKey apiKey) throws IOException
+	public void updateData(final ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
 	{
 		try
 		{
-			final URLConnection con = connectToAPI(apiKey);
+			final HttpURLConnection con = connectToAPI(apiKey);
 			final String response = getResponse(con);
 			LOGGER.log(Level.FINE, "Response: " + response);
 			setData(response);
@@ -68,18 +68,20 @@ public class Weather implements Manageable, Saveable
 		{
 			LOGGER.log(Level.WARNING, "Unable to update data.", e);
 			setNextUpdate(0);
-			throw e;
 		}
 	}
 
-	private URLConnection connectToAPI(final ApiKey apiKey) throws IOException
+	private HttpURLConnection connectToAPI(final ApiKey apiKey) throws IOException
 	{
-		final URLConnection con = buildRequestURL(apiKey).openConnection();
-		con.setDoOutput(true);
-		con.setConnectTimeout(1000);
-		con.setReadTimeout(3000);
-		con.connect();
-		return con;
+		final URL url = buildRequestURL(apiKey);
+		final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setDoOutput(true);
+		connection.setConnectTimeout(1000);
+		connection.setReadTimeout(3000);
+		connection.connect();
+
+		return connection;
 	}
 
 	private void setNextUpdate(final int nextUpdateInMinutes)
@@ -101,8 +103,20 @@ public class Weather implements Manageable, Saveable
 				.toString());
 	}
 
-	private String getResponse(URLConnection connection) throws IOException
+	private String getResponse(HttpURLConnection connection)
+			throws IOException, ServerNotAvailableException, TimeOutException
 	{
+		int statusCode = connection.getResponseCode();
+
+		if (statusCode == 503)
+		{
+			throw new ServerNotAvailableException("Weather server is not available. Status Code 503");
+		}
+		if (statusCode == 408 || statusCode == 504)
+		{
+			throw new TimeOutException("Timeout");
+		}
+
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())))
 		{
 			final StringBuilder sbResponse = new StringBuilder();
@@ -182,14 +196,7 @@ public class Weather implements Manageable, Saveable
 	@Override
 	public void updateAndSaveData(ApiKey apiKey) throws TimeOutException, ServerNotAvailableException
 	{
-		try
-		{
-			updateData(apiKey);
-		}
-		catch (IOException e)
-		{
-			// TODO throw Exception
-		}
+		updateData(apiKey);
 		DatabaseSaver.saveData(this);
 	}
 
