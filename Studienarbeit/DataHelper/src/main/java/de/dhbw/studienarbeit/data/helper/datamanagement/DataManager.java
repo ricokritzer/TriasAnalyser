@@ -20,6 +20,7 @@ public class DataManager
 	private final String name;
 
 	private final Queue<Manageable> waitingForUpdate = new LinkedBlockingQueue<>();
+	private boolean serverAvailable = true;
 
 	public DataManager(String name, final List<ApiKey> apiKeys)
 	{
@@ -58,6 +59,10 @@ public class DataManager
 
 	private Optional<Manageable> firstWaitingDataModel()
 	{
+		if (!serverAvailable)
+		{
+			return Optional.empty();
+		}
 		return Optional.ofNullable(waitingForUpdate.poll());
 	}
 
@@ -82,9 +87,19 @@ public class DataManager
 		{
 			model.updateAndSaveData(apiKey);
 		}
-		catch (TimeOutException | ServerNotAvailableException e)
+		catch (TimeOutException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to update " + model.toString(), e);
+			LOGGER.log(Level.WARNING, "Timeout while updating: " + model.toString(), e);
+		}
+		catch (ServerNotAvailableException e)
+		{
+			if (serverAvailable)
+			{
+				serverAvailable = false;
+				final long MILLIS_PER_MINUTE = 60000l;
+				new Timer().schedule(new MyTimerTask(() -> serverAvailable = true), 30 * MILLIS_PER_MINUTE);
+			}
+			LOGGER.log(Level.WARNING, "Server now available, unable to update: " + model.toString(), e);
 		}
 
 		scheduleUpdate(model);
