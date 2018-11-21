@@ -32,7 +32,6 @@ public class DelayLineDiv extends Div
 
 		layout.add(new TextArea(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getLastUpdate())));
 
-		new Data(); // TODO remove as soon as possible
 		final List<DelayLineDB> delayData = Data.getDelaysLine();
 
 		grid.addColumn(db -> db.getLineName()).setHeader("Linie").setSortable(true);
