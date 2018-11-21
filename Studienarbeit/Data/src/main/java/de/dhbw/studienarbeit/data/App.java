@@ -1,7 +1,6 @@
 package de.dhbw.studienarbeit.data;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
@@ -16,11 +15,9 @@ public class App
 	{
 		LogLevelHelper.setLogLevel(Level.INFO);
 
-		final List<Operator> operators = Operator.getObservedOperators();
-		for (Operator operator : operators)
+		for (Operator operator : Operator.getObservedOperators())
 		{
-			final List<StationDB> stationsOfOperator = StationDB.getObservedStations(operator);
-			new DataTriasApp().startDataCollection(operator, stationsOfOperator);
+			new DataTriasApp().startDataCollection(operator, StationDB.getObservedStations(operator));
 		}
 
 		new DataWeatherApp().startDataCollection(StationDB.getObservedStations());
