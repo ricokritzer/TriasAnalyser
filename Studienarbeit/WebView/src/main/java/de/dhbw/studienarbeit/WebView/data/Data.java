@@ -29,6 +29,8 @@ public class Data
 		countLines = Count.countLines();
 		countOperators = Count.UNABLE_TO_COUNT;
 		countStops = Count.countStops();
+		
+		delaysLine.add(new DelayLineDB(0, 0, "Auto", "in Richtung Zukunft"));
 	}
 
 	private static void updateDelaysLine()
