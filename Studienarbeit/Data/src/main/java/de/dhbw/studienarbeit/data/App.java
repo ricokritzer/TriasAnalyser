@@ -14,14 +14,15 @@ public class App
 {
 	public static void main(String[] args) throws IOException
 	{
-		LogLevelHelper.setLogLevel(Level.WARNING);
+		LogLevelHelper.setLogLevel(Level.INFO);
 
 		final List<Operator> operators = Operator.getObservedOperators();
 		for (Operator operator : operators)
 		{
 			final List<StationDB> stationsOfOperator = StationDB.getObservedStations(operator);
-			new DataWeatherApp().startDataCollection(stationsOfOperator);
 			new DataTriasApp().startDataCollection(operator, stationsOfOperator);
 		}
+
+		new DataWeatherApp().startDataCollection(StationDB.getObservedStations());
 	}
 }
