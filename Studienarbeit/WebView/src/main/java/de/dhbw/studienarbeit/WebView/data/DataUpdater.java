@@ -13,6 +13,6 @@ public class DataUpdater
 	public DataUpdater()
 	{
 		final Timer timer = new Timer();
-		timer.schedule(new MyTimerTask(() -> new Data()), new Date(), TWO_HOURS);
+		timer.schedule(new MyTimerTask(Data::new), new Date(), TWO_HOURS);
 	}
 }
