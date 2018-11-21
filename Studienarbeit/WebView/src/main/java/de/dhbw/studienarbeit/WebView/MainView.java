@@ -13,6 +13,7 @@ import com.vaadin.flow.router.Route;
 import de.dhbw.studienarbeit.WebView.components.AboutDiv;
 import de.dhbw.studienarbeit.WebView.components.DatabaseDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayDiv;
+import de.dhbw.studienarbeit.WebView.components.DelayLineDiv;
 import de.dhbw.studienarbeit.WebView.components.HeatmapDiv;
 import de.dhbw.studienarbeit.WebView.data.DatabaseDataProvider;
 import de.dhbw.studienarbeit.WebView.data.DelayDataProvider;
@@ -35,17 +36,18 @@ public class MainView extends VerticalLayout
 		add(tabs);
 		addTab("Unsere Daten", divDatabase);
 		addTab("Verspätungen", divDelay);
+		addTab("Verspätungen nach Linie", new DelayLineDiv());
 		addTab("Heatmap", new HeatmapDiv());
 		addTab("Über uns", new AboutDiv());
 		tabs.setFlexGrowForEnclosedTabs(1);
 
 		divDatabase.setVisible(true);
-		
+
 		tabs.addSelectedChangeListener(e -> {
 			tabsToPages.values().forEach(div -> div.setVisible(false));
 			tabsToPages.get(tabs.getSelectedTab()).setVisible(true);
 		});
-		
+
 		DelayDataProvider.getInstance().getDataFor(divDelay);
 		DelayDataProvider.getInstance().readyForUpdate(divDelay);
 		DatabaseDataProvider.getInstance().getDataFor(divDatabase);
