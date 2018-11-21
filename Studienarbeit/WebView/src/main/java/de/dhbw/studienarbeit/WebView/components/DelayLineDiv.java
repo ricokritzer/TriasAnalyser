@@ -1,10 +1,12 @@
 package de.dhbw.studienarbeit.WebView.components;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 
 import de.dhbw.studienarbeit.WebView.data.Data;
@@ -26,7 +28,9 @@ public class DelayLineDiv extends Div
 		super();
 		setSizeFull();
 
-		VerticalLayout layout = new VerticalLayout();
+		final VerticalLayout layout = new VerticalLayout();
+
+		layout.add(new TextArea(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getLastUpdate())));
 
 		final List<DelayLineDB> delayData = Data.getDelaysLine();
 

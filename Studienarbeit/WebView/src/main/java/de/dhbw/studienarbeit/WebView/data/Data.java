@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.WebView.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ public class Data
 	private static Count countLines = Count.UNABLE_TO_COUNT;
 	private static Count countOperators = Count.UNABLE_TO_COUNT;
 	private static Count countStops = Count.UNABLE_TO_COUNT;
+	private static Date lastUpdate = new Date(0);
 
 	public Data()
 	{
@@ -29,7 +31,9 @@ public class Data
 		countLines = Count.countLines();
 		countOperators = Count.UNABLE_TO_COUNT;
 		countStops = Count.countStops();
-		
+
+		lastUpdate = new Date();
+
 		delaysLine.add(new DelayLineDB(0, 0, "Auto", "in Richtung Zukunft"));
 	}
 
@@ -85,5 +89,10 @@ public class Data
 	public static Count getCountStops()
 	{
 		return countStops;
+	}
+
+	public static Date getLastUpdate()
+	{
+		return lastUpdate;
 	}
 }
