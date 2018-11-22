@@ -88,8 +88,8 @@ public class Station implements Manageable
 		try
 		{
 			currentStops = request.getResponse();
-			currentStops.forEach(System.out::println);
 			updated = true;
+			LOGGER.log(Level.INFO, "Station " + name + " updated");
 		}
 		catch (IOException e)
 		{
@@ -160,7 +160,7 @@ public class Station implements Manageable
 			cal.add(Calendar.MINUTE, 1);
 		}
 
-		LOGGER.log(Level.FINEST, "next Update for " + name + " " + cal.getTime());
+		LOGGER.log(Level.FINE, "next Update for " + name + " " + cal.getTime());
 		return cal.getTime();
 	}
 
@@ -178,7 +178,7 @@ public class Station implements Manageable
 		{
 			cal.add(Calendar.MINUTE, 1);
 		}
-		LOGGER.log(Level.FINEST, "No trains with real time, next Update for " + name + " " + cal.getTime());
+		LOGGER.log(Level.FINE, "No trains with real time, next Update for " + name + " " + cal.getTime());
 		return cal.getTime();
 	}
 
@@ -188,7 +188,7 @@ public class Station implements Manageable
 		Stop lastStop = currentStops.get(currentStops.size() - 1);
 		cal.setTime(lastStop.getTimeTabledTime());
 		cal.add(Calendar.HOUR_OF_DAY, 1);
-		LOGGER.log(Level.FINEST, "All trains cancelled, next Update for " + name + " " + cal.getTime());
+		LOGGER.log(Level.FINE, "All trains cancelled, next Update for " + name + " " + cal.getTime());
 		return cal.getTime();
 	}
 
@@ -197,13 +197,13 @@ public class Station implements Manageable
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.HOUR_OF_DAY, 24);
-		LOGGER.log(Level.FINEST, "No trains arriving today, next Update for " + name + " " + cal.getTime());
+		LOGGER.log(Level.FINE, "No trains arriving today, next Update for " + name + " " + cal.getTime());
 		return cal.getTime();
 	}
 
 	private Date initialUpdate()
 	{
-		LOGGER.log(Level.FINEST, "Initial update, next Update for " + name + " " + new Date());
+		LOGGER.log(Level.FINE, "Initial update, next Update for " + name + " " + new Date());
 		return new Date();
 	}
 
