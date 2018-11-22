@@ -10,14 +10,14 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 public class DataUpdater
 {
 	private static final Logger LOGGER = Logger.getLogger(DataUpdater.class.getName());
-	private static final long TWO_HOURS = 2 * 60 * 60 * 1000l;
-	private static final long ONE_MINUTE = 1 * 60 * 1000l;
-	private static final long UPDATE_RATE = ONE_MINUTE;
+	private static final long MILLIS_PER_SECOND = 1000l;
 
-	public DataUpdater()
+	private DataUpdater()
+	{}
+
+	public static void scheduleUpdate(Runnable what, int seconds, String whatIsGoingToBeUpdated)
 	{
-		final Timer timer = new Timer();
-		timer.schedule(new MyTimerTask(() -> Data.getInstance().update()), new Date(), UPDATE_RATE);
-		LOGGER.log(Level.INFO, "Updates scheduled.");
+		new Timer().schedule(new MyTimerTask(what), new Date(), seconds * MILLIS_PER_SECOND);
+		LOGGER.log(Level.INFO, "Updates scheduled for " + whatIsGoingToBeUpdated + " every " + seconds + " seconds.");
 	}
 }
