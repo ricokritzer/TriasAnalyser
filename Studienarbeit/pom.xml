@@ -22,6 +22,7 @@
 		<module>DataReader</module>
 		<module>DataWriter</module>
 		<module>WebView</module>
+		<module>WebData</module>
 	</modules>
 	<dependencies>
 		<dependency>
