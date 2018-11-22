@@ -10,7 +10,7 @@ import java.util.List;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.reader.database.StationDB;
 
-public class StationUtil
+public class KVVStationUtil
 {
 	private static final String KVV = "kvv";
 
@@ -24,7 +24,7 @@ public class StationUtil
 		List<StationDB> stations = new ArrayList<>();
 		try
 		{
-			File file = new File("stops.txt");
+			File file = new File("stops_kvv.txt");
 			FileReader fr;
 			fr = new FileReader(file);
 			BufferedReader reader = new BufferedReader(fr);
@@ -50,11 +50,14 @@ public class StationUtil
 					{
 						continue;
 					}
-					stations.add(new StationDB(stationID, name, lat, lon, KVV, false));
+					stations.add(new StationDB(stationID, name, lat, lon, KVV, true));
 				}
 			}
 			reader.close();
-			stations.forEach(DatabaseSaver::saveData);
+			stations.forEach(s -> {
+				DatabaseSaver.saveData(s);
+				System.out.println(s.getName() + " gespeichert");
+			});
 		}
 		catch (IOException e)
 		{

@@ -88,6 +88,7 @@ public class Station implements Manageable
 		try
 		{
 			currentStops = request.getResponse();
+			currentStops.forEach(System.out::println);
 			updated = true;
 		}
 		catch (IOException e)
