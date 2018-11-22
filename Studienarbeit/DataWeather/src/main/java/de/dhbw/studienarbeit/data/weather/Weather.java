@@ -62,7 +62,7 @@ public class Weather implements Manageable, Saveable
 			final String response = getResponse(con);
 			LOGGER.log(Level.FINE, "Response: " + response);
 			setData(response);
-			setNextUpdate(15);
+			setNextUpdate(30);
 		}
 		catch (IOException e)
 		{
