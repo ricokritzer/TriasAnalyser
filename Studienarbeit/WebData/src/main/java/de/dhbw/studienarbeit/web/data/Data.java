@@ -51,7 +51,7 @@ public class Data
 		countLines.add(Count.countLines());
 		reduceToTen(countLines);
 
-		countOperators.add(Count.UNABLE_TO_COUNT);
+		countOperators.add(Count.countOperators());
 		reduceToTen(countOperators);
 
 		countStops.add(Count.countStops());
