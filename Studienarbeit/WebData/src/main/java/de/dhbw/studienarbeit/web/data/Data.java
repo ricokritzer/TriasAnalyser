@@ -18,7 +18,11 @@ public class Data
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static List<DelayStationDB> delaysStation = new ArrayList<>();
+	private static Date delaysStationLastUpdate = new Date(0);
+
 	private static List<DelayLineDB> delaysLine = new ArrayList<>();
+	private static Date delaysLineLastUpdate = new Date(0);
+
 	private static List<Count> countStations = new ArrayList<>();
 	private static List<Count> countLines = new ArrayList<>();
 	private static List<Count> countOperators = new ArrayList<>();
@@ -94,9 +98,19 @@ public class Data
 		return delaysStation;
 	}
 
+	public static Date getDelaysStationLastUpdate()
+	{
+		return delaysStationLastUpdate;
+	}
+
 	public static List<DelayLineDB> getDelaysLine()
 	{
 		return delaysLine;
+	}
+
+	public static Date getDelaysLineLastUpdate()
+	{
+		return delaysLineLastUpdate;
 	}
 
 	public static List<Count> getCountStations()
