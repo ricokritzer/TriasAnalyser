@@ -59,6 +59,8 @@ public class Data
 
 		countUpdates.add(new Date());
 		reduceToTen(countUpdates);
+
+		LOGGER.log(Level.INFO, "Count updated.");
 	}
 
 	private static void reduceToTen(List<? extends Object> list)
@@ -74,6 +76,7 @@ public class Data
 		try
 		{
 			delaysLine = DelayLineDB.getDelays();
+			LOGGER.log(Level.INFO, "DelayLine updated.");
 		}
 		catch (IOException e)
 		{
@@ -86,6 +89,7 @@ public class Data
 		try
 		{
 			delaysStation = DelayStationDB.getDelays();
+			LOGGER.log(Level.INFO, "DelayStation updated.");
 		}
 		catch (IOException e)
 		{
