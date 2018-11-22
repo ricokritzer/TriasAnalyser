@@ -23,7 +23,20 @@ public class Data
 	private static Count countStops = Count.UNABLE_TO_COUNT;
 	private static Date lastUpdate = new Date(0);
 
-	public Data()
+	private static Data data = new Data();
+
+	public static Data getInstance()
+	{
+		return data;
+	}
+
+	private Data()
+	{
+		update();
+		new DataUpdater();
+	}
+
+	public void update()
 	{
 		updateDelaysStation();
 		updateDelaysLine();
