@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.WebView.data;
+package de.dhbw.studienarbeit.web.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +35,8 @@ public class Data
 		lastUpdate = new Date();
 
 		delaysLine.add(new DelayLineDB(0, 0, "Auto", "in Richtung Zukunft"));
+
+		LOGGER.log(Level.INFO, "Data updated.");
 	}
 
 	private static void updateDelaysLine()

@@ -9,8 +9,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 
-import de.dhbw.studienarbeit.WebView.data.Data;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
+import de.dhbw.studienarbeit.web.data.Data;
 
 @PageTitle("Verspätungen")
 public class DelayLineDiv extends Div
