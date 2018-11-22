@@ -89,4 +89,17 @@ public class Count
 			return Count.UNABLE_TO_COUNT;
 		}
 	}
+
+	public static final Count countOperators()
+	{
+		try
+		{
+			return new DatabaseReader().count("Operator");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to count operators.", e);
+			return Count.UNABLE_TO_COUNT;
+		}
+	}
 }

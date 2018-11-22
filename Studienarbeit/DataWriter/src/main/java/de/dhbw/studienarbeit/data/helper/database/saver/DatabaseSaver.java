@@ -21,10 +21,6 @@ public class DatabaseSaver extends DatabaseConnector
 
 	private static final DatabaseSaver INSTANCE = new DatabaseSaver();
 
-	private static final String FILE_NAME = "errors.txt";
-
-	private static final TextSaver saver = new TextSaver(FILE_NAME);
-
 	private static final Queue<Saveable> WAITING_FOR_SAVE = new LinkedBlockingQueue<>();
 
 	public DatabaseSaver()
@@ -80,11 +76,7 @@ public class DatabaseSaver extends DatabaseConnector
 		}
 		catch (SQLException e)
 		{
-			final String whatHappens = new StringBuilder().append("Unable to save ").append(model)
-					.append(". Saving SQL in ").append(FILE_NAME).append(". SQL: ").append(sql).toString();
-			LOGGER.log(Level.WARNING, whatHappens, e);
-			saver.write(sql);
-			throw new IOException(whatHappens, e);
+			throw new IOException("Saving does not succeed: " + sql, e);
 		}
 	}
 }

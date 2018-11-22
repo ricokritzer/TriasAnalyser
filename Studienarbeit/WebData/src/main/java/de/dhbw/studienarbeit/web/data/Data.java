@@ -15,28 +15,60 @@ public class Data
 {
 	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
 
+	private static final int MAX_COUNT_ITEMS = 10;
+
 	private static List<DelayStationDB> delaysStation = new ArrayList<>();
+	private static Date delaysStationLastUpdate = new Date(0);
+
 	private static List<DelayLineDB> delaysLine = new ArrayList<>();
-	private static Count countStations = Count.UNABLE_TO_COUNT;
-	private static Count countLines = Count.UNABLE_TO_COUNT;
-	private static Count countOperators = Count.UNABLE_TO_COUNT;
-	private static Count countStops = Count.UNABLE_TO_COUNT;
-	private static Date lastUpdate = new Date(0);
+	private static Date delaysLineLastUpdate = new Date(0);
 
-	public Data()
+	private static List<Count> countStations = new ArrayList<>();
+	private static List<Count> countLines = new ArrayList<>();
+	private static List<Count> countOperators = new ArrayList<>();
+	private static List<Count> countStops = new ArrayList<>();
+	private static List<Date> countUpdates = new ArrayList<>();
+
+	private static Data data = new Data();
+
+	public static Data getInstance()
 	{
-		updateDelaysStation();
-		updateDelaysLine();
-		countStations = Count.countStations();
-		countLines = Count.countLines();
-		countOperators = Count.UNABLE_TO_COUNT;
-		countStops = Count.countStops();
+		return data;
+	}
 
-		lastUpdate = new Date();
+	private Data()
+	{
+		DataUpdater.scheduleUpdate(Data::updateDelaysLine, 300, "DelaysLine");
+		DataUpdater.scheduleUpdate(Data::updateDelaysStation, 300, "DelaysStation");
+		DataUpdater.scheduleUpdate(Data::updateCount, 60, "Count");
+	}
 
-		delaysLine.add(new DelayLineDB(0, 0, "Auto", "in Richtung Zukunft"));
+	private static void updateCount()
+	{
+		countStations.add(Count.countStations());
+		reduceToTen(countStations);
 
-		LOGGER.log(Level.INFO, "Data updated.");
+		countLines.add(Count.countLines());
+		reduceToTen(countLines);
+
+		countOperators.add(Count.countOperators());
+		reduceToTen(countOperators);
+
+		countStops.add(Count.countStops());
+		reduceToTen(countStops);
+
+		countUpdates.add(new Date());
+		reduceToTen(countUpdates);
+
+		LOGGER.log(Level.INFO, "Count updated.");
+	}
+
+	private static void reduceToTen(List<? extends Object> list)
+	{
+		while (list.size() > MAX_COUNT_ITEMS)
+		{
+			list.remove(0);
+		}
 	}
 
 	private static void updateDelaysLine()
@@ -44,6 +76,7 @@ public class Data
 		try
 		{
 			delaysLine = DelayLineDB.getDelays();
+			LOGGER.log(Level.INFO, "DelayLine updated.");
 		}
 		catch (IOException e)
 		{
@@ -56,6 +89,7 @@ public class Data
 		try
 		{
 			delaysStation = DelayStationDB.getDelays();
+			LOGGER.log(Level.INFO, "DelayStation updated.");
 		}
 		catch (IOException e)
 		{
@@ -68,33 +102,43 @@ public class Data
 		return delaysStation;
 	}
 
+	public static Date getDelaysStationLastUpdate()
+	{
+		return delaysStationLastUpdate;
+	}
+
 	public static List<DelayLineDB> getDelaysLine()
 	{
 		return delaysLine;
 	}
 
-	public static Count getCountStations()
+	public static Date getDelaysLineLastUpdate()
+	{
+		return delaysLineLastUpdate;
+	}
+
+	public static List<Count> getCountStations()
 	{
 		return countStations;
 	}
 
-	public static Count getCountLines()
+	public static List<Count> getCountLines()
 	{
 		return countLines;
 	}
 
-	public static Count getCountOperators()
+	public static List<Count> getCountOperators()
 	{
 		return countOperators;
 	}
 
-	public static Count getCountStops()
+	public static List<Count> getCountStops()
 	{
 		return countStops;
 	}
 
-	public static Date getLastUpdate()
+	public static List<Date> getCountUpdates()
 	{
-		return lastUpdate;
+		return countUpdates;
 	}
 }

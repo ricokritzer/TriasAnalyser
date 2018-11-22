@@ -30,7 +30,7 @@ public class DelayLineDiv extends Div
 
 		final VerticalLayout layout = new VerticalLayout();
 
-		layout.add(new TextArea(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getLastUpdate())));
+		layout.add(new TextArea(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate())));
 
 		final List<DelayLineDB> delayData = Data.getDelaysLine();
 
