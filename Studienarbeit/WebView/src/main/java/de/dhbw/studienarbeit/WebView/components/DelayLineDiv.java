@@ -1,14 +1,20 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.Date;
+import java.util.Optional;
+import java.util.Timer;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.shared.communication.PushMode;
 
+import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.web.data.Data;
 
@@ -22,28 +28,31 @@ public class DelayLineDiv extends Div
 	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
 	private final Grid<DelayLineDB> grid = new Grid<>();
+	private final TextField field = new TextField();
 
 	public DelayLineDiv()
 	{
 		super();
 		setSizeFull();
 
+		field.setLabel("Stand");
+		field.setReadOnly(true);
+
 		final VerticalLayout layout = new VerticalLayout();
 
 		layout.add(new TextArea(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate())));
-
-		final List<DelayLineDB> delayData = Data.getDelaysLine();
 
 		grid.addColumn(db -> db.getLineName()).setHeader("Linie").setSortable(true);
 		grid.addColumn(db -> db.getLineDestination()).setHeader("Ziel").setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximum").setSortable(true);
 
-		grid.setItems(delayData);
-
 		layout.add(grid);
 		add(layout);
 		setVisible(false);
+
+		Timer t = new Timer();
+		t.schedule(new MyTimerTask(this::update), new Date(), 1000);
 	}
 
 	private String convertTimeToString(double time)
@@ -64,6 +73,17 @@ public class DelayLineDiv extends Div
 			return Double.toString(round(minutes)) + " Minuten";
 		}
 		return Double.toString(time) + " Sekunden";
+	}
+
+	public void update()
+	{
+		UI ui = getUI().orElse(UI.getCurrent());
+		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
+			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
+			grid.setItems(Data.getDelaysLine());
+			field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
+			currentUI.push();
+		}));
 	}
 
 	private double round(double value)

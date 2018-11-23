@@ -27,7 +27,7 @@ public class DelayStationDiv extends Div
 	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
 	private final Grid<DelayStationDB> grid = new Grid<>();
-	final TextField field = new TextField();
+	private final TextField field = new TextField();
 
 	public DelayStationDiv()
 	{
@@ -63,9 +63,9 @@ public class DelayStationDiv extends Div
 		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
 			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
 			grid.setItems(Data.getDelaysStation());
+			field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
 			currentUI.push();
 		}));
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
 	}
 
 	private String convertTimeToString(double time)
