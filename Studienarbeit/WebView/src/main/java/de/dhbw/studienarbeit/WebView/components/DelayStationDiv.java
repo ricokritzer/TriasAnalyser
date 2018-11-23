@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.WebView.components;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Timer;
@@ -8,6 +9,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.shared.communication.PushMode;
 
@@ -25,6 +27,7 @@ public class DelayStationDiv extends Div
 	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
 	private final Grid<DelayStationDB> grid = new Grid<>();
+	final TextField field = new TextField();
 
 	public DelayStationDiv()
 	{
@@ -33,7 +36,12 @@ public class DelayStationDiv extends Div
 
 		VerticalLayout layout = new VerticalLayout();
 
+		field.setLabel("Stand");
+		field.setReadOnly(true);
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
+
 		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(false);
+		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(false);
 		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal").setSortable(false);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(false);
 		grid.setHeightByRows(true);
@@ -57,6 +65,7 @@ public class DelayStationDiv extends Div
 			grid.setItems(Data.getDelaysStation());
 			currentUI.push();
 		}));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
 	}
 
 	private String convertTimeToString(double time)
