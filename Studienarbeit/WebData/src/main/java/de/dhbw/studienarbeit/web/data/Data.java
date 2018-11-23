@@ -27,6 +27,7 @@ public class Data
 	private static List<Count> countLines = new ArrayList<>();
 	private static List<Count> countOperators = new ArrayList<>();
 	private static List<Count> countStops = new ArrayList<>();
+	private static List<Count> countWeathers = new ArrayList<>();
 	private static List<Date> countUpdates = new ArrayList<>();
 
 	private static Data data = new Data();
@@ -56,6 +57,9 @@ public class Data
 
 		countStops.add(Count.countStops());
 		reduceToTen(countStops);
+
+		countWeathers.add(Count.countWeather());
+		reduceToTen(countWeathers);
 
 		countUpdates.add(new Date());
 		reduceToTen(countUpdates);
@@ -137,6 +141,11 @@ public class Data
 	public static List<Count> getCountStops()
 	{
 		return countStops;
+	}
+
+	public static List<Count> getCountWeathers()
+	{
+		return countWeathers;
 	}
 
 	public static List<Date> getCountUpdates()
