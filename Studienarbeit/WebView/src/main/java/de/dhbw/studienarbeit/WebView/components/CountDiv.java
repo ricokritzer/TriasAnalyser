@@ -27,6 +27,7 @@ public class CountDiv extends Div
 	public CountDiv()
 	{
 		super();
+		setSizeFull();
 
 		VerticalLayout layout = new VerticalLayout();
 
@@ -76,6 +77,7 @@ public class CountDiv extends Div
 		final List<Count> countOperators = Data.getCountOperators();
 		final List<Count> countStations = Data.getCountStations();
 		final List<Count> countStops = Data.getCountStops();
+		final List<Count> countWeathers = Data.getCountWeathers();
 		final List<Date> countUpdates = Data.getCountUpdates();
 
 		final List<CountBean> beans = new ArrayList<>();
@@ -85,10 +87,11 @@ public class CountDiv extends Div
 			final Count operators = Optional.ofNullable(countOperators.get(i)).orElse(Count.UNABLE_TO_COUNT);
 			final Count stations = Optional.ofNullable(countStations.get(i)).orElse(Count.UNABLE_TO_COUNT);
 			final Count stops = Optional.ofNullable(countStops.get(i)).orElse(Count.UNABLE_TO_COUNT);
+			final Count weather = Optional.ofNullable(countWeathers.get(i)).orElse(Count.UNABLE_TO_COUNT);
 
 			final Date updateDate = Optional.ofNullable(countUpdates.get(i)).orElse(new Date(0));
 
-			beans.add(new CountBean(stations, lines, stops, Count.UNABLE_TO_COUNT, operators, updateDate));
+			beans.add(new CountBean(stations, lines, stops, weather, operators, updateDate));
 		}
 
 		return beans;
