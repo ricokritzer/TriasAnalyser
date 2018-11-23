@@ -20,6 +20,11 @@ public class Count
 		this.value = value;
 	}
 
+	public long getValue()
+	{
+		return value;
+	}
+
 	@Override
 	public String toString()
 	{

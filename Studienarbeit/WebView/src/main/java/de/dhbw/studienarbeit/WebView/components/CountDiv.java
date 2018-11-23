@@ -51,13 +51,13 @@ public class CountDiv extends Div
 		timer.schedule(new MyTimerTask(this::update), new Date(), 1000);
 	}
 
-	private String getStringOf(Count value)
+	private String getStringOf(Count count)
 	{
-		if (value.equals(Count.UNABLE_TO_COUNT))
+		if (count.equals(Count.UNABLE_TO_COUNT))
 		{
 			return "NaN";
 		}
-		return new DecimalFormat().format(value);
+		return new DecimalFormat().format(count.getValue());
 	}
 
 	public void update()
