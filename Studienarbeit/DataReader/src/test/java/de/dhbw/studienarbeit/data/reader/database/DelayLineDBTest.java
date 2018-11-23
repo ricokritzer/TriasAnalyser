@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 public class DelayLineDBTest
 {
 	@Test
-	void testSelectingDelaysByName() throws Exception
+	void testSelectingDelays() throws Exception
 	{
 		List<DelayLineDB> list = DelayLineDB.getDelays();
 		assertTrue(list.size() > 0);
