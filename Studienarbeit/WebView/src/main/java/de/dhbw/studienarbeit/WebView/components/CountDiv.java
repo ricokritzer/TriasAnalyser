@@ -83,17 +83,35 @@ public class CountDiv extends Div
 		final List<CountBean> beans = new ArrayList<>();
 		for (int i = 0; i < 10; i++)
 		{
-			final Count lines = Optional.ofNullable(countLines.get(i)).orElse(Count.UNABLE_TO_COUNT);
-			final Count operators = Optional.ofNullable(countOperators.get(i)).orElse(Count.UNABLE_TO_COUNT);
-			final Count stations = Optional.ofNullable(countStations.get(i)).orElse(Count.UNABLE_TO_COUNT);
-			final Count stops = Optional.ofNullable(countStops.get(i)).orElse(Count.UNABLE_TO_COUNT);
-			final Count weather = Optional.ofNullable(countWeathers.get(i)).orElse(Count.UNABLE_TO_COUNT);
+			final Count lines = getItem(countLines, i);
+			final Count operators = getItem(countOperators, i);
+			final Count stations = getItem(countStations, i);
+			final Count stops = getItem(countStops, i);
+			final Count weather = getItem(countWeathers, i);
 
-			final Date updateDate = Optional.ofNullable(countUpdates.get(i)).orElse(new Date(0));
+			Date updateDate;
+			if (i >= countUpdates.size())
+			{
+				updateDate = new Date(0);
+			}
+			else
+			{
+				
+				updateDate = Optional.ofNullable(countUpdates.get(i)).orElse(new Date(0));
+			}
 
 			beans.add(new CountBean(stations, lines, stops, weather, operators, updateDate));
 		}
 
 		return beans;
+	}
+
+	private Count getItem(final List<Count> count, int i)
+	{
+		if (i >= count.size())
+		{
+			return Count.UNABLE_TO_COUNT;
+		}
+		return Optional.ofNullable(count.get(i)).orElse(Count.UNABLE_TO_COUNT);
 	}
 }
