@@ -20,7 +20,9 @@ public class DataManager
 	private final String name;
 
 	private final Queue<Manageable> waitingForUpdate = new LinkedBlockingQueue<>();
+	private final Object waitingForUpdateSynchronObject = new Object();
 	private boolean serverAvailable = true;
+	private final Object serverAvailableSynchronObject = new Object();
 
 	public DataManager(String name, final List<ApiKey> apiKeys)
 	{
@@ -59,16 +61,25 @@ public class DataManager
 
 	private Optional<Manageable> firstWaitingDataModel()
 	{
-		if (!serverAvailable)
+		synchronized (serverAvailableSynchronObject)
 		{
-			return Optional.empty();
+			if (!serverAvailable)
+			{
+				return Optional.empty();
+			}
 		}
-		return Optional.ofNullable(waitingForUpdate.poll());
+		synchronized (waitingForUpdateSynchronObject)
+		{
+			return Optional.ofNullable(waitingForUpdate.poll());
+		}
 	}
 
 	private void readyToUpdate(Manageable model)
 	{
-		waitingForUpdate.add(model);
+		synchronized (waitingForUpdateSynchronObject)
+		{
+			waitingForUpdate.add(model);
+		}
 	}
 
 	private void scheduleUpdate(Manageable model)
@@ -93,16 +104,24 @@ public class DataManager
 		}
 		catch (ServerNotAvailableException e)
 		{
+			disableUpdate();
+			LOGGER.log(Level.WARNING, "Server not available, unable to update: " + model.toString(), e);
+		}
+
+		scheduleUpdate(model);
+	}
+
+	private void disableUpdate()
+	{
+		synchronized (serverAvailableSynchronObject)
+		{
 			if (serverAvailable)
 			{
 				serverAvailable = false;
 				final long MILLIS_PER_MINUTE = 60000l;
 				new Timer().schedule(new MyTimerTask(() -> serverAvailable = true), 5 * MILLIS_PER_MINUTE);
 			}
-			LOGGER.log(Level.WARNING, "Server now available, unable to update: " + model.toString(), e);
 		}
-
-		scheduleUpdate(model);
 	}
 
 	public void stop()
@@ -114,6 +133,9 @@ public class DataManager
 
 	public WaitingQueueCount getWaitingQueueCount()
 	{
-		return new WaitingQueueCount(name, waitingForUpdate.size());
+		synchronized (waitingForUpdateSynchronObject)
+		{
+			return new WaitingQueueCount(name, waitingForUpdate.size());
+		}
 	}
 }
