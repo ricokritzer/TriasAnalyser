@@ -11,6 +11,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.components.AboutDiv;
+import de.dhbw.studienarbeit.WebView.components.CountDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayLineDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayStationDiv;
 import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
@@ -31,7 +32,7 @@ public class MainView extends VerticalLayout
 
 		add(tabs);
 		addTab("Willkommen", divWelcome);
-		// addTab("Unsere Daten", new DatabaseDiv());
+		addTab("Unsere Daten", new CountDiv());
 		// addTab("Verspätungen", new DelayDiv());
 		addTab("Verspätungen nach Linien", new DelayLineDiv());
 		addTab("Verspätungen nach Haltestelle", new DelayStationDiv());
