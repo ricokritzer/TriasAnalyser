@@ -11,7 +11,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.components.AboutDiv;
-import de.dhbw.studienarbeit.WebView.components.DelayLineDiv;
+import de.dhbw.studienarbeit.WebView.components.DelayStationDiv;
 import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 
 @Route("")
@@ -33,7 +33,7 @@ public class MainView extends VerticalLayout
 		// addTab("Unsere Daten", new DatabaseDiv());
 		// addTab("Verspätungen", new DelayDiv());
 		// addTab("Verspätungen nach Linien", new DelayLineDiv());
-		addTab("Verspätungen nach Haltestelle", new DelayLineDiv());
+		addTab("Verspätungen nach Haltestelle", new DelayStationDiv());
 		// addTab("Heatmap", new HeatmapDiv());
 		addTab("Über uns", new AboutDiv());
 		tabs.setFlexGrowForEnclosedTabs(1);
