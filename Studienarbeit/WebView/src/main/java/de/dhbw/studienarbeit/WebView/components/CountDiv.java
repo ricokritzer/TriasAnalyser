@@ -11,7 +11,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.shared.communication.PushMode;
 
 import de.dhbw.studienarbeit.WebView.data.CountBean;
@@ -23,12 +22,6 @@ public class CountDiv extends Div
 {
 	private static final long serialVersionUID = 2L;
 
-	private final TextField txtCountStations = new TextField();
-	private final TextField txtCountLines = new TextField();
-	private final TextField txtCountStops = new TextField();
-	private final TextField txtCountWeathers = new TextField();
-	private final TextField txtLastUpdate = new TextField();
-
 	private final Grid<CountBean> grid = new Grid<>();
 
 	public CountDiv()
@@ -36,26 +29,6 @@ public class CountDiv extends Div
 		super();
 
 		VerticalLayout layout = new VerticalLayout();
-
-		txtCountLines.setLabel("Anzahl der Linien");
-		txtCountLines.setReadOnly(true);
-		layout.add(txtCountLines);
-
-		txtCountStations.setLabel("Anzahl der Stationen");
-		txtCountStations.setReadOnly(true);
-		layout.add(txtCountStations);
-
-		txtCountStops.setLabel("Anzahl der Stops");
-		txtCountStops.setReadOnly(true);
-		layout.add(txtCountStops);
-
-		txtCountWeathers.setLabel("Anzahl der Wettereinträge");
-		txtCountWeathers.setReadOnly(true);
-		layout.add(txtCountWeathers);
-
-		txtLastUpdate.setLabel("Stand");
-		txtLastUpdate.setReadOnly(true);
-		layout.add(txtLastUpdate);
 
 		grid.addColumn(db -> getStringOf(db.getCountLines())).setHeader("Linien").setSortable(false);
 		grid.addColumn(db -> getStringOf(db.getCountOperators())).setHeader("Verkehrsverbünde").setSortable(false);
@@ -67,6 +40,8 @@ public class CountDiv extends Div
 
 		grid.setHeightByRows(true);
 		grid.setSizeFull();
+
+		layout.add(grid);
 
 		add(layout);
 
