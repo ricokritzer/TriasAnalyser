@@ -17,12 +17,22 @@ public class DelayStationDB
 	private final double maximum;
 	private final double average;
 	private final String stationName;
+	private final String operator;
+	private final double lat;
+	private final double lon;
+	private final int count;
 
-	public DelayStationDB(double delayAverage, double delayMaximum, String stationName)
+	public DelayStationDB(double maximum, double average, String stationName, String operator, double lat, double lon,
+			int count)
 	{
-		this.average = delayAverage;
-		this.maximum = delayMaximum;
+		super();
+		this.maximum = maximum;
+		this.average = average;
 		this.stationName = stationName;
+		this.operator = operator;
+		this.lat = lat;
+		this.lon = lon;
+		this.count = count;
 	}
 
 	public double getMaximum()
@@ -40,15 +50,39 @@ public class DelayStationDB
 		return stationName;
 	}
 
+	public String getOperator()
+	{
+		return operator;
+	}
+
+	public double getLat()
+	{
+		return lat;
+	}
+
+	public double getLon()
+	{
+		return lon;
+	}
+
+	public int getCount()
+	{
+		return count;
+	}
+
 	private static final Optional<DelayStationDB> getDelayLine(ResultSet result)
 	{
 		try
 		{
-			final double delayMaximum = result.getDouble("delay_max");
-			final double delayAverage = result.getDouble("delay_avg");
+			final double maximum = result.getDouble("delay_max");
+			final double average = result.getDouble("delay_avg");
 			final String name = result.getString("name");
+			final String operator = result.getString("displayName");
+			final double lat = result.getDouble("lat");
+			final double lon = result.getDouble("lon");
+			final int count = result.getInt("count");
 
-			return Optional.of(new DelayStationDB(delayAverage, delayMaximum, name));
+			return Optional.of(new DelayStationDB(maximum, average, name, operator, lat, lon, count));
 		}
 		catch (SQLException e)
 		{
@@ -59,10 +93,15 @@ public class DelayStationDB
 
 	public static final List<DelayStationDB> getDelays() throws IOException
 	{
-		final String sql = "SELECT " + "name, "
+		final String sql = "SELECT " //
+				+ "name, " //
+				+ "displayName, " //
+				+ "lat, " //
+				+ "lon, " //
+				+ "count(*) AS count, " //
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
-				+ "FROM Stop, Station WHERE realTime IS NOT NULL AND Stop.stationID = Station.stationID GROUP BY Station.stationID ORDER BY delay_avg DESC LIMIT 20;";
+				+ "FROM Stop, Station, Operator WHERE realTime IS NOT NULL AND Station.operator = Operator.operator AND Stop.stationID = Station.stationID GROUP BY Station.stationID ORDER BY delay_avg DESC LIMIT 20;";
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
