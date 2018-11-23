@@ -14,7 +14,8 @@ import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
 public class Data
 {
 	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
-
+	private static final int FIVE_MINUTES = 5 * 60;
+	private static final int FIFTEEN_MINUTES = 15 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static List<DelayStationDB> delaysStation = new ArrayList<>();
@@ -23,14 +24,9 @@ public class Data
 	private static List<DelayLineDB> delaysLine = new ArrayList<>();
 	private static Date delaysLineLastUpdate = new Date(0);
 
-	private static List<Count> countStations = new ArrayList<>();
-	private static List<Count> countLines = new ArrayList<>();
-	private static List<Count> countOperators = new ArrayList<>();
-	private static List<Count> countStops = new ArrayList<>();
-	private static List<Count> countWeathers = new ArrayList<>();
-	private static List<Date> countUpdates = new ArrayList<>();
+	private static List<Counts> counts = new ArrayList<>();
 
-	private static Data data = new Data();
+	private static final Data data = new Data();
 
 	public static Data getInstance()
 	{
@@ -39,30 +35,22 @@ public class Data
 
 	private Data()
 	{
-		DataUpdater.scheduleUpdate(Data::updateDelaysLine, 300, "DelaysLine");
-		DataUpdater.scheduleUpdate(Data::updateDelaysStation, 300, "DelaysStation");
-		DataUpdater.scheduleUpdate(Data::updateCount, 60, "Count");
+		DataUpdater.scheduleUpdate(Data::updateDelaysLine, FIFTEEN_MINUTES, "DelaysLine");
+		DataUpdater.scheduleUpdate(Data::updateDelaysStation, FIFTEEN_MINUTES, "DelaysStation");
+		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
 	}
 
 	private static void updateCount()
 	{
-		countStations.add(Count.countStations());
-		reduceToTen(countStations);
+		Count countStations = Count.countStations();
+		Count countLines = Count.countLines();
+		Count countStops = Count.countStops();
+		Count countWeathers = Count.countWeather();
+		Count countOperators = Count.countOperators();
+		Date lastUpdate = new Date();
 
-		countLines.add(Count.countLines());
-		reduceToTen(countLines);
-
-		countOperators.add(Count.countOperators());
-		reduceToTen(countOperators);
-
-		countStops.add(Count.countStops());
-		reduceToTen(countStops);
-
-		countWeathers.add(Count.countWeather());
-		reduceToTen(countWeathers);
-
-		countUpdates.add(new Date());
-		reduceToTen(countUpdates);
+		counts.add(0, new Counts(countStations, countLines, countStops, countWeathers, countOperators, lastUpdate));
+		reduceToTen(counts);
 
 		LOGGER.log(Level.INFO, "Count updated.");
 	}
@@ -71,7 +59,7 @@ public class Data
 	{
 		while (list.size() > MAX_COUNT_ITEMS)
 		{
-			list.remove(0);
+			list.remove(MAX_COUNT_ITEMS);
 		}
 	}
 
@@ -123,33 +111,8 @@ public class Data
 		return delaysLineLastUpdate;
 	}
 
-	public static List<Count> getCountStations()
+	public static List<Counts> getCounts()
 	{
-		return countStations;
-	}
-
-	public static List<Count> getCountLines()
-	{
-		return countLines;
-	}
-
-	public static List<Count> getCountOperators()
-	{
-		return countOperators;
-	}
-
-	public static List<Count> getCountStops()
-	{
-		return countStops;
-	}
-
-	public static List<Count> getCountWeathers()
-	{
-		return countWeathers;
-	}
-
-	public static List<Date> getCountUpdates()
-	{
-		return countUpdates;
+		return counts;
 	}
 }

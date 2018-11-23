@@ -1,10 +1,10 @@
-package de.dhbw.studienarbeit.WebView.data;
+package de.dhbw.studienarbeit.web.data;
 
 import java.util.Date;
 
 import de.dhbw.studienarbeit.data.reader.database.Count;
 
-public class CountBean
+public class Counts
 {
 	private final Count countStations;
 	private final Count countLines;
@@ -13,7 +13,7 @@ public class CountBean
 	private final Count countOperators;
 	private final Date lastUpdate;
 
-	public CountBean(Count countStations, Count countLines, Count countStops, Count countWeathers, Count countOperators,
+	public Counts(Count countStations, Count countLines, Count countStops, Count countWeathers, Count countOperators,
 			Date lastUpdate)
 	{
 		super();

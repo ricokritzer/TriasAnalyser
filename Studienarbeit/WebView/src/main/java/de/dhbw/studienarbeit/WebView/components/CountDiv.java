@@ -1,9 +1,8 @@
 package de.dhbw.studienarbeit.WebView.components;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 
@@ -13,16 +12,16 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.communication.PushMode;
 
-import de.dhbw.studienarbeit.WebView.data.CountBean;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.reader.database.Count;
+import de.dhbw.studienarbeit.web.data.Counts;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class CountDiv extends Div
 {
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 3L;
 
-	private final Grid<CountBean> grid = new Grid<>();
+	private final Grid<Counts> grid = new Grid<>();
 
 	public CountDiv()
 	{
@@ -58,7 +57,7 @@ public class CountDiv extends Div
 		{
 			return "NaN";
 		}
-		return value.toString();
+		return new DecimalFormat().format(value);
 	}
 
 	public void update()
@@ -66,52 +65,8 @@ public class CountDiv extends Div
 		UI ui = getUI().orElse(UI.getCurrent());
 		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
 			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
-			grid.setItems(getBeans());
+			grid.setItems(Data.getCounts());
 			currentUI.push();
 		}));
-	}
-
-	private List<CountBean> getBeans()
-	{
-		final List<Count> countLines = Data.getCountLines();
-		final List<Count> countOperators = Data.getCountOperators();
-		final List<Count> countStations = Data.getCountStations();
-		final List<Count> countStops = Data.getCountStops();
-		final List<Count> countWeathers = Data.getCountWeathers();
-		final List<Date> countUpdates = Data.getCountUpdates();
-
-		final List<CountBean> beans = new ArrayList<>();
-		for (int i = 0; i < 10; i++)
-		{
-			final Count lines = getItem(countLines, i);
-			final Count operators = getItem(countOperators, i);
-			final Count stations = getItem(countStations, i);
-			final Count stops = getItem(countStops, i);
-			final Count weather = getItem(countWeathers, i);
-
-			Date updateDate;
-			if (i >= countUpdates.size())
-			{
-				updateDate = new Date(0);
-			}
-			else
-			{
-				
-				updateDate = Optional.ofNullable(countUpdates.get(i)).orElse(new Date(0));
-			}
-
-			beans.add(new CountBean(stations, lines, stops, weather, operators, updateDate));
-		}
-
-		return beans;
-	}
-
-	private Count getItem(final List<Count> count, int i)
-	{
-		if (i >= count.size())
-		{
-			return Count.UNABLE_TO_COUNT;
-		}
-		return Optional.ofNullable(count.get(i)).orElse(Count.UNABLE_TO_COUNT);
 	}
 }
