@@ -76,6 +76,7 @@ public class Data
 		try
 		{
 			delaysLine = DelayLineDB.getDelays();
+			delaysLineLastUpdate = new Date();
 			LOGGER.log(Level.INFO, "DelayLine updated.");
 		}
 		catch (IOException e)
@@ -89,6 +90,7 @@ public class Data
 		try
 		{
 			delaysStation = DelayStationDB.getDelays();
+			delaysStationLastUpdate = new Date();
 			LOGGER.log(Level.INFO, "DelayStation updated.");
 		}
 		catch (IOException e)
