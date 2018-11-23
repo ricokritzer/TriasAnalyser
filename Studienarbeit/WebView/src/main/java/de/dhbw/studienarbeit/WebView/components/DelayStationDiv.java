@@ -38,12 +38,14 @@ public class DelayStationDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
+		layout.add(field);
 
-		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(false);
-		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(false);
-		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal").setSortable(false);
-		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(false);
+		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(true);
+		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(true);
+		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal").setSortable(true);
+		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(true);
+		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage").setSortable(false);
+
 		grid.setHeightByRows(true);
 		grid.setSizeFull();
 
@@ -55,6 +57,19 @@ public class DelayStationDiv extends Div
 
 		Timer t = new Timer();
 		t.schedule(new MyTimerTask(this::update), new Date(), 1000);
+	}
+
+	private String convertToRating(int count)
+	{
+		if (count < 10)
+		{
+			return "gering";
+		}
+		if (count > 100)
+		{
+			return "hoch";
+		}
+		return "mittel";
 	}
 
 	public void update()

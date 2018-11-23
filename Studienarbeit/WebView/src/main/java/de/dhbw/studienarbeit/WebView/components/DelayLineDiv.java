@@ -34,11 +34,11 @@ public class DelayLineDiv extends Div
 	{
 		super();
 		setSizeFull();
+		final VerticalLayout layout = new VerticalLayout();
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-
-		final VerticalLayout layout = new VerticalLayout();
+		layout.add(field);
 
 		layout.add(new TextArea(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate())));
 
