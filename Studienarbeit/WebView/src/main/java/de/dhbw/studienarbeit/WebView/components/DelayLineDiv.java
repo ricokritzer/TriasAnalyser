@@ -9,7 +9,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.shared.communication.PushMode;
@@ -40,12 +39,10 @@ public class DelayLineDiv extends Div
 		field.setReadOnly(true);
 		layout.add(field);
 
-		layout.add(new TextArea(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate())));
-
-		grid.addColumn(db -> db.getLineName()).setHeader("Linie").setSortable(true);
-		grid.addColumn(db -> db.getLineDestination()).setHeader("Ziel").setSortable(true);
-		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(true);
-		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximum").setSortable(true);
+		grid.addColumn(db -> db.getLineName()).setHeader("Linie").setSortable(false);
+		grid.addColumn(db -> db.getLineDestination()).setHeader("Ziel").setSortable(false);
+		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(false);
+		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximum").setSortable(false);
 
 		layout.add(grid);
 		add(layout);

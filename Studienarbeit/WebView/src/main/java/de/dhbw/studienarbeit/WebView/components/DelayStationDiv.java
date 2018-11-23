@@ -40,10 +40,10 @@ public class DelayStationDiv extends Div
 		field.setReadOnly(true);
 		layout.add(field);
 
-		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(true);
-		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(true);
-		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal").setSortable(true);
-		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(true);
+		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(false);
+		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(false);
+		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal").setSortable(false);
+		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(false);
 		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage").setSortable(false);
 
 		grid.setHeightByRows(true);
