@@ -11,12 +11,8 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.components.AboutDiv;
-import de.dhbw.studienarbeit.WebView.components.DatabaseDiv;
-import de.dhbw.studienarbeit.WebView.components.DelayDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayLineDiv;
-import de.dhbw.studienarbeit.WebView.components.HeatmapDiv;
-import de.dhbw.studienarbeit.WebView.data.DatabaseDataProvider;
-import de.dhbw.studienarbeit.WebView.data.DelayDataProvider;
+import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 
 @Route("")
 public class MainView extends VerticalLayout
@@ -30,28 +26,29 @@ public class MainView extends VerticalLayout
 	{
 		setAlignItems(Alignment.CENTER);
 
-		final DelayDiv divDelay = new DelayDiv();
-		final DatabaseDiv divDatabase = new DatabaseDiv();
+		final WelcomeDiv divWelcome = new WelcomeDiv();
 
 		add(tabs);
-		addTab("Unsere Daten", divDatabase);
-		addTab("Verspätungen", divDelay);
-		addTab("Verspätungen nach Linie", new DelayLineDiv());
-		addTab("Heatmap", new HeatmapDiv());
+		addTab("Willkommen", divWelcome);
+		// addTab("Unsere Daten", new DatabaseDiv());
+		// addTab("Verspätungen", new DelayDiv());
+		// addTab("Verspätungen nach Linien", new DelayLineDiv());
+		addTab("Verspätungen nach Haltestelle", new DelayLineDiv());
+		// addTab("Heatmap", new HeatmapDiv());
 		addTab("Über uns", new AboutDiv());
 		tabs.setFlexGrowForEnclosedTabs(1);
 
-		divDatabase.setVisible(true);
+		divWelcome.setVisible(true);
 
 		tabs.addSelectedChangeListener(e -> {
 			tabsToPages.values().forEach(div -> div.setVisible(false));
 			tabsToPages.get(tabs.getSelectedTab()).setVisible(true);
 		});
-
-		DelayDataProvider.getInstance().getDataFor(divDelay);
-		DelayDataProvider.getInstance().readyForUpdate(divDelay);
-		DatabaseDataProvider.getInstance().getDataFor(divDatabase);
-		DatabaseDataProvider.getInstance().readyForUpdate(divDatabase);
+		//
+		// DelayDataProvider.getInstance().getDataFor(divDelay);
+		// DelayDataProvider.getInstance().readyForUpdate(divDelay);
+		// DatabaseDataProvider.getInstance().getDataFor(divDatabase);
+		// DatabaseDataProvider.getInstance().readyForUpdate(divDatabase);
 	}
 
 	private void addTab(String name, Div div)
