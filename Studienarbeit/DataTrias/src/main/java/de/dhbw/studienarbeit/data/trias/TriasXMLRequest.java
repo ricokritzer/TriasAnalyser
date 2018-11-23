@@ -78,6 +78,15 @@ public class TriasXMLRequest
 				String summary = ptSituation.getElementsByTagName("Summary").item(0).getTextContent();
 				situations.put(id, new Situation(id, version, summary));
 			}
+			for (int i = 0; i < docElement.getElementsByTagName("RoadSituation").getLength(); i++)
+			{
+				LOGGER.log(Level.INFO, "RoadSituation: " + responseXML);
+				Element ptSituation = (Element) docElement.getElementsByTagName("RoadSituation").item(i);
+				String id = ptSituation.getElementsByTagName("SituationNumber").item(0).getTextContent();
+				int version = Integer.valueOf(ptSituation.getElementsByTagName("Version").item(0).getTextContent());
+				String summary = ptSituation.getElementsByTagName("Summary").item(0).getTextContent();
+				situations.put(id, new Situation(id, version, summary));
+			}
 			for (int i = 0; i < docElement.getElementsByTagName("StopEvent").getLength(); i++)
 			{
 				Element stopEvent = (Element) docElement.getElementsByTagName("StopEvent").item(i);

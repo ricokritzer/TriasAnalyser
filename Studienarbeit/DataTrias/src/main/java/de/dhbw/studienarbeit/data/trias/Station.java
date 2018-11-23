@@ -89,7 +89,7 @@ public class Station implements Manageable
 		{
 			currentStops = request.getResponse();
 			updated = true;
-			LOGGER.log(Level.INFO, "Station " + name + " updated");
+			LOGGER.log(Level.FINE, "Station " + name + " updated");
 		}
 		catch (IOException e)
 		{
