@@ -50,9 +50,7 @@ public class DelayStationDiv extends Div
 		grid.setSizeFull();
 
 		layout.add(grid);
-
 		add(layout);
-
 		setVisible(false);
 
 		Timer t = new Timer();

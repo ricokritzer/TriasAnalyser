@@ -44,6 +44,9 @@ public class DelayLineDiv extends Div
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(false);
 		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximum").setSortable(false);
 
+		grid.setHeightByRows(true);
+		grid.setSizeFull();
+		
 		layout.add(grid);
 		add(layout);
 		setVisible(false);
