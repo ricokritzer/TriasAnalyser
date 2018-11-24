@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Timer;
@@ -14,6 +15,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.shared.communication.PushMode;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
 import de.dhbw.studienarbeit.web.data.Data;
 
@@ -42,9 +44,12 @@ public class DelayStationDiv extends Div
 
 		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(false);
 		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(false);
-		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal").setSortable(false);
-		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt").setSortable(false);
-		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage").setSortable(false);
+		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
+				.setComparator((o1, o2) -> Double.compare(o1.getAverage(), o2.getAverage())).setSortable(true);
+		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal")
+				.setComparator((o1, o2) -> Double.compare(o1.getMaximum(), o2.getMaximum())).setSortable(true);
+		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage")
+				.setComparator((o1, o2) -> Integer.compare(o1.getCount(), o2.getCount())).setSortable(true);
 
 		grid.setHeightByRows(true);
 		grid.setSizeFull();
