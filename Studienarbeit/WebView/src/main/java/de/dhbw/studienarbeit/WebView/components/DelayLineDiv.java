@@ -1,8 +1,9 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -34,7 +35,11 @@ public class DelayLineDiv extends Div
 		field.setReadOnly(true);
 		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
 		layout.add(field);
-
+		
+		Button btnReload = new Button("Aktualisieren");
+		btnReload.addClickListener(this::update);
+		layout.add(btnReload);
+		
 		grid.addColumn(db -> db.getLineName()).setHeader("Linie").setSortable(false);
 		grid.addColumn(db -> db.getLineDestination()).setHeader("Ziel").setSortable(false);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
@@ -50,6 +55,12 @@ public class DelayLineDiv extends Div
 		layout.add(grid);
 		add(layout);
 		setVisible(false);
+	}
+	
+	private void update(ClickEvent<Button> e)
+	{
+		grid.setItems(Data.getDelaysLine());
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
 	}
 
 	private String convertTimeToString(double time)
