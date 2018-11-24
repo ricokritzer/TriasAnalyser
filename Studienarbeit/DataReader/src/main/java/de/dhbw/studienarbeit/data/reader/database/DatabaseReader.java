@@ -47,28 +47,27 @@ public class DatabaseReader extends DatabaseConnector
 				SettingsReadOnly.getInstance().getDatabaseReaderPassword());
 	}
 
-	public Count count(String table) throws IOException
+	public Count count(String sql) throws IOException
 	{
 		reconnectIfNeccessary();
 
-		final String countEntries = "SELECT COUNT(*) AS total FROM " + table + ";";
-		try (PreparedStatement preparedStatement = connection.prepareStatement(countEntries))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
 			final List<Count> count = new ArrayList<>();
 			select(result -> Count.getCount(result).ifPresent(count::add), preparedStatement);
 
 			if (count.isEmpty())
 			{
-				throw new SQLException("Unable to count entries in " + table);
+				throw new SQLException("Unable to count: " + sql);
 			}
 
 			Count c = count.get(0);
-			LOGGER.log(Level.FINEST, c + " entries at " + table);
+			LOGGER.log(Level.FINEST, c + " entries count: " + sql);
 			return count.get(0);
 		}
 		catch (SQLException e)
 		{
-			throw new IOException("Unable to count " + table, e);
+			throw new IOException("Unable to count: " + sql, e);
 		}
 	}
 

@@ -4,8 +4,6 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.reader.database.Count;
-
 public class CountTest
 {
 	@Test
@@ -19,6 +17,20 @@ public class CountTest
 	void countStations() throws Exception
 	{
 		Count count = Count.countStations();
+		assertNotEquals(count, Count.UNABLE_TO_COUNT);
+	}
+
+	@Test
+	void countStationsWithRealtimeData() throws Exception
+	{
+		Count count = Count.countStationsWithRealtimeData();
+		assertNotEquals(count, Count.UNABLE_TO_COUNT);
+	}
+
+	@Test
+	void countObservedStations() throws Exception
+	{
+		Count count = Count.countObservedStations();
 		assertNotEquals(count, Count.UNABLE_TO_COUNT);
 	}
 

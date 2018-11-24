@@ -47,7 +47,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader().count("Stop");
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Stop;");
 		}
 		catch (IOException e)
 		{
@@ -60,7 +60,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader().count("Weather");
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Weather;");
 		}
 		catch (IOException e)
 		{
@@ -73,7 +73,33 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader().count("Station");
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Station;");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to count weather.", e);
+			return Count.UNABLE_TO_COUNT;
+		}
+	}
+
+	public static final Count countStationsWithRealtimeData()
+	{
+		try
+		{
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Station WHERE stopSaved = true;");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to count weather.", e);
+			return Count.UNABLE_TO_COUNT;
+		}
+	}
+
+	public static final Count countObservedStations()
+	{
+		try
+		{
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Station WHERE observe = true;");
 		}
 		catch (IOException e)
 		{
@@ -86,7 +112,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader().count("Line");
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Line;");
 		}
 		catch (IOException e)
 		{
@@ -99,7 +125,7 @@ public class Count
 	{
 		try
 		{
-			return new DatabaseReader().count("Operator");
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Operator;");
 		}
 		catch (IOException e)
 		{
