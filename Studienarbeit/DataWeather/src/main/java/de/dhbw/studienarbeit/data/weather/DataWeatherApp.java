@@ -21,6 +21,8 @@ import de.dhbw.studienarbeit.data.reader.database.StationDB;
 
 public class DataWeatherApp
 {
+	DataManager manager;
+	
 	public static void main(String[] args) throws IOException
 	{
 		LogLevelHelper.setLogLevel(Level.ALL);
@@ -36,7 +38,7 @@ public class DataWeatherApp
 		final Operator weatherOperator = new Operator("weather");
 		final List<ApiKey> apiKeys = ApiKeyDB.getApiKeys(weatherOperator);
 		final Date start = new Date();
-		final DataManager manager = new DataManager("weather", apiKeys);
+		manager = new DataManager("weather", apiKeys);
 		final List<Weather> weather = convertToWeather(stations);
 		manager.add(weather);
 
@@ -60,5 +62,10 @@ public class DataWeatherApp
 	private Weather convertToWeather(final StationDB station)
 	{
 		return new Weather(station.getLat(), station.getLon());
+	}
+
+	public void stopDataCollection()
+	{
+		manager.stop();
 	}
 }

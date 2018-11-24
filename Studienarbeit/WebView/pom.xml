@@ -66,6 +66,12 @@
 			<groupId>de.dhbw.studienarbeit</groupId>
 			<artifactId>WebData</artifactId>
 		</dependency>
+		
+		<dependency>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>Data</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

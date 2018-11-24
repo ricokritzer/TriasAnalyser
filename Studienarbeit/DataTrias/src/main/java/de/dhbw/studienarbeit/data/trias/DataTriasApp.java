@@ -18,6 +18,7 @@ import de.dhbw.studienarbeit.data.reader.database.StationDB;
 public class DataTriasApp
 {
 	List<Station> stations = new ArrayList<>();
+	DataManager manager;
 
 	public static void main(String[] args) throws IOException
 	{
@@ -32,7 +33,7 @@ public class DataTriasApp
 				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
 				.collect(Collectors.toList());
 		final Date start = new Date();
-		final DataManager manager = new DataManager(operator.getName(), ApiKeyDB.getApiKeys(operator));
+		manager = new DataManager(operator.getName(), ApiKeyDB.getApiKeys(operator));
 		manager.add(stations);
 
 		final Timer monitorTimer = new Timer();
@@ -43,5 +44,10 @@ public class DataTriasApp
 	private void saveWaitingQueueCount(WaitingQueueCount waitingQueueCount)
 	{
 		DatabaseSaver.saveData(waitingQueueCount);
+	}
+
+	public void stopDataCollection()
+	{
+		manager.stop();
 	}
 }
