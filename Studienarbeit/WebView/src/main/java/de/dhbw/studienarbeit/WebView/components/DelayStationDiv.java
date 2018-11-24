@@ -45,11 +45,11 @@ public class DelayStationDiv extends Div
 		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(false);
 		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(false);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
-				.setComparator((o1, o2) -> Double.compare(o1.getAverage(), o2.getAverage())).setSortable(true);
+				.setComparator((db1, db2) -> Double.compare(db1.getAverage(), db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal")
-				.setComparator((o1, o2) -> Double.compare(o1.getMaximum(), o2.getMaximum())).setSortable(true);
+				.setComparator((db1, db2) -> Double.compare(db1.getMaximum(), db2.getMaximum())).setSortable(true);
 		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage")
-				.setComparator((o1, o2) -> Integer.compare(o1.getCount(), o2.getCount())).setSortable(true);
+				.setComparator((db1, db2) -> Integer.compare(db1.getCount(), db2.getCount())).setSortable(true);
 
 		grid.setHeightByRows(true);
 		grid.setSizeFull();

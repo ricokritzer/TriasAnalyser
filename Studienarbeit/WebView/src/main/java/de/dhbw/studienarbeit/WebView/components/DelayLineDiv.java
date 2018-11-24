@@ -38,9 +38,9 @@ public class DelayLineDiv extends Div
 		grid.addColumn(db -> db.getLineName()).setHeader("Linie").setSortable(false);
 		grid.addColumn(db -> db.getLineDestination()).setHeader("Ziel").setSortable(false);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
-				.setComparator(getAvgComparator()).setSortable(true);
+				.setComparator((db1, db2) -> Double.compare(db1.getAverage(), db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximum")
-				.setComparator(getMaxComparator()).setSortable(true);
+				.setComparator((db1, db2) -> Double.compare(db1.getMaximum(), db2.getMaximum())).setSortable(true);
 
 		grid.setItems(Data.getDelaysLine());
 
@@ -50,36 +50,6 @@ public class DelayLineDiv extends Div
 		layout.add(grid);
 		add(layout);
 		setVisible(false);
-	}
-
-	private Comparator<DelayLineDB> getMaxComparator()
-	{
-		return (o1, o2) -> {
-			if (o1.getMaximum() > o2.getMaximum())
-			{
-				return 1;
-			}
-			if (o1.getMaximum() < o2.getMaximum())
-			{
-				return -1;
-			}
-			return 0;
-		};
-	}
-
-	private Comparator<DelayLineDB> getAvgComparator()
-	{
-		return (o1, o2) -> {
-			if (o1.getAverage() > o2.getAverage())
-			{
-				return 1;
-			}
-			if (o1.getAverage() < o2.getAverage())
-			{
-				return -1;
-			}
-			return 0;
-		};
 	}
 
 	private String convertTimeToString(double time)
