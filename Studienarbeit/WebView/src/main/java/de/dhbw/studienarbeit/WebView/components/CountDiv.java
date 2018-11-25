@@ -2,13 +2,13 @@ package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Timer;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.communication.PushMode;
@@ -41,6 +41,7 @@ public class CountDiv extends Div
 
 		grid.setHeightByRows(true);
 		grid.setSizeFull();
+		grid.setSelectionMode(SelectionMode.NONE);
 
 		layout.add(grid);
 

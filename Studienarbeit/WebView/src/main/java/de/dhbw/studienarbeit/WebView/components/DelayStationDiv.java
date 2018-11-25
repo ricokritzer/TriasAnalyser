@@ -9,6 +9,7 @@ import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -57,6 +58,7 @@ public class DelayStationDiv extends Div
 
 		grid.setHeightByRows(true);
 		grid.setSizeFull();
+		grid.setSelectionMode(SelectionMode.NONE);
 
 		layout.add(grid);
 		add(layout);
