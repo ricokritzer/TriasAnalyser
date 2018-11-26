@@ -43,13 +43,16 @@ public class Data
 	private static void updateCount()
 	{
 		Count countStations = Count.countStations();
+		Count countObservedStations = Count.countObservedStations();
+		Count countStationsWithRealtimeData = Count.countStationsWithRealtimeData();
 		Count countLines = Count.countLines();
 		Count countStops = Count.countStops();
 		Count countWeathers = Count.countWeather();
 		Count countOperators = Count.countOperators();
 		Date lastUpdate = new Date();
 
-		counts.add(0, new Counts(countStations, countLines, countStops, countWeathers, countOperators, lastUpdate));
+		counts.add(0, new Counts(countStations, countObservedStations, countStationsWithRealtimeData, countLines,
+				countStops, countWeathers, countOperators, lastUpdate));
 		reduceToTen(counts);
 
 		LOGGER.log(Level.INFO, "Count updated.");
