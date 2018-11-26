@@ -16,6 +16,11 @@ public class App
 	private static List<DataTriasApp> triasApps = new ArrayList<>();
 	private static DataWeatherApp weatherApp;
 	private static boolean running = false;
+	
+	public static void main(String[] args) throws IOException
+	{
+		startDataCollection();
+	}
 
 	public static void startDataCollection() throws IOException
 	{
