@@ -63,9 +63,6 @@ public class DelayStationDiv extends Div
 		layout.add(grid);
 		add(layout);
 		setVisible(false);
-
-		Timer t = new Timer();
-		t.schedule(new MyTimerTask(this::update), new Date(), 1000);
 	}
 	
 	private void update(ClickEvent<Button> e)
