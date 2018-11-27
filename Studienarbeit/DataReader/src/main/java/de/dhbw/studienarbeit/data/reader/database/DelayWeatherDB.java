@@ -13,16 +13,19 @@ import java.util.logging.Logger;
 public class DelayWeatherDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWeatherDB.class.getName());
+	private static final String WHAT = "temp, wind, pressure, humidity, clouds";
+
 	private final double average;
 	private final double maximum;
 	private final double humidity;
 	private final double pressure;
 	private final double wind;
 	private final double clouds;
+	private final double temp;
 	private final String text;
 
 	public DelayWeatherDB(double delayAverage, double delayMaximum, double humidity, double pressure, double wind,
-			double clouds, String text)
+			double clouds, double temp)
 	{
 		this.average = delayAverage;
 		this.maximum = delayMaximum;
@@ -30,7 +33,8 @@ public class DelayWeatherDB
 		this.pressure = pressure;
 		this.wind = wind;
 		this.clouds = clouds;
-		this.text = text;
+		this.temp = temp;
+		this.text = "no description.";
 	}
 
 	public double getAverage()
@@ -63,6 +67,12 @@ public class DelayWeatherDB
 		return clouds;
 	}
 
+	public double getTemp()
+	{
+		return temp;
+	}
+
+	@Deprecated
 	public String getText()
 	{
 		return text;
@@ -78,30 +88,31 @@ public class DelayWeatherDB
 			final double pressure = result.getDouble("pressure");
 			final double wind = result.getDouble("wind");
 			final double clouds = result.getDouble("clouds");
-			final String text = result.getString("text");
+			final double temp = result.getDouble("temp");
 
-			return Optional.of(new DelayWeatherDB(delayAverage, delayMaximum, humidity, pressure, wind, clouds, text));
+			return Optional.of(new DelayWeatherDB(delayAverage, delayMaximum, humidity, pressure, wind, clouds, temp));
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
+			LOGGER.log(Level.WARNING, "Unable to parse to Weather.", e);
 			return Optional.empty();
 		}
 	}
 
 	public static final List<DelayWeatherDB> getDelays() throws IOException
 	{
-		final String sql = "SELECT avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
-				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max, "
-				+ "Weather.temp AS temp, " + "Weather.humidity AS humidity, " + "Weather.pressure AS pressure, "
-				+ "Weather.wind AS wind, " + "Weather.clouds AS clouds, " + "Weather.text AS text " + "FROM "
-				+ "(SELECT max(Weather.timeStamp) AS timeStamp, s.lat, s.lon, s.stopID FROM "
-				+ "(SELECT realTime, ROUND(Station.lat) AS lat, ROUND(Station.lon) AS lon, stopID FROM Stop, Station WHERE Stop.stationID = Station.stationID) AS s, "
-				+ "Weather "
-				+ "WHERE Weather.lat = s.lat AND Weather.lon = s.lon AND Weather.timeStamp < s.realTime AND Weather.timeStamp > DATE_SUB(s.realTime,INTERVAL 1 HOUR) "
-				+ "GROUP BY Weather.timeStamp, s.lat, s.lon, s.stopID) AS w, Stop, Weather "
-				+ "WHERE Weather.timeStamp = w.timeStamp AND Weather.lat = w.lat AND Weather.lon = w.lon AND Stop.stopID = w.stopID "
-				+ "GROUP BY temp, humidity, pressure, wind, clouds, text " + "ORDER BY delay_avg DESC; ";
+		final String sql = "SELECT max(delay) AS delay_max, avg(delay) AS delay_avg, " + WHAT + " FROM " + "(SELECT "
+				+ "stopID, " + "avg(delay) AS delay, " + "avg(temp) AS temp, " + "avg(humidity) AS humidity, "
+				+ "avg(wind) AS wind, " + "avg(pressure) AS pressure, " + "avg(clouds) AS clouds " + "FROM ("
+				+ "SELECT stopID, realTime, "
+				+ "(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay, "
+				+ "ROUND(Station.lat, 2) AS lat, " + "ROUND (Station.lon, 2) AS lon " + "FROM Stop, Station "
+				+ "WHERE Stop.stationID = Station.stationID AND realTime IS NOT NULL"
+				+ ") AS Stop_Coordinates, Weather " + "WHERE Weather.lat = Stop_Coordinates.lat "
+				+ "AND Weather.lon = Stop_Coordinates.lon "
+				+ "AND Weather.timeStamp < DATE_ADD(Stop_Coordinates.realTime,INTERVAL 15 MINUTE) "
+				+ "AND Weather.timeStamp > DATE_SUB(Stop_Coordinates.realTime,INTERVAL 45 MINUTE) "
+				+ "GROUP BY stopID) AS Stop_Weather " + "GROUP BY " + WHAT + ";";
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
