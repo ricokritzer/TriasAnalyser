@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
-
 public class DelayLineDBTest
 {
 	@Test

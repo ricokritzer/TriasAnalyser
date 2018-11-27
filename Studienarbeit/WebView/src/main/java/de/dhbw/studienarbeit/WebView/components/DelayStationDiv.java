@@ -1,13 +1,9 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
-import java.util.Timer;
 
-import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
@@ -16,7 +12,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.shared.communication.PushMode;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
 import de.dhbw.studienarbeit.web.data.Data;
 
@@ -43,10 +38,6 @@ public class DelayStationDiv extends Div
 		field.setReadOnly(true);
 		layout.add(field);
 		
-		Button btnReload = new Button("Aktualisieren");
-		btnReload.addClickListener(this::update);
-		layout.add(btnReload);
-
 		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(false);
 		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(false);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
@@ -62,15 +53,12 @@ public class DelayStationDiv extends Div
 
 		layout.add(grid);
 		add(layout);
+		
+		update();
+		
 		setVisible(false);
 	}
 	
-	private void update(ClickEvent<Button> e)
-	{
-		grid.setItems(Data.getDelaysStation());
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
-	}
-
 	private String convertToRating(int count)
 	{
 		if (count < 10)
@@ -84,7 +72,7 @@ public class DelayStationDiv extends Div
 		return "mittel";
 	}
 
-	public void update()
+	private void update()
 	{
 		UI ui = getUI().orElse(UI.getCurrent());
 		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
