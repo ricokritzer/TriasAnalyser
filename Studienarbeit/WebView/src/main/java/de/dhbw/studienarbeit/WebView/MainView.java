@@ -51,6 +51,8 @@ public class MainView extends VerticalLayout
 		// DelayDataProvider.getInstance().readyForUpdate(divDelay);
 		// DatabaseDataProvider.getInstance().getDataFor(divDatabase);
 		// DatabaseDataProvider.getInstance().readyForUpdate(divDatabase);
+		
+		setSizeFull();
 	}
 
 	private void addTab(String name, Div div)

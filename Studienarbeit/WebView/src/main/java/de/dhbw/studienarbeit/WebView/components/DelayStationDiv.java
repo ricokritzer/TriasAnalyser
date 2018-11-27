@@ -1,16 +1,14 @@
 package de.dhbw.studienarbeit.WebView.components;
 
 import java.text.SimpleDateFormat;
-import java.util.Optional;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.shared.communication.PushMode;
 
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
 import de.dhbw.studienarbeit.web.data.Data;
@@ -33,13 +31,15 @@ public class DelayStationDiv extends Div
 		setSizeFull();
 
 		VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationLastUpdate()));
 		layout.add(field);
 		
-		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(false);
-		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(false);
+		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(true);
+		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> Double.compare(db1.getAverage(), db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal")
@@ -47,14 +47,12 @@ public class DelayStationDiv extends Div
 		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage")
 				.setComparator((db1, db2) -> Integer.compare(db1.getCount(), db2.getCount())).setSortable(true);
 
-		grid.setHeightByRows(true);
 		grid.setSizeFull();
 		grid.setSelectionMode(SelectionMode.NONE);
-
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysStation()));
+		
 		layout.add(grid);
 		add(layout);
-		
-		update();
 		
 		setVisible(false);
 	}
@@ -70,17 +68,6 @@ public class DelayStationDiv extends Div
 			return "hoch";
 		}
 		return "mittel";
-	}
-
-	private void update()
-	{
-		UI ui = getUI().orElse(UI.getCurrent());
-		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
-			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
-			grid.setItems(Data.getDelaysStation());
-			field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationLastUpdate()));
-			currentUI.push();
-		}));
 	}
 
 	private String convertTimeToString(double time)

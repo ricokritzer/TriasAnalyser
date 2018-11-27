@@ -37,8 +37,8 @@ public class DelayLineDiv extends Div
 		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysLineLastUpdate()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getLineName()).setHeader("Linie").setSortable(false);
-		grid.addColumn(db -> db.getLineDestination()).setHeader("Ziel").setSortable(false);
+		grid.addColumn(db -> db.getLineName()).setHeader("Linie").setSortable(true);
+		grid.addColumn(db -> db.getLineDestination()).setHeader("Ziel").setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> Double.compare(db1.getAverage(), db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximum")
@@ -52,21 +52,8 @@ public class DelayLineDiv extends Div
 		layout.add(grid);
 		add(layout);
 
-//		update();
-
 		setVisible(false);
 	}
-
-//	private void update()
-//	{
-//		UI ui = getUI().orElse(UI.getCurrent());
-//		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
-//			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
-//			grid.setItems(Data.getDelaysLine());
-//			field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationLastUpdate()));
-//			currentUI.push();
-//		}));
-//	}
 
 	private String convertTimeToString(double time)
 	{
