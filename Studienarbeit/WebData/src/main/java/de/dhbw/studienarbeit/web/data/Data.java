@@ -10,12 +10,14 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.reader.database.Count;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayWeatherDB;
 
 public class Data
 {
 	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
 	private static final int FIVE_MINUTES = 5 * 60;
 	private static final int FIFTEEN_MINUTES = 15 * 60;
+	private static final int ONE_HOUR = 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static List<DelayStationDB> delaysStation = new ArrayList<>();
@@ -23,6 +25,9 @@ public class Data
 
 	private static List<DelayLineDB> delaysLine = new ArrayList<>();
 	private static Date delaysLineLastUpdate = new Date(0);
+
+	private static List<DelayWeatherDB> delaysWeather = new ArrayList<>();
+	private static Date delaysWeatherLastUpdate = new Date(0);
 
 	private static List<Counts> counts = new ArrayList<>();
 
@@ -37,6 +42,7 @@ public class Data
 	{
 		DataUpdater.scheduleUpdate(Data::updateDelaysLine, FIFTEEN_MINUTES, "DelaysLine");
 		DataUpdater.scheduleUpdate(Data::updateDelaysStation, FIFTEEN_MINUTES, "DelaysStation");
+		DataUpdater.scheduleUpdate(Data::updateDelaysWeather, ONE_HOUR, "DelaysStation");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
 	}
 
@@ -63,6 +69,20 @@ public class Data
 		while (list.size() > MAX_COUNT_ITEMS)
 		{
 			list.remove(MAX_COUNT_ITEMS);
+		}
+	}
+
+	private static void updateDelaysWeather()
+	{
+		try
+		{
+			delaysWeather = DelayWeatherDB.getDelays();
+			delaysWeatherLastUpdate = new Date();
+			LOGGER.log(Level.INFO, "DelayWeather updated.");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to update delaysWeather", e);
 		}
 	}
 
@@ -112,6 +132,16 @@ public class Data
 	public static Date getDelaysLineLastUpdate()
 	{
 		return delaysLineLastUpdate;
+	}
+
+	public static List<DelayWeatherDB> getDelaysWeather()
+	{
+		return delaysWeather;
+	}
+
+	public static Date getDelaysWeatherLastUpdate()
+	{
+		return delaysWeatherLastUpdate;
 	}
 
 	public static List<Counts> getCounts()
