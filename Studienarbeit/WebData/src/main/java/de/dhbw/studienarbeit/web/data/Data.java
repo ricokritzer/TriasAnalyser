@@ -11,6 +11,7 @@ import de.dhbw.studienarbeit.data.reader.database.Count;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayWeatherDB;
+import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 
 public class Data
 {
@@ -19,6 +20,9 @@ public class Data
 	private static final int FIFTEEN_MINUTES = 15 * 60;
 	private static final int ONE_HOUR = 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
+
+	private static List<StationNeighbourDB> neighbours = new ArrayList<>();
+	private static Date neighboursLastUpdate = new Date(0);
 
 	private static List<DelayStationDB> delaysStation = new ArrayList<>();
 	private static Date delaysStationLastUpdate = new Date(0);
@@ -42,7 +46,8 @@ public class Data
 	{
 		DataUpdater.scheduleUpdate(Data::updateDelaysLine, FIFTEEN_MINUTES, "DelaysLine");
 		DataUpdater.scheduleUpdate(Data::updateDelaysStation, FIFTEEN_MINUTES, "DelaysStation");
-		DataUpdater.scheduleUpdate(Data::updateDelaysWeather, ONE_HOUR, "DelaysStation");
+		DataUpdater.scheduleUpdate(Data::updateDelaysWeather, ONE_HOUR, "DelaysWeather");
+		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONE_HOUR, "Neighbours");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
 	}
 
@@ -114,6 +119,20 @@ public class Data
 		}
 	}
 
+	private static void updateNeighbours()
+	{
+		try
+		{
+			neighbours = StationNeighbourDB.getStationNeighbours();
+			neighboursLastUpdate = new Date();
+			LOGGER.log(Level.INFO, "StationNeighbourDB updated.");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to update StationNeighbourDB", e);
+		}
+	}
+
 	public static List<DelayStationDB> getDelaysStation()
 	{
 		return delaysStation;
@@ -147,5 +166,15 @@ public class Data
 	public static List<Counts> getCounts()
 	{
 		return counts;
+	}
+
+	public static List<StationNeighbourDB> getNeighbours()
+	{
+		return neighbours;
+	}
+
+	public static Date getNeighboursLastUpdate()
+	{
+		return neighboursLastUpdate;
 	}
 }
