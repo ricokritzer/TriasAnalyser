@@ -60,7 +60,7 @@ public class StationNeighbourDB
 		return avg2;
 	}
 
-	public double calculateSlope()
+	public double getSlope()
 	{
 		final double distanceLat = lat1 - lat2;
 		final double distanceLon = lon1 - lon2;
