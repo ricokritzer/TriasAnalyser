@@ -15,7 +15,7 @@ public class ApiKeyDBTest
 	void testGetApiKeysWeather() throws Exception
 	{
 		List<ApiKey> keys = ApiKeyDB.getApiKeys(new Operator("weather"));
-		assertThat(keys.size(), Is.is(3));
+		assertThat(keys.size(), Is.is(6));
 	}
 
 	@Test
