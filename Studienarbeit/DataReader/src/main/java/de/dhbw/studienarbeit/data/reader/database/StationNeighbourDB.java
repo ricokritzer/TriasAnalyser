@@ -60,6 +60,16 @@ public class StationNeighbourDB
 		return avg2;
 	}
 
+	public double calculateSlope()
+	{
+		final double distanceLat = lat1 - lat2;
+		final double distanceLon = lon1 - lon2;
+		final double distance = Math.sqrt(Math.pow(distanceLat, 2) + Math.pow(distanceLon, 2));
+		final double delayDifference = Math.abs(avg1 - avg2);
+
+		return delayDifference / distance;
+	}
+
 	private static final Optional<StationNeighbourDB> getStation(ResultSet result)
 	{
 		try
