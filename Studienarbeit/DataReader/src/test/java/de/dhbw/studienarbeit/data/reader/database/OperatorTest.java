@@ -1,10 +1,9 @@
 package de.dhbw.studienarbeit.data.reader.database;
 
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
 public class OperatorTest
@@ -13,13 +12,13 @@ public class OperatorTest
 	void testSelectingAllOperators() throws Exception
 	{
 		List<Operator> operators = Operator.getAllOperators();
-		assertThat(operators.size(), Is.is(1));
+		assertTrue(operators.size() > 0);
 	}
 
 	@Test
 	void testSelectingObservedOperators() throws Exception
 	{
 		List<Operator> operators = Operator.getObservedOperators();
-		assertThat(operators.size(), Is.is(1));
+		assertTrue(operators.size() > 0);
 	}
 }
