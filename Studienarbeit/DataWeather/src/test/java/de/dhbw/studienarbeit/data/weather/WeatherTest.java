@@ -56,22 +56,4 @@ public class WeatherTest
 			fail("failed: " + e.getMessage());
 		}
 	}
-
-	@Test
-	void testSQLQuerry() throws Exception
-	{
-		final Weather coordinates = new Weather(49.01, 8.4);
-		coordinates.clouds = 1.0;
-		coordinates.humidity = 2.0;
-		coordinates.pressure = 3.0;
-		coordinates.temp = 4.0;
-		coordinates.wind = 5.0;
-		coordinates.date = new Date();
-		coordinates.text = "test";
-
-		String date = new Timestamp(coordinates.date.getTime()).toString();
-
-		assertThat(coordinates.getSQLQuerry(),
-				Is.is("INSERT INTO Weather VALUES (49.01, 8.4, '" + date + "', 4.0, 2.0, 3.0, 5.0, 1.0, 'test');"));
-	}
 }
