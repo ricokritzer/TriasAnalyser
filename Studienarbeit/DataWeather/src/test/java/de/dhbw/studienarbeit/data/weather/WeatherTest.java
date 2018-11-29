@@ -4,8 +4,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.core.Is;
