@@ -23,8 +23,8 @@ public class DataTriasApp
 	public static void main(String[] args) throws IOException
 	{
 		List<StationDB> testStations = new ArrayList<>();
-		testStations.add(new StationDB("at:46:3046", "bla", 49.01, 8.40, "bbb", true));
-		new DataTriasApp().startDataCollection(new Operator("bbb"), testStations);
+		testStations.add(new StationDB("de:08212:89", "bla", 49.01, 8.40, "kvv", true));
+		new DataTriasApp().startDataCollection(new Operator("kvv"), testStations);
 	}
 
 	public void startDataCollection(Operator operator, List<StationDB> stationsDB) throws IOException

@@ -214,10 +214,10 @@ public class TriasXMLRequest
 				.append("<Params>")//
 				.append("<NumberOfResults>10</NumberOfResults>")//
 				.append("<StopEventType>departure</StopEventType>")//
+				.append("<IncludePreviousCalls>false</IncludePreviousCalls>")//
 				.append("<IncludeOnwardCalls>false</IncludeOnwardCalls>")//
+				.append("<IncludeRealtimeData>true</IncludeRealtimeData>")//
 				.append("<IncludeOperatingDays>false</IncludeOperatingDays>")//
-				.append("<IncludeRealtimeData>true</IncludeRealtimeData>")//
-				.append("<IncludeRealtimeData>true</IncludeRealtimeData>")//
 				.append("</Params>")//
 				.append("</StopEventRequest>")//
 				.append("</RequestPayload>")//

@@ -14,6 +14,7 @@ import de.dhbw.studienarbeit.WebView.components.AboutDiv;
 import de.dhbw.studienarbeit.WebView.components.CountDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayLineDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayStationDiv;
+import de.dhbw.studienarbeit.WebView.components.DelayWeatherDiv;
 import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 
 @Route("")
@@ -33,10 +34,9 @@ public class MainView extends VerticalLayout
 		add(tabs);
 		addTab("Willkommen", divWelcome);
 		addTab("Unsere Daten", new CountDiv());
-		// addTab("Verspätungen", new DelayDiv());
 		addTab("Verspätungen nach Linien", new DelayLineDiv());
 		addTab("Verspätungen nach Haltestelle", new DelayStationDiv());
-		// addTab("Heatmap", new HeatmapDiv());
+		addTab("Verspätungen nach Wetter", new DelayWeatherDiv());
 		addTab("Über uns", new AboutDiv());
 		tabs.setFlexGrowForEnclosedTabs(1);
 
@@ -46,11 +46,6 @@ public class MainView extends VerticalLayout
 			tabsToPages.values().forEach(div -> div.setVisible(false));
 			tabsToPages.get(tabs.getSelectedTab()).setVisible(true);
 		});
-		//
-		// DelayDataProvider.getInstance().getDataFor(divDelay);
-		// DelayDataProvider.getInstance().readyForUpdate(divDelay);
-		// DatabaseDataProvider.getInstance().getDataFor(divDatabase);
-		// DatabaseDataProvider.getInstance().readyForUpdate(divDatabase);
 		
 		setSizeFull();
 	}

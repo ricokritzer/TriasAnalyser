@@ -3,7 +3,10 @@ package de.dhbw.studienarbeit.data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.database.Operator;
@@ -17,14 +20,21 @@ public class App
 	private static DataWeatherApp weatherApp;
 	private static boolean running = false;
 	
+	private static final Logger LOGGER = Logger.getLogger(App.class.getName());
+	
 	public static void main(String[] args) throws IOException
 	{
-		startDataCollection();
+		startDataCollection("log.txt");
 	}
 
-	public static void startDataCollection() throws IOException
+	public static void startDataCollection(String fileName) throws IOException
 	{
-		LogLevelHelper.setLogLevel(Level.INFO);
+		LogLevelHelper.setLogLevel(Level.WARNING);
+		if (!fileName.isEmpty())
+		{
+			Handler handler = new FileHandler(fileName, true);
+			Logger.getLogger("").addHandler(handler);
+		}
 
 		for (Operator operator : Operator.getObservedOperators())
 		{
@@ -36,6 +46,7 @@ public class App
 		weatherApp = new DataWeatherApp();
 		weatherApp.startDataCollection(StationDB.getObservedStations());
 		running = true;
+		LOGGER.log(Level.INFO, "Data collection started");
 	}
 	
 	public static void stopDataCollection()
@@ -47,6 +58,7 @@ public class App
 		triasApps.clear();
 		weatherApp.stopDataCollection();
 		running = false;
+		LOGGER.log(Level.INFO, "Data collection stopped");
 	}
 	
 	public static boolean isRunning()
