@@ -24,9 +24,16 @@ public class App
 	
 	public static void main(String[] args) throws IOException
 	{
-		startDataCollection("log.txt");
+		if (args[0].equals("stop"))
+		{
+			App.stopDataCollection();
+		}
+		else if (args[0].equals("start") && args.length > 1)
+		{
+			App.startDataCollection(args[1]);
+		}
 	}
-
+	
 	public static void startDataCollection(String fileName) throws IOException
 	{
 		LogLevelHelper.setLogLevel(Level.WARNING);
