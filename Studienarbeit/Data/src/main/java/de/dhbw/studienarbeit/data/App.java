@@ -36,12 +36,12 @@ public class App
 	
 	public static void startDataCollection(String fileName) throws IOException
 	{
-		LogLevelHelper.setLogLevel(Level.WARNING);
 		if (!fileName.isEmpty())
 		{
 			Handler handler = new FileHandler(fileName, true);
 			Logger.getLogger("").addHandler(handler);
 		}
+		LogLevelHelper.setLogLevel(Level.WARNING);
 
 		for (Operator operator : Operator.getObservedOperators())
 		{
