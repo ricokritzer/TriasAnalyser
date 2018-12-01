@@ -11,13 +11,6 @@ import org.junit.jupiter.api.Test;
 public class StationNeighbourDBTest
 {
 	@Test
-	void testSelecting() throws Exception
-	{
-		final List<StationNeighbourDB> list = StationNeighbourDB.getStationNeighbours();
-		assertTrue(list.size() > 0);
-	}
-
-	@Test
 	void testSlope() throws Exception
 	{
 		final StationNeighbourDB stationNeighbourDB = new StationNeighbourDB(0, 0, 0, 3, 4, 1);
