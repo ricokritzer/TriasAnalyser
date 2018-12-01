@@ -3,15 +3,12 @@ package de.dhbw.studienarbeit.data.weather;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.reader.database.ApiKeyDB;
-import de.dhbw.studienarbeit.data.reader.database.Operator;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
+import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
 
 public class WeatherTest
 {
@@ -45,11 +42,11 @@ public class WeatherTest
 		final Weather coordinates = new Weather(49.01, 8.4);
 		try
 		{
-			final List<ApiKey> apiKeys = ApiKeyDB.getApiKeys(new Operator("weather"));
-			final ApiKey apiWeather = apiKeys.get(0);
+			final ApiKey apiWeather = new ApiKey("9412f9cf01e1de32009e18c8276ea082", 2,
+					"https://api.openweathermap.org/data/2.5/weather");
 			coordinates.updateData(apiWeather);
 		}
-		catch (IOException e)
+		catch (UpdateException | ServerNotAvailableException e)
 		{
 			fail("failed: " + e.getMessage());
 		}
