@@ -89,6 +89,11 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 					<skipAssembly>true</skipAssembly>
+					<archive>
+						<manifest>
+							<mainClass>de.dhbw.studienarbeit.data.App</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 				<executions>
 					<execution>
