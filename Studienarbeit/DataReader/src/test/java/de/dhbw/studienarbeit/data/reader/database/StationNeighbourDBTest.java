@@ -1,9 +1,6 @@
 package de.dhbw.studienarbeit.data.reader.database;
 
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
 
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
@@ -23,14 +20,14 @@ public class StationNeighbourDBTest
 		final StationNeighbourDB stationNeighbourDB = new StationNeighbourDB(3, 4, 0, 0, 0, 1);
 		assertThat(stationNeighbourDB.getSlope(), Is.is(0.2));
 	}
-	
+
 	@Test
 	void testSlopeFive() throws Exception
 	{
 		final StationNeighbourDB stationNeighbourDB = new StationNeighbourDB(3, 4, 0, 0, 0, 5);
 		assertThat(stationNeighbourDB.getSlope(), Is.is(1.0));
 	}
-	
+
 	@Test
 	void testSlopeLatLonDoesNotMatter() throws Exception
 	{
