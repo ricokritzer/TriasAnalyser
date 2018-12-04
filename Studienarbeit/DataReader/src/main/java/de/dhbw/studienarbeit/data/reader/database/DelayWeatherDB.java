@@ -101,10 +101,18 @@ public class DelayWeatherDB
 
 	public static final List<DelayWeatherDB> getDelays() throws IOException
 	{
-		final String sql = "SELECT max(delay) AS delay_max, avg(delay) AS delay_avg, " + WHAT + " FROM " + "(SELECT "
-				+ "stopID, " + "avg(delay) AS delay, " + "avg(temp) AS temp, " + "avg(humidity) AS humidity, "
-				+ "avg(wind) AS wind, " + "avg(pressure) AS pressure, " + "avg(clouds) AS clouds " + "FROM ("
-				+ "SELECT stopID, realTime, "
+		final String sql = "SELECT max(delay) AS delay_max, avg(delay) AS delay_avg, " + WHAT //
+				+ " FROM " //
+				+ "(SELECT " //
+				+ "stopID, " //
+				+ "avg(delay) AS delay, " //
+				+ "ROUND(avg(temp), 1) AS temp, " //
+				+ "ROUND(avg(humidity),1) AS humidity, " //
+				+ "ROUND(avg(wind),1) AS wind, " //
+				+ "ROUND(avg(pressure),1) AS pressure, " //
+				+ "ROUND(avg(clouds),1) AS clouds " //
+				+ "FROM (" //
+				+ "SELECT stopID, realTime, " //
 				+ "(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay, "
 				+ "ROUND(Station.lat, 2) AS lat, " + "ROUND (Station.lon, 2) AS lon " + "FROM Stop, Station "
 				+ "WHERE Stop.stationID = Station.stationID AND realTime IS NOT NULL"
