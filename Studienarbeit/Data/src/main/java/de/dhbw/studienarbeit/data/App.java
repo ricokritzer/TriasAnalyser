@@ -24,14 +24,7 @@ public class App
 	
 	public static void main(String[] args) throws IOException
 	{
-		if (args[0].equals("stop"))
-		{
-			App.stopDataCollection();
-		}
-		else if (args[0].equals("start") && args.length > 1)
-		{
-			App.startDataCollection(args[1]);
-		}
+		App.startDataCollection(args[0]);
 	}
 	
 	public static void startDataCollection(String fileName) throws IOException
