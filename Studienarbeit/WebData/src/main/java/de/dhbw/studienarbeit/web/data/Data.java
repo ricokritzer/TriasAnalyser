@@ -8,9 +8,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.Count;
+import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
-import de.dhbw.studienarbeit.data.reader.database.DelayWeatherDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 
 public class Data
@@ -30,8 +31,11 @@ public class Data
 	private static List<DelayLineDB> delaysLine = new ArrayList<>();
 	private static Date delaysLineLastUpdate = new Date(0);
 
-	private static List<DelayWeatherDB> delaysWeather = new ArrayList<>();
-	private static Date delaysWeatherLastUpdate = new Date(0);
+	private static List<DelayTempDB> delaysTemperature = new ArrayList<>();
+	private static Date delaysTemperatureLastUpdate = new Date(0);
+	
+	private static List<DelayCloudsDB> delaysClouds = new ArrayList<>();
+	private static Date delaysCloudsLastUpdate = new Date(0);
 
 	private static List<Counts> counts = new ArrayList<>();
 
@@ -46,9 +50,10 @@ public class Data
 	{
 		DataUpdater.scheduleUpdate(Data::updateDelaysLine, FIFTEEN_MINUTES, "DelaysLine");
 		DataUpdater.scheduleUpdate(Data::updateDelaysStation, FIFTEEN_MINUTES, "DelaysStation");
-		DataUpdater.scheduleUpdate(Data::updateDelaysWeather, ONE_HOUR, "DelaysWeather");
 		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONE_HOUR, "Neighbours");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
+		DataUpdater.scheduleUpdate(Data::updateDelaysTemperature, ONE_HOUR, "DelaysTemperature");
+		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, ONE_HOUR, "DelaysClouds");
 	}
 
 	private static void updateCount()
@@ -77,17 +82,17 @@ public class Data
 		}
 	}
 
-	private static void updateDelaysWeather()
+	private static void updateDelaysTemperature()
 	{
 		try
 		{
-			delaysWeather = DelayWeatherDB.getDelays();
-			delaysWeatherLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "DelayWeather updated.");
+			delaysTemperature = DelayTempDB.getDelays();
+			delaysTemperatureLastUpdate = new Date();
+			LOGGER.log(Level.INFO, "DelayTemperature updated.");
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to update delaysWeather", e);
+			LOGGER.log(Level.WARNING, "Unable to update delaysTemperatur", e);
 		}
 	}
 
@@ -104,6 +109,7 @@ public class Data
 			LOGGER.log(Level.WARNING, "Unable to update delaysLine", e);
 		}
 	}
+	
 
 	private static void updateDelaysStation()
 	{
@@ -132,7 +138,31 @@ public class Data
 			LOGGER.log(Level.WARNING, "Unable to update StationNeighbourDB", e);
 		}
 	}
+	
+	private static void updateDelaysClouds()
+	{
+		try
+		{
+			delaysClouds = DelayCloudsDB.getDelays();
+			delaysCloudsLastUpdate = new Date();
+			LOGGER.log(Level.INFO, "delaysClouds updated.");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to update delaysClouds", e);
+		}
+	}
 
+	public static List<DelayCloudsDB> getDelaysClouds()
+	{
+		return delaysClouds;
+	}
+	
+	public static Date getDelaysCloudsLastUpdate()
+	{
+		return delaysCloudsLastUpdate;
+	}
+	
 	public static List<DelayStationDB> getDelaysStation()
 	{
 		return delaysStation;
@@ -153,14 +183,14 @@ public class Data
 		return delaysLineLastUpdate;
 	}
 
-	public static List<DelayWeatherDB> getDelaysWeather()
+	public static List<DelayTempDB> getDelaysTemperature()
 	{
-		return delaysWeather;
+		return delaysTemperature;
 	}
 
-	public static Date getDelaysWeatherLastUpdate()
+	public static Date getDelaysTemperatureLastUpdate()
 	{
-		return delaysWeatherLastUpdate;
+		return delaysTemperatureLastUpdate;
 	}
 
 	public static List<Counts> getCounts()

@@ -9,10 +9,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import de.dhbw.studienarbeit.data.reader.database.DelayWeatherDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
 import de.dhbw.studienarbeit.web.data.Data;
 
-public class DelayWeatherDiv extends Div
+public class DelayTemperatureDiv extends Div
 {
 	private static final long serialVersionUID = 1L;
 
@@ -20,10 +20,10 @@ public class DelayWeatherDiv extends Div
 	private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;
 	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
-	private final Grid<DelayWeatherDB> grid = new Grid<>();
+	private final Grid<DelayTempDB> grid = new Grid<>();
 	private final TextField field = new TextField();
 
-	public DelayWeatherDiv()
+	public DelayTemperatureDiv()
 	{
 		super();
 		setSizeFull();
@@ -33,17 +33,11 @@ public class DelayWeatherDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysWeatherLastUpdate()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysTemperatureLastUpdate()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getWind()).setHeader("Wind")
-				.setComparator((db1, db2) -> Double.compare(db1.getWind(), db2.getWind())).setSortable(true);
-		grid.addColumn(db -> db.getHumidity()).setHeader("Luftfeuchtigkeit")
-				.setComparator((db1, db2) -> Double.compare(db1.getHumidity(), db2.getHumidity())).setSortable(true);
-		grid.addColumn(db -> db.getPressure()).setHeader("Druck")
-		.setComparator((db1, db2) -> Double.compare(db1.getPressure(), db2.getPressure())).setSortable(true);
-		grid.addColumn(db -> db.getClouds()).setHeader("Bewölkung")
-		.setComparator((db1, db2) -> Double.compare(db1.getClouds(), db2.getClouds())).setSortable(true);
+		grid.addColumn(db -> db.getValue()).setHeader("Temperatur")
+				.setComparator((db1, db2) -> Double.compare(db1.getValue(), db2.getValue())).setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> Double.compare(db1.getAverage(), db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal")
@@ -51,7 +45,7 @@ public class DelayWeatherDiv extends Div
 
 		grid.setSizeFull();
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysWeather()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysTemperature()));
 
 		layout.add(grid);
 		add(layout);

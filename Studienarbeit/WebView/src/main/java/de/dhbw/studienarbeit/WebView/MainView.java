@@ -14,7 +14,7 @@ import de.dhbw.studienarbeit.WebView.components.AboutDiv;
 import de.dhbw.studienarbeit.WebView.components.CountDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayLineDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayStationDiv;
-import de.dhbw.studienarbeit.WebView.components.DelayWeatherDiv;
+import de.dhbw.studienarbeit.WebView.components.DelayTemperatureDiv;
 import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 
 @Route("")
@@ -36,7 +36,7 @@ public class MainView extends VerticalLayout
 		addTab("Unsere Daten", new CountDiv());
 		addTab("Verspätungen nach Linien", new DelayLineDiv());
 		addTab("Verspätungen nach Haltestelle", new DelayStationDiv());
-		addTab("Verspätungen nach Wetter", new DelayWeatherDiv());
+		addTab("Verspätungen nach Temperatur", new DelayTemperatureDiv());
 		addTab("Über uns", new AboutDiv());
 		tabs.setFlexGrowForEnclosedTabs(1);
 
