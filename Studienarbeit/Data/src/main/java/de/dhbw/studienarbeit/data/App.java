@@ -40,22 +40,4 @@ public class App
 		new DataWeatherApp().startDataCollection(StationDB.getObservedStations());
 		LOGGER.log(Level.INFO, "Data collection started");
 	}
-
-	public static void startDataCollection(String fileName) throws IOException
-	{
-		if (!fileName.isEmpty())
-		{
-			Handler handler = new FileHandler(fileName, true);
-			Logger.getLogger("").addHandler(handler);
-		}
-		LogLevelHelper.setLogLevel(Level.WARNING);
-
-		for (Operator operator : Operator.getObservedOperators())
-		{
-			new DataTriasApp().startDataCollection(operator, StationDB.getObservedStations(operator));
-		}
-
-		new DataWeatherApp().startDataCollection(StationDB.getObservedStations());
-		LOGGER.log(Level.INFO, "Data collection started");
-	}
 }
