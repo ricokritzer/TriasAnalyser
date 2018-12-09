@@ -92,9 +92,7 @@ public class StationNeighbourDB
 
 	public static final List<StationNeighbourDB> getStationNeighbours() throws IOException
 	{
-		final String sql = "SELECT lat1, lon1, delay_avg1, lat2, lon2, delay_avg2 FROM "
-				+ "(SELECT lat AS lat1, lon AS lon1, avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg1 FROM StationNeighbour, Station, Stop WHERE StationNeighbour.stationID1 = Station.stationID AND Stop.stationID = Station.stationID GROUP BY Station.stationID) AS s1, "
-				+ "(SELECT lat AS lat2, lon AS lon2, avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg2 FROM StationNeighbour, Station, Stop WHERE StationNeighbour.stationID2 = Station.stationID AND Stop.stationID = Station.stationID GROUP BY Station.stationID) AS s2";
+		final String sql = "SELECT station1.lat AS lat1, station2.lat AS lat2, station1.lon AS lon1, station2.lon AS lon2, avg(UNIX_TIMESTAMP(stop1.realTime) - UNIX_TIMESTAMP(stop1.timeTabledTime)) AS delay_avg1, avg(UNIX_TIMESTAMP(stop2.realTime) - UNIX_TIMESTAMP(stop2.timeTabledTime)) AS delay_avg2 FROM (SELECT DISTINCT s1.lineID, stationID1, stationID2 FROM StationNeighbour, Stop s1, Stop s2 WHERE StationNeighbour.stationID1 = s1.stationID AND StationNeighbour.stationID2 = s2.stationID AND s1.lineID = s2.lineID) as line, Station station1, Station station2, Stop stop1, Stop stop2 WHERE station1.stationID = stationID1 AND station2.stationID = stationID2 AND stop1.lineID = line.lineID AND stop1.stationID = stationID1 AND stop2.lineID = line.lineID AND stop2.stationID = stationID2 GROUP BY lat1, lat2, lon1, lon2;";
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
