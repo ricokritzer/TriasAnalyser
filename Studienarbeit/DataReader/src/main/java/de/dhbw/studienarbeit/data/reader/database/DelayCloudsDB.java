@@ -53,7 +53,7 @@ public class DelayCloudsDB
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayWeatherDB.class.getName(), e);
+			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayCloudsDB.class.getName(), e);
 			return Optional.empty();
 		}
 	}
