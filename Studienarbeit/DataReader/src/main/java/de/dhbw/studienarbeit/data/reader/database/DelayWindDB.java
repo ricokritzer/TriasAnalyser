@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class DelayWindDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWindDB.class.getName());
-	private static final String FIELD = "wind";
+	private static final String FIELD = "Round(wind,0)";
 	private static final String NAME = "rounded";
 
 	private final double average;
@@ -61,7 +61,7 @@ public class DelayWindDB
 
 	public static final List<DelayWindDB> getDelays() throws IOException
 	{
-		final String sql = DelayWeatherDBHelper.getSQL(FIELD, NAME);
+		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
