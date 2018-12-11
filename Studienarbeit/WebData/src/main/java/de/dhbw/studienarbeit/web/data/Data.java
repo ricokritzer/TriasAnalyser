@@ -12,6 +12,7 @@ import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 
 public class Data
@@ -33,7 +34,10 @@ public class Data
 
 	private static List<DelayTempDB> delaysTemperature = new ArrayList<>();
 	private static Date delaysTemperatureLastUpdate = new Date(0);
-	
+
+	private static List<DelayWeatherTextDB> delaysWeatherText = new ArrayList<>();
+	private static Date delaysWeatherTextLastUpdate = new Date(0);
+
 	private static List<DelayCloudsDB> delaysClouds = new ArrayList<>();
 	private static Date delaysCloudsLastUpdate = new Date(0);
 
@@ -54,6 +58,7 @@ public class Data
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
 		DataUpdater.scheduleUpdate(Data::updateDelaysTemperature, ONE_HOUR, "DelaysTemperature");
 		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, ONE_HOUR, "DelaysClouds");
+		DataUpdater.scheduleUpdate(Data::updateDelaysWeatherText, ONE_HOUR, "DelaysWeatherText");
 	}
 
 	private static void updateCount()
@@ -96,6 +101,20 @@ public class Data
 		}
 	}
 
+	private static void updateDelaysWeatherText()
+	{
+		try
+		{
+			delaysWeatherText = DelayWeatherTextDB.getDelays();
+			delaysWeatherTextLastUpdate = new Date();
+			LOGGER.log(Level.INFO, "DelayWeatherText updated.");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to update delayWeatherText", e);
+		}
+	}
+
 	private static void updateDelaysLine()
 	{
 		try
@@ -109,7 +128,6 @@ public class Data
 			LOGGER.log(Level.WARNING, "Unable to update delaysLine", e);
 		}
 	}
-	
 
 	private static void updateDelaysStation()
 	{
@@ -138,7 +156,7 @@ public class Data
 			LOGGER.log(Level.WARNING, "Unable to update StationNeighbourDB", e);
 		}
 	}
-	
+
 	private static void updateDelaysClouds()
 	{
 		try
@@ -157,12 +175,12 @@ public class Data
 	{
 		return delaysClouds;
 	}
-	
+
 	public static Date getDelaysCloudsLastUpdate()
 	{
 		return delaysCloudsLastUpdate;
 	}
-	
+
 	public static List<DelayStationDB> getDelaysStation()
 	{
 		return delaysStation;
@@ -206,5 +224,15 @@ public class Data
 	public static Date getNeighboursLastUpdate()
 	{
 		return neighboursLastUpdate;
+	}
+
+	public static List<DelayWeatherTextDB> getDelaysWeatherText()
+	{
+		return delaysWeatherText;
+	}
+
+	public static Date getDelaysWeatherTextLastUpdate()
+	{
+		return delaysWeatherTextLastUpdate;
 	}
 }
