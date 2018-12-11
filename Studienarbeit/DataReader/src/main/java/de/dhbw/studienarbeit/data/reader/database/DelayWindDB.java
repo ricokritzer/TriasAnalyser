@@ -13,7 +13,8 @@ import java.util.logging.Logger;
 public class DelayWindDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWindDB.class.getName());
-	private static final String WHAT = "wind";
+	private static final String FIELD = "wind";
+	private static final String NAME = "rounded";
 
 	private final double average;
 	private final double maximum;
@@ -47,7 +48,7 @@ public class DelayWindDB
 		{
 			final double delayMaximum = result.getDouble("delay_max");
 			final double delayAverage = result.getDouble("delay_avg");
-			final double wind = result.getDouble(WHAT);
+			final double wind = result.getDouble(NAME);
 
 			return Optional.of(new DelayWindDB(delayAverage, delayMaximum, wind));
 		}
@@ -60,7 +61,7 @@ public class DelayWindDB
 
 	public static final List<DelayWindDB> getDelays() throws IOException
 	{
-		final String sql = DelayWeatherDBHelper.getSQL(WHAT);
+		final String sql = DelayWeatherDBHelper.getSQL(FIELD, NAME);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
