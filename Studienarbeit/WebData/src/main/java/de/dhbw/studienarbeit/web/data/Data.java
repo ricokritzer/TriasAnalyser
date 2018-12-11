@@ -19,8 +19,8 @@ public class Data
 {
 	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
 	private static final int FIVE_MINUTES = 5 * 60;
-	private static final int FIFTEEN_MINUTES = 15 * 60;
 	private static final int ONE_HOUR = 60 * 60;
+	private static final int THREE_HOURS = 3 * 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static List<StationNeighbourDB> neighbours = new ArrayList<>();
@@ -41,9 +41,6 @@ public class Data
 	private static List<DelayCloudsDB> delaysClouds = new ArrayList<>();
 	private static Date delaysCloudsLastUpdate = new Date(0);
 
-	private static List<StationNeighbourDB> stationNeighbours = new ArrayList<>();
-	private static Date stationNeighboursLastUpdate = new Date(0);
-
 	private static List<Counts> counts = new ArrayList<>();
 
 	private static final Data data = new Data();
@@ -55,14 +52,13 @@ public class Data
 
 	private Data()
 	{
-		DataUpdater.scheduleUpdate(Data::updateDelaysLine, FIFTEEN_MINUTES, "DelaysLine");
-		DataUpdater.scheduleUpdate(Data::updateDelaysStation, FIFTEEN_MINUTES, "DelaysStation");
-		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONE_HOUR, "Neighbours");
+		DataUpdater.scheduleUpdate(Data::updateDelaysLine, ONE_HOUR, "DelaysLine");
+		DataUpdater.scheduleUpdate(Data::updateDelaysStation, ONE_HOUR, "DelaysStation");
+		DataUpdater.scheduleUpdate(Data::updateNeighbours, THREE_HOURS, "Neighbours");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
-		DataUpdater.scheduleUpdate(Data::updateDelaysTemperature, ONE_HOUR, "DelaysTemperature");
-		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, ONE_HOUR, "DelaysClouds");
-		DataUpdater.scheduleUpdate(Data::updateDelaysWeatherText, ONE_HOUR, "DelaysWeatherText");
-		DataUpdater.scheduleUpdate(Data::updateStationNeighbours, ONE_HOUR, "StationNeighbours");
+		DataUpdater.scheduleUpdate(Data::updateDelaysTemperature, THREE_HOURS, "DelaysTemperature");
+		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, THREE_HOURS, "DelaysClouds");
+		DataUpdater.scheduleUpdate(Data::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
 	}
 
 	private static void updateCount()
@@ -175,20 +171,6 @@ public class Data
 		}
 	}
 
-	private static void updateStationNeighbours()
-	{
-		try
-		{
-			stationNeighbours = StationNeighbourDB.getStationNeighbours();
-			stationNeighboursLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "stationNeighbours updated.");
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update stationNeighbours", e);
-		}
-	}
-
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{
 		return delaysClouds;
@@ -252,15 +234,5 @@ public class Data
 	public static Date getDelaysWeatherTextLastUpdate()
 	{
 		return delaysWeatherTextLastUpdate;
-	}
-
-	public static List<StationNeighbourDB> getStationNeighbours()
-	{
-		return stationNeighbours;
-	}
-
-	public static Date getStationNeighboursLastUpdate()
-	{
-		return stationNeighboursLastUpdate;
 	}
 }
