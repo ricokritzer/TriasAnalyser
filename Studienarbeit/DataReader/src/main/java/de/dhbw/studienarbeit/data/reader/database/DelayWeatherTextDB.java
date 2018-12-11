@@ -13,18 +13,23 @@ import java.util.logging.Logger;
 public class DelayWeatherTextDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWeatherTextDB.class.getName());
-	private static final String FIELD = "text";
-	private static final String NAME = "text";
+	private static final String URL_PRE = "http://openweathermap.org/img/w/";
+	private static final String URL_END = ".png";
 
 	private final double average;
 	private final double maximum;
-	private final String value;
+	private final String text;
+	private final String textDE;
+	private final String icon;
 
-	public DelayWeatherTextDB(double delayAverage, double delayMaximum, String value)
+	public DelayWeatherTextDB(double average, double maximum, String text, String textDE, String icon)
 	{
-		this.average = delayAverage;
-		this.maximum = delayMaximum;
-		this.value = value;
+		super();
+		this.average = average;
+		this.maximum = maximum;
+		this.text = text;
+		this.textDE = textDE;
+		this.icon = icon;
 	}
 
 	public double getAverage()
@@ -37,9 +42,24 @@ public class DelayWeatherTextDB
 		return maximum;
 	}
 
-	public String getValue()
+	public String getText()
 	{
-		return value;
+		return text;
+	}
+
+	public String getTextDE()
+	{
+		return textDE;
+	}
+
+	public String getIcon()
+	{
+		return icon;
+	}
+
+	public String getIconURL()
+	{
+		return new StringBuilder(URL_PRE).append(icon).append(URL_END).toString();
 	}
 
 	private static final Optional<DelayWeatherTextDB> getDelayLine(ResultSet result)
@@ -48,9 +68,11 @@ public class DelayWeatherTextDB
 		{
 			final double delayMaximum = result.getDouble("delay_max");
 			final double delayAverage = result.getDouble("delay_avg");
-			final String value = result.getString(NAME);
+			final String text = result.getString("text");
+			final String textDE = result.getString("textDE");
+			final String icon = result.getString("icon");
 
-			return Optional.of(new DelayWeatherTextDB(delayAverage, delayMaximum, value));
+			return Optional.of(new DelayWeatherTextDB(delayAverage, delayMaximum, text, textDE, icon));
 		}
 		catch (SQLException e)
 		{
@@ -59,9 +81,25 @@ public class DelayWeatherTextDB
 		}
 	}
 
+	public static String getSQL()
+	{
+		return new StringBuilder().append("SELECT ")
+				.append("avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, ")
+				.append("max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, ")
+				.append("WeatherIcon.*") //
+				.append(" FROM Stop, Weather, Station, WeatherIcon ") //
+				.append("WHERE ") //
+				.append("ROUND(Station.lat, 2) = Weather.lat AND ROUND(Station.lon, 2) = Weather.lon AND ") //
+				.append("Stop.realTime < DATE_ADD(Weather.timeStamp,INTERVAL 10 MINUTE) AND ") //
+				.append("Stop.realTime > DATE_SUB(Weather.timeStamp,INTERVAL 10 MINUTE) AND ") //
+				.append("Station.stationID = Stop.stationID AND ") //
+				.append("WeatherIcon.text = Weather.text ") //
+				.append("GROUP BY ").append("Weather.text").append(";").toString();
+	}
+
 	public static final List<DelayWeatherTextDB> getDelays() throws IOException
 	{
-		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
+		final String sql = getSQL();
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
