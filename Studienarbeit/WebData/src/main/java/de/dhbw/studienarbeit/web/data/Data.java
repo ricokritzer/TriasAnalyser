@@ -80,8 +80,6 @@ public class Data
 		counts.add(0, new Counts(countStations, countObservedStations, countStationsWithRealtimeData, countLines,
 				countStops, countWeathers, countOperators, lastUpdate));
 		reduceToTen(counts);
-
-		LOGGER.log(Level.INFO, "Count updated.");
 	}
 
 	private static void reduceToTen(List<? extends Object> list)
@@ -98,7 +96,6 @@ public class Data
 		{
 			delaysTemperature = DelayTempDB.getDelays();
 			delaysTemperatureLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "DelayTemperature updated.");
 		}
 		catch (IOException e)
 		{
@@ -112,7 +109,6 @@ public class Data
 		{
 			delaysWeatherText = DelayWeatherTextDB.getDelays();
 			delaysWeatherTextLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "DelayWeatherText updated.");
 		}
 		catch (IOException e)
 		{
@@ -126,7 +122,6 @@ public class Data
 		{
 			delaysVehicleType = DelayVehicleTypeDB.getDelays();
 			delaysVehicleTypeLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "DelayVehicleType updated.");
 		}
 		catch (IOException e)
 		{
@@ -140,7 +135,6 @@ public class Data
 		{
 			delaysLine = DelayLineDB.getDelays();
 			delaysLineLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "DelayLine updated.");
 		}
 		catch (IOException e)
 		{
@@ -154,7 +148,6 @@ public class Data
 		{
 			delaysStation = DelayStationDB.getDelays();
 			delaysStationLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "DelayStation updated.");
 		}
 		catch (IOException e)
 		{
@@ -168,7 +161,6 @@ public class Data
 		{
 			neighbours = StationNeighbourDB.getStationNeighbours();
 			neighboursLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "StationNeighbourDB updated.");
 		}
 		catch (IOException e)
 		{
@@ -182,7 +174,6 @@ public class Data
 		{
 			delaysClouds = DelayCloudsDB.getDelays();
 			delaysCloudsLastUpdate = new Date();
-			LOGGER.log(Level.INFO, "delaysClouds updated.");
 		}
 		catch (IOException e)
 		{
