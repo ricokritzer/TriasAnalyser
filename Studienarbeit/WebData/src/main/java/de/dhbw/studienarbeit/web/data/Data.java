@@ -12,6 +12,7 @@ import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayVehicleTypeDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 
@@ -41,6 +42,9 @@ public class Data
 	private static List<DelayCloudsDB> delaysClouds = new ArrayList<>();
 	private static Date delaysCloudsLastUpdate = new Date(0);
 
+	private static List<DelayVehicleTypeDB> delaysVehicleType = new ArrayList<>();
+	private static Date delaysVehicleTypeLastUpdate = new Date(0);
+
 	private static List<Counts> counts = new ArrayList<>();
 
 	private static final Data data = new Data();
@@ -53,6 +57,7 @@ public class Data
 	private Data()
 	{
 		DataUpdater.scheduleUpdate(Data::updateDelaysLine, ONE_HOUR, "DelaysLine");
+		DataUpdater.scheduleUpdate(Data::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
 		DataUpdater.scheduleUpdate(Data::updateDelaysStation, ONE_HOUR, "DelaysStation");
 		DataUpdater.scheduleUpdate(Data::updateNeighbours, THREE_HOURS, "Neighbours");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
@@ -112,6 +117,20 @@ public class Data
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to update delayWeatherText", e);
+		}
+	}
+
+	private static void updateDelaysVehicleType()
+	{
+		try
+		{
+			delaysVehicleType = DelayVehicleTypeDB.getDelays();
+			delaysVehicleTypeLastUpdate = new Date();
+			LOGGER.log(Level.INFO, "DelayVehicleType updated.");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to update delayVehicleType", e);
 		}
 	}
 
@@ -234,5 +253,15 @@ public class Data
 	public static Date getDelaysWeatherTextLastUpdate()
 	{
 		return delaysWeatherTextLastUpdate;
+	}
+
+	public static List<DelayVehicleTypeDB> getDelaysVehicleType()
+	{
+		return delaysVehicleType;
+	}
+
+	public static Date getDelaysVehicleTypeLastUpdate()
+	{
+		return delaysVehicleTypeLastUpdate;
 	}
 }
