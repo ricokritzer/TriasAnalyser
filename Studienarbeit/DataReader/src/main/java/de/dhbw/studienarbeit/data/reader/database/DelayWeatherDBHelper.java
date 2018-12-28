@@ -13,6 +13,6 @@ public class DelayWeatherDBHelper
 				.append(what).append(" AS ").append(name).append(" FROM Stop, Weather, Station ").append("WHERE ")
 				.append("ROUND(Station.lat, 2) = Weather.lat AND ROUND(Station.lon, 2) = Weather.lon AND ")
 				.append("Stop.realTime < DATE_ADD(Weather.timeStamp,INTERVAL 10 MINUTE) AND Stop.realTime > DATE_SUB(Weather.timeStamp,INTERVAL 10 MINUTE) AND ")
-				.append("Station.stationID = Stop.stationID ").append("GROUP BY ").append(name).append(";").toString();
+				.append("Station.stationID = Stop.stationID ").append("GROUP BY ").append(name).append(" ORDER BY delay_avg DESC;").toString();
 	}
 }

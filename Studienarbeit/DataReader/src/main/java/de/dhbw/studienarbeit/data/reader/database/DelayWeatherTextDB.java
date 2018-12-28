@@ -88,7 +88,7 @@ public class DelayWeatherTextDB
 				.append("Station.stationID = Stop.stationID AND ") //
 				.append("WeatherIcon.text = Weather.text ") //
 				.append("GROUP BY WeatherIcon.textDE, WeatherIcon.icon ") //
-				.append("ORDER BY delay_avg;").toString();
+				.append("ORDER BY delay_avg DESC;").toString();
 	}
 
 	public static final List<DelayWeatherTextDB> getDelays() throws IOException
