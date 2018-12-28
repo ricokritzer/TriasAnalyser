@@ -18,16 +18,14 @@ public class DelayWeatherTextDB
 
 	private final double average;
 	private final double maximum;
-	private final String text;
 	private final String textDE;
 	private final String icon;
 
-	public DelayWeatherTextDB(double average, double maximum, String text, String textDE, String icon)
+	public DelayWeatherTextDB(double average, double maximum, String textDE, String icon)
 	{
 		super();
 		this.average = average;
 		this.maximum = maximum;
-		this.text = text;
 		this.textDE = textDE;
 		this.icon = icon;
 	}
@@ -40,11 +38,6 @@ public class DelayWeatherTextDB
 	public double getMaximum()
 	{
 		return maximum;
-	}
-
-	public String getText()
-	{
-		return text;
 	}
 
 	public String getTextDE()
@@ -68,11 +61,10 @@ public class DelayWeatherTextDB
 		{
 			final double delayMaximum = result.getDouble("delay_max");
 			final double delayAverage = result.getDouble("delay_avg");
-			final String text = result.getString("text");
 			final String textDE = result.getString("textDE");
 			final String icon = result.getString("icon");
 
-			return Optional.of(new DelayWeatherTextDB(delayAverage, delayMaximum, text, textDE, icon));
+			return Optional.of(new DelayWeatherTextDB(delayAverage, delayMaximum, textDE, icon));
 		}
 		catch (SQLException e)
 		{
@@ -86,7 +78,8 @@ public class DelayWeatherTextDB
 		return new StringBuilder().append("SELECT ")
 				.append("avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, ")
 				.append("max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, ")
-				.append("WeatherIcon.*") //
+				.append("WeatherIcon.textDE, ") //
+				.append("WeatherIcon.icon") //
 				.append(" FROM Stop, Weather, Station, WeatherIcon ") //
 				.append("WHERE ") //
 				.append("ROUND(Station.lat, 2) = Weather.lat AND ROUND(Station.lon, 2) = Weather.lon AND ") //
@@ -94,7 +87,7 @@ public class DelayWeatherTextDB
 				.append("Stop.realTime > DATE_SUB(Weather.timeStamp,INTERVAL 10 MINUTE) AND ") //
 				.append("Station.stationID = Stop.stationID AND ") //
 				.append("WeatherIcon.text = Weather.text ") //
-				.append("GROUP BY WeatherIcon.textDE;").toString();
+				.append("GROUP BY WeatherIcon.textDE, WeatherIcon.icon;").toString();
 	}
 
 	public static final List<DelayWeatherTextDB> getDelays() throws IOException
