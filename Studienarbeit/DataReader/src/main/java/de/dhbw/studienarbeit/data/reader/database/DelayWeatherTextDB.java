@@ -94,7 +94,7 @@ public class DelayWeatherTextDB
 				.append("Stop.realTime > DATE_SUB(Weather.timeStamp,INTERVAL 10 MINUTE) AND ") //
 				.append("Station.stationID = Stop.stationID AND ") //
 				.append("WeatherIcon.text = Weather.text ") //
-				.append("GROUP BY Weather.text;").toString();
+				.append("GROUP BY WeatherIcon.textDE;").toString();
 	}
 
 	public static final List<DelayWeatherTextDB> getDelays() throws IOException
