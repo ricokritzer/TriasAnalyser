@@ -17,7 +17,15 @@ public class DataUpdater
 
 	public static void scheduleUpdate(Runnable what, int seconds, String whatIsGoingToBeUpdated)
 	{
-		new Timer().schedule(new MyTimerTask(what), new Date(), seconds * MILLIS_PER_SECOND);
+		new Timer(whatIsGoingToBeUpdated).schedule(new MyTimerTask(() -> runnable(what, whatIsGoingToBeUpdated)),
+				new Date(), seconds * MILLIS_PER_SECOND);
 		LOGGER.log(Level.INFO, "Updates scheduled for " + whatIsGoingToBeUpdated + " every " + seconds + " seconds.");
+	}
+
+	private static void runnable(Runnable what, String whatIsGoingToBeUpdated)
+	{
+		LOGGER.log(Level.INFO, "Started updating " + whatIsGoingToBeUpdated);
+		what.run();
+		LOGGER.log(Level.INFO, whatIsGoingToBeUpdated + " updated.");
 	}
 }
