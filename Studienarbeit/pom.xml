@@ -23,6 +23,7 @@
 		<module>DataWriter</module>
 		<module>WebView</module>
 		<module>WebData</module>
+		<module>DataWeatherStopLinker</module>
 	</modules>
 	<dependencies>
 		<dependency>
