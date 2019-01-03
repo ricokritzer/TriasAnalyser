@@ -9,16 +9,16 @@ import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.reader.database.Count;
 
-public class WeatherStopinker implements Saveable
+public class WeatherStopLinker implements Saveable
 {
-	private static final Logger LOGGER = Logger.getLogger(WeatherStopinker.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(WeatherStopLinker.class.getName());
 	private static long idx = 1;
 
 	public static void main(String[] args)
 	{
 		while (true)
 		{
-			new WeatherStopinker().linkWeatherAndStops();
+			new WeatherStopLinker().linkWeatherAndStops();
 		}
 	}
 
