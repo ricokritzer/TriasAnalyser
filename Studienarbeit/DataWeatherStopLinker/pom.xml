@@ -95,7 +95,7 @@
 					<skipAssembly>false</skipAssembly>
 					<archive>
 						<manifest>
-							<mainClass>de.dhbw.studienarbeit.data.WeatherStopLinker</mainClass>
+							<mainClass>de.dhbw.studienarbeit.data.weatherStoplinker.WeatherStopLinker</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
