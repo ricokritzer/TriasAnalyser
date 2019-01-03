@@ -75,20 +75,19 @@ public class DelayWeatherTextDB
 
 	public static String getSQL()
 	{
-		return new StringBuilder().append("SELECT ")
-				.append("avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, ")
-				.append("max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, ")
-				.append("WeatherIcon.textDE, ") //
-				.append("WeatherIcon.icon") //
-				.append(" FROM Stop, Weather, Station, WeatherIcon ") //
-				.append("WHERE ") //
-				.append("ROUND(Station.lat, 2) = Weather.lat AND ROUND(Station.lon, 2) = Weather.lon AND ") //
-				.append("Stop.realTime < DATE_ADD(Weather.timeStamp,INTERVAL 10 MINUTE) AND ") //
-				.append("Stop.realTime > DATE_SUB(Weather.timeStamp,INTERVAL 10 MINUTE) AND ") //
-				.append("Station.stationID = Stop.stationID AND ") //
-				.append("WeatherIcon.text = Weather.text ") //
-				.append("GROUP BY WeatherIcon.textDE, WeatherIcon.icon ") //
-				.append("ORDER BY delay_avg DESC;").toString();
+		return "SELECT " +
+				"avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, " +
+				"max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, " +
+				"WeatherIcon.textDE, " +
+				"WeatherIcon.icon " +
+				"FROM StopWeather, Stop, Weather, Station, WeatherIcon " +
+				"WHERE Stop.stopID = StopWeather.stopID " +
+				"AND Stop.stationID = Station.stationID " +
+				"AND Weather.lat = ROUND(Station.lat, 2) " +
+				"AND Weather.lon = ROUND(Station.lon, 2) " +
+				"AND Weather.timeStamp = StopWeather.timeStamp " +
+				"AND WeatherIcon.text = Weather.text " +
+				"GROUP BY WeatherIcon.textDE, WeatherIcon.icon;";
 	}
 
 	public static final List<DelayWeatherTextDB> getDelays() throws IOException
