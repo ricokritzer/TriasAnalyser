@@ -2,11 +2,14 @@ package de.dhbw.studienarbeit.data.weatherStoplinker;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
+import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.reader.database.Count;
 
 public class WeatherStopLinker implements Saveable
@@ -16,10 +19,9 @@ public class WeatherStopLinker implements Saveable
 
 	public static void main(String[] args)
 	{
-		while (true)
-		{
-			new WeatherStopLinker().linkWeatherAndStops();
-		}
+		Timer timer = new Timer();
+		timer.schedule(new MyTimerTask(() -> new WeatherStopLinker().linkWeatherAndStops()), new Date(),
+				60 * 60 * 1000l); // every 60 Minutes
 	}
 
 	private void linkWeatherAndStops()
