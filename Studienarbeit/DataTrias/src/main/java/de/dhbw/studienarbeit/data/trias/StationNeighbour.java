@@ -21,7 +21,7 @@ public class StationNeighbour implements Saveable
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO StationNeighbour SELECT * FROM (SELECT ? s1, ? s2, ? lineID) AS tmp WHERE s1 <> s2 AND NOT EXISTS (SELECT stationID1, stationID2 FROM StationNeighbour WHERE stationID1 = s1 AND stationID2 = s2);";
+		return "INSERT INTO StationNeighbour (stationID1, stationID2, lineID) SELECT * FROM (SELECT ? s1, ? s2, ? l) AS tmp WHERE s1 <> s2 AND NOT EXISTS (SELECT stationID1, stationID2, lineID FROM StationNeighbour WHERE stationID1 = s1 AND stationID2 = s2 AND l = lineID);";
 	}
 
 	@Override
