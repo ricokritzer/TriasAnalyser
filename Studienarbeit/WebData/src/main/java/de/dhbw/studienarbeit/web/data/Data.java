@@ -22,6 +22,7 @@ public class Data
 	private static final int FIVE_MINUTES = 5 * 60;
 	private static final int ONE_HOUR = 60 * 60;
 	private static final int THREE_HOURS = 3 * 60 * 60;
+	private static final int ONE_A_DAY = 24 * 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static List<StationNeighbourDB> neighbours = new ArrayList<>();
@@ -59,7 +60,7 @@ public class Data
 		DataUpdater.scheduleUpdate(Data::updateDelaysLine, ONE_HOUR, "DelaysLine");
 		DataUpdater.scheduleUpdate(Data::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
 		DataUpdater.scheduleUpdate(Data::updateDelaysStation, ONE_HOUR, "DelaysStation");
-		DataUpdater.scheduleUpdate(Data::updateNeighbours, THREE_HOURS, "Neighbours");
+		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONE_A_DAY, "Neighbours");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
 		DataUpdater.scheduleUpdate(Data::updateDelaysTemperature, THREE_HOURS, "DelaysTemperature");
 		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, THREE_HOURS, "DelaysClouds");
