@@ -33,7 +33,7 @@ public class CountDiv extends Div
 
 		grid.addColumn(db -> getStringOf(db.getCountLines())).setHeader("Linien").setSortable(false);
 		grid.addColumn(db -> getStringOf(db.getCountOperators())).setHeader("Verkehrsverbünde").setSortable(false);
-		grid.addColumn(db -> getStringOf(db.getCountStations())).setHeader("Stationen").setSortable(false);
+		grid.addColumn(db -> getStringOf(db.getCountObservedStations())).setHeader("Stationen").setSortable(false);
 		grid.addColumn(db -> getStringOf(db.getCountStops())).setHeader("Stops").setSortable(false);
 		grid.addColumn(db -> getStringOf(db.getCountWeathers())).setHeader("Wettereinträge").setSortable(false);
 		grid.addColumn(db -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(db.getLastUpdate()))
