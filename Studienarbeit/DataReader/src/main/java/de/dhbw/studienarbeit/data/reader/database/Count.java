@@ -77,7 +77,7 @@ public class Count
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to count weather.", e);
+			LOGGER.log(Level.WARNING, "Unable to count stations.", e);
 			return Count.UNABLE_TO_COUNT;
 		}
 	}
@@ -90,7 +90,7 @@ public class Count
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to count weather.", e);
+			LOGGER.log(Level.WARNING, "Unable to count stations with realtime data.", e);
 			return Count.UNABLE_TO_COUNT;
 		}
 	}
@@ -103,7 +103,7 @@ public class Count
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to count weather.", e);
+			LOGGER.log(Level.WARNING, "Unable to count observed stations.", e);
 			return Count.UNABLE_TO_COUNT;
 		}
 	}
