@@ -10,9 +10,10 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.helper.Correlatable;
 import de.dhbw.studienarbeit.data.helper.Correlation;
 
-public class DelayTempDB
+public class DelayTempDB implements Correlatable
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayTempDB.class.getName());
 	private static final String FIELD = "Round(temp, 0)";
@@ -92,4 +93,15 @@ public class DelayTempDB
 		return Correlation.of(x, y);
 	}
 
+	@Override
+	public double getX()
+	{
+		return getAverage();
+	}
+
+	@Override
+	public double getY()
+	{
+		return getValue();
+	}
 }

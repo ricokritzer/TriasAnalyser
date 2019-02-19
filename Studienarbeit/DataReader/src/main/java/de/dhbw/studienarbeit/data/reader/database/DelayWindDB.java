@@ -10,7 +10,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DelayWindDB
+import de.dhbw.studienarbeit.data.helper.Correlatable;
+
+public class DelayWindDB implements Correlatable
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWindDB.class.getName());
 	private static final String FIELD = "Round(wind,0)";
@@ -74,5 +76,17 @@ public class DelayWindDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public double getX()
+	{
+		return getAverage();
+	}
+
+	@Override
+	public double getY()
+	{
+		return getValue();
 	}
 }
