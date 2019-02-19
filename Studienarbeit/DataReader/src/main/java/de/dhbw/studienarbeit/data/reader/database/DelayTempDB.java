@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.helper.Correlation;
+
 public class DelayTempDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayTempDB.class.getName());
@@ -75,4 +77,19 @@ public class DelayTempDB
 			throw new IOException("Selecting does not succeed.", e);
 		}
 	}
+
+	public static double correlationOf(List<DelayTempDB> temp)
+	{
+		double[] x = new double[temp.size()];
+		double[] y = new double[temp.size()];
+
+		for (int i = 0; i < temp.size(); i++)
+		{
+			x[i] = temp.get(i).getAverage();
+			y[i] = temp.get(i).getValue();
+		}
+
+		return Correlation.of(x, y);
+	}
+
 }

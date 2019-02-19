@@ -33,7 +33,7 @@ public class TestApp
 	{
 		LogLevelHelper.setLogLevel(Level.FINEST);
 
-		scheduleTest(350, "14.11.2018 18:00", "14.11.2018 20:00");
+		scheduleTest(1, "19.02.2019 14:04", "19.02.2019 14:10");
 	}
 
 	private static void scheduleTest(int maximumRequests, String start, String end) throws ParseException
