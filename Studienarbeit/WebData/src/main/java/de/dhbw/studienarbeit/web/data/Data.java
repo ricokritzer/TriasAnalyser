@@ -224,7 +224,7 @@ public class Data
 
 	public static Date getDelaysTemperatureLastUpdate()
 	{
-		return getInstance().delaysTemperature.lastUpdated();
+		return getInstance().delaysTemperature.getLastUpdated();
 	}
 
 	public static List<Counts> getCounts()
@@ -269,7 +269,7 @@ public class Data
 
 	public static Date getDelaysTemperatureCorrelationCoefficientLastUpdate()
 	{
-		return getInstance().delaysTemperatureCorrelationCoefficient.lastUpdated();
+		return getInstance().delaysTemperatureCorrelationCoefficient.getLastUpdated();
 	}
 
 	public static double getDelaysCloudsCorrelationCoefficient()
