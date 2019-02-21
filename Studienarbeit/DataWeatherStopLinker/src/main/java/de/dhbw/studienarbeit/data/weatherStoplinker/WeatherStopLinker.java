@@ -2,7 +2,7 @@ package de.dhbw.studienarbeit.data.weatherStoplinker;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,8 +19,12 @@ public class WeatherStopLinker implements Saveable
 
 	public static void main(String[] args)
 	{
+		final Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, 1);
+
+		LOGGER.log(Level.FINE, "Linker will start in one Minute.");
 		Timer timer = new Timer();
-		timer.schedule(new MyTimerTask(() -> new WeatherStopLinker().linkWeatherAndStops()), new Date(),
+		timer.schedule(new MyTimerTask(() -> new WeatherStopLinker().linkWeatherAndStops()), c.getTime(),
 				60 * 60 * 1000l); // every 60 Minutes
 	}
 
