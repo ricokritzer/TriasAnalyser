@@ -36,9 +36,7 @@ public class Data
 	private static Date delaysLineLastUpdate = new Date(0);
 
 	private static DelaysTemperature delaysTemperature = new DelaysTemperature();
-
-	private static double delaysTemperatureCorrelationCoefficient = 0.0;
-	private static Date delaysTemperatureCorrelationCoefficientLastUpdate = new Date(0);
+	private static DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient();
 
 	private static List<DelayWeatherTextDB> delaysWeatherText = new ArrayList<>();
 	private static Date delaysWeatherTextLastUpdate = new Date(0);
@@ -68,9 +66,6 @@ public class Data
 		DataUpdater.scheduleUpdate(Data::updateDelaysStation, ONE_HOUR, "DelaysStation");
 		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONCE_A_DAY, "Neighbours");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
-
-		DataUpdater.scheduleUpdate(Data::updateDelaysTemperatureCorrelationCoefficient, ONCE_A_DAY,
-				"DelaysTemperatureCorrelationCoefficient");
 		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, THREE_HOURS, "DelaysClouds");
 		DataUpdater.scheduleUpdate(Data::updateDelaysCloudsCorrelationCoefficient, ONCE_A_DAY,
 				"DelaysCloudsCorrelationCoefficient");
@@ -98,19 +93,6 @@ public class Data
 		while (list.size() > MAX_COUNT_ITEMS)
 		{
 			list.remove(MAX_COUNT_ITEMS);
-		}
-	}
-
-	private static void updateDelaysTemperatureCorrelationCoefficient()
-	{
-		try
-		{
-			delaysTemperatureCorrelationCoefficient = DelayTempCorrelation.getCorrelationCoefficient();
-			delaysTemperatureCorrelationCoefficientLastUpdate = new Date();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update delaysTemperaturCorrelationCoefficient", e);
 		}
 	}
 
@@ -282,12 +264,12 @@ public class Data
 
 	public static double getDelaysTemperatureCorrelationCoefficient()
 	{
-		return delaysTemperatureCorrelationCoefficient;
+		return delaysTemperatureCorrelationCoefficient.getData();
 	}
 
 	public static Date getDelaysTemperatureCorrelationCoefficientLastUpdate()
 	{
-		return delaysTemperatureCorrelationCoefficientLastUpdate;
+		return delaysTemperatureCorrelationCoefficient.lastUpdated();
 	}
 
 	public static double getDelaysCloudsCorrelationCoefficient()
