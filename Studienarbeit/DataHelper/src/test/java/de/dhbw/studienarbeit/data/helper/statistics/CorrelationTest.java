@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.helper;
+package de.dhbw.studienarbeit.data.helper.statistics;
 
 import static org.junit.Assert.assertThat;
 
@@ -7,6 +7,10 @@ import java.util.List;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;
+
+import de.dhbw.studienarbeit.data.helper.Correlatable;
+import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
+import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
 
 public class CorrelationTest
 {

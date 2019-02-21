@@ -10,8 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.Correlatable;
-import de.dhbw.studienarbeit.data.helper.Correlation;
+import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
+import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
 
 public class DelayCloudCorrelation implements Correlatable
 {
