@@ -7,7 +7,7 @@ public class Correlation
 	private Correlation()
 	{}
 
-	public static double of(List<Correlatable> list)
+	public static double of(List<? extends Correlatable> list)
 	{
 		double[] x = new double[list.size()];
 		double[] y = new double[list.size()];
