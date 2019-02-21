@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +26,8 @@ public class Data
 	private static final int THREE_HOURS = 3 * 60 * 60;
 	private static final int ONCE_A_DAY = 24 * 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
+
+	private static Optional<Data> instance = Optional.empty();
 
 	private static List<StationNeighbourDB> neighbours = new ArrayList<>();
 	private static Date neighboursLastUpdate = new Date(0);
@@ -52,16 +55,13 @@ public class Data
 
 	private static List<Counts> counts = new ArrayList<>();
 
-	private static final Data data = new Data();
-
 	public static Data getInstance()
 	{
-		return data;
-	}
-	
-	public static void main(String[] args)
-	{
-		System.out.println("bla");
+		if (!instance.isPresent())
+		{
+			instance = Optional.ofNullable(new Data());
+		}
+		return instance.orElse(new Data());
 	}
 
 	private Data()
