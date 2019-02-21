@@ -11,6 +11,7 @@ import de.dhbw.studienarbeit.data.reader.database.Count;
 import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayTempCorrelation;
 import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayVehicleTypeDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
@@ -22,7 +23,7 @@ public class Data
 	private static final int FIVE_MINUTES = 5 * 60;
 	private static final int ONE_HOUR = 60 * 60;
 	private static final int THREE_HOURS = 3 * 60 * 60;
-	private static final int ONE_A_DAY = 24 * 60 * 60;
+	private static final int ONCE_A_DAY = 24 * 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static List<StationNeighbourDB> neighbours = new ArrayList<>();
@@ -37,11 +38,17 @@ public class Data
 	private static List<DelayTempDB> delaysTemperature = new ArrayList<>();
 	private static Date delaysTemperatureLastUpdate = new Date(0);
 
+	private static double delaysTemperatureCorrelationCoefficient = 0.0;
+	private static Date delaysTemperatureCorrelationCoefficientLastUpdate = new Date(0);
+
 	private static List<DelayWeatherTextDB> delaysWeatherText = new ArrayList<>();
 	private static Date delaysWeatherTextLastUpdate = new Date(0);
 
 	private static List<DelayCloudsDB> delaysClouds = new ArrayList<>();
 	private static Date delaysCloudsLastUpdate = new Date(0);
+
+	private static double delaysCloudsCorrelationCoefficient = 0.0;
+	private static Date delaysCloudsCorrelationCoefficientLastUpdate = new Date(0);
 
 	private static List<DelayVehicleTypeDB> delaysVehicleType = new ArrayList<>();
 	private static Date delaysVehicleTypeLastUpdate = new Date(0);
@@ -60,10 +67,14 @@ public class Data
 		DataUpdater.scheduleUpdate(Data::updateDelaysLine, ONE_HOUR, "DelaysLine");
 		DataUpdater.scheduleUpdate(Data::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
 		DataUpdater.scheduleUpdate(Data::updateDelaysStation, ONE_HOUR, "DelaysStation");
-		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONE_A_DAY, "Neighbours");
+		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONCE_A_DAY, "Neighbours");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
 		DataUpdater.scheduleUpdate(Data::updateDelaysTemperature, THREE_HOURS, "DelaysTemperature");
+		DataUpdater.scheduleUpdate(Data::updateDelaysTemperatureCorrelationCoefficient, ONCE_A_DAY,
+				"DelaysTemperatureCorrelationCoefficient");
 		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, THREE_HOURS, "DelaysClouds");
+		DataUpdater.scheduleUpdate(Data::updateDelaysCloudsCorrelationCoefficient, ONCE_A_DAY,
+				"DelaysCloudsCorrelationCoefficient");
 		DataUpdater.scheduleUpdate(Data::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
 	}
 
@@ -101,6 +112,19 @@ public class Data
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to update delaysTemperatur", e);
+		}
+	}
+
+	private static void updateDelaysTemperatureCorrelationCoefficient()
+	{
+		try
+		{
+			delaysTemperatureCorrelationCoefficient = DelayTempCorrelation.getCorrelationCoefficient();
+			delaysTemperatureCorrelationCoefficientLastUpdate = new Date();
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to update delaysTemperaturCorrelationCoefficient", e);
 		}
 	}
 
@@ -182,6 +206,19 @@ public class Data
 		}
 	}
 
+	private static void updateDelaysCloudsCorrelationCoefficient()
+	{
+		try
+		{
+			delaysCloudsCorrelationCoefficient = DelayTempCorrelation.getCorrelationCoefficient();
+			delaysCloudsCorrelationCoefficientLastUpdate = new Date();
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to update delaysCloudsCorrelationCoefficient", e);
+		}
+	}
+
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{
 		return delaysClouds;
@@ -255,5 +292,25 @@ public class Data
 	public static Date getDelaysVehicleTypeLastUpdate()
 	{
 		return delaysVehicleTypeLastUpdate;
+	}
+
+	public static double getDelaysTemperatureCorrelationCoefficient()
+	{
+		return delaysTemperatureCorrelationCoefficient;
+	}
+
+	public static Date getDelaysTemperatureCorrelationCoefficientLastUpdate()
+	{
+		return delaysTemperatureCorrelationCoefficientLastUpdate;
+	}
+
+	public static double getDelaysCloudsCorrelationCoefficient()
+	{
+		return delaysCloudsCorrelationCoefficient;
+	}
+
+	public static Date getDelaysCloudsCorrelationCoefficientLastUpdate()
+	{
+		return delaysCloudsCorrelationCoefficientLastUpdate;
 	}
 }
