@@ -29,31 +29,31 @@ public class Data
 
 	private static Optional<Data> instance = Optional.empty();
 
-	private static List<StationNeighbourDB> neighbours = new ArrayList<>();
-	private static Date neighboursLastUpdate = new Date(0);
+	private List<StationNeighbourDB> neighbours = new ArrayList<>();
+	private Date neighboursLastUpdate = new Date(0);
 
-	private static List<DelayStationDB> delaysStation = new ArrayList<>();
-	private static Date delaysStationLastUpdate = new Date(0);
+	private List<DelayStationDB> delaysStation = new ArrayList<>();
+	private Date delaysStationLastUpdate = new Date(0);
 
-	private static List<DelayLineDB> delaysLine = new ArrayList<>();
-	private static Date delaysLineLastUpdate = new Date(0);
+	private List<DelayLineDB> delaysLine = new ArrayList<>();
+	private Date delaysLineLastUpdate = new Date(0);
 
 	private DelaysTemperature delaysTemperature = new DelaysTemperature();
 	private DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient();
 
-	private static List<DelayWeatherTextDB> delaysWeatherText = new ArrayList<>();
-	private static Date delaysWeatherTextLastUpdate = new Date(0);
+	private List<DelayWeatherTextDB> delaysWeatherText = new ArrayList<>();
+	private Date delaysWeatherTextLastUpdate = new Date(0);
 
-	private static List<DelayCloudsDB> delaysClouds = new ArrayList<>();
-	private static Date delaysCloudsLastUpdate = new Date(0);
+	private List<DelayCloudsDB> delaysClouds = new ArrayList<>();
+	private Date delaysCloudsLastUpdate = new Date(0);
 
-	private static double delaysCloudsCorrelationCoefficient = 0.0;
-	private static Date delaysCloudsCorrelationCoefficientLastUpdate = new Date(0);
+	private double delaysCloudsCorrelationCoefficient = 0.0;
+	private Date delaysCloudsCorrelationCoefficientLastUpdate = new Date(0);
 
-	private static List<DelayVehicleTypeDB> delaysVehicleType = new ArrayList<>();
-	private static Date delaysVehicleTypeLastUpdate = new Date(0);
+	private List<DelayVehicleTypeDB> delaysVehicleType = new ArrayList<>();
+	private Date delaysVehicleTypeLastUpdate = new Date(0);
 
-	private static List<Counts> counts = new ArrayList<>();
+	private List<Counts> counts = new ArrayList<>();
 
 	public static Data getInstance()
 	{
@@ -66,18 +66,18 @@ public class Data
 
 	private Data()
 	{
-		DataUpdater.scheduleUpdate(Data::updateDelaysLine, ONE_HOUR, "DelaysLine");
-		DataUpdater.scheduleUpdate(Data::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
-		DataUpdater.scheduleUpdate(Data::updateDelaysStation, ONE_HOUR, "DelaysStation");
-		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONCE_A_DAY, "Neighbours");
-		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
-		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, THREE_HOURS, "DelaysClouds");
-		DataUpdater.scheduleUpdate(Data::updateDelaysCloudsCorrelationCoefficient, ONCE_A_DAY,
+		DataUpdater.scheduleUpdate(this::updateDelaysLine, ONE_HOUR, "DelaysLine");
+		DataUpdater.scheduleUpdate(this::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
+		DataUpdater.scheduleUpdate(this::updateDelaysStation, ONE_HOUR, "DelaysStation");
+		DataUpdater.scheduleUpdate(this::updateNeighbours, ONCE_A_DAY, "Neighbours");
+		DataUpdater.scheduleUpdate(this::updateCount, FIVE_MINUTES, "Count");
+		DataUpdater.scheduleUpdate(this::updateDelaysClouds, THREE_HOURS, "DelaysClouds");
+		DataUpdater.scheduleUpdate(this::updateDelaysCloudsCorrelationCoefficient, ONCE_A_DAY,
 				"DelaysCloudsCorrelationCoefficient");
-		DataUpdater.scheduleUpdate(Data::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
+		DataUpdater.scheduleUpdate(this::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
 	}
 
-	private static void updateCount()
+	private void updateCount()
 	{
 		Count countStations = Count.countStations();
 		Count countObservedStations = Count.countObservedStations();
@@ -101,7 +101,7 @@ public class Data
 		}
 	}
 
-	private static void updateDelaysWeatherText()
+	private void updateDelaysWeatherText()
 	{
 		try
 		{
@@ -114,7 +114,7 @@ public class Data
 		}
 	}
 
-	private static void updateDelaysVehicleType()
+	private void updateDelaysVehicleType()
 	{
 		try
 		{
@@ -127,7 +127,7 @@ public class Data
 		}
 	}
 
-	private static void updateDelaysLine()
+	private void updateDelaysLine()
 	{
 		try
 		{
@@ -140,7 +140,7 @@ public class Data
 		}
 	}
 
-	private static void updateDelaysStation()
+	private void updateDelaysStation()
 	{
 		try
 		{
@@ -153,7 +153,7 @@ public class Data
 		}
 	}
 
-	private static void updateNeighbours()
+	private void updateNeighbours()
 	{
 		try
 		{
@@ -166,7 +166,7 @@ public class Data
 		}
 	}
 
-	private static void updateDelaysClouds()
+	private void updateDelaysClouds()
 	{
 		try
 		{
@@ -179,7 +179,7 @@ public class Data
 		}
 	}
 
-	private static void updateDelaysCloudsCorrelationCoefficient()
+	private void updateDelaysCloudsCorrelationCoefficient()
 	{
 		try
 		{
@@ -194,32 +194,32 @@ public class Data
 
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{
-		return delaysClouds;
+		return getInstance().delaysClouds;
 	}
 
 	public static Date getDelaysCloudsLastUpdate()
 	{
-		return delaysCloudsLastUpdate;
+		return getInstance().delaysCloudsLastUpdate;
 	}
 
 	public static List<DelayStationDB> getDelaysStation()
 	{
-		return delaysStation;
+		return getInstance().delaysStation;
 	}
 
 	public static Date getDelaysStationLastUpdate()
 	{
-		return delaysStationLastUpdate;
+		return getInstance().delaysStationLastUpdate;
 	}
 
 	public static List<DelayLineDB> getDelaysLine()
 	{
-		return delaysLine;
+		return getInstance().delaysLine;
 	}
 
 	public static Date getDelaysLineLastUpdate()
 	{
-		return delaysLineLastUpdate;
+		return getInstance().delaysLineLastUpdate;
 	}
 
 	public static List<DelayTempDB> getDelaysTemperature()
@@ -234,37 +234,37 @@ public class Data
 
 	public static List<Counts> getCounts()
 	{
-		return counts;
+		return getInstance().counts;
 	}
 
 	public static List<StationNeighbourDB> getNeighbours()
 	{
-		return neighbours;
+		return getInstance().neighbours;
 	}
 
 	public static Date getNeighboursLastUpdate()
 	{
-		return neighboursLastUpdate;
+		return getInstance().neighboursLastUpdate;
 	}
 
 	public static List<DelayWeatherTextDB> getDelaysWeatherText()
 	{
-		return delaysWeatherText;
+		return getInstance().delaysWeatherText;
 	}
 
 	public static Date getDelaysWeatherTextLastUpdate()
 	{
-		return delaysWeatherTextLastUpdate;
+		return getInstance().delaysWeatherTextLastUpdate;
 	}
 
 	public static List<DelayVehicleTypeDB> getDelaysVehicleType()
 	{
-		return delaysVehicleType;
+		return getInstance().delaysVehicleType;
 	}
 
 	public static Date getDelaysVehicleTypeLastUpdate()
 	{
-		return delaysVehicleTypeLastUpdate;
+		return getInstance().delaysVehicleTypeLastUpdate;
 	}
 
 	public static double getDelaysTemperatureCorrelationCoefficient()
@@ -279,11 +279,11 @@ public class Data
 
 	public static double getDelaysCloudsCorrelationCoefficient()
 	{
-		return delaysCloudsCorrelationCoefficient;
+		return getInstance().delaysCloudsCorrelationCoefficient;
 	}
 
 	public static Date getDelaysCloudsCorrelationCoefficientLastUpdate()
 	{
-		return delaysCloudsCorrelationCoefficientLastUpdate;
+		return getInstance().delaysCloudsCorrelationCoefficientLastUpdate;
 	}
 }
