@@ -35,8 +35,7 @@ public class Data
 	private static List<DelayLineDB> delaysLine = new ArrayList<>();
 	private static Date delaysLineLastUpdate = new Date(0);
 
-	private static List<DelayTempDB> delaysTemperature = new ArrayList<>();
-	private static Date delaysTemperatureLastUpdate = new Date(0);
+	private static DelaysTemperature delaysTemperature = new DelaysTemperature();
 
 	private static double delaysTemperatureCorrelationCoefficient = 0.0;
 	private static Date delaysTemperatureCorrelationCoefficientLastUpdate = new Date(0);
@@ -69,7 +68,7 @@ public class Data
 		DataUpdater.scheduleUpdate(Data::updateDelaysStation, ONE_HOUR, "DelaysStation");
 		DataUpdater.scheduleUpdate(Data::updateNeighbours, ONCE_A_DAY, "Neighbours");
 		DataUpdater.scheduleUpdate(Data::updateCount, FIVE_MINUTES, "Count");
-		DataUpdater.scheduleUpdate(Data::updateDelaysTemperature, THREE_HOURS, "DelaysTemperature");
+
 		DataUpdater.scheduleUpdate(Data::updateDelaysTemperatureCorrelationCoefficient, ONCE_A_DAY,
 				"DelaysTemperatureCorrelationCoefficient");
 		DataUpdater.scheduleUpdate(Data::updateDelaysClouds, THREE_HOURS, "DelaysClouds");
@@ -99,19 +98,6 @@ public class Data
 		while (list.size() > MAX_COUNT_ITEMS)
 		{
 			list.remove(MAX_COUNT_ITEMS);
-		}
-	}
-
-	private static void updateDelaysTemperature()
-	{
-		try
-		{
-			delaysTemperature = DelayTempDB.getDelays();
-			delaysTemperatureLastUpdate = new Date();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update delaysTemperatur", e);
 		}
 	}
 
@@ -251,12 +237,12 @@ public class Data
 
 	public static List<DelayTempDB> getDelaysTemperature()
 	{
-		return delaysTemperature;
+		return delaysTemperature.getData();
 	}
 
 	public static Date getDelaysTemperatureLastUpdate()
 	{
-		return delaysTemperatureLastUpdate;
+		return delaysTemperature.lastUpdated();
 	}
 
 	public static List<Counts> getCounts()

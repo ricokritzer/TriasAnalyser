@@ -12,6 +12,11 @@ public class DataUpdater
 	private static final Logger LOGGER = Logger.getLogger(DataUpdater.class.getName());
 	private static final long MILLIS_PER_SECOND = 1000l;
 
+	public static final long SECONDS = 1000l;
+	public static final long MINUTES = 60 * SECONDS;
+	public static final long HOURS = 60 * MINUTES;
+	public static final long DAYS = 24 * HOURS;
+
 	private DataUpdater()
 	{}
 
@@ -20,6 +25,14 @@ public class DataUpdater
 		new Timer(whatIsGoingToBeUpdated).schedule(new MyTimerTask(() -> runnable(what, whatIsGoingToBeUpdated)),
 				new Date(), seconds * MILLIS_PER_SECOND);
 		LOGGER.log(Level.INFO, "Updates scheduled for " + whatIsGoingToBeUpdated + " every " + seconds + " seconds.");
+	}
+
+	public static void scheduleUpdate(Updateable updateable, int time, long timeRange)
+	{
+		final String classname = updateable.getClass().getName();
+		new Timer(classname).schedule(new MyTimerTask(() -> runnable(updateable::update, classname)), new Date(),
+				time * timeRange);
+		LOGGER.log(Level.INFO, "Updates scheduled for " + classname + " every " + time * timeRange + " ms.");
 	}
 
 	private static void runnable(Runnable what, String whatIsGoingToBeUpdated)
