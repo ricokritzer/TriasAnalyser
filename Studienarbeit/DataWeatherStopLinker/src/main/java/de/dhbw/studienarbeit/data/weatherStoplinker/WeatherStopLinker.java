@@ -19,7 +19,6 @@ public class WeatherStopLinker implements Saveable
 
 	public static void main(String[] args)
 	{
-		LOGGER.log(Level.FINE, "Linker will start in one Minute.");
 		Timer timer = new Timer();
 		timer.schedule(new MyTimerTask(() -> new WeatherStopLinker().linkWeatherAndStops()), new Date(),
 				60 * 60 * 1000l); // every 60 Minutes
@@ -39,10 +38,11 @@ public class WeatherStopLinker implements Saveable
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO StopWeather SELECT stopID, max(Weather.timeStamp) FROM Stop, Station, Weather "
+		return "INSERT INTO StopWeather (SELECT stopID, Weather.timeStamp, Weather.id FROM Stop, Station, Weather "
 				+ "WHERE Stop.stationID = Station.stationID AND Stop.stopID = ? AND Stop.stopID NOT IN (SELECT stopID FROM StopWeather) "
 				+ "AND Weather.lat = ROUND(Station.lat, 2) AND Weather.lon = ROUND(Station.lon, 2) AND Weather.timeStamp < Stop.realTime "
-				+ "GROUP BY Stop.stopID, Stop.realTime, Weather.timeStamp HAVING count(Weather.timeStamp) > 0 AND max(Weather.timeStamp) > DATE_SUB(Stop.realTime,INTERVAL 30 MINUTE)";
+				+ "GROUP BY Stop.stopID, Stop.realTime, Weather.timeStamp, Weather.id "
+				+ "HAVING count(Weather.timeStamp) > 0 AND max(Weather.timeStamp) > DATE_SUB(Stop.realTime,INTERVAL 30 MINUTE) AND Weather.timeStamp = max(Weather.timeStamp);";
 	}
 
 	@Override
