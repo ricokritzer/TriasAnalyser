@@ -75,7 +75,7 @@ public class Data
 		Count countLines = Count.countLines();
 		Count countStops = Count.countStops();
 		Count countWeathers = Count.countWeather();
-		Count countOperators = Count.countOperators();
+		Count countOperators = Count.countObservedOperators();
 		Date lastUpdate = new Date();
 
 		counts.add(0, new Counts(countStations, countObservedStations, countStationsWithRealtimeData, countLines,
