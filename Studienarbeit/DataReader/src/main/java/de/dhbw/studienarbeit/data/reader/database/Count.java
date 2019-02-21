@@ -133,4 +133,18 @@ public class Count
 			return Count.UNABLE_TO_COUNT;
 		}
 	}
+
+	public static final Count countObservedOperators()
+	{
+		try
+		{
+			return new DatabaseReader().count(
+					"SELECT count(*) AS total FROM (SELECT DISTINCT operator FROM Station WHERE observe=true) t;");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to count observed operators.", e);
+			return Count.UNABLE_TO_COUNT;
+		}
+	}
 }
