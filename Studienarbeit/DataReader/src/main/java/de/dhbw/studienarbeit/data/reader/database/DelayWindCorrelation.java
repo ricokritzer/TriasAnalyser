@@ -16,6 +16,7 @@ import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
 public class DelayWindCorrelation implements Correlatable
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWindCorrelation.class.getName());
+	private static final String WHAT = "wind";
 
 	private final double delay;
 	private final double value;
@@ -44,7 +45,7 @@ public class DelayWindCorrelation implements Correlatable
 		try
 		{
 			final double delay = result.getDouble("delay");
-			final double temp = result.getDouble("wind");
+			final double temp = result.getDouble(WHAT);
 
 			return Optional.of(new DelayWindCorrelation(delay, temp));
 		}
@@ -57,12 +58,7 @@ public class DelayWindCorrelation implements Correlatable
 
 	public static final List<DelayWindCorrelation> getDelayWinds() throws IOException
 	{
-		final String sql = new StringBuilder()
-				.append("SELECT wind, (UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay ")
-				.append("FROM StopWeather, Stop, Weather, Station ")
-				.append("WHERE Stop.stopID = StopWeather.stopID AND Stop.stationID = Station.stationID ")
-				.append("AND Weather.lat = ROUND(Station.lat, 2) AND Weather.lon = ROUND(Station.lon, 2) ")
-				.append("AND Weather.timeStamp = StopWeather.timeStamp;").toString();
+		final String sql = DelayWeatherCorrelationHelper.getSqlFor(WHAT);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
