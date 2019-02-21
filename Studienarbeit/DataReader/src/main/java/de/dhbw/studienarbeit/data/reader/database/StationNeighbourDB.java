@@ -92,13 +92,13 @@ public class StationNeighbourDB
 
 	public static final List<StationNeighbourDB> getStationNeighbours() throws IOException
 	{
-		final String sql = "SELECT station1.lat AS lat1, station2.lat AS lat2, station1.lon AS lon1, station2.lon AS lon2,"
-				+ "avg(UNIX_TIMESTAMP(stop1.realTime) - UNIX_TIMESTAMP(stop1.timeTabledTime)) AS delay_avg1,"
-				+ "avg(UNIX_TIMESTAMP(stop2.realTime) - UNIX_TIMESTAMP(stop2.timeTabledTime)) AS delay_avg2"
-				+ "FROM StationNeighbour, Stop stop1, Stop stop2, Station station1, Station station2"
-				+ "WHERE StationNeighbour.lineID = stop1.lineID AND StationNeighbour.lineID = stop2.lineID"
-				+ "AND StationNeighbour.stationID1 = stop1.stationID AND StationNeighbour.stationID2 = stop2.stationID"
-				+ "AND StationNeighbour.stationID1 = station1.stationID AND StationNeighbour.stationID2 = station2.stationID"
+		final String sql = "SELECT station1.lat AS lat1, station2.lat AS lat2, station1.lon AS lon1, station2.lon AS lon2, "
+				+ "avg(UNIX_TIMESTAMP(stop1.realTime) - UNIX_TIMESTAMP(stop1.timeTabledTime)) AS delay_avg1, "
+				+ "avg(UNIX_TIMESTAMP(stop2.realTime) - UNIX_TIMESTAMP(stop2.timeTabledTime)) AS delay_avg2 "
+				+ "FROM StationNeighbour, Stop stop1, Stop stop2, Station station1, Station station2 "
+				+ "WHERE StationNeighbour.lineID = stop1.lineID AND StationNeighbour.lineID = stop2.lineID "
+				+ "AND StationNeighbour.stationID1 = stop1.stationID AND StationNeighbour.stationID2 = stop2.stationID "
+				+ "AND StationNeighbour.stationID1 = station1.stationID AND StationNeighbour.stationID2 = station2.stationID "
 				+ "GROUP BY lat1, lat2, lon1, lon2;";
 
 		final DatabaseReader database = new DatabaseReader();
