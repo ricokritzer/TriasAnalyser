@@ -58,6 +58,11 @@ public class Data
 	{
 		return data;
 	}
+	
+	public static void main(String[] args)
+	{
+		System.out.println("bla");
+	}
 
 	private Data()
 	{
