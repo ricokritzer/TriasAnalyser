@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.web.data;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -21,24 +20,17 @@ public class DataUpdater
 	private DataUpdater()
 	{}
 
-	private static Date inFiveMinutes()
-	{
-		Calendar c = Calendar.getInstance();
-		c.add(Calendar.MINUTE, 5);
-		return c.getTime();
-	}
-
 	public static void scheduleUpdate(Runnable what, int seconds, String whatIsGoingToBeUpdated)
 	{
 		new Timer(whatIsGoingToBeUpdated).schedule(new MyTimerTask(() -> runnable(what, whatIsGoingToBeUpdated)),
-				inFiveMinutes(), seconds * MILLIS_PER_SECOND);
+				new Date(), seconds * MILLIS_PER_SECOND);
 		LOGGER.log(Level.INFO, "Updates scheduled for " + whatIsGoingToBeUpdated + " every " + seconds + " seconds.");
 	}
 
 	public static void scheduleUpdate(Updateable updateable, int time, long timeRange)
 	{
 		final String classname = updateable.getClass().getName();
-		new Timer(classname).schedule(new MyTimerTask(() -> runnable(updateable::update, classname)), inFiveMinutes(),
+		new Timer(classname).schedule(new MyTimerTask(() -> runnable(updateable::update, classname)), new Date(),
 				time * timeRange);
 		LOGGER.log(Level.INFO, "Updates scheduled for " + classname + " every " + time * timeRange + " ms.");
 	}
