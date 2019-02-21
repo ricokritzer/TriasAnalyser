@@ -35,8 +35,8 @@ public class Data
 	private static List<DelayLineDB> delaysLine = new ArrayList<>();
 	private static Date delaysLineLastUpdate = new Date(0);
 
-	private static DelaysTemperature delaysTemperature = new DelaysTemperature();
-	private static DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient();
+	private DelaysTemperature delaysTemperature = new DelaysTemperature();
+	private DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient();
 
 	private static List<DelayWeatherTextDB> delaysWeatherText = new ArrayList<>();
 	private static Date delaysWeatherTextLastUpdate = new Date(0);
@@ -219,12 +219,12 @@ public class Data
 
 	public static List<DelayTempDB> getDelaysTemperature()
 	{
-		return delaysTemperature.getData();
+		return getInstance().delaysTemperature.getData();
 	}
 
 	public static Date getDelaysTemperatureLastUpdate()
 	{
-		return delaysTemperature.lastUpdated();
+		return getInstance().delaysTemperature.lastUpdated();
 	}
 
 	public static List<Counts> getCounts()
@@ -264,12 +264,12 @@ public class Data
 
 	public static double getDelaysTemperatureCorrelationCoefficient()
 	{
-		return delaysTemperatureCorrelationCoefficient.getData();
+		return getInstance().delaysTemperatureCorrelationCoefficient.getData();
 	}
 
 	public static Date getDelaysTemperatureCorrelationCoefficientLastUpdate()
 	{
-		return delaysTemperatureCorrelationCoefficient.lastUpdated();
+		return getInstance().delaysTemperatureCorrelationCoefficient.lastUpdated();
 	}
 
 	public static double getDelaysCloudsCorrelationCoefficient()
