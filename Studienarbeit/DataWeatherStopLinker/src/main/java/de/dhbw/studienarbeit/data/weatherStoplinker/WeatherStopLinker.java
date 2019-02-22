@@ -30,7 +30,7 @@ public class WeatherStopLinker implements Saveable
 		while (idx <= stopCount.getValue())
 		{
 			DatabaseSaver.saveData(this);
-			LOGGER.log(Level.INFO, "Stop with index " + idx + " linked to weather.");
+			LOGGER.log(Level.FINE, "Stop with index " + idx + " linked to weather.");
 			idx++;
 		}
 	}
