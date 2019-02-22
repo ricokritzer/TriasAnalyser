@@ -30,7 +30,7 @@ public class WeatherStopLinker implements Saveable
 		while (idx <= stopCount.getValue())
 		{
 			DatabaseSaver.saveData(this);
-			LOGGER.log(Level.FINE, "Stop with index " + idx + " linked to weather.");
+			LOGGER.log(Level.INFO, "Stop with index " + idx + " linked to weather.");
 			idx++;
 		}
 	}
@@ -38,7 +38,7 @@ public class WeatherStopLinker implements Saveable
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO StopWeather (SELECT stopID, Weather.timeStamp, Weather.id FROM Stop, Station, Weather "
+		return "INSERT INTO StopWeather SELECT stopID, Weather.timeStamp, Weather.id FROM Stop, Station, Weather "
 				+ "WHERE Stop.stationID = Station.stationID AND Stop.stopID = ? AND Stop.stopID NOT IN (SELECT stopID FROM StopWeather) "
 				+ "AND Weather.lat = ROUND(Station.lat, 2) AND Weather.lon = ROUND(Station.lon, 2) AND Weather.timeStamp < Stop.realTime "
 				+ "GROUP BY Stop.stopID, Stop.realTime, Weather.timeStamp, Weather.id "
