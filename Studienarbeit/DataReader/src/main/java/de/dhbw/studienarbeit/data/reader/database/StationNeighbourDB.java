@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class StationNeighbourDB
+public class StationNeighbourDB implements Comparable<StationNeighbourDB>
 {
 	private static final Logger LOGGER = Logger.getLogger(StationNeighbourDB.class.getName());
 	private final double lat1;
@@ -112,5 +112,23 @@ public class StationNeighbourDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public int compareTo(StationNeighbourDB o)
+	{
+		return Double.compare(this.getSlope(), o.getSlope());
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return super.hashCode();
 	}
 }
