@@ -21,9 +21,9 @@ public class DataUpdater
 	public static final long HOURS = 60 * MINUTES;
 	public static final long DAYS = 24 * HOURS;
 
-	private static final Queue<Updateable> waitingForUpdate = new LinkedBlockingQueue<>();
+	private final Queue<Updateable> waitingForUpdate = new LinkedBlockingQueue<>();
 
-	private static final DataUpdater updater = new DataUpdater();
+	private static final DataUpdater INSTANCE = new DataUpdater();
 
 	private DataUpdater()
 	{
@@ -31,6 +31,11 @@ public class DataUpdater
 		{
 			new Thread(this::updateAsync).start();
 		}
+	}
+
+	public static DataUpdater getInstance()
+	{
+		return INSTANCE;
 	}
 
 	private void updateAsync()
@@ -67,9 +72,9 @@ public class DataUpdater
 		final String classname = updateable.getClass().getName();
 
 		new Timer(classname).schedule(new MyTimerTask(() -> {
-			synchronized (waitingForUpdate)
+			synchronized (getInstance().waitingForUpdate)
 			{
-				waitingForUpdate.add(updateable);
+				getInstance().waitingForUpdate.add(updateable);
 			}
 		}), new Date(), time * timeRange);
 
