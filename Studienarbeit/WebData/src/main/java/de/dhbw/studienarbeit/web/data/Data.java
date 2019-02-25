@@ -41,11 +41,6 @@ public class Data
 		return instance.orElse(new Data());
 	}
 
-	public static void main(String[] args)
-	{
-		System.out.println(getNeighbours().size());
-	}
-
 	private Data()
 	{}
 
