@@ -61,12 +61,6 @@ public class DataUpdater
 		LOGGER.log(Level.INFO, classname + " updated after " + time + "ms.");
 	}
 
-	@Deprecated
-	public static void scheduleUpdate(Runnable what, int seconds, String whatIsGoingToBeUpdated)
-	{
-		LOGGER.warning(whatIsGoingToBeUpdated + " will not be updated. Deprecated method!");
-	}
-
 	public static void scheduleUpdate(Updateable updateable, int time, long timeRange)
 	{
 		final String classname = updateable.getClass().getName();
