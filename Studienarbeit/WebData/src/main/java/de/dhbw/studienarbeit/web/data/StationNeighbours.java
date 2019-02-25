@@ -12,7 +12,7 @@ public class StationNeighbours extends Updateable
 
 	public StationNeighbours()
 	{
-		DataUpdater.scheduleUpdate(this, 3, DataUpdater.HOURS);
+		// DataUpdater.scheduleUpdate(this, 3, DataUpdater.HOURS);
 	}
 
 	public List<StationNeighbourDB> getData()
