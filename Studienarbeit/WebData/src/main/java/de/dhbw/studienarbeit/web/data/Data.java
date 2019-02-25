@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.Count;
-import de.dhbw.studienarbeit.data.reader.database.DelayCloudCorrelation;
 import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
@@ -42,12 +41,10 @@ public class Data
 	private DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient();
 
 	private DelaysClouds delaysClouds = new DelaysClouds();
+	private DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient();
 
 	private List<DelayWeatherTextDB> delaysWeatherText = new ArrayList<>();
 	private Date delaysWeatherTextLastUpdate = new Date(0);
-
-	private double delaysCloudsCorrelationCoefficient = 0.0;
-	private Date delaysCloudsCorrelationCoefficientLastUpdate = new Date(0);
 
 	private List<DelayVehicleTypeDB> delaysVehicleType = new ArrayList<>();
 	private Date delaysVehicleTypeLastUpdate = new Date(0);
@@ -77,8 +74,6 @@ public class Data
 		DataUpdater.scheduleUpdate(this::updateDelaysStation, ONE_HOUR, "DelaysStation");
 		DataUpdater.scheduleUpdate(this::updateNeighbours, ONCE_A_DAY, "Neighbours");
 		DataUpdater.scheduleUpdate(this::updateCount, FIVE_MINUTES, "Count");
-		DataUpdater.scheduleUpdate(this::updateDelaysCloudsCorrelationCoefficient, ONCE_A_DAY,
-				"DelaysCloudsCorrelationCoefficient");
 		DataUpdater.scheduleUpdate(this::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
 	}
 
@@ -89,7 +84,6 @@ public class Data
 		watchTime(this::updateDelaysVehicleType);
 		watchTime(this::updateDelaysStation);
 		watchTime(this::updateNeighbours);
-		watchTime(this::updateDelaysCloudsCorrelationCoefficient);
 		watchTime(this::updateDelaysWeatherText);
 
 		LOGGER.log(Level.INFO, "Everthing updated for the first time.");
@@ -193,19 +187,6 @@ public class Data
 		}
 	}
 
-	private void updateDelaysCloudsCorrelationCoefficient()
-	{
-		try
-		{
-			delaysCloudsCorrelationCoefficient = DelayCloudCorrelation.getCorrelationCoefficient();
-			delaysCloudsCorrelationCoefficientLastUpdate = new Date();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update delaysCloudsCorrelationCoefficient", e);
-		}
-	}
-
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{
 		return getInstance().delaysClouds.getData();
@@ -293,11 +274,11 @@ public class Data
 
 	public static double getDelaysCloudsCorrelationCoefficient()
 	{
-		return getInstance().delaysCloudsCorrelationCoefficient;
+		return getInstance().delaysCloudsCorrelationCoefficient.getData();
 	}
 
 	public static Date getDelaysCloudsCorrelationCoefficientLastUpdate()
 	{
-		return getInstance().delaysCloudsCorrelationCoefficientLastUpdate;
+		return getInstance().delaysCloudsCorrelationCoefficient.getLastUpdated();
 	}
 }
