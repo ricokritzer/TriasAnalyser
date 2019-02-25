@@ -1,13 +1,9 @@
 package de.dhbw.studienarbeit.web.data;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.database.Count;
 import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
@@ -18,10 +14,6 @@ import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 
 public class Data
 {
-	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
-	private static final int FIVE_MINUTES = 5 * 60;
-	private static final int MAX_COUNT_ITEMS = 10;
-
 	private static Optional<Data> instance = Optional.empty();
 
 	private StationNeighbours stationNeighbours = new StationNeighbours();
@@ -38,7 +30,7 @@ public class Data
 
 	private DelaysWeatherText delaysWeatherText = new DelaysWeatherText();
 
-	private List<Counts> counts = new ArrayList<>();
+	private CountList counts = new CountList();
 
 	public static Data getInstance()
 	{
@@ -55,51 +47,7 @@ public class Data
 	}
 
 	private Data()
-	{
-		new Thread(this::updateFirstTime).start();
-
-		DataUpdater.scheduleUpdate(this::updateCount, FIVE_MINUTES, "Count");
-	}
-
-	private void updateFirstTime()
-	{
-		watchTime(this::updateCount);
-
-		LOGGER.log(Level.INFO, "Everthing updated for the first time.");
-	}
-
-	private void watchTime(Runnable r)
-	{
-		final Date start = new Date();
-		r.run();
-		final Date end = new Date();
-		final long time = end.getTime() - start.getTime();
-		LOGGER.log(Level.INFO, "Duration (ms): " + time);
-	}
-
-	private void updateCount()
-	{
-		Count countStations = Count.countStations();
-		Count countObservedStations = Count.countObservedStations();
-		Count countStationsWithRealtimeData = Count.countStationsWithRealtimeData();
-		Count countLines = Count.countLines();
-		Count countStops = Count.countStops();
-		Count countWeathers = Count.countWeather();
-		Count countOperators = Count.countObservedOperators();
-		Date lastUpdate = new Date();
-
-		counts.add(0, new Counts(countStations, countObservedStations, countStationsWithRealtimeData, countLines,
-				countStops, countWeathers, countOperators, lastUpdate));
-		reduceToTen(counts);
-	}
-
-	private static void reduceToTen(List<? extends Object> list)
-	{
-		while (list.size() > MAX_COUNT_ITEMS)
-		{
-			list.remove(MAX_COUNT_ITEMS);
-		}
-	}
+	{}
 
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{
@@ -143,7 +91,7 @@ public class Data
 
 	public static List<Counts> getCounts()
 	{
-		return getInstance().counts;
+		return getInstance().counts.getData();
 	}
 
 	public static List<StationNeighbourDB> getNeighbours()
