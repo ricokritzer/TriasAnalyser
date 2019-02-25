@@ -2,11 +2,17 @@ package de.dhbw.studienarbeit.data.weatherStoplinker;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
+import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 
 public class StopWeather implements Saveable
 {
+	private static final Logger LOGGER = Logger.getLogger(StopWeather.class.getName());
+
 	private final long idx;
 
 	public StopWeather(long idx)
@@ -28,5 +34,11 @@ public class StopWeather implements Saveable
 	public void setValues(PreparedStatement preparedStatement) throws SQLException
 	{
 		preparedStatement.setLong(1, idx);
+	}
+
+	public void save()
+	{
+		DatabaseSaver.saveData(this);
+		LOGGER.log(Level.INFO, "Stop with index " + idx + " linked to weather.");
 	}
 }

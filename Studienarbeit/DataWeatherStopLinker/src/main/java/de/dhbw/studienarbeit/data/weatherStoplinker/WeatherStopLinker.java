@@ -1,34 +1,35 @@
 package de.dhbw.studienarbeit.data.weatherStoplinker;
 
 import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.reader.database.Count;
 
 public class WeatherStopLinker
 {
-	private static final Logger LOGGER = Logger.getLogger(WeatherStopLinker.class.getName());
-
-	private long idx = 1;
+	private static final int MAXIMUM_CONNECTIONS = 3;
 
 	public static void main(String[] args)
 	{
-		new WeatherStopLinker().linkWeatherAndStops();
+		for (int i = 1; i <= MAXIMUM_CONNECTIONS; i++)
+		{
+			final int start = i;
+			new Thread(() -> new WeatherStopLinker().linkWeatherAndStops(start)).start();
+		}
 	}
 
-	private void linkWeatherAndStops()
+	private void linkWeatherAndStops(final int start)
 	{
 		final Count stopCount = Count.countStops();
-		while (idx <= stopCount.getValue())
+
+		int i = start;
+
+		for (; i <= stopCount.getValue(); i += MAXIMUM_CONNECTIONS)
 		{
-			DatabaseSaver.saveData(new StopWeather(idx));
-			LOGGER.log(Level.INFO, "Stop with index " + idx + " linked to weather.");
-			idx++;
+			new StopWeather(i).save();
 		}
 
-		new Timer().schedule(new MyTimerTask(this::linkWeatherAndStops), 60 * 60 * 1000l);
+		final int newStart = i;
+		new Timer().schedule(new MyTimerTask(() -> linkWeatherAndStops(newStart)), 60 * 60 * 1000l);
 	}
 }
