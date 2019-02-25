@@ -14,6 +14,8 @@ public class DataUpdater
 {
 	private static final Logger LOGGER = Logger.getLogger(DataUpdater.class.getName());
 
+	private static final int MAXIMUM_PARALLEL = 3;
+
 	public static final long SECONDS = 1000l;
 	public static final long MINUTES = 60 * SECONDS;
 	public static final long HOURS = 60 * MINUTES;
@@ -25,16 +27,21 @@ public class DataUpdater
 
 	private DataUpdater()
 	{
-		Thread t = new Thread(() -> updateAsync());
-		t.start();
+		for (int i = 0; i < MAXIMUM_PARALLEL; i++)
+		{
+			new Thread(this::updateAsync).start();
+		}
 	}
 
 	private void updateAsync()
 	{
 		while (true)
 		{
-			Optional<Updateable> opt = Optional.ofNullable(waitingForUpdate.poll());
-			opt.ifPresent(this::update);
+			synchronized (waitingForUpdate)
+			{
+				Optional<Updateable> opt = Optional.ofNullable(waitingForUpdate.poll());
+				opt.ifPresent(this::update);
+			}
 		}
 	}
 
@@ -46,7 +53,7 @@ public class DataUpdater
 		updateable.update();
 		final Date end = new Date();
 		final long time = end.getTime() - start.getTime();
-		LOGGER.log(Level.INFO, classname + " updated  after " + time + "ms.");
+		LOGGER.log(Level.INFO, classname + " updated after " + time + "ms.");
 	}
 
 	@Deprecated
@@ -59,8 +66,12 @@ public class DataUpdater
 	{
 		final String classname = updateable.getClass().getName();
 
-		new Timer(classname).schedule(new MyTimerTask(() -> waitingForUpdate.add(updateable)), new Date(),
-				time * timeRange);
+		new Timer(classname).schedule(new MyTimerTask(() -> {
+			synchronized (waitingForUpdate)
+			{
+				waitingForUpdate.add(updateable);
+			}
+		}), new Date(), time * timeRange);
 
 		LOGGER.log(Level.INFO, "Updates scheduled for " + classname + " every " + time * timeRange + " ms.");
 	}
