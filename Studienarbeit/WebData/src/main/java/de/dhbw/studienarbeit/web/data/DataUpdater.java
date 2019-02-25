@@ -44,7 +44,6 @@ public class DataUpdater
 		{
 			synchronized (waitingForUpdate)
 			{
-				System.out.println("jetzt");
 				Optional<Updateable> opt = Optional.ofNullable(waitingForUpdate.poll());
 				opt.ifPresent(this::update);
 			}
