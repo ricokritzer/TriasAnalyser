@@ -22,7 +22,6 @@ public class Data
 	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
 	private static final int FIVE_MINUTES = 5 * 60;
 	private static final int ONE_HOUR = 60 * 60;
-	private static final int THREE_HOURS = 3 * 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static Optional<Data> instance = Optional.empty();
@@ -38,8 +37,7 @@ public class Data
 	private DelaysClouds delaysClouds = new DelaysClouds();
 	private DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient();
 
-	private List<DelayWeatherTextDB> delaysWeatherText = new ArrayList<>();
-	private Date delaysWeatherTextLastUpdate = new Date(0);
+	private DelaysWeatherText delaysWeatherText = new DelaysWeatherText();
 
 	private List<DelayVehicleTypeDB> delaysVehicleType = new ArrayList<>();
 	private Date delaysVehicleTypeLastUpdate = new Date(0);
@@ -66,14 +64,12 @@ public class Data
 
 		DataUpdater.scheduleUpdate(this::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
 		DataUpdater.scheduleUpdate(this::updateCount, FIVE_MINUTES, "Count");
-		DataUpdater.scheduleUpdate(this::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
 	}
 
 	private void updateFirstTime()
 	{
 		watchTime(this::updateCount);
 		watchTime(this::updateDelaysVehicleType);
-		watchTime(this::updateDelaysWeatherText);
 
 		LOGGER.log(Level.INFO, "Everthing updated for the first time.");
 	}
@@ -108,19 +104,6 @@ public class Data
 		while (list.size() > MAX_COUNT_ITEMS)
 		{
 			list.remove(MAX_COUNT_ITEMS);
-		}
-	}
-
-	private void updateDelaysWeatherText()
-	{
-		try
-		{
-			delaysWeatherText = DelayWeatherTextDB.getDelays();
-			delaysWeatherTextLastUpdate = new Date();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update delayWeatherText", e);
 		}
 	}
 
@@ -194,12 +177,12 @@ public class Data
 
 	public static List<DelayWeatherTextDB> getDelaysWeatherText()
 	{
-		return getInstance().delaysWeatherText;
+		return getInstance().delaysWeatherText.getData();
 	}
 
 	public static Date getDelaysWeatherTextLastUpdate()
 	{
-		return getInstance().delaysWeatherTextLastUpdate;
+		return getInstance().delaysWeatherText.getLastUpdated();
 	}
 
 	public static List<DelayVehicleTypeDB> getDelaysVehicleType()
