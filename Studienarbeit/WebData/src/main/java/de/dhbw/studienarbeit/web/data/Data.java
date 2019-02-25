@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.web.data;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +20,6 @@ public class Data
 {
 	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
 	private static final int FIVE_MINUTES = 5 * 60;
-	private static final int ONE_HOUR = 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static Optional<Data> instance = Optional.empty();
@@ -30,6 +28,7 @@ public class Data
 
 	private DelaysStation delaysStation = new DelaysStation();
 	private DelaysLine delaysLine = new DelaysLine();
+	private DelaysVehicleType delaysVehicleType = new DelaysVehicleType();
 
 	private DelaysTemperature delaysTemperature = new DelaysTemperature();
 	private DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient();
@@ -38,9 +37,6 @@ public class Data
 	private DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient();
 
 	private DelaysWeatherText delaysWeatherText = new DelaysWeatherText();
-
-	private List<DelayVehicleTypeDB> delaysVehicleType = new ArrayList<>();
-	private Date delaysVehicleTypeLastUpdate = new Date(0);
 
 	private List<Counts> counts = new ArrayList<>();
 
@@ -62,14 +58,12 @@ public class Data
 	{
 		new Thread(this::updateFirstTime).start();
 
-		DataUpdater.scheduleUpdate(this::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
 		DataUpdater.scheduleUpdate(this::updateCount, FIVE_MINUTES, "Count");
 	}
 
 	private void updateFirstTime()
 	{
 		watchTime(this::updateCount);
-		watchTime(this::updateDelaysVehicleType);
 
 		LOGGER.log(Level.INFO, "Everthing updated for the first time.");
 	}
@@ -104,19 +98,6 @@ public class Data
 		while (list.size() > MAX_COUNT_ITEMS)
 		{
 			list.remove(MAX_COUNT_ITEMS);
-		}
-	}
-
-	private void updateDelaysVehicleType()
-	{
-		try
-		{
-			delaysVehicleType = DelayVehicleTypeDB.getDelays();
-			delaysVehicleTypeLastUpdate = new Date();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update delayVehicleType", e);
 		}
 	}
 
@@ -187,12 +168,12 @@ public class Data
 
 	public static List<DelayVehicleTypeDB> getDelaysVehicleType()
 	{
-		return getInstance().delaysVehicleType;
+		return getInstance().delaysVehicleType.getData();
 	}
 
 	public static Date getDelaysVehicleTypeLastUpdate()
 	{
-		return getInstance().delaysVehicleTypeLastUpdate;
+		return getInstance().delaysVehicleType.getLastUpdated();
 	}
 
 	public static double getDelaysTemperatureCorrelationCoefficient()
