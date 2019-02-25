@@ -3,6 +3,8 @@ package de.dhbw.studienarbeit.WebView;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -18,6 +20,7 @@ import de.dhbw.studienarbeit.WebView.components.DelayStationDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayTemperatureDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayVehicleTypeDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayWeatherDiv;
+import de.dhbw.studienarbeit.WebView.components.MapDiv;
 import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 
 @Route("")
@@ -33,6 +36,7 @@ public class MainView extends VerticalLayout
 		setAlignItems(Alignment.CENTER);
 
 		final WelcomeDiv divWelcome = new WelcomeDiv();
+		final MapDiv mapDiv = new MapDiv();
 
 		add(tabs);
 		addTab("Willkommen", divWelcome);
@@ -43,6 +47,7 @@ public class MainView extends VerticalLayout
 		addTab("Verspätungen nach Temperatur", new DelayTemperatureDiv());
 		addTab("Verspätungen nach Bewölkung", new DelayCloudsDiv());
 		addTab("Verspätungen nach Fahrzeugtyp", new DelayVehicleTypeDiv());
+		addTab("Karte", mapDiv);
 		addTab("Über uns", new AboutDiv());
 		tabs.setFlexGrowForEnclosedTabs(1);
 
@@ -54,6 +59,7 @@ public class MainView extends VerticalLayout
 		});
 		
 		setSizeFull();
+		mapDiv.initMap();
 	}
 
 	private void addTab(String name, Div div)
