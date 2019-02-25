@@ -28,8 +28,7 @@ public class Data
 
 	private static Optional<Data> instance = Optional.empty();
 
-	private List<StationNeighbourDB> neighbours = new ArrayList<>();
-	private Date neighboursLastUpdate = new Date(0);
+	private StationNeighbours stationNeighbours = new StationNeighbours();
 
 	private List<DelayStationDB> delaysStation = new ArrayList<>();
 	private Date delaysStationLastUpdate = new Date(0);
@@ -72,7 +71,6 @@ public class Data
 		DataUpdater.scheduleUpdate(this::updateDelaysLine, ONE_HOUR, "DelaysLine");
 		DataUpdater.scheduleUpdate(this::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
 		DataUpdater.scheduleUpdate(this::updateDelaysStation, ONE_HOUR, "DelaysStation");
-		DataUpdater.scheduleUpdate(this::updateNeighbours, ONCE_A_DAY, "Neighbours");
 		DataUpdater.scheduleUpdate(this::updateCount, FIVE_MINUTES, "Count");
 		DataUpdater.scheduleUpdate(this::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
 	}
@@ -83,7 +81,6 @@ public class Data
 		watchTime(this::updateDelaysLine);
 		watchTime(this::updateDelaysVehicleType);
 		watchTime(this::updateDelaysStation);
-		watchTime(this::updateNeighbours);
 		watchTime(this::updateDelaysWeatherText);
 
 		LOGGER.log(Level.INFO, "Everthing updated for the first time.");
@@ -174,19 +171,6 @@ public class Data
 		}
 	}
 
-	private void updateNeighbours()
-	{
-		try
-		{
-			neighbours = StationNeighbourDB.getStationNeighbours();
-			neighboursLastUpdate = new Date();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update StationNeighbourDB", e);
-		}
-	}
-
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{
 		return getInstance().delaysClouds.getData();
@@ -234,12 +218,12 @@ public class Data
 
 	public static List<StationNeighbourDB> getNeighbours()
 	{
-		return getInstance().neighbours;
+		return getInstance().stationNeighbours.getData();
 	}
 
 	public static Date getNeighboursLastUpdate()
 	{
-		return getInstance().neighboursLastUpdate;
+		return getInstance().stationNeighbours.getLastUpdated();
 	}
 
 	public static List<DelayWeatherTextDB> getDelaysWeatherText()
