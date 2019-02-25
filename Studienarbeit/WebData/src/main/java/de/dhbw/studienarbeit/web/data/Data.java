@@ -23,15 +23,13 @@ public class Data
 	private static final int FIVE_MINUTES = 5 * 60;
 	private static final int ONE_HOUR = 60 * 60;
 	private static final int THREE_HOURS = 3 * 60 * 60;
-	private static final int ONCE_A_DAY = 24 * 60 * 60;
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private static Optional<Data> instance = Optional.empty();
 
 	private StationNeighbours stationNeighbours = new StationNeighbours();
 
-	private List<DelayStationDB> delaysStation = new ArrayList<>();
-	private Date delaysStationLastUpdate = new Date(0);
+	private DelaysStation delaysStation = new DelaysStation();
 
 	private List<DelayLineDB> delaysLine = new ArrayList<>();
 	private Date delaysLineLastUpdate = new Date(0);
@@ -70,7 +68,6 @@ public class Data
 
 		DataUpdater.scheduleUpdate(this::updateDelaysLine, ONE_HOUR, "DelaysLine");
 		DataUpdater.scheduleUpdate(this::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
-		DataUpdater.scheduleUpdate(this::updateDelaysStation, ONE_HOUR, "DelaysStation");
 		DataUpdater.scheduleUpdate(this::updateCount, FIVE_MINUTES, "Count");
 		DataUpdater.scheduleUpdate(this::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
 	}
@@ -80,7 +77,6 @@ public class Data
 		watchTime(this::updateCount);
 		watchTime(this::updateDelaysLine);
 		watchTime(this::updateDelaysVehicleType);
-		watchTime(this::updateDelaysStation);
 		watchTime(this::updateDelaysWeatherText);
 
 		LOGGER.log(Level.INFO, "Everthing updated for the first time.");
@@ -158,19 +154,6 @@ public class Data
 		}
 	}
 
-	private void updateDelaysStation()
-	{
-		try
-		{
-			delaysStation = DelayStationDB.getDelays();
-			delaysStationLastUpdate = new Date();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update delaysStation", e);
-		}
-	}
-
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{
 		return getInstance().delaysClouds.getData();
@@ -183,12 +166,12 @@ public class Data
 
 	public static List<DelayStationDB> getDelaysStation()
 	{
-		return getInstance().delaysStation;
+		return getInstance().delaysStation.getData();
 	}
 
 	public static Date getDelaysStationLastUpdate()
 	{
-		return getInstance().delaysStationLastUpdate;
+		return getInstance().delaysStation.getLastUpdated();
 	}
 
 	public static List<DelayLineDB> getDelaysLine()
