@@ -30,9 +30,7 @@ public class Data
 	private StationNeighbours stationNeighbours = new StationNeighbours();
 
 	private DelaysStation delaysStation = new DelaysStation();
-
-	private List<DelayLineDB> delaysLine = new ArrayList<>();
-	private Date delaysLineLastUpdate = new Date(0);
+	private DelaysLine delaysLine = new DelaysLine();
 
 	private DelaysTemperature delaysTemperature = new DelaysTemperature();
 	private DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient();
@@ -66,7 +64,6 @@ public class Data
 	{
 		new Thread(this::updateFirstTime).start();
 
-		DataUpdater.scheduleUpdate(this::updateDelaysLine, ONE_HOUR, "DelaysLine");
 		DataUpdater.scheduleUpdate(this::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
 		DataUpdater.scheduleUpdate(this::updateCount, FIVE_MINUTES, "Count");
 		DataUpdater.scheduleUpdate(this::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
@@ -75,7 +72,6 @@ public class Data
 	private void updateFirstTime()
 	{
 		watchTime(this::updateCount);
-		watchTime(this::updateDelaysLine);
 		watchTime(this::updateDelaysVehicleType);
 		watchTime(this::updateDelaysWeatherText);
 
@@ -141,19 +137,6 @@ public class Data
 		}
 	}
 
-	private void updateDelaysLine()
-	{
-		try
-		{
-			delaysLine = DelayLineDB.getDelays();
-			delaysLineLastUpdate = new Date();
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to update delaysLine", e);
-		}
-	}
-
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{
 		return getInstance().delaysClouds.getData();
@@ -176,12 +159,12 @@ public class Data
 
 	public static List<DelayLineDB> getDelaysLine()
 	{
-		return getInstance().delaysLine;
+		return getInstance().delaysLine.getData();
 	}
 
 	public static Date getDelaysLineLastUpdate()
 	{
-		return getInstance().delaysLineLastUpdate;
+		return getInstance().delaysLine.getLastUpdated();
 	}
 
 	public static List<DelayTempDB> getDelaysTemperature()
