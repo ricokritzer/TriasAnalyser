@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
-import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 
 public class StopWeather implements Saveable
 {
