@@ -9,10 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.Count;
+import de.dhbw.studienarbeit.data.reader.database.DelayCloudCorrelation;
 import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
-import de.dhbw.studienarbeit.data.reader.database.DelayTempCorrelation;
 import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayVehicleTypeDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
@@ -64,8 +64,15 @@ public class Data
 		return instance.orElse(new Data());
 	}
 
+	public static void main(String[] args)
+	{
+		System.out.println(getNeighbours().size());
+	}
+
 	private Data()
 	{
+		new Thread(this::updateFirstTime).start();
+
 		DataUpdater.scheduleUpdate(this::updateDelaysLine, ONE_HOUR, "DelaysLine");
 		DataUpdater.scheduleUpdate(this::updateDelaysVehicleType, ONE_HOUR, "DelaysVehicleType");
 		DataUpdater.scheduleUpdate(this::updateDelaysStation, ONE_HOUR, "DelaysStation");
@@ -75,6 +82,29 @@ public class Data
 		DataUpdater.scheduleUpdate(this::updateDelaysCloudsCorrelationCoefficient, ONCE_A_DAY,
 				"DelaysCloudsCorrelationCoefficient");
 		DataUpdater.scheduleUpdate(this::updateDelaysWeatherText, THREE_HOURS, "DelaysWeatherText");
+	}
+
+	private void updateFirstTime()
+	{
+		watchTime(this::updateCount);
+		watchTime(this::updateDelaysLine);
+		watchTime(this::updateDelaysVehicleType);
+		watchTime(this::updateDelaysStation);
+		watchTime(this::updateNeighbours);
+		watchTime(this::updateDelaysClouds);
+		watchTime(this::updateDelaysCloudsCorrelationCoefficient);
+		watchTime(this::updateDelaysWeatherText);
+
+		LOGGER.log(Level.INFO, "Everthing updated for the first time.");
+	}
+
+	private void watchTime(Runnable r)
+	{
+		final Date start = new Date();
+		r.run();
+		final Date end = new Date();
+		final long time = end.getTime() - start.getTime();
+		LOGGER.log(Level.INFO, "Duration (ms): " + time);
 	}
 
 	private void updateCount()
@@ -183,7 +213,7 @@ public class Data
 	{
 		try
 		{
-			delaysCloudsCorrelationCoefficient = DelayTempCorrelation.getCorrelationCoefficient();
+			delaysCloudsCorrelationCoefficient = DelayCloudCorrelation.getCorrelationCoefficient();
 			delaysCloudsCorrelationCoefficientLastUpdate = new Date();
 		}
 		catch (IOException e)
