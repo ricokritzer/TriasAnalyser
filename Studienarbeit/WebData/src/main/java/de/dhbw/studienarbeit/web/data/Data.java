@@ -2,7 +2,6 @@ package de.dhbw.studienarbeit.web.data;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
@@ -14,8 +13,6 @@ import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 
 public class Data
 {
-	private static Optional<Data> instance = Optional.empty();
-
 	private StationNeighbours stationNeighbours = new StationNeighbours();
 
 	private DelaysStation delaysStation = new DelaysStation();
@@ -32,17 +29,15 @@ public class Data
 
 	private CountList counts = new CountList();
 
-	public static Data getInstance()
-	{
-		if (!instance.isPresent())
-		{
-			instance = Optional.ofNullable(new Data());
-		}
-		return instance.orElse(new Data());
-	}
+	private static Data instance = new Data();
 
 	private Data()
 	{}
+
+	public static Data getInstance()
+	{
+		return instance;
+	}
 
 	public static List<DelayCloudsDB> getDelaysClouds()
 	{

@@ -14,7 +14,7 @@ public class DataUpdater
 {
 	private static final Logger LOGGER = Logger.getLogger(DataUpdater.class.getName());
 
-	private static final int MAXIMUM_PARALLEL = 3;
+	private static final int MAXIMUM_PARALLEL = 1;
 
 	public static final long SECONDS = 1000l;
 	public static final long MINUTES = 60 * SECONDS;
@@ -44,6 +44,7 @@ public class DataUpdater
 		{
 			synchronized (waitingForUpdate)
 			{
+				System.out.println("jetzt");
 				Optional<Updateable> opt = Optional.ofNullable(waitingForUpdate.poll());
 				opt.ifPresent(this::update);
 			}
