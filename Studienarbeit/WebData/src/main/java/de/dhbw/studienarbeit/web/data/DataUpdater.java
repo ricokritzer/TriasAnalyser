@@ -40,14 +40,24 @@ public class DataUpdater
 
 	private void updateAsync()
 	{
-		while (true)
+		boolean run = true;
+
+		while (run)
 		{
+			Optional<Updateable> opt;
 			synchronized (waitingForUpdate)
 			{
-				Optional<Updateable> opt = Optional.ofNullable(waitingForUpdate.poll());
-				opt.ifPresent(this::update);
+				opt = Optional.ofNullable(waitingForUpdate.poll());
+			}
+
+			opt.ifPresent(this::update);
+			if (!opt.isPresent())
+			{
+				run = false;
 			}
 		}
+
+		new Timer().schedule(new MyTimerTask(this::updateAsync), 60 * 1000l);
 	}
 
 	private void update(Updateable updateable)
@@ -61,7 +71,7 @@ public class DataUpdater
 		LOGGER.log(Level.INFO, classname + " updated after " + time + "ms.");
 	}
 
-	public static void scheduleUpdate(Updateable updateable, int time, long timeRange)
+	public void updateEvery(int time, long timeRange, Updateable updateable)
 	{
 		final String classname = updateable.getClass().getName();
 
@@ -73,5 +83,11 @@ public class DataUpdater
 		}), new Date(), time * timeRange);
 
 		LOGGER.log(Level.INFO, "Updates scheduled for " + classname + " every " + time * timeRange + " ms.");
+	}
+
+	@Deprecated
+	public static void scheduleUpdate(Updateable updateable, int time, long timeRange)
+	{
+		getInstance().updateEvery(time, timeRange, updateable);
 	}
 }
