@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
+import de.dhbw.studienarbeit.data.reader.database.TrackDB;
 
 public class StationNeighbours extends Updateable
 {
@@ -12,7 +13,7 @@ public class StationNeighbours extends Updateable
 
 	public StationNeighbours()
 	{
-		// DataUpdater.scheduleUpdate(this, 3, DataUpdater.HOURS);
+		DataUpdater.scheduleUpdate(this, 1, DataUpdater.DAYS);
 	}
 
 	public List<StationNeighbourDB> getData()
@@ -23,6 +24,14 @@ public class StationNeighbours extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = StationNeighbourDB.getStationNeighbours();
+		data = new ArrayList<>();
+		final List<TrackDB> tracks = TrackDB.getTracks();
+
+		for (TrackDB trackDB : tracks)
+		{
+			System.out.println("start convertion.");
+			StationNeighbourDB.convertToStationNeighbour(trackDB).ifPresent(data::add);
+			System.out.println(trackDB + " converted");
+		}
 	}
 }
