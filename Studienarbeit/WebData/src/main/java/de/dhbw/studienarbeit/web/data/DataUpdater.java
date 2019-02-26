@@ -16,9 +16,13 @@ public class DataUpdater
 
 	private static final int MAXIMUM_PARALLEL = 1;
 
+	@Deprecated
 	public static final long SECONDS = 1000l;
+	@Deprecated
 	public static final long MINUTES = 60 * SECONDS;
+	@Deprecated
 	public static final long HOURS = 60 * MINUTES;
+	@Deprecated
 	public static final long DAYS = 24 * HOURS;
 
 	private final Queue<Updateable> waitingForUpdate = new LinkedBlockingQueue<>();

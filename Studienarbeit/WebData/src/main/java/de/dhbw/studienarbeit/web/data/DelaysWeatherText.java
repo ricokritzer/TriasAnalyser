@@ -13,7 +13,7 @@ public class DelaysWeatherText extends Updateable
 
 	public DelaysWeatherText(Optional<DataUpdater> updater)
 	{
-		updater.ifPresent(u -> u.updateEvery(3, DataUpdater.HOURS, this));
+		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
 	public List<DelayWeatherTextDB> getData()

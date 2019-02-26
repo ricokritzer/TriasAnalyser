@@ -7,6 +7,11 @@ import java.util.logging.Logger;
 
 public abstract class Updateable
 {
+	public static final long SECONDS = 1000l;
+	public static final long MINUTES = 60 * SECONDS;
+	public static final long HOURS = 60 * MINUTES;
+	public static final long DAYS = 24 * HOURS;
+
 	private Date lastUpdate = new Date(0);
 
 	protected void update()
