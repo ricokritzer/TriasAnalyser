@@ -26,7 +26,7 @@ public class Data
 	private DelaysClouds delaysClouds = new DelaysClouds();
 	private DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient();
 
-	private DelaysWeatherText delaysWeatherText = new DelaysWeatherText();
+	private DelaysWeatherText delaysWeatherText = new DelaysWeatherText(Optional.of(DataUpdater.getInstance()));
 
 	private CountList counts = new CountList();
 
