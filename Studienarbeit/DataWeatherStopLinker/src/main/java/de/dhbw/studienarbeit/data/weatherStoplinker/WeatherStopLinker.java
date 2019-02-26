@@ -7,29 +7,20 @@ import de.dhbw.studienarbeit.data.reader.database.Count;
 
 public class WeatherStopLinker
 {
-	private static final int MAXIMUM_CONNECTIONS = 3;
-
 	public static void main(String[] args)
 	{
-		for (int i = 1; i <= MAXIMUM_CONNECTIONS; i++)
-		{
-			final int start = i;
-			new Thread(() -> new WeatherStopLinker().linkWeatherAndStops(start)).start();
-		}
+		new WeatherStopLinker().link();
 	}
 
-	private void linkWeatherAndStops(final int start)
+	private void link()
 	{
-		final Count stopCount = Count.countStops();
+		final long end = Count.countStops().getValue();
 
-		int i = start;
-
-		for (; i <= stopCount.getValue(); i += MAXIMUM_CONNECTIONS)
+		for (long i = end; i > 0; i--)
 		{
-			new StopWeather(i).save();
+			new StopWeather(i);
 		}
 
-		final int newStart = i;
-		new Timer().schedule(new MyTimerTask(() -> linkWeatherAndStops(newStart)), 60 * 60 * 1000l);
+		new Timer().schedule(new MyTimerTask(this::link), 60 * 60 * 1000l);
 	}
 }
