@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -158,12 +159,18 @@ public class StationNeighbourDB implements Comparable<StationNeighbourDB>
 	@Override
 	public boolean equals(Object obj)
 	{
+		if (obj instanceof StationNeighbourDB)
+		{
+			final StationNeighbourDB o = (StationNeighbourDB) obj;
+			return o.getLat1() == this.getLat1() && o.getLon1() == this.getLon1() //
+					&& o.getLat2() == this.getLat2() && o.getLon2() == this.getLon2();
+		}
 		return super.equals(obj);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return super.hashCode();
+		return Objects.hash(lat1, lon1, lat2, lon2);
 	}
 }
