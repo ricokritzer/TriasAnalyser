@@ -38,6 +38,6 @@ public class StopWeather implements Saveable
 	public void save()
 	{
 		DatabaseSaver.saveData(this);
-		LOGGER.log(Level.INFO, "Stop with index " + idx + " linked to weather.");
+		LOGGER.log(Level.FINE, "Stop with index " + idx + " linked to weather.");
 	}
 }
