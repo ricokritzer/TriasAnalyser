@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 public class StationNeighbourDB implements Comparable<StationNeighbourDB>
 {
 	private static final Logger LOGGER = Logger.getLogger(StationNeighbourDB.class.getName());
+
 	private final double lat1;
 	private final double lon1;
 	private final double avg1;
@@ -70,18 +71,13 @@ public class StationNeighbourDB implements Comparable<StationNeighbourDB>
 		return delayDifference / distance;
 	}
 
-	private static final Optional<StationNeighbourDB> getStation(ResultSet result)
+	private static final Optional<Double> getDelay(ResultSet result)
 	{
 		try
 		{
-			final double lat1 = result.getDouble("lat1");
-			final double lon1 = result.getDouble("lon1");
-			final double delay_avg1 = result.getDouble("delay_avg1");
-			final double lat2 = result.getDouble("lat2");
-			final double lon2 = result.getDouble("lon2");
-			final double delay_avg2 = result.getDouble("delay_avg2");
+			final double delay = result.getDouble("delay");
 
-			return Optional.of(new StationNeighbourDB(lat1, lon1, delay_avg1, lat2, lon2, delay_avg2));
+			return Optional.of(Double.valueOf(delay));
 		}
 		catch (SQLException e)
 		{
@@ -90,28 +86,67 @@ public class StationNeighbourDB implements Comparable<StationNeighbourDB>
 		}
 	}
 
-	public static final List<StationNeighbourDB> getStationNeighbours() throws IOException
+	public static List<StationNeighbourDB> convertToStationNeighbours(final List<TrackDB> tracks)
 	{
-		final String sql = "SELECT station1.lat AS lat1, station2.lat AS lat2, station1.lon AS lon1, station2.lon AS lon2, "
-				+ "avg(UNIX_TIMESTAMP(stop1.realTime) - UNIX_TIMESTAMP(stop1.timeTabledTime)) AS delay_avg1, "
-				+ "avg(UNIX_TIMESTAMP(stop2.realTime) - UNIX_TIMESTAMP(stop2.timeTabledTime)) AS delay_avg2 "
-				+ "FROM StationNeighbour, Stop stop1, Stop stop2, Station station1, Station station2 "
-				+ "WHERE StationNeighbour.lineID = stop1.lineID AND StationNeighbour.lineID = stop2.lineID "
-				+ "AND StationNeighbour.stationID1 = stop1.stationID AND StationNeighbour.stationID2 = stop2.stationID "
-				+ "AND StationNeighbour.stationID1 = station1.stationID AND StationNeighbour.stationID2 = station2.stationID "
-				+ "GROUP BY lat1, lat2, lon1, lon2;";
+		final List<StationNeighbourDB> list = new ArrayList<>();
+		tracks.forEach(t -> convertToStationNeighbour(t).ifPresent(list::add));
+		return list;
+	}
+
+	public static Optional<StationNeighbourDB> convertToStationNeighbour(final TrackDB track)
+	{
+		double avg1 = 0.0;
+		double avg2 = 0.0;
+
+		final String sql = "SELECT avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay "
+				+ "FROM Stop "
+				+ "WHERE Stop.lineID in (SELECT LineId FROM StationNeighbour WHERE stationID1 = ? AND stationID2 = ?) "
+				+ "AND Stop.stationID = ?";
 
 		final DatabaseReader database = new DatabaseReader();
+
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<StationNeighbourDB> list = new ArrayList<>();
-			database.select(r -> StationNeighbourDB.getStation(r).ifPresent(list::add), preparedStatement);
-			return list;
+			preparedStatement.setString(1, track.getStation1());
+			preparedStatement.setString(2, track.getStation2());
+			preparedStatement.setString(3, track.getStation1());
+
+			final List<Double> list = new ArrayList<>();
+			database.select(r -> StationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
+
+			if (list.size() == 1)
+			{
+				avg1 = list.get(0).doubleValue();
+			}
 		}
-		catch (SQLException e)
+		catch (SQLException | IOException e)
 		{
-			throw new IOException("Selecting does not succeed.", e);
+			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
+			return Optional.empty();
 		}
+
+		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
+		{
+			preparedStatement.setString(1, track.getStation1());
+			preparedStatement.setString(2, track.getStation2());
+			preparedStatement.setString(3, track.getStation2());
+
+			final List<Double> list = new ArrayList<>();
+			database.select(r -> StationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
+
+			if (list.size() == 1)
+			{
+				avg2 = list.get(0).doubleValue();
+			}
+		}
+		catch (SQLException | IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
+			return Optional.empty();
+		}
+
+		return Optional.of(
+				new StationNeighbourDB(track.getLat1(), track.getLon1(), avg1, track.getLat2(), track.getLat2(), avg2));
 	}
 
 	@Override
