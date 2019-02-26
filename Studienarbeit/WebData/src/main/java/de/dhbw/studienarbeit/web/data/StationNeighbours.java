@@ -26,12 +26,6 @@ public class StationNeighbours extends Updateable
 	{
 		data = new ArrayList<>();
 		final List<TrackDB> tracks = TrackDB.getTracks();
-
-		for (TrackDB trackDB : tracks)
-		{
-			System.out.println("start convertion.");
-			StationNeighbourDB.convertToStationNeighbour(trackDB).ifPresent(data::add);
-			System.out.println(trackDB + " converted");
-		}
+		tracks.forEach(track -> StationNeighbourDB.convertToStationNeighbour(track).ifPresent(data::add));
 	}
 }
