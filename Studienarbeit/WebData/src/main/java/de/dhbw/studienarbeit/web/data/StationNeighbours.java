@@ -3,17 +3,18 @@ package de.dhbw.studienarbeit.web.data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.database.TrackDB;
 
 public class StationNeighbours extends Updateable
 {
-	private List<StationNeighbourDB> data = new ArrayList<>();
+	protected List<StationNeighbourDB> data = new ArrayList<>();
 
-	public StationNeighbours()
+	public StationNeighbours(Optional<DataUpdater> updater)
 	{
-		DataUpdater.scheduleUpdate(this, 1, DataUpdater.DAYS);
+		updater.ifPresent(u -> u.scheduleUpdate(this, 1, DataUpdater.DAYS));
 	}
 
 	public List<StationNeighbourDB> getData()
@@ -24,8 +25,13 @@ public class StationNeighbours extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = new ArrayList<>();
 		final List<TrackDB> tracks = TrackDB.getTracks();
-		tracks.forEach(track -> StationNeighbourDB.convertToStationNeighbour(track).ifPresent(data::add));
+		tracks.forEach(track -> StationNeighbourDB.convertToStationNeighbour(track).ifPresent(this::renewData));
+	}
+
+	protected void renewData(StationNeighbourDB stationNeighbourDB)
+	{
+		data.remove(stationNeighbourDB);
+		data.add(stationNeighbourDB);
 	}
 }

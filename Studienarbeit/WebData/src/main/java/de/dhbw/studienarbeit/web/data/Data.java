@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.web.data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
@@ -13,7 +14,7 @@ import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 
 public class Data
 {
-	private StationNeighbours stationNeighbours = new StationNeighbours();
+	private StationNeighbours stationNeighbours = new StationNeighbours(Optional.of(DataUpdater.getInstance()));
 
 	private DelaysStation delaysStation = new DelaysStation();
 	private DelaysLine delaysLine = new DelaysLine();
