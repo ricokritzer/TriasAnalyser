@@ -41,7 +41,7 @@ public class CountList extends Updateable
 		reduceToTen(data);
 	}
 
-	private static void reduceToTen(List<? extends Object> list)
+	protected static void reduceToTen(List<? extends Object> list)
 	{
 		while (list.size() > MAX_COUNT_ITEMS)
 		{
