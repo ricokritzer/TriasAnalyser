@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +22,8 @@ public class StationNeighboursKVV
 {
 	private static Map<String, List<String>> stationNeighbours = new HashMap<>();
 	private static Set<SimpleStation> stations = new HashSet<>();
-	private static List<LineStation> lineStations = new ArrayList<>();
+	private static List<LineStation> stopsForLine;
+	private static List<String> savedStations;
 
 	public static void main(String[] args)
 	{
@@ -45,8 +45,7 @@ public class StationNeighboursKVV
 		{
 			for (SimpleStation neighbour : station.getNeighbours())
 			{
-				// DatabaseSaver.saveData(new StationNeighbour(station.getID(),
-				// neighbour.getID(), 0));
+				DatabaseSaver.saveData(new StationNeighbour(station.getID(), neighbour.getID(), 0));
 				System.out.println("added neighbours " + station.getID() + " and " + neighbour.getID() + " - no line");
 			}
 		}
@@ -71,16 +70,99 @@ public class StationNeighboursKVV
 					e.printStackTrace();
 				}
 			}
-		}, reader.getPreparedStatement("SELECT lineID FROM Line WHERE lineID = 128"));
-
+		}, reader.getPreparedStatement("SELECT lineID FROM Line"));
 	}
 
 	protected static void saveStationNeighboursForLine(int lineID) throws SQLException, IOException
 	{
-		lineStations = new ArrayList<>();
-		List<LineStation> firstStationList = new ArrayList<>();
-		List<LineStation> nextStationsList = new ArrayList<>();
+		getStopsForLine(lineID);
+		saveNeighboursInList(lineID);
+	}
 
+	private static void saveNeighboursInList(int lineID)
+	{
+		savedStations = new ArrayList<>();
+		Boolean newNeighboursFound = true;
+
+		while (stopsForLine.size() > 1 && newNeighboursFound)
+		{
+			newNeighboursFound = false;
+			for (int i = 0; i < stopsForLine.size() - 1; i++)
+			{
+				String stationID = stopsForLine.get(i).getStationID();
+				String neighbourID = stopsForLine.get(i + 1).getStationID();
+
+				if (neighbours(stationID, neighbourID))
+				{
+					DatabaseSaver.saveData(new StationNeighbour(stationID, neighbourID, lineID));
+					savedStations.add(stationID);
+					System.out.println("saved neighbours " + stationID + " and " + neighbourID + " for line " + lineID);
+					newNeighboursFound = true;
+				}
+			}
+
+			deleteSavedStations(savedStations);
+		}
+
+		for (int i = 0; i < stopsForLine.size(); i++)
+		{
+			saveRemainingNeighbours(stopsForLine.get(i).getStationID(), i, lineID);
+		}
+	}
+
+	private static void saveRemainingNeighbours(String station, int start, int lineID)
+	{
+		for (int i = start + 1; i < stopsForLine.size(); i++)
+		{
+			if (neighbours(station, stopsForLine.get(i).getStationID()))
+			{
+				DatabaseSaver.saveData(new StationNeighbour(station, stopsForLine.get(i).getStationID(), lineID));
+				savedStations.add(station);
+				System.out.println("saved neighbours " + station + " and " + stopsForLine.get(i).getStationID()
+						+ " for line " + lineID);
+				return;
+			}
+		}
+
+		for (int i = 0; i < savedStations.size(); i++)
+		{
+			if (savedStations.get(i).equals(station))
+			{
+				DatabaseSaver.saveData(new StationNeighbour(station, stopsForLine.get(i).getStationID(), lineID));
+				System.out.println("saved neighbours " + station + " and " + stopsForLine.get(i).getStationID()
+						+ " for line " + lineID);
+				return;
+			}
+		}
+	}
+
+	private static void deleteSavedStations(List<String> savedStations)
+	{
+		for (int i = stopsForLine.size() - 1; i >= 0; i--)
+		{
+			if (savedStations.contains(stopsForLine.get(i).getStationID()))
+			{
+				stopsForLine.remove(i);
+			}
+		}
+	}
+
+	private static boolean neighbours(String station, String neighbour)
+	{
+		try
+		{
+			return getStation(new SimpleStation(station)).getNeighbours()
+					.contains(getStation(new SimpleStation(neighbour)));
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+	}
+
+	private static void getStopsForLine(int lineID) throws SQLException, IOException
+	{
+		stopsForLine = new ArrayList<>();
 		DatabaseReader reader = new DatabaseReader();
 
 		reader.select(new Consumer<ResultSet>()
@@ -90,9 +172,7 @@ public class StationNeighboursKVV
 			{
 				try
 				{
-					Timestamp timestamp = rs.getTimestamp(2);
-					timestamp = subtractOneHour(timestamp);
-					firstStationList.add(new LineStation(rs.getString(1), lineID, timestamp));
+					stopsForLine.add(new LineStation(rs.getString(1), lineID));
 				}
 				catch (SQLException e)
 				{
@@ -100,201 +180,10 @@ public class StationNeighboursKVV
 				}
 
 			}
-		}, reader.getPreparedStatement("SELECT stationID, timeTabledTime FROM Stop WHERE lineID = " + lineID
-				+ " ORDER BY timeTabledTime LIMIT 1;"));
-
-		LineStation firstStation = firstStationList.get(0);
-
-		for (SimpleStation station : getStation(firstStation.getStationID()).getNeighbours())
-		{
-			reader.select(new Consumer<ResultSet>()
-			{
-				@Override
-				public void accept(ResultSet rs)
-				{
-					try
-					{
-						Timestamp timestamp = rs.getTimestamp(2);
-						timestamp = subtractOneHour(timestamp);
-						nextStationsList.add(new LineStation(rs.getString(1), lineID, timestamp));
-					}
-					catch (SQLException e)
-					{
-						e.printStackTrace();
-					}
-
-				}
-			}, reader.getPreparedStatement("SELECT stationID, timeTabledTime FROM Stop WHERE lineID = " + lineID
-					+ " AND stationID = '" + station.getID() + "' ORDER BY timeTabledTime LIMIT 1;"));
-		}
-
-		LineStation neighbour1 = null;
-		LineStation neighbour2 = null;
-
-		if (nextStationsList.isEmpty())
-		{
-			// Hält nicht an Nachbarn --> Keine Bahn vom KVV
-			return;
-		}
-		else if (nextStationsList.size() < 2)
-		{
-			// TODO entweder erster oder letzter Halt
-		}
-		else
-		{
-			neighbour1 = nextStationsList.get(0);
-			neighbour2 = nextStationsList.get(1);
-		}
-		if (neighbour1.getFirstOccurence().before(neighbour2.getFirstOccurence()))
-		{
-			firstStation.setNextStation(neighbour1);
-			neighbour2.setNextStation(firstStation);
-			getPreviousNeighbour(neighbour2, firstStation, lineID);
-			getNextNeighbour(neighbour1, firstStation, lineID);
-		}
-		else
-		{
-			neighbour1.setNextStation(firstStation);
-			firstStation.setNextStation(neighbour2);
-			getPreviousNeighbour(neighbour1, firstStation, lineID);
-			getNextNeighbour(neighbour2, firstStation, lineID);
-		}
-
-		lineStations.add(firstStation);
-		System.out.println("added " + firstStation.getStationID());
-		saveLine(lineID);
-	}
-
-	private static void getNextNeighbour(LineStation station, LineStation previousNeighbour, int lineID)
-			throws SQLException, IOException
-	{
-		List<LineStation> nextStationsList = new ArrayList<>();
-
-		DatabaseReader reader = new DatabaseReader();
-		for (SimpleStation ss : getStation(station.getStationID()).getNeighbours())
-		{
-			if (!(ss.getID().equals(previousNeighbour.getStationID()) || alreadySaved(ss.getID())))
-			{
-				reader.select(new Consumer<ResultSet>()
-				{
-					@Override
-					public void accept(ResultSet rs)
-					{
-						try
-						{
-							Timestamp timestamp = rs.getTimestamp(2);
-							timestamp = subtractOneHour(timestamp);
-							nextStationsList.add(new LineStation(rs.getString(1), lineID, timestamp));
-						}
-						catch (SQLException e)
-						{
-							e.printStackTrace();
-						}
-
-					}
-				}, reader.getPreparedStatement("SELECT stationID, timeTabledTime FROM Stop WHERE lineID = " + lineID
-						+ " AND stationID = '" + ss.getID() + "' ORDER BY timeTabledTime LIMIT 1;"));
-			}
-		}
-
-		if (nextStationsList.isEmpty())
-		{
-			// alle vorherigen Stops gefunden
-			return;
-		}
-		
-		for (LineStation next : nextStationsList)
-		{
-			station.setNextStation(next);
-			lineStations.add(station);
-			System.out.println("added " + station.getStationID());
-			getNextNeighbour(next, station, lineID);
-		}
-	}
-
-	private static void getPreviousNeighbour(LineStation station, LineStation nextNeighbour, int lineID)
-			throws SQLException, IOException
-	{
-		List<LineStation> previousStationsList = new ArrayList<>();
-
-		DatabaseReader reader = new DatabaseReader();
-		for (SimpleStation ss : getStation(station.getStationID()).getNeighbours())
-		{
-			if (!(ss.getID().equals(nextNeighbour.getStationID()) || alreadySaved(ss.getID())))
-			{
-				reader.select(new Consumer<ResultSet>()
-				{
-					@Override
-					public void accept(ResultSet rs)
-					{
-						try
-						{
-							Timestamp timestamp = rs.getTimestamp(2);
-							timestamp = subtractOneHour(timestamp);
-							previousStationsList.add(new LineStation(rs.getString(1), lineID, timestamp));
-						}
-						catch (SQLException e)
-						{
-							e.printStackTrace();
-						}
-
-					}
-				}, reader.getPreparedStatement("SELECT stationID, timeTabledTime FROM Stop WHERE lineID = " + lineID
-						+ " AND stationID = '" + ss.getID() + "' ORDER BY timeTabledTime LIMIT 1;"));
-			}
-		}
-
-		if (previousStationsList.isEmpty())
-		{
-			// alle vorherigen Stops gefunden
-			return;
-		}
-
-		for (LineStation previous : previousStationsList)
-		{
-			previous.setNextStation(station);
-			lineStations.add(station);
-			System.out.println("added " + station.getStationID());
-			getPreviousNeighbour(previous, station, lineID);
-		}
-	}
-
-
-
-	private static boolean alreadySaved(String id)
-	{
-		for (LineStation station : lineStations)
-		{
-			if (station.getStationID().equals(id))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private static SimpleStation getStation(String stationID)
-	{
-		return getStation(new SimpleStation(stationID));
-	}
-
-	protected static Timestamp subtractOneHour(Timestamp timestamp)
-	{
-		long current = timestamp.getTime();
-		long subtracted = current - (60 * 60 * 1000);
-		return new Timestamp(subtracted);
-	}
-
-	private static void saveLine(int lineId)
-	{
-		for (LineStation station : lineStations)
-		{
-			if (station.getNextStation() != null)
-			{
-				DatabaseSaver.saveData(new StationNeighbour(station.getStationID(), station.getNextStation().getStationID(), lineId));
-				System.out.println(station.getStationID() + " and " + station.getNextStation().getStationID());
-			}
-		}
+		}, reader.getPreparedStatement(
+				"SELECT DISTINCT Station.stationID, min(Stop.timeTabledTime) AS firstTime FROM Station, Stop WHERE Station.stationID = Stop.stationID AND Stop.lineID = "
+						+ lineID
+						+ " AND Stop.timeTabledTime >= '2019-01-02 00:00:00' GROUP BY Station.stationID ORDER BY firstTime"));
 	}
 
 	public static void getAllStationNeighbours() throws SQLException, IOException
@@ -316,7 +205,7 @@ public class StationNeighboursKVV
 	{
 		for (SimpleStation ss : stations)
 		{
-			if (ss.equals(station))
+			if (ss.getID().equals(station.getID()))
 			{
 				return ss;
 			}
