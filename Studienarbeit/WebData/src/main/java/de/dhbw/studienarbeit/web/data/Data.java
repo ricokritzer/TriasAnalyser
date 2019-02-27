@@ -16,19 +16,21 @@ public class Data
 {
 	private StationNeighbours stationNeighbours = new StationNeighbours(Optional.of(DataUpdater.getInstance()));
 
-	private DelaysStation delaysStation = new DelaysStation();
-	private DelaysLine delaysLine = new DelaysLine();
-	private DelaysVehicleType delaysVehicleType = new DelaysVehicleType();
+	private DelaysStation delaysStation = new DelaysStation(Optional.of(DataUpdater.getInstance()));
+	private DelaysLine delaysLine = new DelaysLine(Optional.of(DataUpdater.getInstance()));
+	private DelaysVehicleType delaysVehicleType = new DelaysVehicleType(Optional.of(DataUpdater.getInstance()));
 
-	private DelaysTemperature delaysTemperature = new DelaysTemperature();
-	private DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient();
+	private DelaysTemperature delaysTemperature = new DelaysTemperature(Optional.of(DataUpdater.getInstance()));
+	private DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient(
+			Optional.of(DataUpdater.getInstance()));
 
-	private DelaysClouds delaysClouds = new DelaysClouds();
-	private DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient();
+	private DelaysClouds delaysClouds = new DelaysClouds(Optional.of(DataUpdater.getInstance()));
+	private DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient(
+			Optional.of(DataUpdater.getInstance()));
 
 	private DelaysWeatherText delaysWeatherText = new DelaysWeatherText(Optional.of(DataUpdater.getInstance()));
 
-	private CountList counts = new CountList();
+	private CountList counts = new CountList(Optional.of(DataUpdater.getInstance()));
 
 	private static Data instance = new Data();
 

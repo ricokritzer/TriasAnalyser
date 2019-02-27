@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.Count;
 
@@ -13,9 +14,9 @@ public class CountList extends Updateable
 
 	private List<Counts> data = new ArrayList<>();
 
-	public CountList()
+	public CountList(Optional<DataUpdater> updater)
 	{
-		DataUpdater.scheduleUpdate(this, 5, DataUpdater.MINUTES);
+		updater.ifPresent(u -> u.updateEvery(5, MINUTES, this));
 	}
 
 	public List<Counts> getData()

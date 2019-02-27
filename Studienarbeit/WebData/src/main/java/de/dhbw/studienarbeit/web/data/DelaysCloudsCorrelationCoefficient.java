@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.web.data;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.DelayTempCorrelation;
 
@@ -8,9 +9,9 @@ public class DelaysCloudsCorrelationCoefficient extends Updateable
 {
 	private double data = 0.0;
 
-	public DelaysCloudsCorrelationCoefficient()
+	public DelaysCloudsCorrelationCoefficient(Optional<DataUpdater> updater)
 	{
-		DataUpdater.scheduleUpdate(this, 1, DataUpdater.DAYS);
+		updater.ifPresent(u -> u.updateEvery(1, DAYS, this));
 	}
 
 	public double getData()

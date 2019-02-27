@@ -16,15 +16,6 @@ public class DataUpdater
 
 	private static final int MAXIMUM_PARALLEL = 1;
 
-	@Deprecated
-	public static final long SECONDS = 1000l;
-	@Deprecated
-	public static final long MINUTES = 60 * SECONDS;
-	@Deprecated
-	public static final long HOURS = 60 * MINUTES;
-	@Deprecated
-	public static final long DAYS = 24 * HOURS;
-
 	private final Queue<Updateable> waitingForUpdate = new LinkedBlockingQueue<>();
 
 	private static final DataUpdater INSTANCE = new DataUpdater();
@@ -87,11 +78,5 @@ public class DataUpdater
 		}), new Date(), time * timeRange);
 
 		LOGGER.log(Level.INFO, "Updates scheduled for " + classname + " every " + time * timeRange + " ms.");
-	}
-
-	@Deprecated
-	public static void scheduleUpdate(Updateable updateable, int time, long timeRange)
-	{
-		getInstance().updateEvery(time, timeRange, updateable);
 	}
 }

@@ -14,7 +14,7 @@ public class StationNeighbours extends Updateable
 
 	public StationNeighbours(Optional<DataUpdater> updater)
 	{
-		updater.ifPresent(u -> u.updateEvery(1, DataUpdater.DAYS, this));
+		updater.ifPresent(u -> u.updateEvery(1, DAYS, this));
 	}
 
 	public List<StationNeighbourDB> getData()
