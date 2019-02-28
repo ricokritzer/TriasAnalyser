@@ -62,6 +62,10 @@ public class TriasXMLRequest
 		request(con, getXML());
 		LOGGER.log(Level.FINEST, getXML());
 		String responseXML = readResponse(con);
+		if (responseXML.isEmpty())
+		{
+			return new ArrayList<>();
+		}
 		LOGGER.log(Level.FINEST, responseXML);
 		DocumentBuilder parser;
 		try
