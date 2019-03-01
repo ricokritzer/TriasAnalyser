@@ -64,6 +64,7 @@ public class TriasXMLRequest
 		String responseXML = readResponse(con);
 		if (responseXML.isEmpty())
 		{
+			LOGGER.log(Level.FINEST, "Empty response.");
 			return new ArrayList<>();
 		}
 		LOGGER.log(Level.FINEST, responseXML);
