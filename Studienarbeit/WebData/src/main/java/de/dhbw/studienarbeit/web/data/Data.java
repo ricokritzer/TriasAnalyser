@@ -14,32 +14,46 @@ import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 
 public class Data
 {
-	private StationNeighbours stationNeighbours = new StationNeighbours(Optional.of(DataUpdater.getInstance()));
+	private final CountList counts;
 
-	private DelaysStation delaysStation = new DelaysStation(Optional.of(DataUpdater.getInstance()));
-	private DelaysLine delaysLine = new DelaysLine(Optional.of(DataUpdater.getInstance()));
-	private DelaysVehicleType delaysVehicleType = new DelaysVehicleType(Optional.of(DataUpdater.getInstance()));
+	private final DelaysStation delaysStation;
+	private final DelaysLine delaysLine;
+	private final DelaysVehicleType delaysVehicleType;
 
-	private DelaysTemperature delaysTemperature = new DelaysTemperature(Optional.of(DataUpdater.getInstance()));
-	private DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient(
-			Optional.of(DataUpdater.getInstance()));
+	private final DelaysTemperature delaysTemperature;
+	private final DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient;
+	private final DelaysClouds delaysClouds;
+	private final DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient;
+	private final DelaysWeatherText delaysWeatherText;
 
-	private DelaysClouds delaysClouds = new DelaysClouds(Optional.of(DataUpdater.getInstance()));
-	private DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient(
-			Optional.of(DataUpdater.getInstance()));
+	private final StationNeighbours stationNeighbours;
 
-	private DelaysWeatherText delaysWeatherText = new DelaysWeatherText(Optional.of(DataUpdater.getInstance()));
-
-	private CountList counts = new CountList(Optional.of(DataUpdater.getInstance()));
-
-	private static Data instance = new Data();
+	private static final Data INSTANCE = new Data();
 
 	private Data()
-	{}
+	{
+		final Optional<DataUpdater> updater = Optional.of(DataUpdater.getInstance());
+
+		counts = new CountList(updater);
+
+		delaysStation = new DelaysStation(updater);
+		delaysLine = new DelaysLine(updater);
+		delaysVehicleType = new DelaysVehicleType(updater);
+
+		delaysTemperature = new DelaysTemperature(updater);
+		delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient(updater);
+
+		delaysClouds = new DelaysClouds(updater);
+		delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient(updater);
+
+		delaysWeatherText = new DelaysWeatherText(updater);
+
+		stationNeighbours = new StationNeighbours(updater);
+	}
 
 	public static Data getInstance()
 	{
-		return instance;
+		return INSTANCE;
 	}
 
 	public static List<DelayCloudsDB> getDelaysClouds()
