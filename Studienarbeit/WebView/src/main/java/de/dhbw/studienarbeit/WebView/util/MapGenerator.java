@@ -1,12 +1,10 @@
 package de.dhbw.studienarbeit.WebView.util;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.studienarbeit.WebView.tracks.Track;
+import de.dhbw.studienarbeit.WebView.tracks.TrackHelper;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
-import de.dhbw.studienarbeit.data.reader.database.StationDB;
-import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class MapGenerator
@@ -35,33 +33,56 @@ public class MapGenerator
 
 	private void getTracks()
 	{
-		sb.append("var polyline_Marktplatz_Herrenstrasse = L.polyline([[49.0095795577620000 - 0.00005, 8.4045749173222800 + 0.00005],[49.0097916817274000 - 0.00005, 8.4000563914425300 + 0.00005]], {color: 'red'}).addTo(mymap);") //
-		.append(System.lineSeparator()) //
-		.append("var polyline_Herrenstrasse_Marktplatz = L.polyline([[49.0097916817274000 + 0.00005, 8.4000563914425300 - 0.00005],[49.0095795577620000 + 0.00005, 8.4045749173222800 - 0.00005]], {color: 'green'}).addTo(mymap);");
+		int i = 0;
+		List<Track> tracks = TrackHelper.convertToTracks(Data.getNeighbours());
+		for (Track track : tracks)
+		{
+			double lat1 = track.getLat1();
+			double lon1 = track.getLon1();
+			double lat2 = track.getLat2();
+			double lon2 = track.getLon2();
+
+			if (lat1 > lat2)
+			{
+				lon1 = lon1 - distanceEastWest;
+				lon2 = lon2 + distanceEastWest;
+			}
+			else
+			{
+				lon1 = lon1 + distanceEastWest;
+				lon2 = lon2 - distanceEastWest;
+			}
+
+			if (lon1 > lon2)
+			{
+				lat1 = lat1 - distanceNorthSouth;
+				lat2 = lat2 + distanceNorthSouth;
+			}
+			else
+			{
+				lat1 = lat1 + distanceNorthSouth;
+				lat2 = lat2 - distanceNorthSouth;
+			}
+
+			sb.append("var polyline_" + i + " = L.polyline([[" + lat1 + ", " + lon1 + "],[" + lat2 + ", " + lon2
+					+ "]], {color: rgb(" + track.getColor().getRed() + "," + track.getColor().getGreen() + ","
+					+ track.getColor().getBlue() + ")}).addTo(mymap);");
+			sb.append(System.lineSeparator());
+			i++;
+		}
 	}
 
 	private void getMarkers()
 	{
 		int i = 0;
-		for (DelayStationDB station : getStations())
+		for (DelayStationDB station : Data.getDelaysStation())
 		{
-			sb.append("var marker_" + i + " = L.marker([" + station.getLat() + "," + station.getLon() + "]).addTo(mymap);") //
-			.append(System.lineSeparator()) //
-			.append("marker_" + i + ".bindPopup('" + station.getStationName() + "');") //
-			.append(System.lineSeparator());
+			sb.append("var marker_" + i + " = L.marker([" + station.getLat() + "," + station.getLon()
+					+ "]).addTo(mymap);") //
+					.append(System.lineSeparator()) //
+					.append("marker_" + i + ".bindPopup('" + station.getStationName() + "');") //
+					.append(System.lineSeparator());
 			i++;
 		}
-	}
-
-	private List<DelayStationDB> getStations()
-	{
-		List<DelayStationDB> stations = new ArrayList<>();
-		
-		stations.add(new DelayStationDB(0, 0, "Karlsruhe Marktplatz", "kvv", 49.0095795577620000, 8.4045749173222800, 1));
-		stations.add(new DelayStationDB(0, 0, "Karlsruhe Herrenstraße", "kvv", 49.0097916817274000, 8.4000563914425300, 1));
-		
-		return stations;
-		
-		//return Data.getDelaysStation();
 	}
 }
