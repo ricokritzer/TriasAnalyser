@@ -24,11 +24,11 @@ public class TrackHelper
 			return new ArrayList<>();
 		}
 
+		Collections.sort(stationNeighbours);
+
+		final double maximum = stationNeighbours.get(stationNeighbours.size() - 1).getSlope();
+
 		final List<Track> tracks = new ArrayList<>();
-		Collections.sort(tracks);
-
-		final double maximum = tracks.get(tracks.size() - 1).getSlope();
-
 		stationNeighbours.forEach(sn -> tracks.add(new Track(sn.getLat1(), sn.getLon1(), sn.getAvg1(), sn.getLat2(),
 				sn.getLon2(), sn.getAvg2(), getColorFor(sn.getSlope(), maximum))));
 		return tracks;
