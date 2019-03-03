@@ -12,9 +12,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
 import java.util.function.Consumer;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
+import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 import de.dhbw.studienarbeit.data.trias.StationNeighbour;
 
@@ -24,6 +26,7 @@ public class StationNeighboursKVV
 	private static Set<SimpleStation> stations = new HashSet<>();
 	private static List<LineStation> stopsForLine;
 	private static List<String> savedStations;
+	private static int maxLineID = 0;
 
 	public static void main(String[] args)
 	{
@@ -51,26 +54,42 @@ public class StationNeighboursKVV
 		}
 	}
 
-	private static void saveStationNeighboursForLines() throws SQLException, IOException
+	private static void saveStationNeighboursForLines()
+	{
+		selectLines();
+
+		new Timer().schedule(new MyTimerTask(() -> saveStationNeighboursForLines()), 1000 * 60 * 60);
+
+	}
+
+	private static void selectLines()
 	{
 		DatabaseReader reader = new DatabaseReader();
-		reader.select(new Consumer<ResultSet>()
+		try
 		{
-
-			@Override
-			public void accept(ResultSet rs)
+			reader.select(new Consumer<ResultSet>()
 			{
-				try
+
+				@Override
+				public void accept(ResultSet rs)
 				{
-					int lineID = rs.getInt(1);
-					saveStationNeighboursForLine(lineID);
+					try
+					{
+						int lineID = rs.getInt(1);
+						saveStationNeighboursForLine(lineID);
+						maxLineID = lineID;
+					}
+					catch (SQLException | IOException e)
+					{
+						e.printStackTrace();
+					}
 				}
-				catch (SQLException | IOException e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}, reader.getPreparedStatement("SELECT lineID FROM Line"));
+			}, reader.getPreparedStatement("SELECT lineID FROM Line WHERE lineID > " + maxLineID));
+		}
+		catch (SQLException | IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	protected static void saveStationNeighboursForLine(int lineID) throws SQLException, IOException
