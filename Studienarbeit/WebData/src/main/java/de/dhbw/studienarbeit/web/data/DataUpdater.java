@@ -14,7 +14,7 @@ public class DataUpdater
 {
 	private static final Logger LOGGER = Logger.getLogger(DataUpdater.class.getName());
 
-	private static final int MAXIMUM_PARALLEL = 1;
+	private static final int MAXIMUM_PARALLEL = 2;
 
 	private final Queue<Updateable> waitingForUpdate = new LinkedBlockingQueue<>();
 
@@ -58,9 +58,12 @@ public class DataUpdater
 	private void update(Updateable updateable)
 	{
 		final String classname = updateable.getClass().getName();
-		LOGGER.log(Level.INFO, "Started updating " + classname);
+
+		LOGGER.log(Level.FINEST, "Started updating " + classname);
 		final Date start = new Date();
+
 		updateable.update();
+
 		final Date end = new Date();
 		final long time = end.getTime() - start.getTime();
 		LOGGER.log(Level.INFO, classname + " updated after " + time + "ms.");
@@ -69,14 +72,15 @@ public class DataUpdater
 	public void updateEvery(int time, long timeRange, Updateable updateable)
 	{
 		final String classname = updateable.getClass().getName();
-
-		new Timer(classname).schedule(new MyTimerTask(() -> {
-			synchronized (getInstance().waitingForUpdate)
-			{
-				getInstance().waitingForUpdate.add(updateable);
-			}
-		}), new Date(), time * timeRange);
-
+		new Timer(classname).schedule(new MyTimerTask(() -> addUpdateable(updateable)), new Date(), time * timeRange);
 		LOGGER.log(Level.INFO, "Updates scheduled for " + classname + " every " + time * timeRange + " ms.");
+	}
+
+	private void addUpdateable(Updateable updateable)
+	{
+		synchronized (getInstance().waitingForUpdate)
+		{
+			getInstance().waitingForUpdate.add(updateable);
+		}
 	}
 }
