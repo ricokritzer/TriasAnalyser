@@ -1,29 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.dhbw.studienarbeit</groupId>
-	<artifactId>Studienarbeit</artifactId>
-	<version>1.0.0</version>
-	<name>Studienarbeit</name>
-	<packaging>pom</packaging>
-	<properties>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>de.dhbw.studienarbeit</groupId>
+    <artifactId>Studienarbeit</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <artifactId>DataStationNeighbourLinker</artifactId>
+  
+  <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-	<modules>
-		<module>DataWeather</module>
-		<module>DataHelper</module>
-		<module>DataTrias</module>
-		<module>Data</module>
-		<module>DataTriasTest</module>
-		<module>DataReader</module>
-		<module>DataWriter</module>
-		<module>WebView</module>
-		<module>WebData</module>
-		<module>DataWeatherStopLinker</module>
-    <module>DataStationNeighbourLinker</module>
-  </modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -55,31 +43,47 @@
 			<version>1.1.0</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>org.apache.maven.surefire</groupId>
-			<artifactId>surefire-booter</artifactId>
-			<version>2.12.4</version>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>DataHelper</artifactId>
+		</dependency>
+		<dependency>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>DataReader</artifactId>
+		</dependency>
+		<dependency>
+			<version>1.0.0</version>
+			<groupId>de.dhbw.studienarbeit</groupId>
+			<artifactId>DataWriter</artifactId>
 		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-			<!-- Jetty plugin for easy testing without a server -->
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.11.v20180605</version>
-				<configuration>
-					<scanIntervalSeconds>1</scanIntervalSeconds>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<forkMode>always</forkMode>
+					<useSystemClassLoader>true</useSystemClassLoader>
+					<useManifestOnlyJar>false</useManifestOnlyJar>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.1.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.junit.jupiter</groupId>
+						<artifactId>junit-jupiter-engine</artifactId>
+						<version>5.1.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -88,10 +92,10 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-					<skipAssembly>true</skipAssembly>
+					<skipAssembly>false</skipAssembly>
 					<archive>
 						<manifest>
-							<mainClass>de.dhbw.studienarbeit.data.App</mainClass>
+							<mainClass>de.dhbw.studienarbeit.data.stationNeighbourLinker.StationNeighboursKVV</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -107,4 +111,5 @@
 			</plugin>
 		</plugins>
 	</build>
+  
 </project>

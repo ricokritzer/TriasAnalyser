@@ -23,5 +23,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="/DataReader"/>
+	<classpathentry kind="src" path="/DataHelper"/>
+	<classpathentry kind="src" path="/DataWriter"/>
+	<classpathentry kind="src" path="/DataTrias"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
