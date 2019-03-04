@@ -11,6 +11,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.components.AboutDiv;
+import de.dhbw.studienarbeit.WebView.components.CorrelationCoefficientsDiv;
 import de.dhbw.studienarbeit.WebView.components.CountDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayCloudsDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayLineDiv;
@@ -24,7 +25,7 @@ import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 @Route("")
 public class MainView extends VerticalLayout
 {
-	private static final long serialVersionUID = 4L;
+	private static final long serialVersionUID = 1L;
 
 	private final Tabs tabs = new Tabs();
 	private final Map<Tab, Component> tabsToPages = new HashMap<>();
@@ -46,6 +47,7 @@ public class MainView extends VerticalLayout
 		addTab("Verspätungen nach Bewölkung", new DelayCloudsDiv());
 		addTab("Verspätungen nach Fahrzeugtyp", new DelayVehicleTypeDiv());
 		addTab("Karte", mapDiv);
+		addTab("Korrelationskoeffizienten", new CorrelationCoefficientsDiv());
 		addTab("Über uns", new AboutDiv());
 		tabs.setFlexGrowForEnclosedTabs(1);
 
