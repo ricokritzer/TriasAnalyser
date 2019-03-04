@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.trias;
+package de.dhbw.studienarbeit.data.stationNeighbourLinker;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

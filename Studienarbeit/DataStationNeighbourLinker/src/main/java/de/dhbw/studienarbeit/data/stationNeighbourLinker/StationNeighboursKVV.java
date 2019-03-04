@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
-import de.dhbw.studienarbeit.data.trias.StationNeighbour;
 
 public class StationNeighboursKVV
 {
