@@ -65,8 +65,8 @@ public class MapGenerator
 			}
 
 			sb.append("var polyline_" + i + " = L.polyline([[" + lat1 + ", " + lon1 + "],[" + lat2 + ", " + lon2
-					+ "]], {color: rgb(" + track.getColor().getRed() + "," + track.getColor().getGreen() + ","
-					+ track.getColor().getBlue() + ")}).addTo(mymap);");
+					+ "]], {color: 'rgb(" + track.getColor().getRed() + "," + track.getColor().getGreen() + ","
+					+ track.getColor().getBlue() + ")'}).addTo(mymap);");
 			sb.append(System.lineSeparator());
 			i++;
 		}

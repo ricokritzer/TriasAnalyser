@@ -12,6 +12,7 @@ import de.dhbw.studienarbeit.WebView.util.MapGenerator;
 public class MapDiv extends Div
 {
 	private static final long serialVersionUID = 3L;
+	private boolean init = false;
 
 	public MapDiv()
 	{
@@ -21,10 +22,15 @@ public class MapDiv extends Div
 
 	public void initMap()
 	{
+		if (init)
+		{
+			return;
+		}
 		MapGenerator generator = new MapGenerator();
 		getElement().setAttribute("id", "map");
 		getElement().getStyle().set("height", "90vh");
-		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript("initMap()"
-				+ System.lineSeparator() + "function initMap() {" + generator.generate() + "}");
+		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript(
+				"initMap()" + System.lineSeparator() + "function initMap() {" + generator.generate() + "}");
+		init = true;
 	}
 }
