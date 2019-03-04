@@ -1,15 +1,17 @@
-package de.dhbw.studienarbeit.web.data;
+package de.dhbw.studienarbeit.web.data.weather.temperature;
 
 import java.io.IOException;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.DelayTempCorrelation;
+import de.dhbw.studienarbeit.web.data.update.DataUpdater;
+import de.dhbw.studienarbeit.web.data.update.Updateable;
 
-public class DelaysCloudsCorrelationCoefficient extends Updateable
+public class DelaysTemperatureCorrelationCoefficient extends Updateable
 {
 	private double data = 0.0;
 
-	public DelaysCloudsCorrelationCoefficient(Optional<DataUpdater> updater)
+	public DelaysTemperatureCorrelationCoefficient(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(1, DAYS, this));
 	}

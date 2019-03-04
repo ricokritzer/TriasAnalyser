@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.web.data;
+package de.dhbw.studienarbeit.web.data.station;
 
 import static org.junit.Assert.assertThat;
 
@@ -8,6 +8,7 @@ import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
+import de.dhbw.studienarbeit.web.data.station.StationNeighbours;
 
 public class StationNeighboursTest
 {

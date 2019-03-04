@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.web.data;
+package de.dhbw.studienarbeit.web.data.station;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.database.TrackDB;
+import de.dhbw.studienarbeit.web.data.update.DataUpdater;
+import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class StationNeighbours extends Updateable
 {

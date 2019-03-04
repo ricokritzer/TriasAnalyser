@@ -11,6 +11,18 @@ import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayVehicleTypeDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
+import de.dhbw.studienarbeit.web.data.counts.CountList;
+import de.dhbw.studienarbeit.web.data.counts.Counts;
+import de.dhbw.studienarbeit.web.data.line.DelaysLine;
+import de.dhbw.studienarbeit.web.data.station.DelaysStation;
+import de.dhbw.studienarbeit.web.data.station.StationNeighbours;
+import de.dhbw.studienarbeit.web.data.update.DataUpdater;
+import de.dhbw.studienarbeit.web.data.vehicletype.DelaysVehicleType;
+import de.dhbw.studienarbeit.web.data.weather.clouds.DelaysClouds;
+import de.dhbw.studienarbeit.web.data.weather.clouds.DelaysCloudsCorrelationCoefficient;
+import de.dhbw.studienarbeit.web.data.weather.temperature.DelaysTemperature;
+import de.dhbw.studienarbeit.web.data.weather.temperature.DelaysTemperatureCorrelationCoefficient;
+import de.dhbw.studienarbeit.web.data.weather.text.DelaysWeatherText;
 
 public class Data
 {

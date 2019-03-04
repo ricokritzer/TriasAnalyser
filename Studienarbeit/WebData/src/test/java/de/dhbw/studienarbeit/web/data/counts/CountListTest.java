@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.web.data;
+package de.dhbw.studienarbeit.web.data.counts;
 
 import static org.junit.Assert.assertThat;
 
@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;
+
+import de.dhbw.studienarbeit.web.data.counts.CountList;
 
 public class CountListTest
 {

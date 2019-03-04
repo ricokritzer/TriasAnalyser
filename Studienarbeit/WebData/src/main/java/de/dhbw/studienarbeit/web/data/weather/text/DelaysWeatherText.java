@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.web.data;
+package de.dhbw.studienarbeit.web.data.weather.text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
+import de.dhbw.studienarbeit.web.data.update.DataUpdater;
+import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelaysWeatherText extends Updateable
 {

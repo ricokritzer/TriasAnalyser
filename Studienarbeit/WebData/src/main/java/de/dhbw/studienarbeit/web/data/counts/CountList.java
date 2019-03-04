@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.web.data;
+package de.dhbw.studienarbeit.web.data.counts;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.Count;
+import de.dhbw.studienarbeit.web.data.update.DataUpdater;
+import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class CountList extends Updateable
 {

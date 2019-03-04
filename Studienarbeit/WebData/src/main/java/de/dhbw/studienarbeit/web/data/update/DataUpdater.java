@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.web.data;
+package de.dhbw.studienarbeit.web.data.update;
 
 import java.util.Date;
 import java.util.Optional;
