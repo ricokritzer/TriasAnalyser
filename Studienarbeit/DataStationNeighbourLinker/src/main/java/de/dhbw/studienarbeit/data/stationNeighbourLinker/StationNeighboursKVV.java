@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
@@ -27,6 +29,8 @@ public class StationNeighboursKVV
 	private static List<LineStation> stopsForLine;
 	private static List<String> savedStations;
 	private static int maxLineID = 0;
+
+	private static final Logger LOGGER = Logger.getLogger(StationNeighboursKVV.class.getName());
 
 	public static void main(String[] args)
 	{
@@ -43,10 +47,9 @@ public class StationNeighboursKVV
 
 	private static void saveStationNeighboursForLines()
 	{
+		LOGGER.log(Level.INFO, "Linker starts with: " + (maxLineID + 1));
 		selectLines();
-
 		new Timer().schedule(new MyTimerTask(() -> saveStationNeighboursForLines()), 1000 * 60 * 60);
-
 	}
 
 	private static void selectLines()
@@ -102,7 +105,8 @@ public class StationNeighboursKVV
 				{
 					DatabaseSaver.saveData(new StationNeighbour(stationID, neighbourID, lineID));
 					savedStations.add(stationID);
-					System.out.println("saved neighbours " + stationID + " and " + neighbourID + " for line " + lineID);
+					LOGGER.log(Level.FINE,
+							"saved neighbours " + stationID + " and " + neighbourID + " for line " + lineID);
 					newNeighboursFound = true;
 				}
 			}
@@ -124,7 +128,7 @@ public class StationNeighboursKVV
 			{
 				DatabaseSaver.saveData(new StationNeighbour(station, stopsForLine.get(i).getStationID(), lineID));
 				savedStations.add(station);
-				System.out.println("saved neighbours " + station + " and " + stopsForLine.get(i).getStationID()
+				LOGGER.log(Level.FINE, "saved neighbours " + station + " and " + stopsForLine.get(i).getStationID()
 						+ " for line " + lineID);
 				return;
 			}
@@ -135,7 +139,7 @@ public class StationNeighboursKVV
 			if (savedStations.get(i).equals(station))
 			{
 				DatabaseSaver.saveData(new StationNeighbour(station, stopsForLine.get(i).getStationID(), lineID));
-				System.out.println("saved neighbours " + station + " and " + stopsForLine.get(i).getStationID()
+				LOGGER.log(Level.FINE, "saved neighbours " + station + " and " + stopsForLine.get(i).getStationID()
 						+ " for line " + lineID);
 				return;
 			}
@@ -203,7 +207,6 @@ public class StationNeighboursKVV
 				SimpleStation station = new SimpleStation(stationNeighbours.get(s).get(i));
 				SimpleStation neighbour = new SimpleStation(stationNeighbours.get(s).get(i + 1));
 				getStation(station).addNeighbourIfNotExists(neighbour);
-				System.out.println("Added neighbour " + neighbour.getID() + " to station " + station.getID());
 			}
 		}
 	}
