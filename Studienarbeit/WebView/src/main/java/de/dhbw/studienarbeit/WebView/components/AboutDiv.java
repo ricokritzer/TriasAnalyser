@@ -6,7 +6,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 
 public class AboutDiv extends Div
 {
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 11L;
 
 	public AboutDiv()
 	{

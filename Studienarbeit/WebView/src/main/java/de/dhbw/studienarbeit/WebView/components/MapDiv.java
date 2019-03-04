@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.WebView.util.MapGenerator;
 @JavaScript("https://unpkg.com/leaflet@1.4.0/dist/leaflet.js")
 public class MapDiv extends Div
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3L;
 
 	public MapDiv()
 	{

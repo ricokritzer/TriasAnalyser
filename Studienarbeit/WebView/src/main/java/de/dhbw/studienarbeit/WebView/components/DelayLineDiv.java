@@ -16,7 +16,7 @@ import de.dhbw.studienarbeit.web.data.Data;
 @PageTitle("Verspätungen")
 public class DelayLineDiv extends Div
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8L;
 
 	private static final int SECONDS_PER_MINUTE = 60;
 	private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;

@@ -20,7 +20,7 @@ import de.dhbw.studienarbeit.web.data.Data;
 
 public class CountDiv extends Div
 {
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 10L;
 
 	private final Grid<Counts> grid = new Grid<>();
 
