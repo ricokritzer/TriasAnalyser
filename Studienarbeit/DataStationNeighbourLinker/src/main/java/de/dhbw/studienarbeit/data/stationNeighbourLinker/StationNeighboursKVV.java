@@ -226,7 +226,7 @@ public class StationNeighboursKVV
 	{
 		try
 		{
-			File file = new File("stop_times.txt");
+			File file = new File("src/main/resources/stop_times.txt");
 			FileReader fr;
 			fr = new FileReader(file);
 			BufferedReader reader = new BufferedReader(fr);
