@@ -19,7 +19,7 @@ public class CountList extends Updateable
 		updater.ifPresent(u -> u.updateEvery(5, MINUTES, this));
 	}
 
-	public List<Counts> getData()
+	public final List<Counts> getData()
 	{
 		return data;
 	}
@@ -27,21 +27,22 @@ public class CountList extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		Count countStations = Count.countStations();
-		Count countObservedStations = Count.countObservedStations();
-		Count countStationsWithRealtimeData = Count.countStationsWithRealtimeData();
-		Count countLines = Count.countLines();
-		Count countStops = Count.countStops();
-		Count countWeathers = Count.countWeather();
-		Count countOperators = Count.countObservedOperators();
-		Date lastUpdate = new Date();
+		final Count countStations = Count.countStations();
+		final Count countObservedStations = Count.countObservedStations();
+		final Count countStationsWithRealtimeData = Count.countStationsWithRealtimeData();
+		final Count countLines = Count.countLines();
+		final Count countStops = Count.countStops();
+		final Count countWeathers = Count.countWeather();
+		final Count countOperators = Count.countObservedOperators();
+		final Date lastUpdate = new Date();
 
 		data.add(0, new Counts(countStations, countObservedStations, countStationsWithRealtimeData, countLines,
 				countStops, countWeathers, countOperators, lastUpdate));
-		reduceToTen(data);
+
+		reduceListElements(data);
 	}
 
-	protected static void reduceToTen(List<? extends Object> list)
+	protected static void reduceListElements(List<? extends Object> list)
 	{
 		while (list.size() > MAX_COUNT_ITEMS)
 		{

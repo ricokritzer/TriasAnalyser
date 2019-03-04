@@ -15,7 +15,7 @@ public class CountListTest
 	{
 		final List<Integer> list = getListWithElements(10);
 
-		CountList.reduceToTen(list);
+		CountList.reduceListElements(list);
 
 		assertThat(list.size(), Is.is(10));
 	}
@@ -25,7 +25,7 @@ public class CountListTest
 	{
 		final List<Integer> list = getListWithElements(11);
 
-		CountList.reduceToTen(list);
+		CountList.reduceListElements(list);
 
 		assertThat(list.size(), Is.is(10));
 	}
@@ -35,7 +35,7 @@ public class CountListTest
 	{
 		final List<Integer> list = getListWithElements(12);
 
-		CountList.reduceToTen(list);
+		CountList.reduceListElements(list);
 
 		assertThat(list.size(), Is.is(10));
 	}
