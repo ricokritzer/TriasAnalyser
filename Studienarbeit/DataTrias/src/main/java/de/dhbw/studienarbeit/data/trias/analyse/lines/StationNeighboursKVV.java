@@ -33,24 +33,11 @@ public class StationNeighboursKVV
 		try
 		{
 			getAllStationNeighbours();
-			saveNeighboursWithoutLines();
 			saveStationNeighboursForLines();
 		}
 		catch (SQLException | IOException e)
 		{
 			e.printStackTrace();
-		}
-	}
-
-	private static void saveNeighboursWithoutLines()
-	{
-		for (SimpleStation station : stations)
-		{
-			for (SimpleStation neighbour : station.getNeighbours())
-			{
-				DatabaseSaver.saveData(new StationNeighbour(station.getID(), neighbour.getID(), 0));
-				System.out.println("added neighbours " + station.getID() + " and " + neighbour.getID() + " - no line");
-			}
 		}
 	}
 
@@ -216,6 +203,7 @@ public class StationNeighboursKVV
 				SimpleStation station = new SimpleStation(stationNeighbours.get(s).get(i));
 				SimpleStation neighbour = new SimpleStation(stationNeighbours.get(s).get(i + 1));
 				getStation(station).addNeighbourIfNotExists(neighbour);
+				System.out.println("Added neighbour " + neighbour.getID() + " to station " + station.getID());
 			}
 		}
 	}
