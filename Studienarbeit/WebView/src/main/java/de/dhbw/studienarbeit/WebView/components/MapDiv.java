@@ -24,7 +24,7 @@ public class MapDiv extends Div
 		MapGenerator generator = new MapGenerator();
 		getElement().setAttribute("id", "map");
 		getElement().getStyle().set("height", "90vh");
-		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript("setTimeout(initMap, 10000)\r\n"
-				+ "function initMap() {" + generator.generate() + "}");
+		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript("initMap()"
+				+ System.lineSeparator() + "function initMap() {" + generator.generate() + "}");
 	}
 }

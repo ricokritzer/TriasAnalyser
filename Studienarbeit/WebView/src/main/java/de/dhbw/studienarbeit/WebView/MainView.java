@@ -3,8 +3,6 @@ package de.dhbw.studienarbeit.WebView;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -56,10 +54,13 @@ public class MainView extends VerticalLayout
 		tabs.addSelectedChangeListener(e -> {
 			tabsToPages.values().forEach(div -> div.setVisible(false));
 			tabsToPages.get(tabs.getSelectedTab()).setVisible(true);
+			if (tabsToPages.get(tabs.getSelectedTab()).equals(mapDiv))
+			{
+				mapDiv.initMap();
+			}
 		});
 		
 		setSizeFull();
-		mapDiv.initMap();
 	}
 
 	private void addTab(String name, Div div)
