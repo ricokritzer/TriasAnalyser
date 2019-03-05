@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
 
 public class StationNeighbourDB implements StationNeighbourData
@@ -124,5 +126,29 @@ public class StationNeighbourDB implements StationNeighbourData
 	public String getStationName2()
 	{
 		return stationName2;
+	}
+
+	@Override
+	public StationName getName1()
+	{
+		return new StationName(stationName1);
+	}
+
+	@Override
+	public Position getPosition1()
+	{
+		return new Position(lat1, lon1);
+	}
+
+	@Override
+	public StationName getName2()
+	{
+		return new StationName(stationName2);
+	}
+
+	@Override
+	public Position getPosition2()
+	{
+		return new Position(lat2, lon2);
 	}
 }
