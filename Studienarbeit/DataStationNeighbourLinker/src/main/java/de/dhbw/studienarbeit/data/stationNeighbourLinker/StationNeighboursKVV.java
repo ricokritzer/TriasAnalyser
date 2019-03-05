@@ -1,9 +1,10 @@
 package de.dhbw.studienarbeit.data.stationNeighbourLinker;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -226,13 +227,12 @@ public class StationNeighboursKVV
 	{
 		try
 		{
-			File file = new File(StationNeighboursKVV.class.getResource("/stop_times.txt").getPath());
-			FileReader fr;
-			fr = new FileReader(file);
-			BufferedReader reader = new BufferedReader(fr);
-			while (reader.ready())
+			InputStream input = StationNeighboursKVV.class.getResourceAsStream("/stop_times.txt");
+			Reader reader = new InputStreamReader(input);
+			BufferedReader br = new BufferedReader(reader);
+			while (br.ready())
 			{
-				String line = reader.readLine();
+				String line = br.readLine();
 
 				// Nur Zeilen mit Daten auslesen
 				if (line.startsWith("\""))
