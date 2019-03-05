@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
 
@@ -18,75 +19,70 @@ public class StationNeighbourDB implements StationNeighbourData
 {
 	private static final Logger LOGGER = Logger.getLogger(StationNeighbourDB.class.getName());
 
-	private final String station1;
-	private final String stationName1;
-	private final double lat1;
-	private final double lon1;
+	private final StationID station1;
+	private final StationName stationName1;
+	private final Position position1;
 
-	private final String station2;
-	private final String stationName2;
-	private final double lat2;
-	private final double lon2;
+	private final StationID station2;
+	private final StationName stationName2;
+	private final Position position2;
 
-	public StationNeighbourDB(String station1, String stationName1, double lat1, double lon1, String station2,
-			String stationName2, double lat2, double lon2)
+	public StationNeighbourDB(StationID station1, StationName stationName1, Position position1, StationID station2,
+			StationName stationName2, Position position2)
 	{
 		this.station1 = station1;
 		this.stationName1 = stationName1;
-		this.lat1 = lat1;
-		this.lon1 = lon1;
+		this.position1 = position1;
+
 		this.station2 = station2;
 		this.stationName2 = stationName2;
-		this.lat2 = lat2;
-		this.lon2 = lon2;
+		this.position2 = position2;
 	}
 
 	public String getStationID1()
 	{
-		return station1;
+		return station1.getValue();
 	}
 
 	public double getLat1()
 	{
-		return lat1;
+		return position1.getLat();
 	}
 
 	public double getLon1()
 	{
-		return lon1;
+		return position1.getLon();
 	}
 
 	public String getStationID2()
 	{
-		return station2;
+		return station2.getValue();
 	}
 
 	public double getLat2()
 	{
-		return lat2;
+		return position2.getLat();
 	}
 
 	public double getLon2()
 	{
-		return lon2;
+		return position2.getLon();
 	}
 
 	private static final Optional<StationNeighbourDB> getTrack(ResultSet result)
 	{
 		try
 		{
-			final String station1 = result.getString("stationID1");
-			final String stationName1 = result.getString("name1");
-			final double lat1 = result.getDouble("lat1");
-			final double lon1 = result.getDouble("lon1");
+			final StationID station1 = new StationID(result.getString("stationID1"));
+			final StationName stationName1 = new StationName(result.getString("name1"));
+			final Position position1 = new Position(result.getDouble("lat1"), result.getDouble("lon1"));
 
-			final String station2 = result.getString("stationID2");
-			final String stationName2 = result.getString("name2");
-			final double lat2 = result.getDouble("lat2");
-			final double lon2 = result.getDouble("lon2");
+			final StationID station2 = new StationID(result.getString("stationID2"));
+			final StationName stationName2 = new StationName(result.getString("name2"));
+			final Position position2 = new Position(result.getDouble("lat2"), result.getDouble("lon2"));
 
 			return Optional
-					.of(new StationNeighbourDB(station1, stationName1, lat1, lon1, station2, stationName2, lat2, lon2));
+					.of(new StationNeighbourDB(station1, stationName1, position1, station2, stationName2, position2));
 		}
 		catch (SQLException e)
 		{
@@ -119,36 +115,36 @@ public class StationNeighbourDB implements StationNeighbourData
 	@Override
 	public String getStationName1()
 	{
-		return stationName1;
+		return stationName1.getStationName();
 	}
 
 	@Override
 	public String getStationName2()
 	{
-		return stationName2;
+		return stationName2.getStationName();
 	}
 
 	@Override
 	public StationName getName1()
 	{
-		return new StationName(stationName1);
+		return stationName1;
 	}
 
 	@Override
 	public Position getPosition1()
 	{
-		return new Position(lat1, lon1);
+		return position1;
 	}
 
 	@Override
 	public StationName getName2()
 	{
-		return new StationName(stationName2);
+		return stationName2;
 	}
 
 	@Override
 	public Position getPosition2()
 	{
-		return new Position(lat2, lon2);
+		return position2;
 	}
 }
