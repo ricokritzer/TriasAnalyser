@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 
 public class DelayStationNeighbourWOTest
@@ -14,20 +16,19 @@ public class DelayStationNeighbourWOTest
 	@Test
 	public void renewingData() throws Exception
 	{
-		final double lat1 = 0.0;
-		final double lat2 = 1.0;
-		final double lon1 = 0.5;
-		final double lon2 = 1.5;
+		final Position pos1 = new Position(0.0, 0.5);
+		final Position pos2 = new Position(1.0, 1.5);
+		final StationName name = new StationName("foo");
 
 		final double avg1Old = 10;
 		double avg2 = 20;
-		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB("foo", lat1, lon1, avg1Old,
-				"bar", lat2, lon2, avg2);
+		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB(name, pos1, avg1Old, name, pos2,
+				avg2);
 
 		final double avg1New = 15;
 		avg2 = 12;
-		final DelayStationNeighbourDB stationNeighbourDBLater = new DelayStationNeighbourDB("foo", lat1, lon1, avg1New,
-				"bar", lat2, lon2, avg2);
+		final DelayStationNeighbourDB stationNeighbourDBLater = new DelayStationNeighbourDB(name, pos1, avg1New, name,
+				pos2, avg2);
 
 		final DelayStationNeighbourWO stationNeighbours = new DelayStationNeighbourWO(Optional.empty());
 

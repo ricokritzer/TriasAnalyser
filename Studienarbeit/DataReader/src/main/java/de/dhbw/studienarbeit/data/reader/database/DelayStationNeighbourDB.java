@@ -12,43 +12,41 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
 
 public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbourDB>, DelayStationNeighbourData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayStationNeighbourDB.class.getName());
 
-	private final String stationName1;
-	private final double lat1;
-	private final double lon1;
+	private final StationName stationName1;
+	private final Position position1;
 	private final double avg1;
 
-	private final String stationName2;
-	private final double lat2;
-	private final double lon2;
+	private final StationName stationName2;
+	private final Position position2;
 	private final double avg2;
 
-	public DelayStationNeighbourDB(String stationName1, double lat1, double lon1, double avg1, String stationName2,
-			double lat2, double lon2, double avg2)
+	public DelayStationNeighbourDB(StationName stationName1, Position position1, double avg1, StationName stationName2,
+			Position position2, double avg2)
 	{
 		this.stationName1 = stationName1;
-		this.lat1 = lat1;
-		this.lon1 = lon1;
+		this.position1 = position1;
 		this.avg1 = avg1;
 		this.stationName2 = stationName2;
-		this.lat2 = lat2;
-		this.lon2 = lon2;
+		this.position2 = position2;
 		this.avg2 = avg2;
 	}
 
 	public double getLat1()
 	{
-		return lat1;
+		return position1.getLat();
 	}
 
 	public double getLon1()
 	{
-		return lon1;
+		return position1.getLon();
 	}
 
 	public double getAvg1()
@@ -58,12 +56,12 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 
 	public double getLat2()
 	{
-		return lat2;
+		return position2.getLat();
 	}
 
 	public double getLon2()
 	{
-		return lon2;
+		return position2.getLon();
 	}
 
 	public double getAvg2()
@@ -73,9 +71,7 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 
 	public double getSlope()
 	{
-		final double distanceLat = lat1 - lat2;
-		final double distanceLon = lon1 - lon2;
-		final double distance = Math.sqrt(Math.pow(distanceLat, 2) + Math.pow(distanceLon, 2));
+		final double distance = Position.getDistance(position1, position2);
 		final double delayDifference = Math.abs(avg1 - avg2);
 
 		return delayDifference / distance;
@@ -156,9 +152,11 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 			return Optional.empty();
 		}
 
-		return Optional.of(new DelayStationNeighbourDB(stationNeighbour.getStationName1(), stationNeighbour.getLat1(),
-				stationNeighbour.getLon1(), avg1, stationNeighbour.getStationName2(), stationNeighbour.getLat2(),
-				stationNeighbour.getLon2(), avg2));
+		final Position position1 = new Position(stationNeighbour.getLat1(), stationNeighbour.getLon1());
+		final Position position2 = new Position(stationNeighbour.getLat2(), stationNeighbour.getLon2());
+
+		return Optional.of(new DelayStationNeighbourDB(new StationName(stationNeighbour.getStationName1()), position1,
+				avg1, new StationName(stationNeighbour.getStationName2()), position2, avg2));
 	}
 
 	@Override
@@ -173,8 +171,7 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 		if (obj instanceof DelayStationNeighbourDB)
 		{
 			final DelayStationNeighbourDB o = (DelayStationNeighbourDB) obj;
-			return o.getLat1() == this.getLat1() && o.getLon1() == this.getLon1() //
-					&& o.getLat2() == this.getLat2() && o.getLon2() == this.getLon2();
+			return o.getPosition1().equals(this.position1) && o.getPosition2().equals(this.position2);
 		}
 		return super.equals(obj);
 	}
@@ -182,18 +179,42 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(lat1, lon1, lat2, lon2);
+		return Objects.hash(position1, position2);
 	}
 
 	@Override
 	public String getStationName1()
 	{
-		return stationName1;
+		return stationName1.getStationName();
 	}
 
 	@Override
 	public String getStationName2()
 	{
+		return stationName2.getStationName();
+	}
+
+	@Override
+	public StationName getName1()
+	{
+		return stationName1;
+	}
+
+	@Override
+	public Position getPosition1()
+	{
+		return position1;
+	}
+
+	@Override
+	public StationName getName2()
+	{
 		return stationName2;
+	}
+
+	@Override
+	public Position getPosition2()
+	{
+		return position2;
 	}
 }

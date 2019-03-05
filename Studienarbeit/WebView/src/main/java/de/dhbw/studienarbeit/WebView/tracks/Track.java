@@ -2,16 +2,22 @@ package de.dhbw.studienarbeit.WebView.tracks;
 
 import java.awt.Color;
 
-import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 
-public class Track extends DelayStationNeighbourDB
+public class Track
 {
 	private final Color color;
+	private final DelayStationNeighbourData data;
 
-	public Track(double lat1, double lon1, double avg1, double lat2, double lon2, double avg2, Color color)
+	public Track(DelayStationNeighbourData data, Color color)
 	{
-		super("foo", lat1, lon1, avg1, "bar", lat2, lon2, avg2);
 		this.color = color;
+		this.data = data;
+	}
+
+	public DelayStationNeighbourData getDelayStationNeighbourData()
+	{
+		return data;
 	}
 
 	public Color getColor()
@@ -29,5 +35,29 @@ public class Track extends DelayStationNeighbourDB
 	public int hashCode()
 	{
 		return super.hashCode();
+	}
+
+	@Deprecated
+	public double getLat1()
+	{
+		return data.getLat1();
+	}
+
+	@Deprecated
+	public double getLat2()
+	{
+		return data.getLat2();
+	}
+
+	@Deprecated
+	public double getLon1()
+	{
+		return data.getLon1();
+	}
+
+	@Deprecated
+	public double getLon2()
+	{
+		return data.getLon2();
 	}
 }

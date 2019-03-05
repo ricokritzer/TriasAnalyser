@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -17,7 +18,13 @@ public class TrackHelper
 	private TrackHelper()
 	{}
 
-	public static List<Track> convertToTracks(List<DelayStationNeighbourDB> stationNeighbours)
+	@Deprecated
+	public static List<Track> convertToTracks(List<DelayStationNeighbourDB> neighbours)
+	{
+		return convertToTracks(new ArrayList<>(neighbours));
+	}
+
+	public static List<Track> convertToTrackList(List<DelayStationNeighbourData> stationNeighbours)
 	{
 		if (stationNeighbours.isEmpty())
 		{
@@ -29,8 +36,7 @@ public class TrackHelper
 		final double red = stationNeighbours.get(stationNeighbours.size() * 9 / 10).getSlope();
 
 		final List<Track> tracks = new ArrayList<>();
-		stationNeighbours.forEach(sn -> tracks.add(new Track(sn.getLat1(), sn.getLon1(), sn.getAvg1(), sn.getLat2(),
-				sn.getLon2(), sn.getAvg2(), getColorFor(sn.getSlope(), red))));
+		stationNeighbours.forEach(sn -> tracks.add(new Track(sn, getColorFor(sn.getSlope(), red))));
 		return tracks;
 	}
 

@@ -9,6 +9,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 
 public class TrackHelperTest
@@ -20,12 +23,18 @@ public class TrackHelperTest
 	@Test
 	public void convertStationNeighboursToTracks() throws Exception
 	{
-		final List<DelayStationNeighbourDB> stationNeighbours = new ArrayList<>();
-		stationNeighbours.add(new DelayStationNeighbourDB("foo", 0, 0, 0, "bar", 2, 2, 2));
-		stationNeighbours.add(new DelayStationNeighbourDB("foo", 0, 0, 0, "bar", 4, 4, 4));
-		stationNeighbours.add(new DelayStationNeighbourDB("foo", 0, 0, 0, "bar", 1, 1, 1));
+		final StationName name = new StationName("foo");
+		final Position pos0 = new Position(0, 0);
+		final Position pos1 = new Position(1, 1);
+		final Position pos2 = new Position(2, 2);
+		final Position pos4 = new Position(4, 4);
 
-		final List<Track> tracks = TrackHelper.convertToTracks(stationNeighbours);
+		final List<DelayStationNeighbourData> stationNeighbours = new ArrayList<>();
+		stationNeighbours.add(new DelayStationNeighbourDB(name, pos0, 0, name, pos2, 2));
+		stationNeighbours.add(new DelayStationNeighbourDB(name, pos0, 0, name, pos4, 4));
+		stationNeighbours.add(new DelayStationNeighbourDB(name, pos0, 0, name, pos1, 1));
+
+		final List<Track> tracks = TrackHelper.convertToTrackList(stationNeighbours);
 
 		assertThat(tracks.size(), is(3));
 		assertThat(tracks.get(2).getColor(), is(Color.RED));
