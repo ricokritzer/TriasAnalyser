@@ -9,8 +9,8 @@ import de.dhbw.studienarbeit.web.data.Data;
 
 public class MapGenerator
 {
-	private static final double distanceNorthSouth = 0.0005;
-	private static final double distanceEastWest = 0.0005;
+	private static final double distanceNorthSouth = 0.00005;
+	private static final double distanceEastWest = 0.00005;
 
 	StringBuilder sb;
 
@@ -45,23 +45,23 @@ public class MapGenerator
 			if (lat1 > lat2)
 			{
 				lon1 = lon1 - distanceEastWest;
-				lon2 = lon2 + distanceEastWest;
+				lon2 = lon2 - distanceEastWest;
 			}
 			else
 			{
 				lon1 = lon1 + distanceEastWest;
-				lon2 = lon2 - distanceEastWest;
+				lon2 = lon2 + distanceEastWest;
 			}
 
 			if (lon1 > lon2)
 			{
 				lat1 = lat1 - distanceNorthSouth;
-				lat2 = lat2 + distanceNorthSouth;
+				lat2 = lat2 - distanceNorthSouth;
 			}
 			else
 			{
 				lat1 = lat1 + distanceNorthSouth;
-				lat2 = lat2 - distanceNorthSouth;
+				lat2 = lat2 + distanceNorthSouth;
 			}
 
 			sb.append("var polyline_" + i + " = L.polyline([[" + lat1 + ", " + lon1 + "],[" + lat2 + ", " + lon2
