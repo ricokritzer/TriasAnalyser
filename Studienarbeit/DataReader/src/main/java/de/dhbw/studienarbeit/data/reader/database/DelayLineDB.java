@@ -10,7 +10,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DelayLineDB
+import de.dhbw.studienarbeit.data.reader.data.DelayLineData;
+
+public class DelayLineDB implements DelayLineData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayLineDB.class.getName());
 
@@ -27,14 +29,16 @@ public class DelayLineDB
 		this.lineDestination = lineDestination;
 	}
 
+	@Deprecated
 	public double getMaximum()
 	{
-		return maximum;
+		return getDelayMaximum();
 	}
 
+	@Deprecated
 	public double getAverage()
 	{
-		return average;
+		return getDelayAverage();
 	}
 
 	public String getLineName()
@@ -82,5 +86,17 @@ public class DelayLineDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public double getDelayMaximum()
+	{
+		return maximum;
+	}
+
+	@Override
+	public double getDelayAverage()
+	{
+		return average;
 	}
 }

@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 import de.dhbw.studienarbeit.web.data.counts.CountList;
 import de.dhbw.studienarbeit.web.data.counts.Counts;
-import de.dhbw.studienarbeit.web.data.line.DelaysLine;
+import de.dhbw.studienarbeit.web.data.line.DelayLineWO;
 import de.dhbw.studienarbeit.web.data.station.DelaysStation;
 import de.dhbw.studienarbeit.web.data.station.StationNeighbours;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -29,7 +29,7 @@ public class Data
 	private final CountList counts;
 
 	private final DelaysStation delaysStation;
-	private final DelaysLine delaysLine;
+	private final DelayLineWO delayLineWO;
 	private final DelaysVehicleType delaysVehicleType;
 
 	private final DelaysTemperature delaysTemperature;
@@ -49,7 +49,7 @@ public class Data
 		counts = new CountList(updater);
 
 		delaysStation = new DelaysStation(updater);
-		delaysLine = new DelaysLine(updater);
+		delayLineWO = new DelayLineWO(updater);
 		delaysVehicleType = new DelaysVehicleType(updater);
 
 		delaysTemperature = new DelaysTemperature(updater);
@@ -88,14 +88,27 @@ public class Data
 		return getInstance().delaysStation.getLastUpdated();
 	}
 
+	/**
+	 * @deprecated use {@link #getDelayLineWO()} instead.
+	 */
+	@Deprecated
 	public static List<DelayLineDB> getDelaysLine()
 	{
-		return getInstance().delaysLine.getData();
+		return getInstance().delayLineWO.getList();
 	}
 
+	/**
+	 * @deprecated use {@link #getDelayLineWO()} instead.
+	 */
+	@Deprecated
 	public static Date getDelaysLineLastUpdate()
 	{
-		return getInstance().delaysLine.getLastUpdated();
+		return getInstance().delayLineWO.getLastUpdated();
+	}
+
+	public static DelayLineWO getDelayLineWO()
+	{
+		return getInstance().delayLineWO;
 	}
 
 	public static List<DelayTempDB> getDelaysTemperature()
