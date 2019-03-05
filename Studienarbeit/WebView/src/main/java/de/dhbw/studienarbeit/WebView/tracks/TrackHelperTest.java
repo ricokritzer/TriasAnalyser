@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 
 public class TrackHelperTest
 {
@@ -20,10 +20,10 @@ public class TrackHelperTest
 	@Test
 	public void convertStationNeighboursToTracks() throws Exception
 	{
-		final List<StationNeighbourDB> stationNeighbours = new ArrayList<>();
-		stationNeighbours.add(new StationNeighbourDB(0, 0, 0, 2, 2, 2));
-		stationNeighbours.add(new StationNeighbourDB(0, 0, 0, 4, 4, 4));
-		stationNeighbours.add(new StationNeighbourDB(0, 0, 0, 1, 1, 1));
+		final List<DelayStationNeighbourDB> stationNeighbours = new ArrayList<>();
+		stationNeighbours.add(new DelayStationNeighbourDB(0, 0, 0, 2, 2, 2));
+		stationNeighbours.add(new DelayStationNeighbourDB(0, 0, 0, 4, 4, 4));
+		stationNeighbours.add(new DelayStationNeighbourDB(0, 0, 0, 1, 1, 1));
 
 		final List<Track> tracks = TrackHelper.convertToTracks(stationNeighbours);
 

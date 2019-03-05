@@ -11,8 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
+import de.dhbw.studienarbeit.data.reader.data.DelayWindData;
 
-public class DelayWindDB implements Correlatable
+public class DelayWindDB implements Correlatable, DelayWindData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWindDB.class.getName());
 	private static final String FIELD = "Round(wind,0)";
@@ -81,12 +82,30 @@ public class DelayWindDB implements Correlatable
 	@Override
 	public double getX()
 	{
-		return getAverage();
+		return getDelayAverage();
 	}
 
 	@Override
 	public double getY()
 	{
-		return getValue();
+		return getTemperature();
+	}
+
+	@Override
+	public double getDelayMaximum()
+	{
+		return maximum;
+	}
+
+	@Override
+	public double getDelayAverage()
+	{
+		return average;
+	}
+
+	@Override
+	public double getTemperature()
+	{
+		return value;
 	}
 }

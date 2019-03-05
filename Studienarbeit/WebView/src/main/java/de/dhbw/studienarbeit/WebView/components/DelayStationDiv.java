@@ -37,7 +37,7 @@ public class DelayStationDiv extends Div
 		field.setReadOnly(true);
 		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationLastUpdate()));
 		layout.add(field);
-		
+
 		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(true);
 		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(true);
 		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
@@ -50,13 +50,13 @@ public class DelayStationDiv extends Div
 		grid.setSizeFull();
 		grid.setSelectionMode(SelectionMode.NONE);
 		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysStation()));
-		
+
 		layout.add(grid);
 		add(layout);
-		
+
 		setVisible(false);
 	}
-	
+
 	private String convertToRating(int count)
 	{
 		if (count < 10)

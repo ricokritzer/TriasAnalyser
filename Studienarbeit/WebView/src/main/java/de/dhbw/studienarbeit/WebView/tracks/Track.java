@@ -2,9 +2,9 @@ package de.dhbw.studienarbeit.WebView.tracks;
 
 import java.awt.Color;
 
-import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 
-public class Track extends StationNeighbourDB
+public class Track extends DelayStationNeighbourDB
 {
 	private final Color color;
 

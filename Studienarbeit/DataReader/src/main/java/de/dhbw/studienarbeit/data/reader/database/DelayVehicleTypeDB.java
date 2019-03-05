@@ -10,7 +10,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DelayVehicleTypeDB
+import de.dhbw.studienarbeit.data.reader.data.DelayVehicleTypeData;
+
+public class DelayVehicleTypeDB implements DelayVehicleTypeData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayVehicleTypeDB.class.getName());
 
@@ -74,5 +76,17 @@ public class DelayVehicleTypeDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public double getDelayMaximum()
+	{
+		return maximum;
+	}
+
+	@Override
+	public double getDelayAverage()
+	{
+		return average;
 	}
 }

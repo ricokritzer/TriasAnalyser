@@ -5,20 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayWeatherTextData;
 import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
-public class DelaysWeatherText extends Updateable
+public class DelayWeatherTextWO extends Updateable
 {
 	private List<DelayWeatherTextDB> data = new ArrayList<>();
 
-	public DelaysWeatherText(Optional<DataUpdater> updater)
+	public DelayWeatherTextWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
-	public List<DelayWeatherTextDB> getData()
+	public List<DelayWeatherTextData> getData()
+	{
+		return new ArrayList<>(data);
+	}
+
+	@Deprecated
+	public List<DelayWeatherTextDB> getList()
 	{
 		return data;
 	}

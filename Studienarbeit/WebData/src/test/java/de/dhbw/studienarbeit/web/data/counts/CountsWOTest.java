@@ -8,16 +8,16 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
-import de.dhbw.studienarbeit.web.data.counts.CountList;
+import de.dhbw.studienarbeit.web.data.counts.CountsWO;
 
-public class CountListTest
+public class CountsWOTest
 {
 	@Test
 	public void reduceToTenDoesNothingByHavingLessElements() throws Exception
 	{
 		final List<Integer> list = getListWithElements(10);
 
-		CountList.reduceListElements(list);
+		CountsWO.reduceListElements(list);
 
 		assertThat(list.size(), Is.is(10));
 	}
@@ -27,7 +27,7 @@ public class CountListTest
 	{
 		final List<Integer> list = getListWithElements(11);
 
-		CountList.reduceListElements(list);
+		CountsWO.reduceListElements(list);
 
 		assertThat(list.size(), Is.is(10));
 	}
@@ -37,7 +37,7 @@ public class CountListTest
 	{
 		final List<Integer> list = getListWithElements(12);
 
-		CountList.reduceListElements(list);
+		CountsWO.reduceListElements(list);
 
 		assertThat(list.size(), Is.is(10));
 	}

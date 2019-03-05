@@ -7,38 +7,38 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.database.DelayCloudsDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayLineDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayVehicleTypeDB;
 import de.dhbw.studienarbeit.data.reader.database.DelayWeatherTextDB;
-import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
-import de.dhbw.studienarbeit.web.data.counts.CountList;
 import de.dhbw.studienarbeit.web.data.counts.Counts;
+import de.dhbw.studienarbeit.web.data.counts.CountsWO;
 import de.dhbw.studienarbeit.web.data.line.DelayLineWO;
-import de.dhbw.studienarbeit.web.data.station.DelaysStation;
-import de.dhbw.studienarbeit.web.data.station.StationNeighbours;
+import de.dhbw.studienarbeit.web.data.station.DelayStationNeighbourWO;
+import de.dhbw.studienarbeit.web.data.station.DelayStationWO;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
-import de.dhbw.studienarbeit.web.data.vehicletype.DelaysVehicleType;
-import de.dhbw.studienarbeit.web.data.weather.clouds.DelaysClouds;
-import de.dhbw.studienarbeit.web.data.weather.clouds.DelaysCloudsCorrelationCoefficient;
-import de.dhbw.studienarbeit.web.data.weather.temperature.DelaysTemperature;
-import de.dhbw.studienarbeit.web.data.weather.temperature.DelaysTemperatureCorrelationCoefficient;
-import de.dhbw.studienarbeit.web.data.weather.text.DelaysWeatherText;
+import de.dhbw.studienarbeit.web.data.vehicletype.DelayVehicleTypeWO;
+import de.dhbw.studienarbeit.web.data.weather.clouds.DelayCloudsCorrelationCoefficientWO;
+import de.dhbw.studienarbeit.web.data.weather.clouds.DelayCloudsWO;
+import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureCorrelationCoefficientWO;
+import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureWO;
+import de.dhbw.studienarbeit.web.data.weather.text.DelayWeatherTextWO;
 
 public class Data
 {
-	private final CountList counts;
+	private final CountsWO countsWO;
 
-	private final DelaysStation delaysStation;
+	private final DelayStationWO delaysStationWO;
 	private final DelayLineWO delayLineWO;
-	private final DelaysVehicleType delaysVehicleType;
+	private final DelayVehicleTypeWO delaysVehicleTypeWO;
 
-	private final DelaysTemperature delaysTemperature;
-	private final DelaysTemperatureCorrelationCoefficient delaysTemperatureCorrelationCoefficient;
-	private final DelaysClouds delaysClouds;
-	private final DelaysCloudsCorrelationCoefficient delaysCloudsCorrelationCoefficient;
-	private final DelaysWeatherText delaysWeatherText;
+	private final DelayTemperatureWO delayTemperatureWO;
+	private final DelayTemperatureCorrelationCoefficientWO delayTemperatureCorrelationCoefficientWO;
+	private final DelayCloudsWO delayCloudsWO;
+	private final DelayCloudsCorrelationCoefficientWO delayCloudsCorrelationCoefficientWO;
+	private final DelayWeatherTextWO delayWeatherTextWO;
 
-	private final StationNeighbours stationNeighbours;
+	private final DelayStationNeighbourWO stationNeighbourWO;
 
 	private static final Data INSTANCE = new Data();
 
@@ -46,21 +46,21 @@ public class Data
 	{
 		final Optional<DataUpdater> updater = Optional.of(DataUpdater.getInstance());
 
-		counts = new CountList(updater);
+		countsWO = new CountsWO(updater);
 
-		delaysStation = new DelaysStation(updater);
+		delaysStationWO = new DelayStationWO(updater);
 		delayLineWO = new DelayLineWO(updater);
-		delaysVehicleType = new DelaysVehicleType(updater);
+		delaysVehicleTypeWO = new DelayVehicleTypeWO(updater);
 
-		delaysTemperature = new DelaysTemperature(updater);
-		delaysTemperatureCorrelationCoefficient = new DelaysTemperatureCorrelationCoefficient(updater);
+		delayTemperatureWO = new DelayTemperatureWO(updater);
+		delayTemperatureCorrelationCoefficientWO = new DelayTemperatureCorrelationCoefficientWO(updater);
 
-		delaysClouds = new DelaysClouds(updater);
-		delaysCloudsCorrelationCoefficient = new DelaysCloudsCorrelationCoefficient(updater);
+		delayCloudsWO = new DelayCloudsWO(updater);
+		delayCloudsCorrelationCoefficientWO = new DelayCloudsCorrelationCoefficientWO(updater);
 
-		delaysWeatherText = new DelaysWeatherText(updater);
+		delayWeatherTextWO = new DelayWeatherTextWO(updater);
 
-		stationNeighbours = new StationNeighbours(updater);
+		stationNeighbourWO = new DelayStationNeighbourWO(updater);
 	}
 
 	public static Data getInstance()
@@ -68,28 +68,58 @@ public class Data
 		return INSTANCE;
 	}
 
-	public static List<DelayCloudsDB> getDelaysClouds()
+	public static final CountsWO getCountsWO()
 	{
-		return getInstance().delaysClouds.getData();
+		return getInstance().countsWO;
 	}
 
-	public static Date getDelaysCloudsLastUpdate()
+	public static final DelayStationWO getDelaysStationWO()
 	{
-		return getInstance().delaysClouds.getLastUpdated();
+		return getInstance().delaysStationWO;
 	}
 
-	public static List<DelayStationDB> getDelaysStation()
+	public static final DelayLineWO getDelayLineWO()
 	{
-		return getInstance().delaysStation.getData();
+		return getInstance().delayLineWO;
 	}
 
-	public static Date getDelaysStationLastUpdate()
+	public static final DelayVehicleTypeWO getDelaysVehicleTypeWO()
 	{
-		return getInstance().delaysStation.getLastUpdated();
+		return getInstance().delaysVehicleTypeWO;
+	}
+
+	public static final DelayTemperatureWO getDelayTemperatureWO()
+	{
+		return getInstance().delayTemperatureWO;
+	}
+
+	public static final DelayTemperatureCorrelationCoefficientWO getDelayTemperatureCorrelationCoefficientWO()
+	{
+		return getInstance().delayTemperatureCorrelationCoefficientWO;
+	}
+
+	public static final DelayCloudsWO getDelayCloudsWO()
+	{
+		return getInstance().delayCloudsWO;
+	}
+
+	public static final DelayCloudsCorrelationCoefficientWO getDelayCloudsCorrelationCoefficientWO()
+	{
+		return getInstance().delayCloudsCorrelationCoefficientWO;
+	}
+
+	public static final DelayWeatherTextWO getDelayWeatherTextWO()
+	{
+		return getInstance().delayWeatherTextWO;
+	}
+
+	public static final DelayStationNeighbourWO getStationNeighbourWO()
+	{
+		return getInstance().stationNeighbourWO;
 	}
 
 	/**
-	 * @deprecated use {@link #getDelayLineWO()} instead.
+	 * @deprecated use WO instead.
 	 */
 	@Deprecated
 	public static List<DelayLineDB> getDelaysLine()
@@ -98,7 +128,7 @@ public class Data
 	}
 
 	/**
-	 * @deprecated use {@link #getDelayLineWO()} instead.
+	 * @deprecated use WO instead.
 	 */
 	@Deprecated
 	public static Date getDelaysLineLastUpdate()
@@ -106,73 +136,131 @@ public class Data
 		return getInstance().delayLineWO.getLastUpdated();
 	}
 
-	public static DelayLineWO getDelayLineWO()
-	{
-		return getInstance().delayLineWO;
-	}
-
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static List<DelayTempDB> getDelaysTemperature()
 	{
-		return getInstance().delaysTemperature.getData();
+		return getInstance().delayTemperatureWO.getList();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static Date getDelaysTemperatureLastUpdate()
 	{
-		return getInstance().delaysTemperature.getLastUpdated();
+		return getInstance().delayTemperatureWO.getLastUpdated();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static List<Counts> getCounts()
 	{
-		return getInstance().counts.getData();
+		return getInstance().countsWO.getData();
 	}
 
-	public static List<StationNeighbourDB> getNeighbours()
+	/**
+	 * @deprecated use WO instead.
+	 */
+	public static List<DelayStationNeighbourDB> getNeighbours()
 	{
-		return getInstance().stationNeighbours.getData();
+		return getInstance().stationNeighbourWO.getList();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static Date getNeighboursLastUpdate()
 	{
-		return getInstance().stationNeighbours.getLastUpdated();
+		return getInstance().stationNeighbourWO.getLastUpdated();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static List<DelayWeatherTextDB> getDelaysWeatherText()
 	{
-		return getInstance().delaysWeatherText.getData();
+		return getInstance().delayWeatherTextWO.getList();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static Date getDelaysWeatherTextLastUpdate()
 	{
-		return getInstance().delaysWeatherText.getLastUpdated();
+		return getInstance().delayWeatherTextWO.getLastUpdated();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static List<DelayVehicleTypeDB> getDelaysVehicleType()
 	{
-		return getInstance().delaysVehicleType.getData();
+		return getInstance().delaysVehicleTypeWO.getList();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static Date getDelaysVehicleTypeLastUpdate()
 	{
-		return getInstance().delaysVehicleType.getLastUpdated();
+		return getInstance().delaysVehicleTypeWO.getLastUpdated();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static double getDelaysTemperatureCorrelationCoefficient()
 	{
-		return getInstance().delaysTemperatureCorrelationCoefficient.getData();
+		return getInstance().delayTemperatureCorrelationCoefficientWO.getData();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static Date getDelaysTemperatureCorrelationCoefficientLastUpdate()
 	{
-		return getInstance().delaysTemperatureCorrelationCoefficient.getLastUpdated();
+		return getInstance().delayTemperatureCorrelationCoefficientWO.getLastUpdated();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static double getDelaysCloudsCorrelationCoefficient()
 	{
-		return getInstance().delaysCloudsCorrelationCoefficient.getData();
+		return getInstance().delayCloudsCorrelationCoefficientWO.getData();
 	}
 
+	/**
+	 * @deprecated use WO instead.
+	 */
 	public static Date getDelaysCloudsCorrelationCoefficientLastUpdate()
 	{
-		return getInstance().delaysCloudsCorrelationCoefficient.getLastUpdated();
+		return getInstance().delayCloudsCorrelationCoefficientWO.getLastUpdated();
+	}
+
+	/**
+	 * @deprecated use WO instead.
+	 */
+	public static List<DelayCloudsDB> getDelaysClouds()
+	{
+		return getInstance().delayCloudsWO.getList();
+	}
+
+	/**
+	 * @deprecated use WO instead.
+	 */
+	public static List<DelayStationDB> getDelaysStation()
+	{
+		return getInstance().delaysStationWO.getList();
+	}
+
+	/**
+	 * @deprecated use WO instead.
+	 */
+	public static Date getDelaysStationLastUpdate()
+	{
+		return getInstance().delaysStationWO.getLastUpdated();
 	}
 }

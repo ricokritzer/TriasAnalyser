@@ -7,11 +7,11 @@ import de.dhbw.studienarbeit.data.reader.database.DelayTempCorrelation;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
-public class DelaysTemperatureCorrelationCoefficient extends Updateable
+public class DelayTemperatureCorrelationCoefficientWO extends Updateable
 {
 	private double data = 0.0;
 
-	public DelaysTemperatureCorrelationCoefficient(Optional<DataUpdater> updater)
+	public DelayTemperatureCorrelationCoefficientWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(1, DAYS, this));
 	}

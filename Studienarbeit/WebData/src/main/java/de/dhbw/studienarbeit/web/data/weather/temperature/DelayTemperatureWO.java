@@ -5,20 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayTemperatureData;
 import de.dhbw.studienarbeit.data.reader.database.DelayTempDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
-public class DelaysTemperature extends Updateable
+public class DelayTemperatureWO extends Updateable
 {
 	private List<DelayTempDB> data = new ArrayList<>();
 
-	public DelaysTemperature(Optional<DataUpdater> updater)
+	public DelayTemperatureWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
-	public List<DelayTempDB> getData()
+	public List<DelayTemperatureData> getData()
+	{
+		return new ArrayList<>(data);
+	}
+
+	/**
+	 * @deprecated use {@link #getData()} instead.
+	 */
+	@Deprecated
+	public List<DelayTempDB> getList()
 	{
 		return data;
 	}

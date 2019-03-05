@@ -10,13 +10,13 @@ import de.dhbw.studienarbeit.data.reader.database.Count;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
-public class CountList extends Updateable
+public class CountsWO extends Updateable
 {
 	private static final int MAX_COUNT_ITEMS = 10;
 
 	private List<Counts> data = new ArrayList<>();
 
-	public CountList(Optional<DataUpdater> updater)
+	public CountsWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(5, MINUTES, this));
 	}

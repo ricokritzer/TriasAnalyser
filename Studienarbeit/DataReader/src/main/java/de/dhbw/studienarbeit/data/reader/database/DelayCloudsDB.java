@@ -10,7 +10,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DelayCloudsDB
+import de.dhbw.studienarbeit.data.reader.data.DelayCloudsData;
+
+public class DelayCloudsDB implements DelayCloudsData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayCloudsDB.class.getName());
 	private static final String FIELD = "ROUND(clouds, 0)";
@@ -74,5 +76,23 @@ public class DelayCloudsDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public double getDelayMaximum()
+	{
+		return maximum;
+	}
+
+	@Override
+	public double getDelayAverage()
+	{
+		return average;
+	}
+
+	@Override
+	public double getClouds()
+	{
+		return value;
 	}
 }

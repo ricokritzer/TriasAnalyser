@@ -10,7 +10,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DelayWeatherTextDB
+import de.dhbw.studienarbeit.data.reader.data.DelayWeatherTextData;
+
+public class DelayWeatherTextDB implements DelayWeatherTextData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWeatherTextDB.class.getName());
 	private static final String URL_PRE = "http://openweathermap.org/img/w/";
@@ -75,16 +77,11 @@ public class DelayWeatherTextDB
 
 	public static String getSQL()
 	{
-		return "SELECT " +
-				"avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, " +
-				"max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, " +
-				"WeatherIcon.textDE, " +
-				"WeatherIcon.icon " +
-				"FROM StopWeather, Stop, Weather, WeatherIcon " +
-				"WHERE Stop.stopID = StopWeather.stopID " +
-				"AND StopWeather.weatherId = Weather.id " +
-				"AND WeatherIcon.text = Weather.text " +
-				"GROUP BY WeatherIcon.textDE, WeatherIcon.icon;";
+		return "SELECT " + "avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
+				+ "max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, "
+				+ "WeatherIcon.textDE, " + "WeatherIcon.icon " + "FROM StopWeather, Stop, Weather, WeatherIcon "
+				+ "WHERE Stop.stopID = StopWeather.stopID " + "AND StopWeather.weatherId = Weather.id "
+				+ "AND WeatherIcon.text = Weather.text " + "GROUP BY WeatherIcon.textDE, WeatherIcon.icon;";
 	}
 
 	public static final List<DelayWeatherTextDB> getDelays() throws IOException
@@ -102,5 +99,23 @@ public class DelayWeatherTextDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public double getDelayMaximum()
+	{
+		return maximum;
+	}
+
+	@Override
+	public double getDelayAverage()
+	{
+		return average;
+	}
+
+	@Override
+	public String getText()
+	{
+		return textDE;
 	}
 }

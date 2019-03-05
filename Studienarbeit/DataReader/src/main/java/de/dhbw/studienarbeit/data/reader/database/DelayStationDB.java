@@ -10,7 +10,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DelayStationDB
+import de.dhbw.studienarbeit.data.reader.data.DelayStationData;
+
+public class DelayStationDB implements DelayStationData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayStationDB.class.getName());
 
@@ -45,26 +47,31 @@ public class DelayStationDB
 		return average;
 	}
 
+	@Override
 	public String getStationName()
 	{
 		return stationName;
 	}
 
+	@Override
 	public String getOperator()
 	{
 		return operator;
 	}
 
+	@Override
 	public double getLat()
 	{
 		return lat;
 	}
 
+	@Override
 	public double getLon()
 	{
 		return lon;
 	}
 
+	@Override
 	public int getCount()
 	{
 		return count;
@@ -113,5 +120,17 @@ public class DelayStationDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public double getDelayMaximum()
+	{
+		return maximum;
+	}
+
+	@Override
+	public double getDelayAverage()
+	{
+		return average;
 	}
 }

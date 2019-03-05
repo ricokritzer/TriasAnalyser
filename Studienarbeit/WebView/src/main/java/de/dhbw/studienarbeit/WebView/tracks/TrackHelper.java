@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
+import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 public class TrackHelper
@@ -17,7 +17,7 @@ public class TrackHelper
 	private TrackHelper()
 	{}
 
-	public static List<Track> convertToTracks(List<StationNeighbourDB> stationNeighbours)
+	public static List<Track> convertToTracks(List<DelayStationNeighbourDB> stationNeighbours)
 	{
 		if (stationNeighbours.isEmpty())
 		{
