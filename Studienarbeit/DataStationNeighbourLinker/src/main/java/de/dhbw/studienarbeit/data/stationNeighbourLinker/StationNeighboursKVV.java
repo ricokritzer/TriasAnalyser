@@ -226,7 +226,7 @@ public class StationNeighboursKVV
 	{
 		try
 		{
-			File file = new File("stop_times.txt");
+			File file = new File(StationNeighboursKVV.class.getResource("/stop_times.txt").getPath());
 			FileReader fr;
 			fr = new FileReader(file);
 			BufferedReader reader = new BufferedReader(fr);
