@@ -1,5 +1,7 @@
 package de.dhbw.studienarbeit.data.reader.data.station;
 
+import de.dhbw.studienarbeit.data.reader.database.Operator;
+
 public interface StationData
 {
 	@Deprecated
@@ -15,5 +17,5 @@ public interface StationData
 
 	Position getPosition();
 
-	String getOperator();
+	Operator getOperator();
 }

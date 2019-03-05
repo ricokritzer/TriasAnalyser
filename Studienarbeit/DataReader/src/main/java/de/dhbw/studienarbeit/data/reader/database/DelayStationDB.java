@@ -54,9 +54,9 @@ public class DelayStationDB implements DelayStationData
 	}
 
 	@Override
-	public String getOperator()
+	public Operator getOperator()
 	{
-		return operator;
+		return new Operator(operator);
 	}
 
 	@Override

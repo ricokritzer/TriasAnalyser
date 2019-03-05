@@ -54,8 +54,8 @@ public class StationNeighbourPart implements StationData
 	}
 
 	@Override
-	public String getOperator()
+	public Operator getOperator()
 	{
-		return operator.getName();
+		return operator;
 	}
 }
