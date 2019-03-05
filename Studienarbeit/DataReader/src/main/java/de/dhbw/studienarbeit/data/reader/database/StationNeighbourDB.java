@@ -34,7 +34,7 @@ public class StationNeighbourDB implements StationNeighbourData
 		this.lon2 = lon2;
 	}
 
-	public String getStation1()
+	public String getStationID1()
 	{
 		return station1;
 	}
@@ -49,7 +49,7 @@ public class StationNeighbourDB implements StationNeighbourData
 		return lon1;
 	}
 
-	public String getStation2()
+	public String getStationID2()
 	{
 		return station2;
 	}
@@ -102,5 +102,17 @@ public class StationNeighbourDB implements StationNeighbourData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public String getStationName1()
+	{
+		return "folgt...";
+	}
+
+	@Override
+	public String getStationName2()
+	{
+		return "folgt...";
 	}
 }

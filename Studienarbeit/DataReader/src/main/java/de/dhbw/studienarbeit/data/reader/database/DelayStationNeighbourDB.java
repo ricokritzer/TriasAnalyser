@@ -12,23 +12,30 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
 
 public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbourDB>, DelayStationNeighbourData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayStationNeighbourDB.class.getName());
 
+	private final String stationName1;
 	private final double lat1;
 	private final double lon1;
 	private final double avg1;
+
+	private final String stationName2;
 	private final double lat2;
 	private final double lon2;
 	private final double avg2;
 
-	public DelayStationNeighbourDB(double lat1, double lon1, double avg1, double lat2, double lon2, double avg2)
+	public DelayStationNeighbourDB(String stationName1, double lat1, double lon1, double avg1, String stationName2,
+			double lat2, double lon2, double avg2)
 	{
+		this.stationName1 = stationName1;
 		this.lat1 = lat1;
 		this.lon1 = lon1;
 		this.avg1 = avg1;
+		this.stationName2 = stationName2;
 		this.lat2 = lat2;
 		this.lon2 = lon2;
 		this.avg2 = avg2;
@@ -89,14 +96,15 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 		}
 	}
 
-	public static List<DelayStationNeighbourDB> convertToStationNeighbours(final List<StationNeighbourDB> tracks)
+	public static List<DelayStationNeighbourDB> convertToStationNeighbours(final List<StationNeighbourData> tracks)
 	{
 		final List<DelayStationNeighbourDB> list = new ArrayList<>();
 		tracks.forEach(t -> convertToStationNeighbour(t).ifPresent(list::add));
 		return list;
 	}
 
-	public static Optional<DelayStationNeighbourDB> convertToStationNeighbour(final StationNeighbourDB track)
+	public static Optional<DelayStationNeighbourDB> convertToStationNeighbour(
+			final StationNeighbourData stationNeighbour)
 	{
 		double avg1 = 0.0;
 		double avg2 = 0.0;
@@ -110,9 +118,9 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			preparedStatement.setString(1, track.getStation1());
-			preparedStatement.setString(2, track.getStation2());
-			preparedStatement.setString(3, track.getStation1());
+			preparedStatement.setString(1, stationNeighbour.getStationID1());
+			preparedStatement.setString(2, stationNeighbour.getStationID2());
+			preparedStatement.setString(3, stationNeighbour.getStationID1());
 
 			final List<Double> list = new ArrayList<>();
 			database.select(r -> DelayStationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
@@ -130,9 +138,9 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			preparedStatement.setString(1, track.getStation1());
-			preparedStatement.setString(2, track.getStation2());
-			preparedStatement.setString(3, track.getStation2());
+			preparedStatement.setString(1, stationNeighbour.getStationID1());
+			preparedStatement.setString(2, stationNeighbour.getStationID2());
+			preparedStatement.setString(3, stationNeighbour.getStationID2());
 
 			final List<Double> list = new ArrayList<>();
 			database.select(r -> DelayStationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
@@ -148,8 +156,9 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 			return Optional.empty();
 		}
 
-		return Optional.of(new DelayStationNeighbourDB(track.getLat1(), track.getLon1(), avg1, track.getLat2(),
-				track.getLon2(), avg2));
+		return Optional.of(new DelayStationNeighbourDB(stationNeighbour.getStationName1(), stationNeighbour.getLat1(),
+				stationNeighbour.getLon1(), avg1, stationNeighbour.getStationName2(), stationNeighbour.getLat2(),
+				stationNeighbour.getLon2(), avg2));
 	}
 
 	@Override
@@ -174,5 +183,17 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 	public int hashCode()
 	{
 		return Objects.hash(lat1, lon1, lat2, lon2);
+	}
+
+	@Override
+	public String getStationName1()
+	{
+		return stationName1;
+	}
+
+	@Override
+	public String getStationName2()
+	{
+		return stationName2;
 	}
 }
