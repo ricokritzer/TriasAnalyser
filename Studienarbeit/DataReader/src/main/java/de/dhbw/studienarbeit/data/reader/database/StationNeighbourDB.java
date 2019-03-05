@@ -14,59 +14,49 @@ import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourPart;
 
 public class StationNeighbourDB implements StationNeighbourData
 {
 	private static final Logger LOGGER = Logger.getLogger(StationNeighbourDB.class.getName());
 
-	private final StationID station1;
-	private final StationName stationName1;
-	private final Position position1;
+	private final StationNeighbourPart stationFrom;
+	private final StationNeighbourPart stationTo;
 
-	private final StationID station2;
-	private final StationName stationName2;
-	private final Position position2;
-
-	public StationNeighbourDB(StationID station1, StationName stationName1, Position position1, StationID station2,
-			StationName stationName2, Position position2)
+	public StationNeighbourDB(StationNeighbourPart stationFrom, StationNeighbourPart stationTo)
 	{
-		this.station1 = station1;
-		this.stationName1 = stationName1;
-		this.position1 = position1;
-
-		this.station2 = station2;
-		this.stationName2 = stationName2;
-		this.position2 = position2;
+		this.stationFrom = stationFrom;
+		this.stationTo = stationTo;
 	}
 
 	public String getStationID1()
 	{
-		return station1.getValue();
+		return stationFrom.getStationID().getValue();
 	}
 
 	public double getLat1()
 	{
-		return position1.getLat();
+		return stationFrom.getLat();
 	}
 
 	public double getLon1()
 	{
-		return position1.getLon();
+		return stationFrom.getLon();
 	}
 
 	public String getStationID2()
 	{
-		return station2.getValue();
+		return stationTo.getStationID().getValue();
 	}
 
 	public double getLat2()
 	{
-		return position2.getLat();
+		return stationTo.getLat();
 	}
 
 	public double getLon2()
 	{
-		return position2.getLon();
+		return stationTo.getLon();
 	}
 
 	private static final Optional<StationNeighbourDB> getTrack(ResultSet result)
@@ -76,13 +66,18 @@ public class StationNeighbourDB implements StationNeighbourData
 			final StationID station1 = new StationID(result.getString("stationID1"));
 			final StationName stationName1 = new StationName(result.getString("name1"));
 			final Position position1 = new Position(result.getDouble("lat1"), result.getDouble("lon1"));
+			final Operator operator1 = new Operator("operator1");
+			final StationNeighbourPart stationFrom = new StationNeighbourPart(station1, stationName1, position1,
+					operator1);
 
 			final StationID station2 = new StationID(result.getString("stationID2"));
 			final StationName stationName2 = new StationName(result.getString("name2"));
 			final Position position2 = new Position(result.getDouble("lat2"), result.getDouble("lon2"));
+			final Operator operator2 = new Operator("operator2");
+			final StationNeighbourPart stationTo = new StationNeighbourPart(station2, stationName2, position2,
+					operator2);
 
-			return Optional
-					.of(new StationNeighbourDB(station1, stationName1, position1, station2, stationName2, position2));
+			return Optional.of(new StationNeighbourDB(stationFrom, stationTo));
 		}
 		catch (SQLException e)
 		{
@@ -94,8 +89,8 @@ public class StationNeighbourDB implements StationNeighbourData
 	public static final List<StationNeighbourDB> getTracks() throws IOException
 	{
 		final String sql = "SELECT DISTINCT "
-				+ "stationID1, station1.lat AS lat1, station1.lon AS lon1, station1.name AS name1, "
-				+ "stationID2, station2.lat AS lat2, station2.lon AS lon2, station2.name AS name2 "
+				+ "stationID1, station1.lat AS lat1, station1.lon AS lon1, station1.name AS name1, station1.operator AS operator1, "
+				+ "stationID2, station2.lat AS lat2, station2.lon AS lon2, station2.name AS name2, station2.operator AS operator2 "
 				+ "FROM StationNeighbour, Station station1, Station station2 "
 				+ "WHERE StationNeighbour.stationID1 = station1.stationID AND StationNeighbour.stationID2 = station2.stationID;";
 
@@ -115,36 +110,48 @@ public class StationNeighbourDB implements StationNeighbourData
 	@Override
 	public String getStationName1()
 	{
-		return stationName1.getStationName();
+		return stationFrom.getStationName();
 	}
 
 	@Override
 	public String getStationName2()
 	{
-		return stationName2.getStationName();
+		return stationTo.getStationName();
 	}
 
 	@Override
 	public StationName getName1()
 	{
-		return stationName1;
+		return stationFrom.getName();
 	}
 
 	@Override
 	public Position getPosition1()
 	{
-		return position1;
+		return stationFrom.getPosition();
 	}
 
 	@Override
 	public StationName getName2()
 	{
-		return stationName2;
+		return stationTo.getName();
 	}
 
 	@Override
 	public Position getPosition2()
 	{
-		return position2;
+		return stationTo.getPosition();
+	}
+
+	@Override
+	public StationNeighbourPart getStationFrom()
+	{
+		return stationFrom;
+	}
+
+	@Override
+	public StationNeighbourPart getStationTo()
+	{
+		return stationTo;
 	}
 }
