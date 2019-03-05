@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.DelayWeatherTextData;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherTextData;
 
 public class DelayWeatherTextDB implements DelayWeatherTextData
 {

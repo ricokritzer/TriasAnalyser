@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.StationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
 
 public class StationNeighbourDB implements StationNeighbourData
 {

@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
-import de.dhbw.studienarbeit.data.reader.data.DelayWindData;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayWindData;
 
 public class DelayWindDB implements Correlatable, DelayWindData
 {

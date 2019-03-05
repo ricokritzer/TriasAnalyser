@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.data;
+package de.dhbw.studienarbeit.data.reader.data.station;
 
 public interface StationNeighbourData
 {

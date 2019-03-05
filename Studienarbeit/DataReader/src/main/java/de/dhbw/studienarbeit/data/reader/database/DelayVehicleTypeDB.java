@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.DelayVehicleTypeData;
+import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
 
 public class DelayVehicleTypeDB implements DelayVehicleTypeData
 {

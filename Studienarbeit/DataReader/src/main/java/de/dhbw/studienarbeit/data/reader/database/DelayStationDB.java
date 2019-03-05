@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.DelayStationData;
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 
 public class DelayStationDB implements DelayStationData
 {

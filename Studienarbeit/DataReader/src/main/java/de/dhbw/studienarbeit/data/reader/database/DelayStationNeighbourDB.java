@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.DelayStationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 
 public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbourDB>, DelayStationNeighbourData
 {
