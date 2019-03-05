@@ -17,19 +17,24 @@ public class StationNeighbourDB implements StationNeighbourData
 	private static final Logger LOGGER = Logger.getLogger(StationNeighbourDB.class.getName());
 
 	private final String station1;
+	private final String stationName1;
 	private final double lat1;
 	private final double lon1;
 
 	private final String station2;
+	private final String stationName2;
 	private final double lat2;
 	private final double lon2;
 
-	public StationNeighbourDB(String station1, double lat1, double lon1, String station2, double lat2, double lon2)
+	public StationNeighbourDB(String station1, String stationName1, double lat1, double lon1, String station2,
+			String stationName2, double lat2, double lon2)
 	{
 		this.station1 = station1;
+		this.stationName1 = stationName1;
 		this.lat1 = lat1;
 		this.lon1 = lon1;
 		this.station2 = station2;
+		this.stationName2 = stationName2;
 		this.lat2 = lat2;
 		this.lon2 = lon2;
 	}
@@ -69,13 +74,17 @@ public class StationNeighbourDB implements StationNeighbourData
 		try
 		{
 			final String station1 = result.getString("stationID1");
+			final String stationName1 = result.getString("name1");
 			final double lat1 = result.getDouble("lat1");
 			final double lon1 = result.getDouble("lon1");
+
 			final String station2 = result.getString("stationID2");
+			final String stationName2 = result.getString("name2");
 			final double lat2 = result.getDouble("lat2");
 			final double lon2 = result.getDouble("lon2");
 
-			return Optional.of(new StationNeighbourDB(station1, lat1, lon1, station2, lat2, lon2));
+			return Optional
+					.of(new StationNeighbourDB(station1, stationName1, lat1, lon1, station2, stationName2, lat2, lon2));
 		}
 		catch (SQLException e)
 		{
@@ -86,8 +95,9 @@ public class StationNeighbourDB implements StationNeighbourData
 
 	public static final List<StationNeighbourDB> getTracks() throws IOException
 	{
-		final String sql = "SELECT DISTINCT stationID1, station1.lat AS lat1, station1.lon AS lon1, "
-				+ "stationID2, station2.lat AS lat2, station2.lon AS lon2 "
+		final String sql = "SELECT DISTINCT "
+				+ "stationID1, station1.lat AS lat1, station1.lon AS lon1, station1.name AS name1, "
+				+ "stationID2, station2.lat AS lat2, station2.lon AS lon2, station2.name AS name2 "
 				+ "FROM StationNeighbour, Station station1, Station station2 "
 				+ "WHERE StationNeighbour.stationID1 = station1.stationID AND StationNeighbour.stationID2 = station2.stationID;";
 
@@ -107,12 +117,12 @@ public class StationNeighbourDB implements StationNeighbourData
 	@Override
 	public String getStationName1()
 	{
-		return "folgt...";
+		return stationName1;
 	}
 
 	@Override
 	public String getStationName2()
 	{
-		return "folgt...";
+		return stationName2;
 	}
 }
