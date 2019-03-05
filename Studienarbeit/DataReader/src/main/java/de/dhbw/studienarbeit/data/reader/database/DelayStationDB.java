@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
 public class DelayStationDB implements DelayStationData
 {
@@ -18,13 +20,12 @@ public class DelayStationDB implements DelayStationData
 
 	private final double maximum;
 	private final double average;
-	private final String stationName;
+	private final StationName stationName;
 	private final String operator;
-	private final double lat;
-	private final double lon;
+	private final Position position;
 	private final int count;
 
-	public DelayStationDB(double maximum, double average, String stationName, String operator, double lat, double lon,
+	public DelayStationDB(double maximum, double average, StationName stationName, String operator, Position position,
 			int count)
 	{
 		super();
@@ -32,8 +33,7 @@ public class DelayStationDB implements DelayStationData
 		this.average = average;
 		this.stationName = stationName;
 		this.operator = operator;
-		this.lat = lat;
-		this.lon = lon;
+		this.position = position;
 		this.count = count;
 	}
 
@@ -50,7 +50,7 @@ public class DelayStationDB implements DelayStationData
 	@Override
 	public String getStationName()
 	{
-		return stationName;
+		return stationName.getStationName();
 	}
 
 	@Override
@@ -62,13 +62,13 @@ public class DelayStationDB implements DelayStationData
 	@Override
 	public double getLat()
 	{
-		return lat;
+		return position.getLat();
 	}
 
 	@Override
 	public double getLon()
 	{
-		return lon;
+		return position.getLon();
 	}
 
 	@Override
@@ -83,13 +83,12 @@ public class DelayStationDB implements DelayStationData
 		{
 			final double maximum = result.getDouble("delay_max");
 			final double average = result.getDouble("delay_avg");
-			final String name = result.getString("name");
+			final StationName name = new StationName(result.getString("name"));
 			final String operator = result.getString("displayName");
-			final double lat = result.getDouble("lat");
-			final double lon = result.getDouble("lon");
+			final Position position = new Position(result.getDouble("lat"), result.getDouble("lon"));
 			final int count = result.getInt("count");
 
-			return Optional.of(new DelayStationDB(maximum, average, name, operator, lat, lon, count));
+			return Optional.of(new DelayStationDB(maximum, average, name, operator, position, count));
 		}
 		catch (SQLException e)
 		{
@@ -132,5 +131,17 @@ public class DelayStationDB implements DelayStationData
 	public double getDelayAverage()
 	{
 		return average;
+	}
+
+	@Override
+	public StationName getName()
+	{
+		return stationName;
+	}
+
+	@Override
+	public Position getPosition()
+	{
+		return position;
 	}
 }
