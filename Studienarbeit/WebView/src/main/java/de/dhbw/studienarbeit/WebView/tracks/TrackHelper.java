@@ -26,11 +26,11 @@ public class TrackHelper
 
 		Collections.sort(stationNeighbours);
 
-		final double maximum = stationNeighbours.get(stationNeighbours.size() - 1).getSlope();
+		final double red = stationNeighbours.get(stationNeighbours.size() * 9 / 10).getSlope();
 
 		final List<Track> tracks = new ArrayList<>();
 		stationNeighbours.forEach(sn -> tracks.add(new Track(sn.getLat1(), sn.getLon1(), sn.getAvg1(), sn.getLat2(),
-				sn.getLon2(), sn.getAvg2(), getColorFor(sn.getSlope(), maximum))));
+				sn.getLon2(), sn.getAvg2(), getColorFor(sn.getSlope(), red))));
 		return tracks;
 	}
 
