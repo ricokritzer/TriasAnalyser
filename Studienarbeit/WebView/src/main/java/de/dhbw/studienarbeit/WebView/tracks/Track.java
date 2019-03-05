@@ -10,7 +10,7 @@ public class Track extends DelayStationNeighbourDB
 
 	public Track(double lat1, double lon1, double avg1, double lat2, double lon2, double avg2, Color color)
 	{
-		super(lat1, lon1, avg1, lat2, lon2, avg2);
+		super("foo", lat1, lon1, avg1, "bar", lat2, lon2, avg2);
 		this.color = color;
 	}
 

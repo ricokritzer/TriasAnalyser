@@ -21,9 +21,9 @@ public class TrackHelperTest
 	public void convertStationNeighboursToTracks() throws Exception
 	{
 		final List<DelayStationNeighbourDB> stationNeighbours = new ArrayList<>();
-		stationNeighbours.add(new DelayStationNeighbourDB(0, 0, 0, 2, 2, 2));
-		stationNeighbours.add(new DelayStationNeighbourDB(0, 0, 0, 4, 4, 4));
-		stationNeighbours.add(new DelayStationNeighbourDB(0, 0, 0, 1, 1, 1));
+		stationNeighbours.add(new DelayStationNeighbourDB("foo", 0, 0, 0, "bar", 2, 2, 2));
+		stationNeighbours.add(new DelayStationNeighbourDB("foo", 0, 0, 0, "bar", 4, 4, 4));
+		stationNeighbours.add(new DelayStationNeighbourDB("foo", 0, 0, 0, "bar", 1, 1, 1));
 
 		final List<Track> tracks = TrackHelper.convertToTracks(stationNeighbours);
 

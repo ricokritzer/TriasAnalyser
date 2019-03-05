@@ -8,7 +8,6 @@ import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
-import de.dhbw.studienarbeit.web.data.station.DelayStationNeighbourWO;
 
 public class DelayStationNeighbourWOTest
 {
@@ -22,12 +21,13 @@ public class DelayStationNeighbourWOTest
 
 		final double avg1Old = 10;
 		double avg2 = 20;
-		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB(lat1, lon1, avg1Old, lat2, lon2, avg2);
+		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB("foo", lat1, lon1, avg1Old,
+				"bar", lat2, lon2, avg2);
 
 		final double avg1New = 15;
 		avg2 = 12;
-		final DelayStationNeighbourDB stationNeighbourDBLater = new DelayStationNeighbourDB(lat1, lon1, avg1New, lat2, lon2,
-				avg2);
+		final DelayStationNeighbourDB stationNeighbourDBLater = new DelayStationNeighbourDB("foo", lat1, lon1, avg1New,
+				"bar", lat2, lon2, avg2);
 
 		final DelayStationNeighbourWO stationNeighbours = new DelayStationNeighbourWO(Optional.empty());
 

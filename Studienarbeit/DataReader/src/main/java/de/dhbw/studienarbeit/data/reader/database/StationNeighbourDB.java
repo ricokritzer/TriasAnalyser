@@ -125,4 +125,9 @@ public class StationNeighbourDB implements StationNeighbourData
 	{
 		return stationName2;
 	}
+
+	public static void main(String[] args) throws IOException
+	{
+		getTracks().forEach(System.out::println);
+	}
 }
