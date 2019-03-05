@@ -76,7 +76,7 @@ public class StationNeighbourDB implements Comparable<StationNeighbourDB>
 	{
 		try
 		{
-			final double delay = result.getDouble("delay");
+			final double delay = result.getDouble("delay"); 
 
 			return Optional.of(Double.valueOf(delay));
 		}
@@ -147,7 +147,7 @@ public class StationNeighbourDB implements Comparable<StationNeighbourDB>
 		}
 
 		return Optional.of(
-				new StationNeighbourDB(track.getLat1(), track.getLon1(), avg1, track.getLat2(), track.getLat2(), avg2));
+				new StationNeighbourDB(track.getLat1(), track.getLon1(), avg1, track.getLat2(), track.getLon2(), avg2));
 	}
 
 	@Override
