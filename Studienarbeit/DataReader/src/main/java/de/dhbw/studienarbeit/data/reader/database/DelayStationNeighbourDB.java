@@ -184,18 +184,6 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 	}
 
 	@Override
-	public String getStationName1()
-	{
-		return stationName1.getStationName();
-	}
-
-	@Override
-	public String getStationName2()
-	{
-		return stationName2.getStationName();
-	}
-
-	@Override
 	public StationName getName1()
 	{
 		return stationName1;

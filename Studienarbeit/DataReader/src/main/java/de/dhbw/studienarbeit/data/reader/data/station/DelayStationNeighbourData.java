@@ -2,9 +2,6 @@ package de.dhbw.studienarbeit.data.reader.data.station;
 
 public interface DelayStationNeighbourData
 {
-	@Deprecated
-	String getStationName1();
-
 	StationName getName1();
 
 	@Deprecated
@@ -16,9 +13,6 @@ public interface DelayStationNeighbourData
 	Position getPosition1();
 
 	double getAvg1();
-
-	@Deprecated
-	String getStationName2();
 
 	StationName getName2();
 
