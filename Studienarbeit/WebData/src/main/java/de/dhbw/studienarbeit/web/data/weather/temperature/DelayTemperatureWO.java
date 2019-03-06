@@ -24,15 +24,6 @@ public class DelayTemperatureWO extends Updateable
 		return new ArrayList<>(data);
 	}
 
-	/**
-	 * @deprecated use {@link #getData()} instead.
-	 */
-	@Deprecated
-	public List<DelayTempDB> getList()
-	{
-		return data;
-	}
-
 	@Override
 	protected void updateData() throws IOException
 	{

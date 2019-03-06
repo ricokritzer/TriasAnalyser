@@ -25,15 +25,6 @@ public class DelayStationNeighbourWO extends Updateable
 		return new ArrayList<>(data);
 	}
 
-	/**
-	 * @deprecated use {@link #getData()} instead.
-	 */
-	@Deprecated
-	public List<DelayStationNeighbourDB> getList()
-	{
-		return data;
-	}
-
 	@Override
 	protected void updateData() throws IOException
 	{

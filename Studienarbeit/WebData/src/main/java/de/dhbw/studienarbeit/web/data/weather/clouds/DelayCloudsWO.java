@@ -24,12 +24,6 @@ public class DelayCloudsWO extends Updateable
 		return new ArrayList<>(data);
 	}
 
-	@Deprecated
-	public List<DelayCloudsDB> getList()
-	{
-		return data;
-	}
-
 	@Override
 	protected void updateData() throws IOException
 	{

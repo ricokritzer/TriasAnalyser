@@ -24,12 +24,6 @@ public class DelayVehicleTypeWO extends Updateable
 		return new ArrayList<>(data);
 	}
 
-	@Deprecated
-	public List<DelayVehicleTypeDB> getList()
-	{
-		return data;
-	}
-
 	@Override
 	protected void updateData() throws IOException
 	{
