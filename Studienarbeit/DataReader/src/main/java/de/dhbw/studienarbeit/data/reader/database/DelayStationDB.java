@@ -48,27 +48,9 @@ public class DelayStationDB implements DelayStationData
 	}
 
 	@Override
-	public String getStationName()
-	{
-		return stationName.getStationName();
-	}
-
-	@Override
 	public Operator getOperator()
 	{
 		return new Operator(operator);
-	}
-
-	@Override
-	public double getLat()
-	{
-		return position.getLat();
-	}
-
-	@Override
-	public double getLon()
-	{
-		return position.getLon();
 	}
 
 	@Override

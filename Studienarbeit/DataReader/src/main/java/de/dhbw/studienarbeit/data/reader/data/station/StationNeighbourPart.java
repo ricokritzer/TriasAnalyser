@@ -24,27 +24,9 @@ public class StationNeighbourPart implements StationData
 	}
 
 	@Override
-	public String getStationName()
-	{
-		return name.getStationName();
-	}
-
-	@Override
 	public StationName getName()
 	{
 		return name;
-	}
-
-	@Override
-	public double getLat()
-	{
-		return position.getLat();
-	}
-
-	@Override
-	public double getLon()
-	{
-		return position.getLon();
 	}
 
 	@Override

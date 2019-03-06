@@ -34,29 +34,9 @@ public class StationNeighbourDB implements StationNeighbourData
 		return stationFrom.getStationID().getValue();
 	}
 
-	public double getLat1()
-	{
-		return stationFrom.getLat();
-	}
-
-	public double getLon1()
-	{
-		return stationFrom.getLon();
-	}
-
 	public String getStationID2()
 	{
 		return stationTo.getStationID().getValue();
-	}
-
-	public double getLat2()
-	{
-		return stationTo.getLat();
-	}
-
-	public double getLon2()
-	{
-		return stationTo.getLon();
 	}
 
 	private static final Optional<StationNeighbourDB> getTrack(ResultSet result)
