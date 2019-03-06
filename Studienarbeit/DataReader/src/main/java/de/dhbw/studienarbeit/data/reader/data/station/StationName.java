@@ -2,16 +2,22 @@ package de.dhbw.studienarbeit.data.reader.data.station;
 
 public class StationName
 {
-	private final String stationName;
+	private final String name;
 
 	public StationName(String stationName)
 	{
 		super();
-		this.stationName = stationName;
+		this.name = stationName;
 	}
 
 	public final String getStationName()
 	{
-		return stationName;
+		return name;
+	}
+
+	@Override
+	public String toString()
+	{
+		return name;
 	}
 }
