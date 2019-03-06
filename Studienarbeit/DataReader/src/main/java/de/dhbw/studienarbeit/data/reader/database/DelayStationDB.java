@@ -38,16 +38,6 @@ public class DelayStationDB implements DelayStationData
 		this.count = count;
 	}
 
-	public double getMaximum()
-	{
-		return maximum;
-	}
-
-	public double getAverage()
-	{
-		return average;
-	}
-
 	@Override
 	public OperatorName getOperator()
 	{
@@ -60,7 +50,7 @@ public class DelayStationDB implements DelayStationData
 		return count;
 	}
 
-	private static final Optional<DelayStationDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayStationData> getDelayLine(ResultSet result)
 	{
 		try
 		{
@@ -80,7 +70,7 @@ public class DelayStationDB implements DelayStationData
 		}
 	}
 
-	public static final List<DelayStationDB> getDelays() throws IOException
+	public static final List<DelayStationData> getDelays() throws IOException
 	{
 		final String sql = "SELECT " //
 				+ "name, " //
@@ -94,7 +84,7 @@ public class DelayStationDB implements DelayStationData
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayStationDB> list = new ArrayList<>();
+			final List<DelayStationData> list = new ArrayList<>();
 			database.select(r -> DelayStationDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}

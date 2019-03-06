@@ -12,7 +12,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayStationWO extends Updateable
 {
-	private List<DelayStationDB> data = new ArrayList<>();
+	private List<DelayStationData> data = new ArrayList<>();
 
 	public DelayStationWO(Optional<DataUpdater> updater)
 	{
@@ -21,7 +21,7 @@ public class DelayStationWO extends Updateable
 
 	public List<DelayStationData> getData()
 	{
-		return new ArrayList<>(data);
+		return data;
 	}
 
 	@Override
