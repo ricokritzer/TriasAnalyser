@@ -29,18 +29,7 @@ public class DelayLineDB implements DelayLineData
 		this.lineDestination = lineDestination;
 	}
 
-	@Deprecated
-	public double getMaximum()
-	{
-		return getDelayMaximum();
-	}
-
-	@Deprecated
-	public double getAverage()
-	{
-		return getDelayAverage();
-	}
-
+	@Override
 	public String getLineName()
 	{
 		return lineName;
@@ -51,7 +40,7 @@ public class DelayLineDB implements DelayLineData
 		return lineDestination;
 	}
 
-	private static final Optional<DelayLineDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayLineData> getDelayLine(ResultSet result)
 	{
 		try
 		{
@@ -69,7 +58,7 @@ public class DelayLineDB implements DelayLineData
 		}
 	}
 
-	public static final List<DelayLineDB> getDelays() throws IOException
+	public static final List<DelayLineData> getDelays() throws IOException
 	{
 		final String sql = "SELECT " + "name, destination, "
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
@@ -78,7 +67,7 @@ public class DelayLineDB implements DelayLineData
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayLineDB> list = new ArrayList<>();
+			final List<DelayLineData> list = new ArrayList<>();
 			database.select(r -> DelayLineDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
