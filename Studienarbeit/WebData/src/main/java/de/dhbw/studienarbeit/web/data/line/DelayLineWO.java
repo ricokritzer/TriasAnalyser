@@ -24,15 +24,6 @@ public class DelayLineWO extends Updateable
 		return new ArrayList<>(data);
 	}
 
-	/**
-	 * @deprecated use {@link #getData()} instead.
-	 */
-	@Deprecated
-	public List<DelayLineDB> getList()
-	{
-		return data;
-	}
-
 	@Override
 	protected void updateData() throws IOException
 	{
