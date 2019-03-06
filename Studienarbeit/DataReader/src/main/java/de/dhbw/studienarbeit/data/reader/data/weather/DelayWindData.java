@@ -4,5 +4,5 @@ import de.dhbw.studienarbeit.data.reader.data.DelayData;
 
 public interface DelayWindData extends DelayData
 {
-	double getTemperature();
+	double getWind();
 }

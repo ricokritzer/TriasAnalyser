@@ -88,7 +88,7 @@ public class DelayWindDB implements Correlatable, DelayWindData
 	@Override
 	public double getY()
 	{
-		return getTemperature();
+		return getWind();
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class DelayWindDB implements Correlatable, DelayWindData
 	}
 
 	@Override
-	public double getTemperature()
+	public double getWind()
 	{
 		return value;
 	}
