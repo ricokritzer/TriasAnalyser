@@ -108,42 +108,6 @@ public class StationNeighbourDB implements StationNeighbourData
 	}
 
 	@Override
-	public String getStationName1()
-	{
-		return stationFrom.getStationName();
-	}
-
-	@Override
-	public String getStationName2()
-	{
-		return stationTo.getStationName();
-	}
-
-	@Override
-	public StationName getName1()
-	{
-		return stationFrom.getName();
-	}
-
-	@Override
-	public Position getPosition1()
-	{
-		return stationFrom.getPosition();
-	}
-
-	@Override
-	public StationName getName2()
-	{
-		return stationTo.getName();
-	}
-
-	@Override
-	public Position getPosition2()
-	{
-		return stationTo.getPosition();
-	}
-
-	@Override
 	public StationNeighbourPart getStationFrom()
 	{
 		return stationFrom;
