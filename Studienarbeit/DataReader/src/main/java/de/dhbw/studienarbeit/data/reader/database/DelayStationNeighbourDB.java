@@ -15,6 +15,7 @@ import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourPart;
 
 public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbourDB>, DelayStationNeighbourData
 {
@@ -114,9 +115,9 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			preparedStatement.setString(1, stationNeighbour.getStationID1());
-			preparedStatement.setString(2, stationNeighbour.getStationID2());
-			preparedStatement.setString(3, stationNeighbour.getStationID1());
+			preparedStatement.setString(1, stationNeighbour.getStationFrom().getStationID().getValue());
+			preparedStatement.setString(2, stationNeighbour.getStationTo().getStationID().getValue());
+			preparedStatement.setString(3, stationNeighbour.getStationFrom().getStationID().getValue());
 
 			final List<Double> list = new ArrayList<>();
 			database.select(r -> DelayStationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
@@ -134,9 +135,9 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			preparedStatement.setString(1, stationNeighbour.getStationID1());
-			preparedStatement.setString(2, stationNeighbour.getStationID2());
-			preparedStatement.setString(3, stationNeighbour.getStationID2());
+			preparedStatement.setString(1, stationNeighbour.getStationFrom().getStationID().getValue());
+			preparedStatement.setString(2, stationNeighbour.getStationTo().getStationID().getValue());
+			preparedStatement.setString(3, stationNeighbour.getStationTo().getStationID().getValue());
 
 			final List<Double> list = new ArrayList<>();
 			database.select(r -> DelayStationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
@@ -152,11 +153,11 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 			return Optional.empty();
 		}
 
-		final Position position1 = new Position(stationNeighbour.getLat1(), stationNeighbour.getLon1());
-		final Position position2 = new Position(stationNeighbour.getLat2(), stationNeighbour.getLon2());
+		final StationNeighbourPart from = stationNeighbour.getStationFrom();
+		final StationNeighbourPart to = stationNeighbour.getStationTo();
 
-		return Optional.of(new DelayStationNeighbourDB(new StationName(stationNeighbour.getStationName1()), position1,
-				avg1, new StationName(stationNeighbour.getStationName2()), position2, avg2));
+		return Optional.of(new DelayStationNeighbourDB(from.getName(), from.getPosition(), avg1, to.getName(),
+				to.getPosition(), avg2));
 	}
 
 	@Override
