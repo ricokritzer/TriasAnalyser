@@ -12,7 +12,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayCloudsWO extends Updateable
 {
-	private List<DelayCloudsDB> data = new ArrayList<>();
+	private List<DelayCloudsData> data = new ArrayList<>();
 
 	public DelayCloudsWO(Optional<DataUpdater> updater)
 	{
@@ -21,7 +21,7 @@ public class DelayCloudsWO extends Updateable
 
 	public List<DelayCloudsData> getData()
 	{
-		return new ArrayList<>(data);
+		return data;
 	}
 
 	@Override

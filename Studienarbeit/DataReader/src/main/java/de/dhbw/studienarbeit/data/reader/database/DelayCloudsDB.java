@@ -18,33 +18,18 @@ public class DelayCloudsDB implements DelayCloudsData
 	private static final String FIELD = "ROUND(clouds, 0)";
 	private static final String NAME = "rounded";
 
-	private final double average;
-	private final double maximum;
-	private final double value;
+	private final double delayAverage;
+	private final double delayMaximum;
+	private final double clouds;
 
-	public DelayCloudsDB(double delayAverage, double delayMaximum, double value)
+	public DelayCloudsDB(double delayAverage, double delayMaximum, double clouds)
 	{
-		this.average = delayAverage;
-		this.maximum = delayMaximum;
-		this.value = value;
+		this.delayAverage = delayAverage;
+		this.delayMaximum = delayMaximum;
+		this.clouds = clouds;
 	}
 
-	public double getAverage()
-	{
-		return average;
-	}
-
-	public double getMaximum()
-	{
-		return maximum;
-	}
-
-	public double getValue()
-	{
-		return value;
-	}
-
-	private static final Optional<DelayCloudsDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayCloudsData> getDelayLine(ResultSet result)
 	{
 		try
 		{
@@ -61,14 +46,14 @@ public class DelayCloudsDB implements DelayCloudsData
 		}
 	}
 
-	public static final List<DelayCloudsDB> getDelays() throws IOException
+	public static final List<DelayCloudsData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayCloudsDB> list = new ArrayList<>();
+			final List<DelayCloudsData> list = new ArrayList<>();
 			database.select(r -> DelayCloudsDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
@@ -81,18 +66,18 @@ public class DelayCloudsDB implements DelayCloudsData
 	@Override
 	public double getDelayMaximum()
 	{
-		return maximum;
+		return delayMaximum;
 	}
 
 	@Override
 	public double getDelayAverage()
 	{
-		return average;
+		return delayAverage;
 	}
 
 	@Override
 	public double getClouds()
 	{
-		return value;
+		return clouds;
 	}
 }
