@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
 import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
@@ -46,14 +47,14 @@ public class StationNeighbourDB implements StationNeighbourData
 			final StationID station1 = new StationID(result.getString("stationID1"));
 			final StationName stationName1 = new StationName(result.getString("name1"));
 			final Position position1 = new Position(result.getDouble("lat1"), result.getDouble("lon1"));
-			final Operator operator1 = new Operator("operator1");
+			final OperatorName operator1 = new OperatorName("operator1");
 			final StationNeighbourPart stationFrom = new StationNeighbourPart(station1, stationName1, position1,
 					operator1);
 
 			final StationID station2 = new StationID(result.getString("stationID2"));
 			final StationName stationName2 = new StationName(result.getString("name2"));
 			final Position position2 = new Position(result.getDouble("lat2"), result.getDouble("lon2"));
-			final Operator operator2 = new Operator("operator2");
+			final OperatorName operator2 = new OperatorName("operator2");
 			final StationNeighbourPart stationTo = new StationNeighbourPart(station2, stationName2, position2,
 					operator2);
 

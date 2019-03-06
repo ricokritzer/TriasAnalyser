@@ -1,15 +1,13 @@
 package de.dhbw.studienarbeit.data.reader.data.station;
 
-import de.dhbw.studienarbeit.data.reader.database.Operator;
-
 public class StationNeighbourPart implements StationData
 {
 	private final StationID id;
 	private final StationName name;
 	private final Position position;
-	private final Operator operator;
+	private final OperatorName operator;
 
-	public StationNeighbourPart(StationID stationID, StationName name, Position position, Operator operator)
+	public StationNeighbourPart(StationID stationID, StationName name, Position position, OperatorName operator)
 	{
 		super();
 		this.id = stationID;
@@ -36,7 +34,7 @@ public class StationNeighbourPart implements StationData
 	}
 
 	@Override
-	public Operator getOperator()
+	public OperatorName getOperator()
 	{
 		return operator;
 	}

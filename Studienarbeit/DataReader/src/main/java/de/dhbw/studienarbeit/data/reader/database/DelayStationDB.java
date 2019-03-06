@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
+import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
 import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
@@ -48,9 +49,9 @@ public class DelayStationDB implements DelayStationData
 	}
 
 	@Override
-	public Operator getOperator()
+	public OperatorName getOperator()
 	{
-		return new Operator(operator);
+		return new OperatorName(operator);
 	}
 
 	@Override
