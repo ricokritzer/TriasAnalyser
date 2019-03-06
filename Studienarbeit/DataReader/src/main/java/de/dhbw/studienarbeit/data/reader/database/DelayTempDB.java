@@ -31,22 +31,7 @@ public class DelayTempDB implements Correlatable, DelayTemperatureData
 		this.value = value;
 	}
 
-	public double getAverage()
-	{
-		return average;
-	}
-
-	public double getMaximum()
-	{
-		return maximum;
-	}
-
-	public double getValue()
-	{
-		return value;
-	}
-
-	private static final Optional<DelayTempDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayTemperatureData> getDelays(ResultSet result)
 	{
 		try
 		{
@@ -63,15 +48,15 @@ public class DelayTempDB implements Correlatable, DelayTemperatureData
 		}
 	}
 
-	public static final List<DelayTempDB> getDelays() throws IOException
+	public static final List<DelayTemperatureData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayTempDB> list = new ArrayList<>();
-			database.select(r -> DelayTempDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
+			final List<DelayTemperatureData> list = new ArrayList<>();
+			database.select(r -> DelayTempDB.getDelays(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
@@ -80,15 +65,15 @@ public class DelayTempDB implements Correlatable, DelayTemperatureData
 		}
 	}
 
-	public static double correlationOf(List<DelayTempDB> temp)
+	public static double correlationOf(List<DelayTemperatureData> temp)
 	{
 		double[] x = new double[temp.size()];
 		double[] y = new double[temp.size()];
 
 		for (int i = 0; i < temp.size(); i++)
 		{
-			x[i] = temp.get(i).getAverage();
-			y[i] = temp.get(i).getValue();
+			x[i] = temp.get(i).getDelayAverage();
+			y[i] = temp.get(i).getTemperature();
 		}
 
 		return Correlation.of(x, y);

@@ -12,7 +12,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayTemperatureWO extends Updateable
 {
-	private List<DelayTempDB> data = new ArrayList<>();
+	private List<DelayTemperatureData> data = new ArrayList<>();
 
 	public DelayTemperatureWO(Optional<DataUpdater> updater)
 	{
@@ -21,7 +21,7 @@ public class DelayTemperatureWO extends Updateable
 
 	public List<DelayTemperatureData> getData()
 	{
-		return new ArrayList<>(data);
+		return data;
 	}
 
 	@Override
