@@ -13,15 +13,15 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
 
-public class DelayHumidityCorrelation implements Correlatable
+public class DelayCloudCorrelationDB implements Correlatable
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayHumidityCorrelation.class.getName());
-	private static final String WHAT = "humidity";
+	private static final Logger LOGGER = Logger.getLogger(DelayCloudCorrelationDB.class.getName());
+	private static final String WHAT = "clouds";
 
 	private final double delay;
 	private final double value;
 
-	public DelayHumidityCorrelation(double delay, double value)
+	public DelayCloudCorrelationDB(double delay, double value)
 	{
 		super();
 		this.delay = delay;
@@ -40,30 +40,30 @@ public class DelayHumidityCorrelation implements Correlatable
 		return value;
 	}
 
-	private static final Optional<DelayHumidityCorrelation> getDelay(ResultSet result)
+	private static final Optional<DelayCloudCorrelationDB> getDelay(ResultSet result)
 	{
 		try
 		{
 			final double delay = result.getDouble("delay");
 			final double value = result.getDouble(WHAT);
 
-			return Optional.of(new DelayHumidityCorrelation(delay, value));
+			return Optional.of(new DelayCloudCorrelationDB(delay, value));
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayHumidityCorrelation.class.getName(), e);
+			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayCloudCorrelationDB.class.getName(), e);
 			return Optional.empty();
 		}
 	}
 
-	public static final List<DelayHumidityCorrelation> getDelays() throws IOException
+	public static final List<DelayCloudCorrelationDB> getDelayClouds() throws IOException
 	{
 		final String sql = DelayWeatherCorrelationHelper.getSqlFor(WHAT);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayHumidityCorrelation> list = new ArrayList<>();
+			final List<DelayCloudCorrelationDB> list = new ArrayList<>();
 			database.select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
@@ -75,6 +75,6 @@ public class DelayHumidityCorrelation implements Correlatable
 
 	public static double getCorrelationCoefficient() throws IOException
 	{
-		return Correlation.of(getDelays());
+		return Correlation.of(getDelayClouds());
 	}
 }

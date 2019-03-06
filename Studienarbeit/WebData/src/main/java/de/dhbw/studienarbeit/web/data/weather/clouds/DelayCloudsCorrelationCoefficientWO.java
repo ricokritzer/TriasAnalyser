@@ -3,7 +3,7 @@ package de.dhbw.studienarbeit.web.data.weather.clouds;
 import java.io.IOException;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.database.DelayCloudCorrelation;
+import de.dhbw.studienarbeit.data.reader.database.DelayCloudCorrelationDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
@@ -24,6 +24,6 @@ public class DelayCloudsCorrelationCoefficientWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = DelayCloudCorrelation.getCorrelationCoefficient();
+		data = DelayCloudCorrelationDB.getCorrelationCoefficient();
 	}
 }

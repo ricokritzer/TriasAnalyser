@@ -13,15 +13,15 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
 
-public class DelayTempCorrelation implements Correlatable
+public class DelayWindCorrelationDB implements Correlatable
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayTempCorrelation.class.getName());
-	private static final String WHAT = "temp";
+	private static final Logger LOGGER = Logger.getLogger(DelayWindCorrelationDB.class.getName());
+	private static final String WHAT = "wind";
 
 	private final double delay;
 	private final double value;
 
-	public DelayTempCorrelation(double delay, double value)
+	public DelayWindCorrelationDB(double delay, double value)
 	{
 		super();
 		this.delay = delay;
@@ -40,30 +40,30 @@ public class DelayTempCorrelation implements Correlatable
 		return value;
 	}
 
-	private static final Optional<DelayTempCorrelation> getDelay(ResultSet result)
+	private static final Optional<DelayWindCorrelationDB> getDelay(ResultSet result)
 	{
 		try
 		{
 			final double delay = result.getDouble("delay");
 			final double temp = result.getDouble(WHAT);
 
-			return Optional.of(new DelayTempCorrelation(delay, temp));
+			return Optional.of(new DelayWindCorrelationDB(delay, temp));
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayTempCorrelation.class.getName(), e);
+			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayWindCorrelationDB.class.getName(), e);
 			return Optional.empty();
 		}
 	}
 
-	public static final List<DelayTempCorrelation> getDelayTemps() throws IOException
+	public static final List<DelayWindCorrelationDB> getDelayWinds() throws IOException
 	{
 		final String sql = DelayWeatherCorrelationHelper.getSqlFor(WHAT);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayTempCorrelation> list = new ArrayList<>();
+			final List<DelayWindCorrelationDB> list = new ArrayList<>();
 			database.select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
@@ -75,6 +75,6 @@ public class DelayTempCorrelation implements Correlatable
 
 	public static double getCorrelationCoefficient() throws IOException
 	{
-		return Correlation.of(getDelayTemps());
+		return Correlation.of(getDelayWinds());
 	}
 }
