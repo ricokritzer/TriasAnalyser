@@ -12,7 +12,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayVehicleTypeWO extends Updateable
 {
-	private List<DelayVehicleTypeDB> data = new ArrayList<>();
+	private List<DelayVehicleTypeData> data = new ArrayList<>();
 
 	public DelayVehicleTypeWO(Optional<DataUpdater> updater)
 	{
@@ -21,7 +21,7 @@ public class DelayVehicleTypeWO extends Updateable
 
 	public List<DelayVehicleTypeData> getData()
 	{
-		return new ArrayList<>(data);
+		return data;
 	}
 
 	@Override

@@ -27,22 +27,7 @@ public class DelayVehicleTypeDB implements DelayVehicleTypeData
 		this.vehicleType = vehicleType;
 	}
 
-	public double getMaximum()
-	{
-		return maximum;
-	}
-
-	public double getAverage()
-	{
-		return average;
-	}
-
-	public String getVehicleType()
-	{
-		return vehicleType;
-	}
-
-	private static final Optional<DelayVehicleTypeDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayVehicleTypeData> getDelayLine(ResultSet result)
 	{
 		try
 		{
@@ -59,7 +44,7 @@ public class DelayVehicleTypeDB implements DelayVehicleTypeData
 		}
 	}
 
-	public static final List<DelayVehicleTypeDB> getDelays() throws IOException
+	public static final List<DelayVehicleTypeData> getDelays() throws IOException
 	{
 		final String sql = "SELECT " + "SUBSTRING_INDEX(name, ' ', 1 ) AS type, "
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
@@ -68,7 +53,7 @@ public class DelayVehicleTypeDB implements DelayVehicleTypeData
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayVehicleTypeDB> list = new ArrayList<>();
+			final List<DelayVehicleTypeData> list = new ArrayList<>();
 			database.select(r -> DelayVehicleTypeDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
@@ -88,5 +73,11 @@ public class DelayVehicleTypeDB implements DelayVehicleTypeData
 	public double getDelayAverage()
 	{
 		return average;
+	}
+
+	@Override
+	public String getVehicleType()
+	{
+		return vehicleType;
 	}
 }
