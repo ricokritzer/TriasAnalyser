@@ -74,12 +74,6 @@ public class DelayTempCorrelationDB implements Correlatable
 		}
 	}
 
-	@Deprecated
-	public static double getCorrelationCoefficient() throws IOException
-	{
-		return Correlation.of(getDelayTemps());
-	}
-
 	public static DelayTemperatureCorrelation getDelayTemperatureCorrelation() throws IOException
 	{
 		return new DelayTemperatureCorrelation(Correlation.of(getDelayTemps()));

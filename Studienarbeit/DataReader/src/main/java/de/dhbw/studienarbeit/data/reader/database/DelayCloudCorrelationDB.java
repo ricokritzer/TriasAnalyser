@@ -74,12 +74,6 @@ public class DelayCloudCorrelationDB implements Correlatable
 		}
 	}
 
-	@Deprecated
-	public static double getCorrelationCoefficient() throws IOException
-	{
-		return Correlation.of(getDelayClouds());
-	}
-
 	public static DelayCloudsCorrelation getDelayCloudsCorrelation() throws IOException
 	{
 		return new DelayCloudsCorrelation(Correlation.of(getDelayClouds()));
