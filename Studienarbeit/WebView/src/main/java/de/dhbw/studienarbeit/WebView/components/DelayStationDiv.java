@@ -10,7 +10,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 
-import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.web.data.Data;
 
 @PageTitle("Verspätungen")
@@ -22,7 +22,7 @@ public class DelayStationDiv extends Div
 	private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;
 	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
-	private final Grid<DelayStationDB> grid = new Grid<>();
+	private final Grid<DelayStationData> grid = new Grid<>();
 	private final TextField field = new TextField();
 
 	public DelayStationDiv()
@@ -35,21 +35,21 @@ public class DelayStationDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationLastUpdate()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationWO().getLastUpdated()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getStationName()).setHeader("Station").setSortable(true);
+		grid.addColumn(db -> db.getName().getStationName()).setHeader("Station").setSortable(true);
 		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(true);
-		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
-				.setComparator((db1, db2) -> Double.compare(db1.getAverage(), db2.getAverage())).setSortable(true);
-		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal")
-				.setComparator((db1, db2) -> Double.compare(db1.getMaximum(), db2.getMaximum())).setSortable(true);
+		grid.addColumn(db -> convertTimeToString(db.getDelayAverage())).setHeader("Durchschnitt")
+				.setComparator((db1, db2) -> Double.compare(db1.getDelayAverage(), db2.getDelayAverage())).setSortable(true);
+		grid.addColumn(db -> convertTimeToString(db.getDelayMaximum())).setHeader("Maximal")
+				.setComparator((db1, db2) -> Double.compare(db1.getDelayMaximum(), db2.getDelayMaximum())).setSortable(true);
 		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage")
 				.setComparator((db1, db2) -> Integer.compare(db1.getCount(), db2.getCount())).setSortable(true);
 
 		grid.setSizeFull();
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysStation()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysStationWO().getData()));
 
 		layout.add(grid);
 		add(layout);

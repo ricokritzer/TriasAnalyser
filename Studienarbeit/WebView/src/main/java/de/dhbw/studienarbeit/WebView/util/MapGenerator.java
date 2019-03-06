@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.WebView.tracks.Track;
 import de.dhbw.studienarbeit.WebView.tracks.TrackHelper;
-import de.dhbw.studienarbeit.data.reader.database.DelayStationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class MapGenerator
@@ -34,13 +34,13 @@ public class MapGenerator
 	private void getTracks()
 	{
 		int i = 0;
-		List<Track> tracks = TrackHelper.convertToTracks(Data.getNeighbours());
+		List<Track> tracks = TrackHelper.convertToTrackList(Data.getStationNeighbourWO().getData());
 		for (Track track : tracks)
 		{
-			double lat1 = track.getLat1();
-			double lon1 = track.getLon1();
-			double lat2 = track.getLat2();
-			double lon2 = track.getLon2();
+			double lat1 = track.getDelayStationNeighbourData().getPosition1().getLat();
+			double lon1 = track.getDelayStationNeighbourData().getPosition1().getLon();
+			double lat2 = track.getDelayStationNeighbourData().getPosition2().getLat();
+			double lon2 = track.getDelayStationNeighbourData().getPosition2().getLon();
 
 			if (lat1 > lat2)
 			{
@@ -75,12 +75,12 @@ public class MapGenerator
 	private void getMarkers()
 	{
 		int i = 0;
-		for (DelayStationDB station : Data.getDelaysStation())
+		for (DelayStationData station : Data.getDelaysStationWO().getData())
 		{
-			sb.append("var marker_" + i + " = L.marker([" + station.getLat() + "," + station.getLon()
+			sb.append("var marker_" + i + " = L.marker([" + station.getPosition().getLat() + "," + station.getPosition().getLon()
 					+ "]).addTo(mymap);") //
 					.append(System.lineSeparator()) //
-					.append("marker_" + i + ".bindPopup('" + station.getStationName() + "');") //
+					.append("marker_" + i + ".bindPopup('" + station.getName().getStationName() + "');") //
 					.append(System.lineSeparator());
 			i++;
 		}

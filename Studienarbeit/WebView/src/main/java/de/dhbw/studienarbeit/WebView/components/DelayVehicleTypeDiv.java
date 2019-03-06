@@ -9,7 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import de.dhbw.studienarbeit.data.reader.database.DelayVehicleTypeDB;
+import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class DelayVehicleTypeDiv extends Div
@@ -20,7 +20,7 @@ public class DelayVehicleTypeDiv extends Div
 	private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;
 	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
-	private final Grid<DelayVehicleTypeDB> grid = new Grid<>();
+	private final Grid<DelayVehicleTypeData> grid = new Grid<>();
 	private final TextField field = new TextField();
 
 	public DelayVehicleTypeDiv()
@@ -33,18 +33,18 @@ public class DelayVehicleTypeDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysVehicleTypeLastUpdate()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysVehicleTypeWO().getLastUpdated()));
 		layout.add(field);
 
 		grid.addColumn(db -> db.getVehicleType()).setHeader("Fahrzeugtyp").setSortable(true);
-		grid.addColumn(db -> convertTimeToString(db.getAverage())).setHeader("Durchschnitt")
-				.setComparator((db1, db2) -> Double.compare(db1.getAverage(), db2.getAverage())).setSortable(true);
-		grid.addColumn(db -> convertTimeToString(db.getMaximum())).setHeader("Maximal")
-				.setComparator((db1, db2) -> Double.compare(db1.getMaximum(), db2.getMaximum())).setSortable(true);
+		grid.addColumn(db -> convertTimeToString(db.getDelayAverage())).setHeader("Durchschnitt")
+				.setComparator((db1, db2) -> Double.compare(db1.getDelayAverage(), db2.getDelayAverage())).setSortable(true);
+		grid.addColumn(db -> convertTimeToString(db.getDelayMaximum())).setHeader("Maximal")
+				.setComparator((db1, db2) -> Double.compare(db1.getDelayMaximum(), db2.getDelayMaximum())).setSortable(true);
 
 		grid.setSizeFull();
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysVehicleType()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysVehicleTypeWO().getData()));
 
 		layout.add(grid);
 		add(layout);

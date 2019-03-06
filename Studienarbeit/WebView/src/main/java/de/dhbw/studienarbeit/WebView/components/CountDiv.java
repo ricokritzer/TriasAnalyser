@@ -67,7 +67,7 @@ public class CountDiv extends Div
 		UI ui = getUI().orElse(UI.getCurrent());
 		Optional.ofNullable(ui).ifPresent(currentUI -> currentUI.access(() -> {
 			currentUI.getPushConfiguration().setPushMode(PushMode.MANUAL);
-			grid.setItems(Data.getCounts());
+			grid.setItems(Data.getCountsWO().getData());
 			currentUI.push();
 		}));
 	}
