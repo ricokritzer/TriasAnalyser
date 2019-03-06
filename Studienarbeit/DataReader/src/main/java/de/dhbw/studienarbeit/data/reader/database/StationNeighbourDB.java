@@ -67,7 +67,7 @@ public class StationNeighbourDB implements StationNeighbourData
 		}
 	}
 
-	public static final List<StationNeighbourDB> getTracks() throws IOException
+	public static final List<StationNeighbourData> getStationNeighbours() throws IOException
 	{
 		final String sql = "SELECT DISTINCT "
 				+ "stationID1, station1.lat AS lat1, station1.lon AS lon1, station1.name AS name1, station1.operator AS operator1, "
@@ -78,7 +78,7 @@ public class StationNeighbourDB implements StationNeighbourData
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<StationNeighbourDB> list = new ArrayList<>();
+			final List<StationNeighbourData> list = new ArrayList<>();
 			database.select(r -> StationNeighbourDB.getTrack(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}

@@ -93,14 +93,14 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 		}
 	}
 
-	public static List<DelayStationNeighbourDB> convertToStationNeighbours(final List<StationNeighbourData> tracks)
+	public static List<DelayStationNeighbourData> convertToStationNeighbours(final List<StationNeighbourData> tracks)
 	{
-		final List<DelayStationNeighbourDB> list = new ArrayList<>();
+		final List<DelayStationNeighbourData> list = new ArrayList<>();
 		tracks.forEach(t -> convertToStationNeighbour(t).ifPresent(list::add));
 		return list;
 	}
 
-	public static Optional<DelayStationNeighbourDB> convertToStationNeighbour(
+	public static Optional<DelayStationNeighbourData> convertToStationNeighbour(
 			final StationNeighbourData stationNeighbour)
 	{
 		double avg1 = 0.0;
@@ -169,9 +169,9 @@ public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbour
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (obj instanceof DelayStationNeighbourDB)
+		if (obj instanceof DelayStationNeighbourData)
 		{
-			final DelayStationNeighbourDB o = (DelayStationNeighbourDB) obj;
+			final DelayStationNeighbourData o = (DelayStationNeighbourData) obj;
 			return o.getPosition1().equals(this.position1) && o.getPosition2().equals(this.position2);
 		}
 		return super.equals(obj);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -13,7 +14,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayStationNeighbourWO extends Updateable
 {
-	protected List<DelayStationNeighbourDB> data = new ArrayList<>();
+	protected List<DelayStationNeighbourData> data = new ArrayList<>();
 
 	public DelayStationNeighbourWO(Optional<DataUpdater> updater)
 	{
@@ -22,19 +23,19 @@ public class DelayStationNeighbourWO extends Updateable
 
 	public List<DelayStationNeighbourData> getData()
 	{
-		return new ArrayList<>(data);
+		return data;
 	}
 
 	@Override
 	protected void updateData() throws IOException
 	{
-		final List<StationNeighbourDB> tracks = StationNeighbourDB.getTracks();
+		final List<StationNeighbourData> tracks = StationNeighbourDB.getStationNeighbours();
 		tracks.forEach(track -> DelayStationNeighbourDB.convertToStationNeighbour(track).ifPresent(this::renewData));
 	}
 
-	protected void renewData(DelayStationNeighbourDB stationNeighbourDB)
+	protected void renewData(DelayStationNeighbourData stationNeighbour)
 	{
-		data.remove(stationNeighbourDB);
-		data.add(stationNeighbourDB);
+		data.remove(stationNeighbour);
+		data.add(stationNeighbour);
 	}
 }
