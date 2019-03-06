@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCloudsCorrelation;
 
 public class DelayCloudCorrelationDB implements Correlatable
 {
@@ -73,8 +74,14 @@ public class DelayCloudCorrelationDB implements Correlatable
 		}
 	}
 
+	@Deprecated
 	public static double getCorrelationCoefficient() throws IOException
 	{
 		return Correlation.of(getDelayClouds());
+	}
+
+	public static DelayCloudsCorrelation getDelayCloudsCorrelation() throws IOException
+	{
+		return new DelayCloudsCorrelation(Correlation.of(getDelayClouds()));
 	}
 }
