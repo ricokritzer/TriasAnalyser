@@ -14,21 +14,37 @@ public class MapGenerator
 
 	StringBuilder sb;
 
-	public MapGenerator()
+	private MapGenerator()
 	{
 		sb = new StringBuilder();
 	}
-
-	public String generate()
+	
+	public String get()
 	{
-		sb.append("var mymap = L.map('map').setView([49.0095795577620000, 8.4045749173222800], 13);")
+		return sb.toString();
+	}
+	
+	public static MapGenerator generate()
+	{
+		MapGenerator generator = new MapGenerator();
+		generator.sb.append("var mymap = L.map('map').setView([49.0095795577620000, 8.4045749173222800], 13);")
 				.append(System.lineSeparator()) //
-				.append("L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>', maxZoom: 18, id: 'mapbox.streets', accessToken: 'pk.eyJ1IjoicGF0LXNpZSIsImEiOiJjanNoeG94NGkwYzcxNDRxZXQ0end0ZDZlIn0.3ZOmhgqISDU_mCFZdMbmiQ'}).addTo(mymap);")
-				.append(System.lineSeparator());
+				.append("L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>', maxZoom: 18, id: 'mapbox.streets', accessToken: 'pk.eyJ1IjoicGF0LXNpZSIsImEiOiJjanNoeG94NGkwYzcxNDRxZXQ0end0ZDZlIn0.3ZOmhgqISDU_mCFZdMbmiQ'}).addTo(mymap);");
+		return generator;
+	}
+	
+	public MapGenerator withMarkers()
+	{
+		sb.append(System.lineSeparator());
 		getMarkers();
+		return this;
+	}
+	
+	public MapGenerator withTracks()
+	{
 		sb.append(System.lineSeparator());
 		getTracks();
-		return sb.toString();
+		return this;
 	}
 
 	private void getTracks()

@@ -26,11 +26,10 @@ public class MapDiv extends Div
 		{
 			return;
 		}
-		MapGenerator generator = new MapGenerator();
 		getElement().setAttribute("id", "map");
 		getElement().getStyle().set("height", "90vh");
 		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript(
-				"initMap()" + System.lineSeparator() + "function initMap() {" + generator.generate() + "}");
+				"initMap()" + System.lineSeparator() + "function initMap() {" + MapGenerator.generate().withMarkers().withTracks().get() + "}");
 		init = true;
 	}
 }
