@@ -96,7 +96,7 @@ public class MapGenerator
 			sb.append("var marker_" + i + " = L.marker([" + station.getPosition().getLat() + "," + station.getPosition().getLon()
 					+ "]).addTo(mymap);") //
 					.append(System.lineSeparator()) //
-					.append("marker_" + i + ".bindPopup('" + station.getName().getStationName() + "');") //
+					.append("marker_" + i + ".bindPopup('<b>" + station.getName().getStationName() + "</b><br>Durchschittliche Verspätung: " + station.getDelayAverage() + "');") //
 					.append(System.lineSeparator());
 			i++;
 		}
