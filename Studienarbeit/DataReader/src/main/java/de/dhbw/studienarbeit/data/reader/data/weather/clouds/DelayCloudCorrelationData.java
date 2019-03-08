@@ -10,7 +10,7 @@ public class DelayCloudCorrelationData
 		this.value = value;
 	}
 
-	public double getDelayCloudsCorrelation()
+	public double getValue()
 	{
 		return value;
 	}

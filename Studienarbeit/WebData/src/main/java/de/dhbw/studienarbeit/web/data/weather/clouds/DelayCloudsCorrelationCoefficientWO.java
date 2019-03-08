@@ -28,7 +28,7 @@ public class DelayCloudsCorrelationCoefficientWO extends Updateable
 	@Deprecated
 	public double getData()
 	{
-		return data.getDelayCloudsCorrelation();
+		return data.getValue();
 	}
 
 	@Override
