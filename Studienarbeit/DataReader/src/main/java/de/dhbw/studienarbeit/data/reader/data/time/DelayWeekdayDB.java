@@ -12,20 +12,9 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayWeekdayDB implements DelayWeekdayData
+public class DelayWeekdayDB implements DelayWeekday
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWeekdayDB.class.getName());
-
-	private final double average;
-	private final double maximum;
-	private final Weekday value;
-
-	public DelayWeekdayDB(double delayAverage, double delayMaximum, Weekday value)
-	{
-		this.average = delayAverage;
-		this.maximum = delayMaximum;
-		this.value = value;
-	}
 
 	private static final Optional<DelayWeekdayData> getDelays(ResultSet result)
 	{
@@ -35,7 +24,7 @@ public class DelayWeekdayDB implements DelayWeekdayData
 			final double delayAverage = result.getDouble("delay_avg");
 			final Weekday value = Weekday.values()[result.getInt("weekday")];
 
-			return Optional.of(new DelayWeekdayDB(delayAverage, delayMaximum, value));
+			return Optional.of(new DelayWeekdayData(delayAverage, delayMaximum, value));
 		}
 		catch (SQLException e)
 		{
@@ -44,7 +33,7 @@ public class DelayWeekdayDB implements DelayWeekdayData
 		}
 	}
 
-	public static final List<DelayWeekdayData> getDelays() throws IOException
+	public final List<DelayWeekdayData> getDelays() throws IOException
 	{
 		final String sql = "SELECT WEEKDAY(timetabledTime) AS weekday, avg(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay_avg, max(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay_max FROM Stop GROUP BY weekday;";
 		final DatabaseReader database = new DatabaseReader();
@@ -58,23 +47,5 @@ public class DelayWeekdayDB implements DelayWeekdayData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public double getDelayMaximum()
-	{
-		return maximum;
-	}
-
-	@Override
-	public double getDelayAverage()
-	{
-		return average;
-	}
-
-	@Override
-	public Weekday getWeekday()
-	{
-		return value;
 	}
 }

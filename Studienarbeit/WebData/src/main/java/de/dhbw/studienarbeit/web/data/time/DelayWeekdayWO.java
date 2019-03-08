@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekday;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayDB;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -12,6 +13,8 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeekdayWO extends Updateable
 {
+	private final DelayWeekday delayWeekday = new DelayWeekdayDB();
+
 	private List<DelayWeekdayData> data = new ArrayList<>();
 
 	public DelayWeekdayWO(Optional<DataUpdater> updater)
@@ -27,6 +30,6 @@ public class DelayWeekdayWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = DelayWeekdayDB.getDelays();
+		data = delayWeekday.getDelays();
 	}
 }
