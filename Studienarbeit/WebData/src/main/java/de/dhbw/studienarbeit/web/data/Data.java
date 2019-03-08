@@ -16,6 +16,7 @@ import de.dhbw.studienarbeit.web.data.weather.humidity.DelayHumidityCorrelationC
 import de.dhbw.studienarbeit.web.data.weather.humidity.DelayHumidityWO;
 import de.dhbw.studienarbeit.web.data.weather.pressure.DelayPressureCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.pressure.DelayPressureWO;
+import de.dhbw.studienarbeit.web.data.weather.symbol.DelayWeatherSymbolWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureWO;
 import de.dhbw.studienarbeit.web.data.weather.text.DelayWeatherTextWO;
@@ -32,11 +33,13 @@ public class Data
 	private final DelayWeekdayWO delayWeekdayWO;
 	private final DelayHourWO delayHourWO;
 
+	private final DelayWeatherTextWO delayWeatherTextWO;
+	private final DelayWeatherSymbolWO delayWeatherSymbolWO;
+
 	private final DelayTemperatureWO delayTemperatureWO;
 	private final DelayTemperatureCorrelationCoefficientWO delayTemperatureCorrelationCoefficientWO;
 	private final DelayCloudsWO delayCloudsWO;
 	private final DelayCloudsCorrelationCoefficientWO delayCloudsCorrelationCoefficientWO;
-	private final DelayWeatherTextWO delayWeatherTextWO;
 	private final DelayWindWO delayWindWO;
 	private final DelayWindCorrelationCoefficientWO delayWindCorrelationCoefficientWO;
 	private final DelayHumidityWO delayHumidityWO;
@@ -76,6 +79,7 @@ public class Data
 		delayPressureCorrelationCoefficientWO = new DelayPressureCorrelationCoefficientWO(updater);
 
 		delayWeatherTextWO = new DelayWeatherTextWO(updater);
+		delayWeatherSymbolWO = new DelayWeatherSymbolWO(updater);
 
 		stationNeighbourWO = new DelayStationNeighbourWO(updater);
 	}
@@ -173,5 +177,10 @@ public class Data
 	public static final DelayHourWO getDelayHourWO()
 	{
 		return getInstance().delayHourWO;
+	}
+
+	public static final DelayWeatherSymbolWO getDelayWeatherSymbolWO()
+	{
+		return getInstance().delayWeatherSymbolWO;
 	}
 }
