@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.web.data.time.weekday;
+package de.dhbw.studienarbeit.web.data.time;
 
 import java.io.IOException;
 import java.util.ArrayList;
