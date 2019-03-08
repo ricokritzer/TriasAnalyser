@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleType;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeDB;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -12,6 +13,8 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayVehicleTypeWO extends Updateable
 {
+	private final DelayVehicleType delayVehicleType = new DelayVehicleTypeDB();
+
 	private List<DelayVehicleTypeData> data = new ArrayList<>();
 
 	public DelayVehicleTypeWO(Optional<DataUpdater> updater)
@@ -27,6 +30,6 @@ public class DelayVehicleTypeWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = DelayVehicleTypeDB.getDelays();
+		data = delayVehicleType.getDelays();
 	}
 }

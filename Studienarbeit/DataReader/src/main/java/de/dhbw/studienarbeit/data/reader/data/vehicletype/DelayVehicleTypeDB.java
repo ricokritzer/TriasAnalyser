@@ -12,20 +12,9 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayVehicleTypeDB implements DelayVehicleTypeData
+public class DelayVehicleTypeDB implements DelayVehicleType
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayVehicleTypeDB.class.getName());
-
-	private final double maximum;
-	private final double average;
-	private final String vehicleType;
-
-	public DelayVehicleTypeDB(double delayAverage, double delayMaximum, String vehicleType)
-	{
-		this.average = delayAverage;
-		this.maximum = delayMaximum;
-		this.vehicleType = vehicleType;
-	}
 
 	private static final Optional<DelayVehicleTypeData> getDelayLine(ResultSet result)
 	{
@@ -35,7 +24,7 @@ public class DelayVehicleTypeDB implements DelayVehicleTypeData
 			final double delayAverage = result.getDouble("delay_avg");
 			final String type = result.getString("type");
 
-			return Optional.of(new DelayVehicleTypeDB(delayAverage, delayMaximum, type));
+			return Optional.of(new DelayVehicleTypeData(delayAverage, delayMaximum, type));
 		}
 		catch (SQLException e)
 		{
@@ -44,7 +33,7 @@ public class DelayVehicleTypeDB implements DelayVehicleTypeData
 		}
 	}
 
-	public static final List<DelayVehicleTypeData> getDelays() throws IOException
+	public final List<DelayVehicleTypeData> getDelays() throws IOException
 	{
 		final String sql = "SELECT " + "SUBSTRING_INDEX(name, ' ', 1 ) AS type, "
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
@@ -61,23 +50,5 @@ public class DelayVehicleTypeDB implements DelayVehicleTypeData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public double getDelayMaximum()
-	{
-		return maximum;
-	}
-
-	@Override
-	public double getDelayAverage()
-	{
-		return average;
-	}
-
-	@Override
-	public String getVehicleType()
-	{
-		return vehicleType;
 	}
 }
