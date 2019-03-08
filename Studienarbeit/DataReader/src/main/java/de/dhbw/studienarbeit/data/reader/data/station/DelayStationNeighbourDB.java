@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayStationNeighbourDB
+public class DelayStationNeighbourDB implements DelayStationNeighbour
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayStationNeighbourDB.class.getName());
 
@@ -31,7 +31,7 @@ public class DelayStationNeighbourDB
 		}
 	}
 
-	public static List<DelayStationNeighbourData> convertToStationNeighbours(final List<StationNeighbourData> tracks)
+	public List<DelayStationNeighbourData> convertToStationNeighbours(final List<StationNeighbourData> tracks)
 	{
 		final List<DelayStationNeighbourData> list = new ArrayList<>();
 		tracks.forEach(t -> convertToStationNeighbour(t).ifPresent(list::add));
