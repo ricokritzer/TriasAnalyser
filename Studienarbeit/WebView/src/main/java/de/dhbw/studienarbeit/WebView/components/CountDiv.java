@@ -14,7 +14,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.communication.PushMode;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
-import de.dhbw.studienarbeit.data.reader.database.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.Count;
 import de.dhbw.studienarbeit.web.data.Data;
 import de.dhbw.studienarbeit.web.data.counts.Counts;
 

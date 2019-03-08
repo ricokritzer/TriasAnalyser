@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.count;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -7,15 +7,17 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Count
-{
-	private static final Logger LOGGER = Logger.getLogger(Count.class.getName());
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-	public static final Count UNABLE_TO_COUNT = new Count(-1);
+public class CountDB implements Count
+{
+	private static final Logger LOGGER = Logger.getLogger(CountDB.class.getName());
+
+	public static final CountDB UNABLE_TO_COUNT = new CountDB(-1);
 
 	protected long value;
 
-	public Count(long value)
+	public CountDB(long value)
 	{
 		this.value = value;
 	}
@@ -31,11 +33,11 @@ public class Count
 		return Long.toString(value);
 	}
 
-	public static final Optional<Count> getCount(ResultSet result)
+	public static final Optional<CountDB> getCount(ResultSet result)
 	{
 		try
 		{
-			return Optional.ofNullable(new Count(result.getLong("total")));
+			return Optional.ofNullable(new CountDB(result.getLong("total")));
 		}
 		catch (SQLException e)
 		{
@@ -52,7 +54,7 @@ public class Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stops.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -65,7 +67,7 @@ public class Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count weather.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -78,7 +80,7 @@ public class Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stations.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -91,7 +93,7 @@ public class Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stations with realtime data.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -104,7 +106,7 @@ public class Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count observed stations.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -117,7 +119,7 @@ public class Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count lines.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -130,7 +132,7 @@ public class Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count operators.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -144,7 +146,7 @@ public class Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count observed operators.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountDB.UNABLE_TO_COUNT;
 		}
 	}
 }

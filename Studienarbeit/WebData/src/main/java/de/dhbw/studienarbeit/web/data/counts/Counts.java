@@ -2,7 +2,7 @@ package de.dhbw.studienarbeit.web.data.counts;
 
 import java.util.Date;
 
-import de.dhbw.studienarbeit.data.reader.database.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.Count;
 
 public class Counts
 {

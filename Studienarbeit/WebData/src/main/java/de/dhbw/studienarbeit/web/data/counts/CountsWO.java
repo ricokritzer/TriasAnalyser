@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.database.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
@@ -29,13 +30,13 @@ public class CountsWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		final Count countStations = Count.countStations();
-		final Count countObservedStations = Count.countObservedStations();
-		final Count countStationsWithRealtimeData = Count.countStationsWithRealtimeData();
-		final Count countLines = Count.countLines();
-		final Count countStops = Count.countStops();
-		final Count countWeathers = Count.countWeather();
-		final Count countOperators = Count.countObservedOperators();
+		final Count countStations = CountDB.countStations();
+		final Count countObservedStations = CountDB.countObservedStations();
+		final Count countStationsWithRealtimeData = CountDB.countStationsWithRealtimeData();
+		final Count countLines = CountDB.countLines();
+		final Count countStops = CountDB.countStops();
+		final Count countWeathers = CountDB.countWeather();
+		final Count countOperators = CountDB.countObservedOperators();
 		final Date lastUpdate = new Date();
 
 		data.add(0, new Counts(countStations, countObservedStations, countStationsWithRealtimeData, countLines,

@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
 import de.dhbw.studienarbeit.data.reader.SettingsReadOnly;
+import de.dhbw.studienarbeit.data.reader.data.count.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
 
 public class DatabaseReader extends DatabaseConnector
 {
@@ -54,7 +56,7 @@ public class DatabaseReader extends DatabaseConnector
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
 			final List<Count> count = new ArrayList<>();
-			select(result -> Count.getCount(result).ifPresent(count::add), preparedStatement);
+			select(result -> CountDB.getCount(result).ifPresent(count::add), preparedStatement);
 
 			if (count.isEmpty())
 			{

@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.Delay;
+import de.dhbw.studienarbeit.data.reader.data.count.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
@@ -85,7 +87,7 @@ public class DelayRequestDB
 			setValues(preparedStatement);
 
 			final List<Count> count = new ArrayList<>();
-			database.select(result -> Count.getCount(result).ifPresent(count::add), preparedStatement);
+			database.select(result -> CountDB.getCount(result).ifPresent(count::add), preparedStatement);
 
 			if (count.isEmpty())
 			{
