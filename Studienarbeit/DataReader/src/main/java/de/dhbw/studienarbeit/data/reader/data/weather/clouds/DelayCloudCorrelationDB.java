@@ -10,46 +10,23 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherCorrelationHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayCloudCorrelationDB implements Correlatable
+public class DelayCloudCorrelationDB implements DelayCloudCorrelation
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayCloudCorrelationDB.class.getName());
 	private static final String WHAT = "clouds";
 
-	private final double delay;
-	private final double value;
-
-	public DelayCloudCorrelationDB(double delay, double value)
-	{
-		super();
-		this.delay = delay;
-		this.value = value;
-	}
-
-	@Override
-	public double getX()
-	{
-		return delay;
-	}
-
-	@Override
-	public double getY()
-	{
-		return value;
-	}
-
-	private static final Optional<DelayCloudCorrelationDB> getDelay(ResultSet result)
+	private static final Optional<DelayCloudCorrelationData> getDelay(ResultSet result)
 	{
 		try
 		{
 			final double delay = result.getDouble("delay");
 			final double value = result.getDouble(WHAT);
 
-			return Optional.of(new DelayCloudCorrelationDB(delay, value));
+			return Optional.of(new DelayCloudCorrelationData(delay, value));
 		}
 		catch (SQLException e)
 		{
@@ -58,14 +35,14 @@ public class DelayCloudCorrelationDB implements Correlatable
 		}
 	}
 
-	public static final List<DelayCloudCorrelationDB> getDelayClouds() throws IOException
+	public static final List<DelayCloudCorrelationData> getDelayClouds() throws IOException
 	{
 		final String sql = DelayWeatherCorrelationHelper.getSqlFor(WHAT);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayCloudCorrelationDB> list = new ArrayList<>();
+			final List<DelayCloudCorrelationData> list = new ArrayList<>();
 			database.select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
@@ -75,7 +52,7 @@ public class DelayCloudCorrelationDB implements Correlatable
 		}
 	}
 
-	public static DelayCloudsCorrelation getDelayCloudsCorrelation() throws IOException
+	public DelayCloudsCorrelation getDelayCloudsCorrelation() throws IOException
 	{
 		return new DelayCloudsCorrelation(Correlation.of(getDelayClouds()));
 	}
