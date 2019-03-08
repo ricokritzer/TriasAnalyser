@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.time.DelayHourData;
+import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 
 public class DelayHourDB implements DelayHourData
 {
@@ -73,8 +74,8 @@ public class DelayHourDB implements DelayHourData
 	}
 
 	@Override
-	public int getHour()
+	public Hour getHour()
 	{
-		return value;
+		return Hour.values()[value];
 	}
 }

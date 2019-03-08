@@ -4,5 +4,5 @@ import de.dhbw.studienarbeit.data.reader.data.DelayData;
 
 public interface DelayHourData extends DelayData
 {
-	int getHour();
+	Hour getHour();
 }
