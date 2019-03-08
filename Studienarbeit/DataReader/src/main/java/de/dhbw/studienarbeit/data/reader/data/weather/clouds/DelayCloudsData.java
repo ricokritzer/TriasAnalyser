@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.data.weather;
+package de.dhbw.studienarbeit.data.reader.data.weather.clouds;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 
