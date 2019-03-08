@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayWeatherTextDB implements DelayWeatherTextData
+public class DelayWeatherTextDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWeatherTextDB.class.getName());
 	private static final String URL_PRE = "http://openweathermap.org/img/w/";
@@ -66,7 +66,7 @@ public class DelayWeatherTextDB implements DelayWeatherTextData
 			final String textDE = result.getString("textDE");
 			final String icon = result.getString("icon");
 
-			return Optional.of(new DelayWeatherTextDB(delayAverage, delayMaximum, textDE, icon));
+			return Optional.of(new DelayWeatherTextData(delayAverage, delayMaximum, textDE, icon));
 		}
 		catch (SQLException e)
 		{
@@ -99,23 +99,5 @@ public class DelayWeatherTextDB implements DelayWeatherTextData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public double getDelayMaximum()
-	{
-		return maximum;
-	}
-
-	@Override
-	public double getDelayAverage()
-	{
-		return average;
-	}
-
-	@Override
-	public String getText()
-	{
-		return textDE;
 	}
 }

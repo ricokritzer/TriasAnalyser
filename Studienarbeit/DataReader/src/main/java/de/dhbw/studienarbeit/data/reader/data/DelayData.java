@@ -1,8 +1,24 @@
 package de.dhbw.studienarbeit.data.reader.data;
 
-public interface DelayData
+public abstract class DelayData
 {
-	double getDelayMaximum();
+	private final double delayMaximum;
+	private final double delayAverage;
 
-	double getDelayAverage();
+	public DelayData(double delayMaximum, double delayAverage)
+	{
+		super();
+		this.delayMaximum = delayMaximum;
+		this.delayAverage = delayAverage;
+	}
+
+	public final double getDelayMaximum()
+	{
+		return delayMaximum;
+	}
+
+	public final double getDelayAverage()
+	{
+		return delayAverage;
+	}
 }

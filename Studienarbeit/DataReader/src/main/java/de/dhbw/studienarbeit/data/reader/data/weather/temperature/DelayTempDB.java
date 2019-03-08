@@ -11,26 +11,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
-import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayTempDB implements Correlatable, DelayTemperatureData
+public class DelayTempDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayTempDB.class.getName());
 	private static final String FIELD = "Round(temp, 0)";
 	private static final String NAME = "rounded";
-
-	private final double average;
-	private final double maximum;
-	private final double value;
-
-	public DelayTempDB(double delayAverage, double delayMaximum, double value)
-	{
-		this.average = delayAverage;
-		this.maximum = delayMaximum;
-		this.value = value;
-	}
 
 	private static final Optional<DelayTemperatureData> getDelays(ResultSet result)
 	{
@@ -40,7 +28,7 @@ public class DelayTempDB implements Correlatable, DelayTemperatureData
 			final double delayAverage = result.getDouble("delay_avg");
 			final double wind = result.getDouble(NAME);
 
-			return Optional.of(new DelayTempDB(delayAverage, delayMaximum, wind));
+			return Optional.of(new DelayTemperatureData(delayAverage, delayMaximum, wind));
 		}
 		catch (SQLException e)
 		{
@@ -64,49 +52,5 @@ public class DelayTempDB implements Correlatable, DelayTemperatureData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	public static double correlationOf(List<DelayTemperatureData> temp)
-	{
-		double[] x = new double[temp.size()];
-		double[] y = new double[temp.size()];
-
-		for (int i = 0; i < temp.size(); i++)
-		{
-			x[i] = temp.get(i).getDelayAverage();
-			y[i] = temp.get(i).getTemperature();
-		}
-
-		return Correlation.of(x, y);
-	}
-
-	@Override
-	public double getX()
-	{
-		return getDelayAverage();
-	}
-
-	@Override
-	public double getY()
-	{
-		return getTemperature();
-	}
-
-	@Override
-	public double getDelayMaximum()
-	{
-		return maximum;
-	}
-
-	@Override
-	public double getDelayAverage()
-	{
-		return average;
-	}
-
-	@Override
-	public double getTemperature()
-	{
-		return value;
 	}
 }

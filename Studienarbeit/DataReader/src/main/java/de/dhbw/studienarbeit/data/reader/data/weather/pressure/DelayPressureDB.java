@@ -14,22 +14,11 @@ import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayPressureDB implements Correlatable, DelayPressureData
+public class DelayPressureDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayPressureDB.class.getName());
 	private static final String FIELD = "Round(pressure,0)";
 	private static final String NAME = "rounded";
-
-	private final double average;
-	private final double maximum;
-	private final double value;
-
-	public DelayPressureDB(double delayAverage, double delayMaximum, double value)
-	{
-		this.average = delayAverage;
-		this.maximum = delayMaximum;
-		this.value = value;
-	}
 
 	private static final Optional<DelayPressureData> getDelayLine(ResultSet result)
 	{
@@ -39,7 +28,7 @@ public class DelayPressureDB implements Correlatable, DelayPressureData
 			final double delayAverage = result.getDouble("delay_avg");
 			final double wind = result.getDouble(NAME);
 
-			return Optional.of(new DelayPressureDB(delayAverage, delayMaximum, wind));
+			return Optional.of(new DelayPressureData(delayAverage, delayMaximum, wind));
 		}
 		catch (SQLException e)
 		{
@@ -63,35 +52,5 @@ public class DelayPressureDB implements Correlatable, DelayPressureData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public double getX()
-	{
-		return getDelayAverage();
-	}
-
-	@Override
-	public double getY()
-	{
-		return getPressure();
-	}
-
-	@Override
-	public double getDelayMaximum()
-	{
-		return maximum;
-	}
-
-	@Override
-	public double getDelayAverage()
-	{
-		return average;
-	}
-
-	@Override
-	public double getPressure()
-	{
-		return value;
 	}
 }
