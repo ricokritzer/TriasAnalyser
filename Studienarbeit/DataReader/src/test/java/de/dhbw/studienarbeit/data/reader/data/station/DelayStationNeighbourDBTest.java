@@ -14,9 +14,9 @@ public class DelayStationNeighbourDBTest
 	{
 		final Position pos1 = new Position(0, 0);
 		final Position pos2 = new Position(3, 4);
-		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB(name, pos1, 0, name, pos2, 1);
+		final DelayStationNeighbourData stationNeighbour = new DelayStationNeighbourData(name, pos1, 0, name, pos2, 1);
 
-		assertThat(stationNeighbourDB.getSlope(), Is.is(0.2));
+		assertThat(stationNeighbour.getSlope(), Is.is(0.2));
 	}
 
 	@Test
@@ -24,9 +24,9 @@ public class DelayStationNeighbourDBTest
 	{
 		final Position pos1 = new Position(3, 4);
 		final Position pos2 = new Position(0, 0);
-		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB(name, pos1, 0, name, pos2, 1);
+		final DelayStationNeighbourData stationNeighbour = new DelayStationNeighbourData(name, pos1, 0, name, pos2, 1);
 
-		assertThat(stationNeighbourDB.getSlope(), Is.is(0.2));
+		assertThat(stationNeighbour.getSlope(), Is.is(0.2));
 	}
 
 	@Test
@@ -34,9 +34,9 @@ public class DelayStationNeighbourDBTest
 	{
 		final Position pos1 = new Position(3, 4);
 		final Position pos2 = new Position(0, 0);
-		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB(name, pos1, 0, name, pos2, 5);
+		final DelayStationNeighbourData stationNeighbour = new DelayStationNeighbourData(name, pos1, 0, name, pos2, 5);
 
-		assertThat(stationNeighbourDB.getSlope(), Is.is(1.0));
+		assertThat(stationNeighbour.getSlope(), Is.is(1.0));
 	}
 
 	@Test
@@ -44,9 +44,9 @@ public class DelayStationNeighbourDBTest
 	{
 		final Position pos1 = new Position(4, 3);
 		final Position pos2 = new Position(0, 0);
-		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB(name, pos1, 0, name, pos2, 5);
+		final DelayStationNeighbourData stationNeighbour = new DelayStationNeighbourData(name, pos1, 0, name, pos2, 5);
 
-		assertThat(stationNeighbourDB.getSlope(), Is.is(1.0));
+		assertThat(stationNeighbour.getSlope(), Is.is(1.0));
 	}
 
 	@Test
@@ -54,8 +54,9 @@ public class DelayStationNeighbourDBTest
 	{
 		final Position pos1 = new Position(0, 0);
 		final Position pos2 = new Position(0, 0);
-		final DelayStationNeighbourDB stationNeighbourDB = new DelayStationNeighbourDB(name, pos1, 0, name, pos2, 0);
+		final DelayStationNeighbourData stationNeighbourData = new DelayStationNeighbourData(name, pos1, 0, name, pos2,
+				0);
 
-		assertThat(stationNeighbourDB.getSlope(), Is.is(Double.NaN));
+		assertThat(stationNeighbourData.getSlope(), Is.is(Double.NaN));
 	}
 }

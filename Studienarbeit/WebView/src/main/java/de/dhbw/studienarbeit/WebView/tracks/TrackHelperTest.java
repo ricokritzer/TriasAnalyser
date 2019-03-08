@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
@@ -30,9 +29,9 @@ public class TrackHelperTest
 		final Position pos4 = new Position(4, 4);
 
 		final List<DelayStationNeighbourData> stationNeighbours = new ArrayList<>();
-		stationNeighbours.add(new DelayStationNeighbourDB(name, pos0, 0, name, pos2, 2));
-		stationNeighbours.add(new DelayStationNeighbourDB(name, pos0, 0, name, pos4, 4));
-		stationNeighbours.add(new DelayStationNeighbourDB(name, pos0, 0, name, pos1, 1));
+		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, 0, name, pos2, 2));
+		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, 0, name, pos4, 4));
+		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, 0, name, pos1, 1));
 
 		final List<Track> tracks = TrackHelper.convertToTrackList(stationNeighbours);
 
