@@ -12,11 +12,11 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayLineDB
+public class DelayLineDB implements DelayLine
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayLineDB.class.getName());
 
-	private static final Optional<DelayLineData> getDelayLine(ResultSet result)
+	private final Optional<DelayLineData> getDelayLine(ResultSet result)
 	{
 		try
 		{
@@ -38,7 +38,7 @@ public class DelayLineDB
 		}
 	}
 
-	public static final List<DelayLineData> getDelays() throws IOException
+	public final List<DelayLineData> getDelays() throws IOException
 	{
 		final String sql = "SELECT " + "name, destination, lineID, "
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
@@ -48,7 +48,7 @@ public class DelayLineDB
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<DelayLineData> list = new ArrayList<>();
-			database.select(r -> DelayLineDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
