@@ -3,8 +3,8 @@ package de.dhbw.studienarbeit.web.data.weather.temperature;
 import java.io.IOException;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayTemperatureCorrelation;
-import de.dhbw.studienarbeit.data.reader.database.DelayTempCorrelationDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTempCorrelationDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureCorrelation;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
