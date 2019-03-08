@@ -10,13 +10,12 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayTempDB
+public class DelayTemperatureDB implements DelayTemperature
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayTempDB.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DelayTemperatureDB.class.getName());
 	private static final String FIELD = "Round(temp, 0)";
 	private static final String NAME = "rounded";
 
@@ -32,12 +31,12 @@ public class DelayTempDB
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayTempDB.class.getName(), e);
+			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayTemperatureDB.class.getName(), e);
 			return Optional.empty();
 		}
 	}
 
-	public static final List<DelayTemperatureData> getDelays() throws IOException
+	public final List<DelayTemperatureData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
@@ -45,7 +44,7 @@ public class DelayTempDB
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<DelayTemperatureData> list = new ArrayList<>();
-			database.select(r -> DelayTempDB.getDelays(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> DelayTemperatureDB.getDelays(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
