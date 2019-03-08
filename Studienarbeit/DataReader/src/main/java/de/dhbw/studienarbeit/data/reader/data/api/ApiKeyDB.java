@@ -23,7 +23,7 @@ public class ApiKeyDB extends ApiKey
 		super(key, requestsPerMinute, url);
 	}
 
-	private static final Optional<ApiKeyDB> getApiKey(ResultSet result)
+	private static final Optional<ApiKey> getApiKey(ResultSet result)
 	{
 		try
 		{
