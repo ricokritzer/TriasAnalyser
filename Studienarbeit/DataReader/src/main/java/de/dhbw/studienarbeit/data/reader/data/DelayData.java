@@ -2,22 +2,22 @@ package de.dhbw.studienarbeit.data.reader.data;
 
 public abstract class DelayData
 {
-	private final Delay delayMaximum;
-	private final Delay delayAverage;
+	private final DelayMaximum delayMaximum;
+	private final DelayAverage delayAverage;
 
 	public DelayData(double delayMaximum, double delayAverage)
 	{
 		super();
-		this.delayMaximum = new Delay(delayMaximum);
-		this.delayAverage = new Delay(delayAverage);
+		this.delayMaximum = new DelayMaximum(delayMaximum);
+		this.delayAverage = new DelayAverage(delayAverage);
 	}
 
-	public final Delay getMaximum()
+	public final DelayMaximum getMaximum()
 	{
 		return delayMaximum;
 	}
 
-	public final Delay getAverage()
+	public final DelayAverage getAverage()
 	{
 		return delayAverage;
 	}
