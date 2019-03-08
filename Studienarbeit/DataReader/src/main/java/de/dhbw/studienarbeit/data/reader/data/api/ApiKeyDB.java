@@ -14,14 +14,9 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
 import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class ApiKeyDB extends ApiKey
+public class ApiKeyDB
 {
 	private static final Logger LOGGER = Logger.getLogger(ApiKeyDB.class.getName());
-
-	public ApiKeyDB(String key, int requestsPerMinute, String url)
-	{
-		super(key, requestsPerMinute, url);
-	}
 
 	private static final Optional<ApiKey> getApiKey(ResultSet result)
 	{
@@ -30,7 +25,7 @@ public class ApiKeyDB extends ApiKey
 			final String key = result.getString("apiKey");
 			final int requests = result.getInt("maximumRequests");
 			final String url = result.getString("url");
-			return Optional.of(new ApiKeyDB(key, requests, url));
+			return Optional.of(new ApiKey(key, requests, url));
 		}
 		catch (SQLException e)
 		{
@@ -48,7 +43,7 @@ public class ApiKeyDB extends ApiKey
 			preparedStatement.setString(1, operator.getName());
 
 			final List<ApiKey> list = new ArrayList<>();
-			database.select(r -> ApiKeyDB.getApiKey(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> getApiKey(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
