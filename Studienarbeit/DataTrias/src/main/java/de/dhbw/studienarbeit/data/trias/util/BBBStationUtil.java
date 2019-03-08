@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
+import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 
 public class BBBStationUtil
@@ -122,7 +123,7 @@ public class BBBStationUtil
 
 	private static HttpURLConnection createConnection() throws IOException
 	{
-		final URL triasURL = new URL(ApiKeyDB.getApiKeys(() -> "bbb").get(0).getUrl());
+		final URL triasURL = new URL(ApiKeyDB.getApiKeys(new OperatorID("bbb")).get(0).getUrl());
 		final HttpURLConnection con = (HttpURLConnection) triasURL.openConnection();
 		con.setDoInput(true);
 		con.setDoOutput(true);
