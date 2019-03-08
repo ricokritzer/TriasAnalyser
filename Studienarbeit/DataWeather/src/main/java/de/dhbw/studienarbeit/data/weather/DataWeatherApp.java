@@ -16,13 +16,13 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
-import de.dhbw.studienarbeit.data.reader.database.Operator;
+import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
 import de.dhbw.studienarbeit.data.reader.database.StationDB;
 
 public class DataWeatherApp
 {
 	DataManager manager;
-	
+
 	public static void main(String[] args) throws IOException
 	{
 		LogLevelHelper.setLogLevel(Level.ALL);
@@ -35,7 +35,7 @@ public class DataWeatherApp
 
 	public void startDataCollection(final List<StationDB> stations) throws IOException
 	{
-		final Operator weatherOperator = new Operator("weather");
+		final Operator weatherOperator = () -> "weather";
 		final List<ApiKey> apiKeys = ApiKeyDB.getApiKeys(weatherOperator);
 		final Date start = new Date();
 		manager = new DataManager("weather", apiKeys);

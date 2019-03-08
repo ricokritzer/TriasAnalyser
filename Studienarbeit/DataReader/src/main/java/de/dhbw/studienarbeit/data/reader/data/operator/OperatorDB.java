@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.operator;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -10,13 +10,15 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Operator
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
+
+public class OperatorDB implements Operator
 {
-	private static final Logger LOGGER = Logger.getLogger(Operator.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(OperatorDB.class.getName());
 
 	private String name;
 
-	public Operator(String name)
+	public OperatorDB(String name)
 	{
 		this.name = name;
 	}
@@ -31,7 +33,7 @@ public class Operator
 		try
 		{
 			final String operator = result.getString("operator");
-			return Optional.of(new Operator(operator));
+			return Optional.of(new OperatorDB(operator));
 		}
 		catch (SQLException e)
 		{
@@ -47,7 +49,7 @@ public class Operator
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<Operator> list = new ArrayList<>();
-			database.select(r -> Operator.getOperator(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> getOperator(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
@@ -63,7 +65,7 @@ public class Operator
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<Operator> list = new ArrayList<>();
-			database.select(r -> Operator.getOperator(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> getOperator(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)

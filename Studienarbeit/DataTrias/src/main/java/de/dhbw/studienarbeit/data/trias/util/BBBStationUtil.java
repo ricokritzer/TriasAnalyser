@@ -26,7 +26,6 @@ import org.xml.sax.SAXException;
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
-import de.dhbw.studienarbeit.data.reader.database.Operator;
 import de.dhbw.studienarbeit.data.reader.database.StationDB;
 
 public class BBBStationUtil
@@ -65,7 +64,7 @@ public class BBBStationUtil
 				return null;
 			}
 		}).forEach(s -> {
-			if (s != null) 
+			if (s != null)
 			{
 				DatabaseSaver.saveData(s);
 				System.out.println(s.getName() + " gespeichert");
@@ -87,21 +86,21 @@ public class BBBStationUtil
 
 	private static List<String> getStationIDs()
 	{
-		 BufferedReader br;
-		 List<String> ids = new ArrayList<>();
-		 try
-		 {
-		 br = new BufferedReader(new FileReader(new File("stops_bbb.txt")));
-		 while (br.ready())
-		 {
-		 ids.add(br.readLine());
-		 }
-		 }
-		 catch (IOException e)
-		 {
-		 e.printStackTrace();
-		 }
-		 return ids;
+		BufferedReader br;
+		List<String> ids = new ArrayList<>();
+		try
+		{
+			br = new BufferedReader(new FileReader(new File("stops_bbb.txt")));
+			while (br.ready())
+			{
+				ids.add(br.readLine());
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return ids;
 	}
 
 	private static String getXML(String stationID) throws IOException
@@ -123,7 +122,7 @@ public class BBBStationUtil
 
 	private static HttpURLConnection createConnection() throws IOException
 	{
-		final URL triasURL = new URL(ApiKeyDB.getApiKeys(new Operator("bbb")).get(0).getUrl());
+		final URL triasURL = new URL(ApiKeyDB.getApiKeys(() -> "bbb").get(0).getUrl());
 		final HttpURLConnection con = (HttpURLConnection) triasURL.openConnection();
 		con.setDoInput(true);
 		con.setDoOutput(true);

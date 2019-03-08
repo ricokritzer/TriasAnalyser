@@ -18,7 +18,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
-import de.dhbw.studienarbeit.data.reader.database.Operator;
+import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
 import de.dhbw.studienarbeit.data.reader.database.StationDB;
 import de.dhbw.studienarbeit.data.trias.Station;
 
@@ -59,7 +59,7 @@ public class TestApp
 
 		try
 		{
-			final Operator operator = new Operator("kvv");
+			final Operator operator = () -> "kvv";
 			final ApiKey keyFromDB = ApiKeyDB.getApiKeys(operator).get(0);
 			final ApiKey testApiKey = new ApiKey(keyFromDB.getKey(), number, keyFromDB.getUrl());
 			manager = new DataManager("no name", new ArrayList<>());

@@ -11,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
-import de.dhbw.studienarbeit.data.reader.database.Operator;
 
 public class ApiKeyDB extends ApiKey
 {

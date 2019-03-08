@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
+import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
 
 public class StationDB implements Saveable
 {
