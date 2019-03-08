@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
-import de.dhbw.studienarbeit.data.reader.SettingsReadOnly;
 import de.dhbw.studienarbeit.data.reader.data.count.Count;
 import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
 
