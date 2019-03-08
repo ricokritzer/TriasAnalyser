@@ -18,7 +18,7 @@ public class DelayRequestDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayRequestDB.class.getName());
 
-	private final StationID stationID;
+	protected final StationID stationID;
 
 	private Optional<Weekday> weekday = Optional.empty();
 	private Optional<Integer> hour = Optional.empty();
