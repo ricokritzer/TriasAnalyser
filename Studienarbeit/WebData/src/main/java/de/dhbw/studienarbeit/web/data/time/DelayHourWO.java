@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.time.DelayHour;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayHourDB;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayHourData;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -12,6 +13,8 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayHourWO extends Updateable
 {
+	private final DelayHour delayHour = new DelayHourDB();
+
 	private List<DelayHourData> data = new ArrayList<>();
 
 	public DelayHourWO(Optional<DataUpdater> updater)
@@ -27,6 +30,6 @@ public class DelayHourWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = DelayHourDB.getDelays();
+		data = delayHour.getDelays();
 	}
 }
