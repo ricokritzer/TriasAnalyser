@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.line;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -10,10 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
-import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
-import de.dhbw.studienarbeit.data.reader.data.line.LineID;
-import de.dhbw.studienarbeit.data.reader.data.line.LineName;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayLineDB implements DelayLineData
 {
