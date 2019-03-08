@@ -11,22 +11,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.Delay;
-import de.dhbw.studienarbeit.data.reader.data.station.StationName;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
 public class DelayRequestDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayPressureDB.class.getName());
 
-	private final StationName stationName;
+	private final StationID stationID;
 
 	private Optional<Weekday> weekday = Optional.empty();
 	private Optional<Integer> hour = Optional.empty();
 	private Optional<Integer> lineID = Optional.empty();
 
-	public DelayRequestDB(StationName stationName)
+	public DelayRequestDB(StationID stationID)
 	{
-		this.stationName = stationName;
+		this.stationID = stationID;
 	}
 
 	public void setWeekday(Weekday weekday)
@@ -81,7 +81,7 @@ public class DelayRequestDB
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			int idx = 1;
-			preparedStatement.setString(idx++, stationName.getStationName());
+			preparedStatement.setString(idx++, stationID.getValue());
 
 			if (weekday.isPresent())
 			{
@@ -118,7 +118,7 @@ public class DelayRequestDB
 	{
 		final StringBuilder stringBuilder = new StringBuilder()
 				.append("SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay ")
-				.append("FROM Stop, Station WHERE Station.stationID = Stop.stationID ").append("AND Station.name = ?");
+				.append("FROM Stop WHERE stationID = ?");
 
 		weekday.ifPresent(w -> stringBuilder.append(" AND DAYOFWEEK(timetabledTime) = ?"));
 		hour.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) = ?"));
@@ -129,7 +129,7 @@ public class DelayRequestDB
 
 	public static void main(String[] args) throws IOException
 	{
-		final DelayRequestDB requestDB = new DelayRequestDB(new StationName("Wörth Alte Bahnmeisterei"));
+		final DelayRequestDB requestDB = new DelayRequestDB(new StationID("de:07334:1721"));
 		requestDB.getDelays().forEach(r -> System.out.println(r.getValue()));
 		System.out.println("fertig.");
 	}
