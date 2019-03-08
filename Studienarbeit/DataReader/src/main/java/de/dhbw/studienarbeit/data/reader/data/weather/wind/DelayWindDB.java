@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayWindDB
+public class DelayWindDB implements DelayWind
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWindDB.class.getName());
 	private static final String FIELD = "Round(wind,0)";
@@ -36,7 +36,7 @@ public class DelayWindDB
 		}
 	}
 
-	public static final List<DelayWindData> getDelays() throws IOException
+	public final List<DelayWindData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
