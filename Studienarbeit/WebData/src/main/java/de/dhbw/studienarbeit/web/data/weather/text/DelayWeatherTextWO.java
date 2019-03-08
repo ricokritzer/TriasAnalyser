@@ -12,7 +12,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeatherTextWO extends Updateable
 {
-	private List<DelayWeatherTextDB> data = new ArrayList<>();
+	private List<DelayWeatherTextData> data = new ArrayList<>();
 
 	public DelayWeatherTextWO(Optional<DataUpdater> updater)
 	{
@@ -21,7 +21,7 @@ public class DelayWeatherTextWO extends Updateable
 
 	public List<DelayWeatherTextData> getData()
 	{
-		return new ArrayList<>(data);
+		return data;
 	}
 
 	@Override

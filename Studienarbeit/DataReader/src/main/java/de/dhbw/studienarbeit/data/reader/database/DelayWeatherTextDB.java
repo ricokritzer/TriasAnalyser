@@ -57,7 +57,7 @@ public class DelayWeatherTextDB implements DelayWeatherTextData
 		return new StringBuilder(URL_PRE).append(icon).append(URL_END).toString();
 	}
 
-	private static final Optional<DelayWeatherTextDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayWeatherTextData> getDelayLine(ResultSet result)
 	{
 		try
 		{
@@ -84,14 +84,14 @@ public class DelayWeatherTextDB implements DelayWeatherTextData
 				+ "AND WeatherIcon.text = Weather.text " + "GROUP BY WeatherIcon.textDE, WeatherIcon.icon;";
 	}
 
-	public static final List<DelayWeatherTextDB> getDelays() throws IOException
+	public static final List<DelayWeatherTextData> getDelays() throws IOException
 	{
 		final String sql = getSQL();
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayWeatherTextDB> list = new ArrayList<>();
+			final List<DelayWeatherTextData> list = new ArrayList<>();
 			database.select(r -> DelayWeatherTextDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
