@@ -59,7 +59,7 @@ public class TestApp
 
 		try
 		{
-			final OperatorID operator = () -> "kvv";
+			final OperatorID operator = new OperatorID("kvv");
 			final ApiKey keyFromDB = ApiKeyDB.getApiKeys(operator).get(0);
 			final ApiKey testApiKey = new ApiKey(keyFromDB.getKey(), number, keyFromDB.getUrl());
 			manager = new DataManager("no name", new ArrayList<>());

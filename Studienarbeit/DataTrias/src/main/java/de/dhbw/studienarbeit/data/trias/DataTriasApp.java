@@ -24,7 +24,7 @@ public class DataTriasApp
 	{
 		List<StationDB> testStations = new ArrayList<>();
 		testStations.add(new StationDB("de:08212:89", "bla", 49.01, 8.40, "kvv", true));
-		new DataTriasApp().startDataCollection(() -> "kvv", testStations);
+		new DataTriasApp().startDataCollection(new OperatorID("kvv"), testStations);
 	}
 
 	public void startDataCollection(OperatorID operator, List<StationDB> stationsDB) throws IOException

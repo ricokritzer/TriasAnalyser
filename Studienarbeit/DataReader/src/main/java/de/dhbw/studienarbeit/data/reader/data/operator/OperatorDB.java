@@ -12,28 +12,16 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class OperatorDB implements OperatorID
+public class OperatorDB implements Operator
 {
 	private static final Logger LOGGER = Logger.getLogger(OperatorDB.class.getName());
-
-	private String name;
-
-	public OperatorDB(String name)
-	{
-		this.name = name;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
 
 	private static final Optional<OperatorID> getOperator(ResultSet result)
 	{
 		try
 		{
 			final String operator = result.getString("operator");
-			return Optional.of(new OperatorDB(operator));
+			return Optional.of(new OperatorID(operator));
 		}
 		catch (SQLException e)
 		{
@@ -42,7 +30,7 @@ public class OperatorDB implements OperatorID
 		}
 	}
 
-	public static final List<OperatorID> getAllOperators() throws IOException
+	public final List<OperatorID> getAllOperators() throws IOException
 	{
 		final String sql = "SELECT DISTINCT operator FROM Station;";
 		final DatabaseReader database = new DatabaseReader();
@@ -58,7 +46,7 @@ public class OperatorDB implements OperatorID
 		}
 	}
 
-	public static final List<OperatorID> getObservedOperators() throws IOException
+	public final List<OperatorID> getObservedOperators() throws IOException
 	{
 		final String sql = "SELECT DISTINCT operator FROM Station WHERE observe = true;";
 		final DatabaseReader database = new DatabaseReader();

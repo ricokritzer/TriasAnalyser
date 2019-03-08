@@ -1,6 +1,17 @@
 package de.dhbw.studienarbeit.data.reader.data.operator;
 
-public interface OperatorID
+public class OperatorID
 {
-	String getName();
+	private final String id;
+
+	public OperatorID(String id)
+	{
+		super();
+		this.id = id;
+	}
+
+	public String getName()
+	{
+		return id;
+	}
 }
