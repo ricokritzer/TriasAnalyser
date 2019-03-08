@@ -1,8 +1,23 @@
 package de.dhbw.studienarbeit.data.reader.data.station;
 
-public interface StationNeighbourData
+public class StationNeighbourData
 {
-	StationNeighbourPart getStationFrom();
+	private final StationNeighbourPart stationFrom;
+	private final StationNeighbourPart stationTo;
 
-	StationNeighbourPart getStationTo();
+	public StationNeighbourData(StationNeighbourPart stationFrom, StationNeighbourPart stationTo)
+	{
+		this.stationFrom = stationFrom;
+		this.stationTo = stationTo;
+	}
+
+	public StationNeighbourPart getStationFrom()
+	{
+		return stationFrom;
+	}
+
+	public StationNeighbourPart getStationTo()
+	{
+		return stationTo;
+	}
 }

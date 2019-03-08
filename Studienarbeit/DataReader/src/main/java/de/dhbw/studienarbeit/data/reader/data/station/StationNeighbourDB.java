@@ -12,30 +12,11 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class StationNeighbourDB implements StationNeighbourData
+public class StationNeighbourDB
 {
 	private static final Logger LOGGER = Logger.getLogger(StationNeighbourDB.class.getName());
 
-	private final StationNeighbourPart stationFrom;
-	private final StationNeighbourPart stationTo;
-
-	public StationNeighbourDB(StationNeighbourPart stationFrom, StationNeighbourPart stationTo)
-	{
-		this.stationFrom = stationFrom;
-		this.stationTo = stationTo;
-	}
-
-	public String getStationID1()
-	{
-		return stationFrom.getStationID().getValue();
-	}
-
-	public String getStationID2()
-	{
-		return stationTo.getStationID().getValue();
-	}
-
-	private static final Optional<StationNeighbourDB> getTrack(ResultSet result)
+	private static final Optional<StationNeighbourData> getTrack(ResultSet result)
 	{
 		try
 		{
@@ -53,7 +34,7 @@ public class StationNeighbourDB implements StationNeighbourData
 			final StationNeighbourPart stationTo = new StationNeighbourPart(station2, stationName2, position2,
 					operator2);
 
-			return Optional.of(new StationNeighbourDB(stationFrom, stationTo));
+			return Optional.of(new StationNeighbourData(stationFrom, stationTo));
 		}
 		catch (SQLException e)
 		{
@@ -81,17 +62,5 @@ public class StationNeighbourDB implements StationNeighbourData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public StationNeighbourPart getStationFrom()
-	{
-		return stationFrom;
-	}
-
-	@Override
-	public StationNeighbourPart getStationTo()
-	{
-		return stationTo;
 	}
 }
