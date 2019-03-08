@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressure;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureData;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -12,6 +13,8 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayPressureWO extends Updateable
 {
+	private DelayPressure delayPressure = new DelayPressureDB();
+
 	private List<DelayPressureData> data = new ArrayList<>();
 
 	public DelayPressureWO(Optional<DataUpdater> updater)
@@ -27,6 +30,6 @@ public class DelayPressureWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = DelayPressureDB.getDelays();
+		data = delayPressure.getDelays();
 	}
 }

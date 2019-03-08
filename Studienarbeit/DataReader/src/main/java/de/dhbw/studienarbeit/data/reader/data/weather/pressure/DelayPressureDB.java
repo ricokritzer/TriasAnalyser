@@ -10,11 +10,10 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayPressureDB
+public class DelayPressureDB implements DelayPressure
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayPressureDB.class.getName());
 	private static final String FIELD = "Round(pressure,0)";
@@ -37,7 +36,7 @@ public class DelayPressureDB
 		}
 	}
 
-	public static final List<DelayPressureData> getDelays() throws IOException
+	public final List<DelayPressureData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
