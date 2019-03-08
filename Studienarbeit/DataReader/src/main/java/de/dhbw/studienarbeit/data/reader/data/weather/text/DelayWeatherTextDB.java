@@ -12,50 +12,9 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayWeatherTextDB
+public class DelayWeatherTextDB implements DelayWeatherText
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWeatherTextDB.class.getName());
-	private static final String URL_PRE = "http://openweathermap.org/img/w/";
-	private static final String URL_END = ".png";
-
-	private final double average;
-	private final double maximum;
-	private final String textDE;
-	private final String icon;
-
-	public DelayWeatherTextDB(double average, double maximum, String textDE, String icon)
-	{
-		super();
-		this.average = average;
-		this.maximum = maximum;
-		this.textDE = textDE;
-		this.icon = icon;
-	}
-
-	public double getAverage()
-	{
-		return average;
-	}
-
-	public double getMaximum()
-	{
-		return maximum;
-	}
-
-	public String getTextDE()
-	{
-		return textDE;
-	}
-
-	public String getIcon()
-	{
-		return icon;
-	}
-
-	public String getIconURL()
-	{
-		return new StringBuilder(URL_PRE).append(icon).append(URL_END).toString();
-	}
 
 	private static final Optional<DelayWeatherTextData> getDelayLine(ResultSet result)
 	{
@@ -84,7 +43,7 @@ public class DelayWeatherTextDB
 				+ "AND WeatherIcon.text = Weather.text " + "GROUP BY WeatherIcon.textDE, WeatherIcon.icon;";
 	}
 
-	public static final List<DelayWeatherTextData> getDelays() throws IOException
+	public final List<DelayWeatherTextData> getDelays() throws IOException
 	{
 		final String sql = getSQL();
 
