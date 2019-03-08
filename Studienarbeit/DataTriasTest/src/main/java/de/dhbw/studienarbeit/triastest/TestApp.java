@@ -19,7 +19,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
-import de.dhbw.studienarbeit.data.reader.database.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 import de.dhbw.studienarbeit.data.trias.Station;
 
 public class TestApp

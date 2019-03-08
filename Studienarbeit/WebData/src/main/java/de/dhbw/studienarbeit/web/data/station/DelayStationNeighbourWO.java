@@ -7,8 +7,8 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
-import de.dhbw.studienarbeit.data.reader.database.StationNeighbourDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 

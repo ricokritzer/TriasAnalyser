@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.station;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class StationDB implements Saveable
 {

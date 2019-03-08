@@ -17,7 +17,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
-import de.dhbw.studienarbeit.data.reader.database.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 
 public class DataWeatherApp
 {

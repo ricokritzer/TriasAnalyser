@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorDB;
-import de.dhbw.studienarbeit.data.reader.database.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 import de.dhbw.studienarbeit.data.trias.DataTriasApp;
 import de.dhbw.studienarbeit.data.weather.DataWeatherApp;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
-import de.dhbw.studienarbeit.data.reader.database.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 
 public class KVVStationUtil
 {
