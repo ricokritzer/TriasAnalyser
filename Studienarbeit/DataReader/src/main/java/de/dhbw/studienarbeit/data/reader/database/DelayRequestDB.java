@@ -11,7 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.Delay;
+import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
 public class DelayRequestDB
@@ -21,8 +23,8 @@ public class DelayRequestDB
 	protected final StationID stationID;
 
 	private Optional<Weekday> weekday = Optional.empty();
-	private Optional<Integer> hour = Optional.empty();
-	private Optional<Integer> lineID = Optional.empty();
+	private Optional<Hour> hour = Optional.empty();
+	private Optional<LineID> lineID = Optional.empty();
 
 	public DelayRequestDB(StationID stationID)
 	{
@@ -39,24 +41,24 @@ public class DelayRequestDB
 		this.weekday = weekday;
 	}
 
-	public void setHour(Optional<Integer> hour)
+	public void setHour(Optional<Hour> hour)
 	{
 		this.hour = hour;
 	}
 
-	public void setHour(int hour)
+	public void setHour(Hour hour)
 	{
-		this.hour = Optional.ofNullable(Integer.valueOf(hour));
+		this.hour = Optional.ofNullable(hour);
 	}
 
-	public void setLineID(Optional<Integer> lineID)
+	public void setLineID(Optional<LineID> lineID)
 	{
 		this.lineID = lineID;
 	}
 
-	public void setLineID(int lineID)
+	public void setLineID(LineID lineID)
 	{
-		this.lineID = Optional.ofNullable(Integer.valueOf(lineID));
+		this.lineID = Optional.ofNullable(lineID);
 	}
 
 	private static final Optional<Delay> getDelay(ResultSet result)
@@ -112,12 +114,12 @@ public class DelayRequestDB
 		}
 		if (hour.isPresent())
 		{
-			preparedStatement.setInt(idx, hour.get());
+			preparedStatement.setInt(idx, hour.get().getIdx());
 			idx++;
 		}
 		if (lineID.isPresent())
 		{
-			preparedStatement.setInt(idx, lineID.get());
+			preparedStatement.setInt(idx, lineID.get().getValue());
 		}
 	}
 

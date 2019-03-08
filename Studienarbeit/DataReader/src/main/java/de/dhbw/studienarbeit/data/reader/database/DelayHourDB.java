@@ -19,9 +19,9 @@ public class DelayHourDB implements DelayHourData
 
 	private final double average;
 	private final double maximum;
-	private final int value;
+	private final Hour value;
 
-	public DelayHourDB(double delayAverage, double delayMaximum, int value)
+	public DelayHourDB(double delayAverage, double delayMaximum, Hour value)
 	{
 		this.average = delayAverage;
 		this.maximum = delayMaximum;
@@ -34,7 +34,7 @@ public class DelayHourDB implements DelayHourData
 		{
 			final double delayMaximum = result.getDouble("delay_max");
 			final double delayAverage = result.getDouble("delay_avg");
-			final int value = result.getInt("hour");
+			final Hour value = Hour.values()[result.getInt("hour")];
 
 			return Optional.of(new DelayHourDB(delayAverage, delayMaximum, value));
 		}
@@ -76,6 +76,6 @@ public class DelayHourDB implements DelayHourData
 	@Override
 	public Hour getHour()
 	{
-		return Hour.values()[value];
+		return value;
 	}
 }
