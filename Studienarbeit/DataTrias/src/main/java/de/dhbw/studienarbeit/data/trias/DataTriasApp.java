@@ -12,7 +12,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
-import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
+import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 
 public class DataTriasApp
@@ -27,7 +27,7 @@ public class DataTriasApp
 		new DataTriasApp().startDataCollection(() -> "kvv", testStations);
 	}
 
-	public void startDataCollection(Operator operator, List<StationDB> stationsDB) throws IOException
+	public void startDataCollection(OperatorID operator, List<StationDB> stationsDB) throws IOException
 	{
 		stations = stationsDB.parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
 				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))

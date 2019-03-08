@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
-import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
+import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class ApiKeyDB
@@ -34,7 +34,7 @@ public class ApiKeyDB
 		}
 	}
 
-	public static final List<ApiKey> getApiKeys(Operator operator) throws IOException
+	public static final List<ApiKey> getApiKeys(OperatorID operator) throws IOException
 	{
 		final String sql = "SELECT * FROM Api WHERE name = ?;";
 		final DatabaseReader database = new DatabaseReader();

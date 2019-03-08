@@ -14,7 +14,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableExcept
 import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
-import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
+import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.trias.Station;
 
 public class TestAppMidnight
@@ -25,7 +25,7 @@ public class TestAppMidnight
 	{
 		LogLevelHelper.setLogLevel(Level.ALL);
 
-		final Operator operator = () -> "kvv";
+		final OperatorID operator = () -> "kvv";
 		final ApiKey key = ApiKeyDB.getApiKeys(operator).get(0);
 		final Station station = new Station("de:08212:1", "Marktplatz", 0.0, 0.0, "kvv");
 

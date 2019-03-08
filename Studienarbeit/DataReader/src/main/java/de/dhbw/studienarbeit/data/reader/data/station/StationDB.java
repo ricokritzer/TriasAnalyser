@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
-import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
+import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class StationDB implements Saveable
@@ -118,7 +118,7 @@ public class StationDB implements Saveable
 		}
 	}
 
-	public static final List<StationDB> getObservedStations(Operator operator) throws IOException
+	public static final List<StationDB> getObservedStations(OperatorID operator) throws IOException
 	{
 		final String sql = "SELECT * FROM Station WHERE observe = true AND operator = ?;";
 		final DatabaseReader database = new DatabaseReader();

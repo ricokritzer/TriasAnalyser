@@ -16,7 +16,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
-import de.dhbw.studienarbeit.data.reader.data.operator.Operator;
+import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 
 public class DataWeatherApp
@@ -35,7 +35,7 @@ public class DataWeatherApp
 
 	public void startDataCollection(final List<StationDB> stations) throws IOException
 	{
-		final Operator weatherOperator = () -> "weather";
+		final OperatorID weatherOperator = () -> "weather";
 		final List<ApiKey> apiKeys = ApiKeyDB.getApiKeys(weatherOperator);
 		final Date start = new Date();
 		manager = new DataManager("weather", apiKeys);

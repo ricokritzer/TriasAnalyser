@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class OperatorDB implements Operator
+public class OperatorDB implements OperatorID
 {
 	private static final Logger LOGGER = Logger.getLogger(OperatorDB.class.getName());
 
@@ -28,7 +28,7 @@ public class OperatorDB implements Operator
 		return name;
 	}
 
-	private static final Optional<Operator> getOperator(ResultSet result)
+	private static final Optional<OperatorID> getOperator(ResultSet result)
 	{
 		try
 		{
@@ -42,13 +42,13 @@ public class OperatorDB implements Operator
 		}
 	}
 
-	public static final List<Operator> getAllOperators() throws IOException
+	public static final List<OperatorID> getAllOperators() throws IOException
 	{
 		final String sql = "SELECT DISTINCT operator FROM Station;";
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<Operator> list = new ArrayList<>();
+			final List<OperatorID> list = new ArrayList<>();
 			database.select(r -> getOperator(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
@@ -58,13 +58,13 @@ public class OperatorDB implements Operator
 		}
 	}
 
-	public static final List<Operator> getObservedOperators() throws IOException
+	public static final List<OperatorID> getObservedOperators() throws IOException
 	{
 		final String sql = "SELECT DISTINCT operator FROM Station WHERE observe = true;";
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<Operator> list = new ArrayList<>();
+			final List<OperatorID> list = new ArrayList<>();
 			database.select(r -> getOperator(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
