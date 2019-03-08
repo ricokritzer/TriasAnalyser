@@ -12,20 +12,9 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayLineDB implements DelayLineData
+public class DelayLineDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayLineDB.class.getName());
-
-	private final double maximum;
-	private final double average;
-	private final Line line;
-
-	public DelayLineDB(double delayAverage, double delayMaximum, Line line)
-	{
-		this.average = delayAverage;
-		this.maximum = delayMaximum;
-		this.line = line;
-	}
 
 	private static final Optional<DelayLineData> getDelayLine(ResultSet result)
 	{
@@ -40,7 +29,7 @@ public class DelayLineDB implements DelayLineData
 
 			final Line line = new Line(lineID, name, destination);
 
-			return Optional.of(new DelayLineDB(delayAverage, delayMaximum, line));
+			return Optional.of(new DelayLineData(delayAverage, delayMaximum, line));
 		}
 		catch (SQLException e)
 		{
@@ -66,47 +55,5 @@ public class DelayLineDB implements DelayLineData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public double getDelayMaximum()
-	{
-		return maximum;
-	}
-
-	@Override
-	public double getDelayAverage()
-	{
-		return average;
-	}
-
-	@Override
-	public LineID getID()
-	{
-		return line.getID();
-	}
-
-	@Override
-	public LineName getName()
-	{
-		return line.getName();
-	}
-
-	@Override
-	public LineDestination getDestination()
-	{
-		return line.getDestination();
-	}
-
-	@Override
-	public String getLineName()
-	{
-		return getName().getValue();
-	}
-
-	@Override
-	public String getLineDestination()
-	{
-		return getDestination().getValue();
 	}
 }
