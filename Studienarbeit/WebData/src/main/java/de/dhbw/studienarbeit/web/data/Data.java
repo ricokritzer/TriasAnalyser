@@ -12,6 +12,8 @@ import de.dhbw.studienarbeit.web.data.weather.clouds.DelayCloudsCorrelationCoeff
 import de.dhbw.studienarbeit.web.data.weather.clouds.DelayCloudsWO;
 import de.dhbw.studienarbeit.web.data.weather.humidity.DelayHumidityCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.humidity.DelayHumidityWO;
+import de.dhbw.studienarbeit.web.data.weather.pressure.DelayPressureCorrelationCoefficientWO;
+import de.dhbw.studienarbeit.web.data.weather.pressure.DelayPressureWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureWO;
 import de.dhbw.studienarbeit.web.data.weather.text.DelayWeatherTextWO;
@@ -35,6 +37,8 @@ public class Data
 	private final DelayWindCorrelationCoefficientWO delayWindCorrelationCoefficientWO;
 	private final DelayHumidityWO delayHumidityWO;
 	private final DelayHumidityCorrelationCoefficientWO delayHumidityCorrelationCoefficientWO;
+	private final DelayPressureWO delayPressureWO;
+	private final DelayPressureCorrelationCoefficientWO delayPressureCorrelationCoefficientWO;
 
 	private final DelayStationNeighbourWO stationNeighbourWO;
 
@@ -61,6 +65,9 @@ public class Data
 
 		delayHumidityWO = new DelayHumidityWO(updater);
 		delayHumidityCorrelationCoefficientWO = new DelayHumidityCorrelationCoefficientWO(updater);
+
+		delayPressureWO = new DelayPressureWO(updater);
+		delayPressureCorrelationCoefficientWO = new DelayPressureCorrelationCoefficientWO(updater);
 
 		delayWeatherTextWO = new DelayWeatherTextWO(updater);
 
@@ -140,5 +147,15 @@ public class Data
 	public static final DelayHumidityCorrelationCoefficientWO getDelayHumidityCorrelationCoefficientWO()
 	{
 		return getInstance().delayHumidityCorrelationCoefficientWO;
+	}
+
+	public static final DelayPressureWO getDelayPressureWO()
+	{
+		return getInstance().delayPressureWO;
+	}
+
+	public static final DelayPressureCorrelationCoefficientWO getDelayPressureCorrelationCoefficientWO()
+	{
+		return getInstance().delayPressureCorrelationCoefficientWO;
 	}
 }
