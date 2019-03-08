@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
 import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
 public class DelayStationDB implements DelayStationData
@@ -21,17 +22,19 @@ public class DelayStationDB implements DelayStationData
 
 	private final double maximum;
 	private final double average;
+	private final StationID stationID;
 	private final StationName stationName;
 	private final String operator;
 	private final Position position;
 	private final int count;
 
-	public DelayStationDB(double maximum, double average, StationName stationName, String operator, Position position,
-			int count)
+	public DelayStationDB(double maximum, double average, StationID stationID, StationName stationName, String operator,
+			Position position, int count)
 	{
 		super();
 		this.maximum = maximum;
 		this.average = average;
+		this.stationID = stationID;
 		this.stationName = stationName;
 		this.operator = operator;
 		this.position = position;
@@ -56,12 +59,13 @@ public class DelayStationDB implements DelayStationData
 		{
 			final double maximum = result.getDouble("delay_max");
 			final double average = result.getDouble("delay_avg");
+			final StationID stationID = new StationID(result.getString("stationID"));
 			final StationName name = new StationName(result.getString("name"));
 			final String operator = result.getString("displayName");
 			final Position position = new Position(result.getDouble("lat"), result.getDouble("lon"));
 			final int count = result.getInt("count");
 
-			return Optional.of(new DelayStationDB(maximum, average, name, operator, position, count));
+			return Optional.of(new DelayStationDB(maximum, average, stationID, name, operator, position, count));
 		}
 		catch (SQLException e)
 		{
@@ -73,6 +77,7 @@ public class DelayStationDB implements DelayStationData
 	public static final List<DelayStationData> getDelays() throws IOException
 	{
 		final String sql = "SELECT " //
+				+ "stationID, " //
 				+ "name, " //
 				+ "displayName, " //
 				+ "lat, " //
@@ -116,5 +121,11 @@ public class DelayStationDB implements DelayStationData
 	public Position getPosition()
 	{
 		return position;
+	}
+
+	@Override
+	public StationID getStationID()
+	{
+		return stationID;
 	}
 }
