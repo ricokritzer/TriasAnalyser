@@ -6,6 +6,7 @@ import de.dhbw.studienarbeit.web.data.counts.CountsWO;
 import de.dhbw.studienarbeit.web.data.line.DelayLineWO;
 import de.dhbw.studienarbeit.web.data.station.DelayStationNeighbourWO;
 import de.dhbw.studienarbeit.web.data.station.DelayStationWO;
+import de.dhbw.studienarbeit.web.data.time.weekday.DelayWeekdayWO;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.vehicletype.DelayVehicleTypeWO;
 import de.dhbw.studienarbeit.web.data.weather.clouds.DelayCloudsCorrelationCoefficientWO;
@@ -26,7 +27,8 @@ public class Data
 
 	private final DelayStationWO delaysStationWO;
 	private final DelayLineWO delayLineWO;
-	private final DelayVehicleTypeWO delaysVehicleTypeWO;
+	private final DelayVehicleTypeWO delayVehicleTypeWO;
+	private final DelayWeekdayWO delayWeekdayWO;
 
 	private final DelayTemperatureWO delayTemperatureWO;
 	private final DelayTemperatureCorrelationCoefficientWO delayTemperatureCorrelationCoefficientWO;
@@ -52,7 +54,8 @@ public class Data
 
 		delaysStationWO = new DelayStationWO(updater);
 		delayLineWO = new DelayLineWO(updater);
-		delaysVehicleTypeWO = new DelayVehicleTypeWO(updater);
+		delayVehicleTypeWO = new DelayVehicleTypeWO(updater);
+		delayWeekdayWO = new DelayWeekdayWO(updater);
 
 		delayTemperatureWO = new DelayTemperatureWO(updater);
 		delayTemperatureCorrelationCoefficientWO = new DelayTemperatureCorrelationCoefficientWO(updater);
@@ -96,7 +99,7 @@ public class Data
 
 	public static final DelayVehicleTypeWO getDelaysVehicleTypeWO()
 	{
-		return getInstance().delaysVehicleTypeWO;
+		return getInstance().delayVehicleTypeWO;
 	}
 
 	public static final DelayTemperatureWO getDelayTemperatureWO()
@@ -157,5 +160,10 @@ public class Data
 	public static final DelayPressureCorrelationCoefficientWO getDelayPressureCorrelationCoefficientWO()
 	{
 		return getInstance().delayPressureCorrelationCoefficientWO;
+	}
+
+	public static final DelayWeekdayWO getDelayWeekdayWO()
+	{
+		return getInstance().delayWeekdayWO;
 	}
 }
