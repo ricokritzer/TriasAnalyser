@@ -10,7 +10,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DelayHumidityDB
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayHumidityData;
+
+public class DelayHumidityDB implements DelayHumidityData
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayHumidityDB.class.getName());
 	private static final String FIELD = "ROUND(humidity, 0)";
@@ -27,22 +29,7 @@ public class DelayHumidityDB
 		this.value = value;
 	}
 
-	public double getAverage()
-	{
-		return average;
-	}
-
-	public double getMaximum()
-	{
-		return maximum;
-	}
-
-	public double getValue()
-	{
-		return value;
-	}
-
-	private static final Optional<DelayHumidityDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayHumidityData> getDelayLine(ResultSet result)
 	{
 		try
 		{
@@ -59,14 +46,14 @@ public class DelayHumidityDB
 		}
 	}
 
-	public static final List<DelayHumidityDB> getDelays() throws IOException
+	public static final List<DelayHumidityData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayHumidityDB> list = new ArrayList<>();
+			final List<DelayHumidityData> list = new ArrayList<>();
 			database.select(r -> DelayHumidityDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
@@ -74,5 +61,23 @@ public class DelayHumidityDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	public double getDelayMaximum()
+	{
+		return maximum;
+	}
+
+	@Override
+	public double getDelayAverage()
+	{
+		return average;
+	}
+
+	@Override
+	public double getHumidity()
+	{
+		return value;
 	}
 }

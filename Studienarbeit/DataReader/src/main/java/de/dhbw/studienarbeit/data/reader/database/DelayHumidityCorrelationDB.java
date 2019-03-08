@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayHumidityCorrelation;
 
 public class DelayHumidityCorrelationDB implements Correlatable
 {
@@ -73,8 +74,8 @@ public class DelayHumidityCorrelationDB implements Correlatable
 		}
 	}
 
-	public static double getCorrelationCoefficient() throws IOException
+	public static DelayHumidityCorrelation getCorrelationCoefficient() throws IOException
 	{
-		return Correlation.of(getDelays());
+		return new DelayHumidityCorrelation(Correlation.of(getDelays()));
 	}
 }
