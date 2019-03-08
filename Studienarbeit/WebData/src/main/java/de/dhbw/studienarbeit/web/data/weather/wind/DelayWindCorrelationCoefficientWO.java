@@ -3,8 +3,8 @@ package de.dhbw.studienarbeit.web.data.weather.wind;
 import java.io.IOException;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayWindCorrelation;
-import de.dhbw.studienarbeit.data.reader.database.DelayWindCorrelationDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindCorrelationDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
