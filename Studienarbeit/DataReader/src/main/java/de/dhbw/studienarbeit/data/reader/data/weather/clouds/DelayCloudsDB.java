@@ -13,22 +13,11 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayCloudsDB implements DelayCloudsData
+public class DelayCloudsDB implements DelayClouds
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayCloudsDB.class.getName());
 	private static final String FIELD = "ROUND(clouds, 0)";
 	private static final String NAME = "rounded";
-
-	private final double delayAverage;
-	private final double delayMaximum;
-	private final double clouds;
-
-	public DelayCloudsDB(double delayAverage, double delayMaximum, double clouds)
-	{
-		this.delayAverage = delayAverage;
-		this.delayMaximum = delayMaximum;
-		this.clouds = clouds;
-	}
 
 	private static final Optional<DelayCloudsData> getDelayLine(ResultSet result)
 	{
@@ -38,7 +27,7 @@ public class DelayCloudsDB implements DelayCloudsData
 			final double delayAverage = result.getDouble("delay_avg");
 			final double wind = result.getDouble(NAME);
 
-			return Optional.of(new DelayCloudsDB(delayAverage, delayMaximum, wind));
+			return Optional.of(new DelayCloudsData(delayAverage, delayMaximum, wind));
 		}
 		catch (SQLException e)
 		{
@@ -47,7 +36,7 @@ public class DelayCloudsDB implements DelayCloudsData
 		}
 	}
 
-	public static final List<DelayCloudsData> getDelays() throws IOException
+	public final List<DelayCloudsData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
@@ -62,23 +51,5 @@ public class DelayCloudsDB implements DelayCloudsData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public double getDelayMaximum()
-	{
-		return delayMaximum;
-	}
-
-	@Override
-	public double getDelayAverage()
-	{
-		return delayAverage;
-	}
-
-	@Override
-	public double getClouds()
-	{
-		return clouds;
 	}
 }
