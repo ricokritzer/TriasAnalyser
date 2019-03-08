@@ -9,10 +9,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
-import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 
 public class TrackHelperTest
 {

@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
-import de.dhbw.studienarbeit.data.reader.database.DelayStationNeighbourDB;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 public class TrackHelper

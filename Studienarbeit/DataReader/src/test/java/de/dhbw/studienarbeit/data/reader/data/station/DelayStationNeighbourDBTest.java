@@ -1,12 +1,9 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.station;
 
 import static org.junit.Assert.assertThat;
 
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
-
-import de.dhbw.studienarbeit.data.reader.data.station.Position;
-import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
 public class DelayStationNeighbourDBTest
 {

@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.station;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -11,11 +11,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
-import de.dhbw.studienarbeit.data.reader.data.station.Position;
-import de.dhbw.studienarbeit.data.reader.data.station.StationName;
-import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourData;
-import de.dhbw.studienarbeit.data.reader.data.station.StationNeighbourPart;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayStationNeighbourDB implements Comparable<DelayStationNeighbourDB>, DelayStationNeighbourData
 {
