@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelationDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudsCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelationData;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
@@ -13,14 +13,14 @@ public class DelayCloudsCorrelationCoefficientWO extends Updateable
 {
 	private final DelayCloudCorrelation delayCloudCorrelation = new DelayCloudCorrelationDB();
 
-	private DelayCloudsCorrelation data = new DelayCloudsCorrelation(0.0);
+	private DelayCloudCorrelationData data = new DelayCloudCorrelationData(0.0);
 
 	public DelayCloudsCorrelationCoefficientWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(1, DAYS, this));
 	}
 
-	public DelayCloudsCorrelation getCorrelation()
+	public DelayCloudCorrelationData getCorrelation()
 	{
 		return data;
 	}

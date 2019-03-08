@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface DelayCloudCorrelation
 {
-	DelayCloudsCorrelation getDelayCloudsCorrelation() throws IOException;
+	DelayCloudCorrelationData getDelayCloudsCorrelation() throws IOException;
 }
