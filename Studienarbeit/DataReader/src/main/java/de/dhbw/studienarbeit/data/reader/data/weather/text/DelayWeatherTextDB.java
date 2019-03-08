@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayWeatherTextDB implements DelayWeatherText
@@ -20,12 +22,12 @@ public class DelayWeatherTextDB implements DelayWeatherText
 	{
 		try
 		{
-			final double delayMaximum = result.getDouble("delay_max");
-			final double delayAverage = result.getDouble("delay_avg");
+			final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
+			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 			final String textDE = result.getString("textDE");
 			final String icon = result.getString("icon");
 
-			return Optional.of(new DelayWeatherTextData(delayAverage, delayMaximum, textDE, icon));
+			return Optional.of(new DelayWeatherTextData(delayMaximum, delayAverage, textDE, icon));
 		}
 		catch (SQLException e)
 		{

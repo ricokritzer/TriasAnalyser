@@ -5,11 +5,11 @@ public abstract class DelayData
 	private final DelayMaximum delayMaximum;
 	private final DelayAverage delayAverage;
 
-	public DelayData(double delayMaximum, double delayAverage)
+	public DelayData(DelayMaximum delayMaximum, DelayAverage delayAverage)
 	{
 		super();
-		this.delayMaximum = new DelayMaximum(delayMaximum);
-		this.delayAverage = new DelayAverage(delayAverage);
+		this.delayMaximum = delayMaximum;
+		this.delayAverage = delayAverage;
 	}
 
 	public final DelayMaximum getMaximum()

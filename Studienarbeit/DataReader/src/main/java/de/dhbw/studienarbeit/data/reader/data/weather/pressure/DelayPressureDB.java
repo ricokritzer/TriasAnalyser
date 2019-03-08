@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
@@ -23,11 +25,11 @@ public class DelayPressureDB implements DelayPressure
 	{
 		try
 		{
-			final double delayMaximum = result.getDouble("delay_max");
-			final double delayAverage = result.getDouble("delay_avg");
+			final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
+			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 			final double wind = result.getDouble(NAME);
 
-			return Optional.of(new DelayPressureData(delayAverage, delayMaximum, wind));
+			return Optional.of(new DelayPressureData(delayMaximum, delayAverage, wind));
 		}
 		catch (SQLException e)
 		{

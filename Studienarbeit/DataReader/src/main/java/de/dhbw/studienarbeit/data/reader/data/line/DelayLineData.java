@@ -1,12 +1,14 @@
 package de.dhbw.studienarbeit.data.reader.data.line;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
 public class DelayLineData extends DelayData implements LineData
 {
 	private final Line line;
 
-	public DelayLineData(double delayAverage, double delayMaximum, Line line)
+	public DelayLineData(DelayMaximum delayMaximum, DelayAverage delayAverage, Line line)
 	{
 		super(delayMaximum, delayAverage);
 		this.line = line;

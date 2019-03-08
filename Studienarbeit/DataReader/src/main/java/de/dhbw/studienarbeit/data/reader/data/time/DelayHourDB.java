@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayHourDB implements DelayHour
@@ -20,11 +22,11 @@ public class DelayHourDB implements DelayHour
 	{
 		try
 		{
-			final double delayMaximum = result.getDouble("delay_max");
-			final double delayAverage = result.getDouble("delay_avg");
+			final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
+			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 			final Hour value = Hour.values()[result.getInt("hour")];
 
-			return Optional.of(new DelayHourData(delayAverage, delayMaximum, value));
+			return Optional.of(new DelayHourData(delayMaximum, delayAverage, value));
 		}
 		catch (SQLException e)
 		{

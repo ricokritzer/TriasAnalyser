@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayWeekdayDB implements DelayWeekday
@@ -20,11 +22,11 @@ public class DelayWeekdayDB implements DelayWeekday
 	{
 		try
 		{
-			final double delayMaximum = result.getDouble("delay_max");
-			final double delayAverage = result.getDouble("delay_avg");
+			final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
+			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 			final Weekday value = Weekday.values()[result.getInt("weekday")];
 
-			return Optional.of(new DelayWeekdayData(delayAverage, delayMaximum, value));
+			return Optional.of(new DelayWeekdayData(delayMaximum, delayAverage, value));
 		}
 		catch (SQLException e)
 		{

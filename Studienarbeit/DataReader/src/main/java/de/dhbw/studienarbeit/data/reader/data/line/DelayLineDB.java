@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayLineDB implements DelayLine
@@ -20,8 +22,8 @@ public class DelayLineDB implements DelayLine
 	{
 		try
 		{
-			final double delayMaximum = result.getDouble("delay_max");
-			final double delayAverage = result.getDouble("delay_avg");
+			final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
+			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 
 			final LineID lineID = new LineID(result.getInt("lineID"));
 			final LineName name = new LineName(result.getString("name"));
@@ -29,7 +31,7 @@ public class DelayLineDB implements DelayLine
 
 			final Line line = new Line(lineID, name, destination);
 
-			return Optional.of(new DelayLineData(delayAverage, delayMaximum, line));
+			return Optional.of(new DelayLineData(delayMaximum, delayAverage, line));
 		}
 		catch (SQLException e)
 		{

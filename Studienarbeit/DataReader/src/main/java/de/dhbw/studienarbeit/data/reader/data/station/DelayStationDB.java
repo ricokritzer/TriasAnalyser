@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayStationDB implements DelayStation
@@ -20,8 +22,8 @@ public class DelayStationDB implements DelayStation
 	{
 		try
 		{
-			final double maximum = result.getDouble("delay_max");
-			final double average = result.getDouble("delay_avg");
+			final DelayMaximum maximum = new DelayMaximum(result.getDouble("delay_max"));
+			final DelayAverage average = new DelayAverage(result.getDouble("delay_avg"));
 			final StationID stationID = new StationID(result.getString("stationID"));
 			final StationName name = new StationName(result.getString("name"));
 			final OperatorName operator = new OperatorName(result.getString("displayName"));

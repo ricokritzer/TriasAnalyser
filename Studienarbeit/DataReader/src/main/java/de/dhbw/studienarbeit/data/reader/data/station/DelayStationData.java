@@ -1,6 +1,8 @@
 package de.dhbw.studienarbeit.data.reader.data.station;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
 public class DelayStationData extends DelayData implements StationData
 {
@@ -10,7 +12,7 @@ public class DelayStationData extends DelayData implements StationData
 	private final Position position;
 	private final int count;
 
-	public DelayStationData(double maximum, double average, StationID stationID, StationName stationName,
+	public DelayStationData(DelayMaximum maximum, DelayAverage average, StationID stationID, StationName stationName,
 			OperatorName operator, Position position, int count)
 	{
 		super(maximum, average);

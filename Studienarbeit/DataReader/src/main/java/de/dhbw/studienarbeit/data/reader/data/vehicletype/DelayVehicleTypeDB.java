@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayVehicleTypeDB implements DelayVehicleType
@@ -20,11 +22,11 @@ public class DelayVehicleTypeDB implements DelayVehicleType
 	{
 		try
 		{
-			final double delayMaximum = result.getDouble("delay_max");
-			final double delayAverage = result.getDouble("delay_avg");
+			final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
+			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 			final String type = result.getString("type");
 
-			return Optional.of(new DelayVehicleTypeData(delayAverage, delayMaximum, type));
+			return Optional.of(new DelayVehicleTypeData(delayMaximum, delayAverage, type));
 		}
 		catch (SQLException e)
 		{

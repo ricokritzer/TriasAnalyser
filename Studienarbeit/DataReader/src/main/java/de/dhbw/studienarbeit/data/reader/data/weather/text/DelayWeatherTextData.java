@@ -1,6 +1,8 @@
 package de.dhbw.studienarbeit.data.reader.data.weather.text;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
 public class DelayWeatherTextData extends DelayData
 {
@@ -10,9 +12,9 @@ public class DelayWeatherTextData extends DelayData
 	private final String textDE;
 	private final String icon;
 
-	public DelayWeatherTextData(double average, double maximum, String textDE, String icon)
+	public DelayWeatherTextData(DelayMaximum delayMaximum, DelayAverage delayAverage, String textDE, String icon)
 	{
-		super(maximum, average);
+		super(delayMaximum, delayAverage);
 		this.textDE = textDE;
 		this.icon = icon;
 	}
