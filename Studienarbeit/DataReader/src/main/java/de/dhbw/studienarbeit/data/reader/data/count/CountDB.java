@@ -9,33 +9,15 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class CountDB implements Count
+public class CountDB
 {
 	private static final Logger LOGGER = Logger.getLogger(CountDB.class.getName());
 
-	protected long value;
-
-	public CountDB(long value)
-	{
-		this.value = value;
-	}
-
-	public long getValue()
-	{
-		return value;
-	}
-
-	@Override
-	public String toString()
-	{
-		return Long.toString(value);
-	}
-
-	public static final Optional<CountDB> getCount(ResultSet result)
+	public static final Optional<Count> getCount(ResultSet result)
 	{
 		try
 		{
-			return Optional.ofNullable(new CountDB(result.getLong("total")));
+			return Optional.ofNullable(new Count(result.getLong("total")));
 		}
 		catch (SQLException e)
 		{

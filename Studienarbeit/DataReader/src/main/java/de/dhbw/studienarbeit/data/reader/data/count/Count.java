@@ -1,8 +1,25 @@
 package de.dhbw.studienarbeit.data.reader.data.count;
 
-public interface Count
+public class Count
 {
-	public static final Count UNABLE_TO_COUNT = () -> -1;
+	public static final Count UNABLE_TO_COUNT = new Count(-1);
 
-	long getValue();
+	private final long value;
+
+	public Count(long value)
+	{
+		super();
+		this.value = value;
+	}
+
+	public long getValue()
+	{
+		return value;
+	}
+
+	@Override
+	public String toString()
+	{
+		return Long.toString(value);
+	}
 }
