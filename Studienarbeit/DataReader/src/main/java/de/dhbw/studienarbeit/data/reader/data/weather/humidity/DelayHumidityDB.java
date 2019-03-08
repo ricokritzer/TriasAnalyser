@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.weather.humidity;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -10,7 +10,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayHumidityData;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
+import de.dhbw.studienarbeit.data.reader.database.DelayWeatherDBHelper;
 
 public class DelayHumidityDB implements DelayHumidityData
 {

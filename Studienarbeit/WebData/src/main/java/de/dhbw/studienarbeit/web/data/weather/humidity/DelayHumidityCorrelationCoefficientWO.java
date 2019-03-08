@@ -3,8 +3,8 @@ package de.dhbw.studienarbeit.web.data.weather.humidity;
 import java.io.IOException;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayHumidityCorrelation;
-import de.dhbw.studienarbeit.data.reader.database.DelayHumidityCorrelationDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelationDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
