@@ -9,7 +9,7 @@ public class DelayCloudCorrelationDB extends DelayWeatherCorrelationDB implement
 {
 	private static final String WHAT = "clouds";
 
-	public DelayCloudCorrelationData getDelayCloudsCorrelation() throws IOException
+	public DelayCloudCorrelationData getDelayCloudCorrelation() throws IOException
 	{
 		return new DelayCloudCorrelationData(Correlation.of(getDelay(WHAT)));
 	}

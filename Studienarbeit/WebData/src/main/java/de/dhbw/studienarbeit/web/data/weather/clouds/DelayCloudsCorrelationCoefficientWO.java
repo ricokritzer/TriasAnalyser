@@ -34,6 +34,6 @@ public class DelayCloudsCorrelationCoefficientWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = delayCloudCorrelation.getDelayCloudsCorrelation();
+		data = delayCloudCorrelation.getDelayCloudCorrelation();
 	}
 }
