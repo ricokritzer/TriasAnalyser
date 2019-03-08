@@ -3,8 +3,8 @@ package de.dhbw.studienarbeit.web.data.weather.pressure;
 import java.io.IOException;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayPressureCorrelation;
-import de.dhbw.studienarbeit.data.reader.database.DelayPressureCorrelationDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelationDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 

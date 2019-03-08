@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayPressureData;
-import de.dhbw.studienarbeit.data.reader.database.DelayPressureDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureData;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 

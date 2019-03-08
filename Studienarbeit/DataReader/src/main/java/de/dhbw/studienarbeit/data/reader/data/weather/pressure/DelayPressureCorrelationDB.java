@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.weather.pressure;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -12,7 +12,8 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayPressureCorrelation;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
+import de.dhbw.studienarbeit.data.reader.database.DelayWeatherCorrelationHelper;
 
 public class DelayPressureCorrelationDB implements Correlatable
 {
