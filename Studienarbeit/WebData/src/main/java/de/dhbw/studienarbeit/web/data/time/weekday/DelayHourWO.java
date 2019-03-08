@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.time.DelayHourDB;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayHourData;
-import de.dhbw.studienarbeit.data.reader.database.DelayHourDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 

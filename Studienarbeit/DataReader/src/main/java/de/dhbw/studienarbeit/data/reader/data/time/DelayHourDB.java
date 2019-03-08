@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.time;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -10,8 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.time.DelayHourData;
-import de.dhbw.studienarbeit.data.reader.data.time.Hour;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayHourDB implements DelayHourData
 {
