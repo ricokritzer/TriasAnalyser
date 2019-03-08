@@ -16,7 +16,7 @@ import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
 public class DelayRequestDB
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayPressureDB.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DelayRequestDB.class.getName());
 
 	private final StationID stationID;
 
@@ -109,11 +109,6 @@ public class DelayRequestDB
 		}
 	}
 
-	// public List<LineName> getPossiblleLineNames()
-	// {
-	//
-	// }
-
 	protected String getSQL()
 	{
 		final StringBuilder stringBuilder = new StringBuilder()
@@ -125,12 +120,5 @@ public class DelayRequestDB
 		lineID.ifPresent(h -> stringBuilder.append(" AND lineID = ?"));
 
 		return stringBuilder.toString();
-	}
-
-	public static void main(String[] args) throws IOException
-	{
-		final DelayRequestDB requestDB = new DelayRequestDB(new StationID("de:07334:1721"));
-		requestDB.getDelays().forEach(r -> System.out.println(r.getValue()));
-		System.out.println("fertig.");
 	}
 }
