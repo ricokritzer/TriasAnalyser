@@ -75,8 +75,8 @@ public class DelayPressureCorrelationDB implements Correlatable
 		}
 	}
 
-	public static DelayPressureCorrelation getCorrelationCoefficient() throws IOException
+	public static DelayPressureCorrelationData getCorrelationCoefficient() throws IOException
 	{
-		return new DelayPressureCorrelation(Correlation.of(getDelaysPressure()));
+		return new DelayPressureCorrelationData(Correlation.of(getDelaysPressure()));
 	}
 }

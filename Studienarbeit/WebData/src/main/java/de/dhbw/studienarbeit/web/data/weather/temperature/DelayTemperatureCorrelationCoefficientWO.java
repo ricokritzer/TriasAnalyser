@@ -4,20 +4,20 @@ import java.io.IOException;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTempCorrelationDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureCorrelationData;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayTemperatureCorrelationCoefficientWO extends Updateable
 {
-	private DelayTemperatureCorrelation data = new DelayTemperatureCorrelation(0.0);
+	private DelayTemperatureCorrelationData data = new DelayTemperatureCorrelationData(0.0);
 
 	public DelayTemperatureCorrelationCoefficientWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(1, DAYS, this));
 	}
 
-	public DelayTemperatureCorrelation getCorrelation()
+	public DelayTemperatureCorrelationData getCorrelation()
 	{
 		return data;
 	}
@@ -25,7 +25,7 @@ public class DelayTemperatureCorrelationCoefficientWO extends Updateable
 	@Deprecated
 	public double getData()
 	{
-		return data.getDelayCloudsCorrelation();
+		return data.getValue();
 	}
 
 	@Override

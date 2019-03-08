@@ -75,8 +75,8 @@ public class DelayHumidityCorrelationDB implements Correlatable
 		}
 	}
 
-	public static DelayHumidityCorrelation getCorrelationCoefficient() throws IOException
+	public static DelayHumidityCorrelationData getCorrelationCoefficient() throws IOException
 	{
-		return new DelayHumidityCorrelation(Correlation.of(getDelays()));
+		return new DelayHumidityCorrelationData(Correlation.of(getDelays()));
 	}
 }

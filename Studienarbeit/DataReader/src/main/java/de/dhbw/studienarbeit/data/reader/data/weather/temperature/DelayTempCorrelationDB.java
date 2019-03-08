@@ -75,8 +75,8 @@ public class DelayTempCorrelationDB implements Correlatable
 		}
 	}
 
-	public static DelayTemperatureCorrelation getDelayTemperatureCorrelation() throws IOException
+	public static DelayTemperatureCorrelationData getDelayTemperatureCorrelation() throws IOException
 	{
-		return new DelayTemperatureCorrelation(Correlation.of(getDelayTemps()));
+		return new DelayTemperatureCorrelationData(Correlation.of(getDelayTemps()));
 	}
 }

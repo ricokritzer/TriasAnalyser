@@ -75,8 +75,8 @@ public class DelayWindCorrelationDB implements Correlatable
 		}
 	}
 
-	public static DelayWindCorrelation getCorrelationCoefficient() throws IOException
+	public static DelayWindCorrelationData getCorrelationCoefficient() throws IOException
 	{
-		return new DelayWindCorrelation(Correlation.of(getDelayWinds()));
+		return new DelayWindCorrelationData(Correlation.of(getDelayWinds()));
 	}
 }

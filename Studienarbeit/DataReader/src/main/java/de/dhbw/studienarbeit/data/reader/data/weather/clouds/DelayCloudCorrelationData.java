@@ -1,17 +1,11 @@
 package de.dhbw.studienarbeit.data.reader.data.weather.clouds;
 
-public class DelayCloudCorrelationData
-{
-	private final double value;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherCorrelationData;
 
+public class DelayCloudCorrelationData extends DelayWeatherCorrelationData
+{
 	public DelayCloudCorrelationData(double value)
 	{
-		super();
-		this.value = value;
-	}
-
-	public double getValue()
-	{
-		return value;
+		super(value);
 	}
 }
