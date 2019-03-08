@@ -11,6 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
+import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
+import de.dhbw.studienarbeit.data.reader.data.line.LineID;
+import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 
 public class DelayLineDB implements DelayLineData
 {
@@ -18,13 +21,15 @@ public class DelayLineDB implements DelayLineData
 
 	private final double maximum;
 	private final double average;
+	private final int lineID;
 	private final String lineName;
 	private final String lineDestination;
 
-	public DelayLineDB(double delayAverage, double delayMaximum, String lineName, String lineDestination)
+	public DelayLineDB(double delayAverage, double delayMaximum, int lineID, String lineName, String lineDestination)
 	{
 		this.average = delayAverage;
 		this.maximum = delayMaximum;
+		this.lineID = lineID;
 		this.lineName = lineName;
 		this.lineDestination = lineDestination;
 	}
@@ -46,10 +51,11 @@ public class DelayLineDB implements DelayLineData
 		{
 			final double delayMaximum = result.getDouble("delay_max");
 			final double delayAverage = result.getDouble("delay_avg");
+			final int lineID = result.getInt("lineID");
 			final String name = result.getString("name");
 			final String destination = result.getString("destination");
 
-			return Optional.of(new DelayLineDB(delayAverage, delayMaximum, name, destination));
+			return Optional.of(new DelayLineDB(delayAverage, delayMaximum, lineID, name, destination));
 		}
 		catch (SQLException e)
 		{
@@ -60,7 +66,7 @@ public class DelayLineDB implements DelayLineData
 
 	public static final List<DelayLineData> getDelays() throws IOException
 	{
-		final String sql = "SELECT " + "name, destination, "
+		final String sql = "SELECT " + "name, destination, lineID, "
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
 				+ "FROM Stop, Line WHERE realTime IS NOT NULL AND Stop.lineID = Line.lineID GROUP BY Stop.lineID ORDER BY delay_avg DESC;";
@@ -87,5 +93,23 @@ public class DelayLineDB implements DelayLineData
 	public double getDelayAverage()
 	{
 		return average;
+	}
+
+	@Override
+	public LineID getID()
+	{
+		return new LineID(lineID);
+	}
+
+	@Override
+	public LineName getName()
+	{
+		return new LineName(lineName);
+	}
+
+	@Override
+	public LineDestination getDestination()
+	{
+		return new LineDestination(lineDestination);
 	}
 }
