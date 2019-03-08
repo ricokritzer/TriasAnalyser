@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.statistics.Correlatable;
 import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherCorrelationHelper;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
-import de.dhbw.studienarbeit.data.reader.database.DelayWeatherCorrelationHelper;
 
 public class DelayPressureCorrelationDB implements Correlatable
 {

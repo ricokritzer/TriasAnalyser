@@ -9,7 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherTextData;
+import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherTextData;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class DelayWeatherDiv extends Div

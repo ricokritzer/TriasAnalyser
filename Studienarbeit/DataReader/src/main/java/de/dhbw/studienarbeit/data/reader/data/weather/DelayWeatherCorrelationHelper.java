@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.weather;
 
 public class DelayWeatherCorrelationHelper
 {
