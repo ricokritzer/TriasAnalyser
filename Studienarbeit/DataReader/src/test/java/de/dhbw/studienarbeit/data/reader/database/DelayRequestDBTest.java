@@ -17,7 +17,7 @@ public class DelayRequestDBTest
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?";
 
-		assertThat(request.getSQL(), Is.is(sql));
+		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
 	}
 
 	@Test
@@ -29,7 +29,7 @@ public class DelayRequestDBTest
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?" + " AND DAYOFWEEK(timetabledTime) = ?";
 
-		assertThat(request.getSQL(), Is.is(sql));
+		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class DelayRequestDBTest
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?" + " AND DAYOFWEEK(timetabledTime) = ? AND HOUR(timetabledTime) = ?";
 
-		assertThat(request.getSQL(), Is.is(sql));
+		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class DelayRequestDBTest
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?" + " AND HOUR(timetabledTime) = ?";
 
-		assertThat(request.getSQL(), Is.is(sql));
+		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
 	}
 
 	@Test
@@ -67,6 +67,6 @@ public class DelayRequestDBTest
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?" + " AND HOUR(timetabledTime) = ? AND lineID = ?";
 
-		assertThat(request.getSQL(), Is.is(sql));
+		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
 	}
 }
