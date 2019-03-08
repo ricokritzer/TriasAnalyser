@@ -13,6 +13,8 @@ import de.dhbw.studienarbeit.web.data.weather.clouds.DelayCloudsWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureWO;
 import de.dhbw.studienarbeit.web.data.weather.text.DelayWeatherTextWO;
+import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindCorrelationCoefficientWO;
+import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindWO;
 
 public class Data
 {
@@ -27,6 +29,8 @@ public class Data
 	private final DelayCloudsWO delayCloudsWO;
 	private final DelayCloudsCorrelationCoefficientWO delayCloudsCorrelationCoefficientWO;
 	private final DelayWeatherTextWO delayWeatherTextWO;
+	private final DelayWindWO delayWindWO;
+	private final DelayWindCorrelationCoefficientWO delayWindCorrelationCoefficientWO;
 
 	private final DelayStationNeighbourWO stationNeighbourWO;
 
@@ -47,6 +51,9 @@ public class Data
 
 		delayCloudsWO = new DelayCloudsWO(updater);
 		delayCloudsCorrelationCoefficientWO = new DelayCloudsCorrelationCoefficientWO(updater);
+
+		delayWindWO = new DelayWindWO(updater);
+		delayWindCorrelationCoefficientWO = new DelayWindCorrelationCoefficientWO(updater);
 
 		delayWeatherTextWO = new DelayWeatherTextWO(updater);
 
@@ -106,5 +113,15 @@ public class Data
 	public static final DelayStationNeighbourWO getStationNeighbourWO()
 	{
 		return getInstance().stationNeighbourWO;
+	}
+
+	public static final DelayWindWO getDelayWindWO()
+	{
+		return getInstance().delayWindWO;
+	}
+
+	public static final DelayWindCorrelationCoefficientWO getDelayWindCorrelationCoefficientWO()
+	{
+		return getInstance().delayWindCorrelationCoefficientWO;
 	}
 }
