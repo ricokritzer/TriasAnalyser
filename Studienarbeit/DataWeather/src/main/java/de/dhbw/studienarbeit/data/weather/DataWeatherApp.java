@@ -15,7 +15,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
-import de.dhbw.studienarbeit.data.reader.database.ApiKeyDB;
+import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.database.Operator;
 import de.dhbw.studienarbeit.data.reader.database.StationDB;
 

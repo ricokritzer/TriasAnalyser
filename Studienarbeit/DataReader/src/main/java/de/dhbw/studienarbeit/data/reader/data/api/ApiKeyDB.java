@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.api;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
+import de.dhbw.studienarbeit.data.reader.database.Operator;
 
 public class ApiKeyDB extends ApiKey
 {

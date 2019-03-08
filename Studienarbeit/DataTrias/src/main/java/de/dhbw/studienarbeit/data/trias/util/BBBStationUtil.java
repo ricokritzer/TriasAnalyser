@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
-import de.dhbw.studienarbeit.data.reader.database.ApiKeyDB;
+import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.database.Operator;
 import de.dhbw.studienarbeit.data.reader.database.StationDB;
 
