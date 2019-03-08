@@ -12,42 +12,9 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayStationDB implements DelayStationData
+public class DelayStationDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayStationDB.class.getName());
-
-	private final double maximum;
-	private final double average;
-	private final StationID stationID;
-	private final StationName stationName;
-	private final String operator;
-	private final Position position;
-	private final int count;
-
-	public DelayStationDB(double maximum, double average, StationID stationID, StationName stationName, String operator,
-			Position position, int count)
-	{
-		super();
-		this.maximum = maximum;
-		this.average = average;
-		this.stationID = stationID;
-		this.stationName = stationName;
-		this.operator = operator;
-		this.position = position;
-		this.count = count;
-	}
-
-	@Override
-	public OperatorName getOperator()
-	{
-		return new OperatorName(operator);
-	}
-
-	@Override
-	public int getCount()
-	{
-		return count;
-	}
 
 	private static final Optional<DelayStationData> getDelayLine(ResultSet result)
 	{
@@ -57,11 +24,11 @@ public class DelayStationDB implements DelayStationData
 			final double average = result.getDouble("delay_avg");
 			final StationID stationID = new StationID(result.getString("stationID"));
 			final StationName name = new StationName(result.getString("name"));
-			final String operator = result.getString("displayName");
+			final OperatorName operator = new OperatorName(result.getString("displayName"));
 			final Position position = new Position(result.getDouble("lat"), result.getDouble("lon"));
 			final int count = result.getInt("count");
 
-			return Optional.of(new DelayStationDB(maximum, average, stationID, name, operator, position, count));
+			return Optional.of(new DelayStationData(maximum, average, stationID, name, operator, position, count));
 		}
 		catch (SQLException e)
 		{
@@ -93,35 +60,5 @@ public class DelayStationDB implements DelayStationData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public double getDelayMaximum()
-	{
-		return maximum;
-	}
-
-	@Override
-	public double getDelayAverage()
-	{
-		return average;
-	}
-
-	@Override
-	public StationName getName()
-	{
-		return stationName;
-	}
-
-	@Override
-	public Position getPosition()
-	{
-		return position;
-	}
-
-	@Override
-	public StationID getStationID()
-	{
-		return stationID;
 	}
 }
