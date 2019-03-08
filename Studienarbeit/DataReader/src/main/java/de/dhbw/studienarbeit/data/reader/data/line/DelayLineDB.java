@@ -18,11 +18,12 @@ public class DelayLineDB implements DelayLineData
 
 	private final double maximum;
 	private final double average;
-	private final int lineID;
-	private final String lineName;
-	private final String lineDestination;
+	private final LineID lineID;
+	private final LineName lineName;
+	private final LineDestination lineDestination;
 
-	public DelayLineDB(double delayAverage, double delayMaximum, int lineID, String lineName, String lineDestination)
+	public DelayLineDB(double delayAverage, double delayMaximum, LineID lineID, LineName lineName,
+			LineDestination lineDestination)
 	{
 		this.average = delayAverage;
 		this.maximum = delayMaximum;
@@ -34,12 +35,13 @@ public class DelayLineDB implements DelayLineData
 	@Override
 	public String getLineName()
 	{
-		return lineName;
+		return lineName.getValue();
 	}
 
+	@Override
 	public String getLineDestination()
 	{
-		return lineDestination;
+		return lineDestination.getValue();
 	}
 
 	private static final Optional<DelayLineData> getDelayLine(ResultSet result)
@@ -48,9 +50,9 @@ public class DelayLineDB implements DelayLineData
 		{
 			final double delayMaximum = result.getDouble("delay_max");
 			final double delayAverage = result.getDouble("delay_avg");
-			final int lineID = result.getInt("lineID");
-			final String name = result.getString("name");
-			final String destination = result.getString("destination");
+			final LineID lineID = new LineID(result.getInt("lineID"));
+			final LineName name = new LineName(result.getString("name"));
+			final LineDestination destination = new LineDestination(result.getString("destination"));
 
 			return Optional.of(new DelayLineDB(delayAverage, delayMaximum, lineID, name, destination));
 		}
@@ -95,18 +97,18 @@ public class DelayLineDB implements DelayLineData
 	@Override
 	public LineID getID()
 	{
-		return new LineID(lineID);
+		return lineID;
 	}
 
 	@Override
 	public LineName getName()
 	{
-		return new LineName(lineName);
+		return lineName;
 	}
 
 	@Override
 	public LineDestination getDestination()
 	{
-		return new LineDestination(lineDestination);
+		return lineDestination;
 	}
 }
