@@ -5,7 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
-import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
+import de.dhbw.studienarbeit.data.reader.data.count.CountStops;
+import de.dhbw.studienarbeit.data.reader.data.count.CountStopsDB;
 
 public class WeatherStopLinker
 {
@@ -13,12 +14,19 @@ public class WeatherStopLinker
 
 	public static void main(String[] args)
 	{
-		new WeatherStopLinker().link();
+		new WeatherStopLinker(new CountStopsDB()).link();
+	}
+
+	private final CountStops countStops;
+
+	private WeatherStopLinker(CountStops countStops)
+	{
+		this.countStops = countStops;
 	}
 
 	private void link()
 	{
-		final long count = CountDB.countStops().getValue();
+		final long count = countStops.countStops().getValue();
 		final long consiciousError = 1000;
 
 		LOGGER.log(Level.INFO, "Linker starts with: " + count);
@@ -28,7 +36,7 @@ public class WeatherStopLinker
 
 	private void linkForeward(long start)
 	{
-		final long count = CountDB.countStops().getValue();
+		final long count = countStops.countStops().getValue();
 
 		for (long i = start; i < count; i++)
 		{
