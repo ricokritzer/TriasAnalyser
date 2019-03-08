@@ -18,30 +18,13 @@ public class DelayLineDB implements DelayLineData
 
 	private final double maximum;
 	private final double average;
-	private final LineID lineID;
-	private final LineName lineName;
-	private final LineDestination lineDestination;
+	private final Line line;
 
-	public DelayLineDB(double delayAverage, double delayMaximum, LineID lineID, LineName lineName,
-			LineDestination lineDestination)
+	public DelayLineDB(double delayAverage, double delayMaximum, Line line)
 	{
 		this.average = delayAverage;
 		this.maximum = delayMaximum;
-		this.lineID = lineID;
-		this.lineName = lineName;
-		this.lineDestination = lineDestination;
-	}
-
-	@Override
-	public String getLineName()
-	{
-		return lineName.getValue();
-	}
-
-	@Override
-	public String getLineDestination()
-	{
-		return lineDestination.getValue();
+		this.line = line;
 	}
 
 	private static final Optional<DelayLineData> getDelayLine(ResultSet result)
@@ -50,11 +33,14 @@ public class DelayLineDB implements DelayLineData
 		{
 			final double delayMaximum = result.getDouble("delay_max");
 			final double delayAverage = result.getDouble("delay_avg");
+
 			final LineID lineID = new LineID(result.getInt("lineID"));
 			final LineName name = new LineName(result.getString("name"));
 			final LineDestination destination = new LineDestination(result.getString("destination"));
 
-			return Optional.of(new DelayLineDB(delayAverage, delayMaximum, lineID, name, destination));
+			final Line line = new Line(lineID, name, destination);
+
+			return Optional.of(new DelayLineDB(delayAverage, delayMaximum, line));
 		}
 		catch (SQLException e)
 		{
@@ -97,18 +83,30 @@ public class DelayLineDB implements DelayLineData
 	@Override
 	public LineID getID()
 	{
-		return lineID;
+		return line.getID();
 	}
 
 	@Override
 	public LineName getName()
 	{
-		return lineName;
+		return line.getName();
 	}
 
 	@Override
 	public LineDestination getDestination()
 	{
-		return lineDestination;
+		return line.getDestination();
+	}
+
+	@Override
+	public String getLineName()
+	{
+		return getName().getValue();
+	}
+
+	@Override
+	public String getLineDestination()
+	{
+		return getDestination().getValue();
 	}
 }
