@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeDB;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
-import de.dhbw.studienarbeit.data.reader.database.DelayVehicleTypeDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 

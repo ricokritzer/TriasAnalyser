@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.vehicletype;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayVehicleTypeDB implements DelayVehicleTypeData
 {
