@@ -13,8 +13,6 @@ public class CountDB implements Count
 {
 	private static final Logger LOGGER = Logger.getLogger(CountDB.class.getName());
 
-	public static final CountDB UNABLE_TO_COUNT = new CountDB(-1);
-
 	protected long value;
 
 	public CountDB(long value)
@@ -54,7 +52,7 @@ public class CountDB implements Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stops.", e);
-			return CountDB.UNABLE_TO_COUNT;
+			return Count.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -67,7 +65,7 @@ public class CountDB implements Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count weather.", e);
-			return CountDB.UNABLE_TO_COUNT;
+			return Count.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -80,7 +78,7 @@ public class CountDB implements Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stations.", e);
-			return CountDB.UNABLE_TO_COUNT;
+			return Count.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -93,7 +91,7 @@ public class CountDB implements Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stations with realtime data.", e);
-			return CountDB.UNABLE_TO_COUNT;
+			return Count.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -106,7 +104,7 @@ public class CountDB implements Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count observed stations.", e);
-			return CountDB.UNABLE_TO_COUNT;
+			return Count.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -119,7 +117,7 @@ public class CountDB implements Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count lines.", e);
-			return CountDB.UNABLE_TO_COUNT;
+			return Count.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -132,7 +130,7 @@ public class CountDB implements Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count operators.", e);
-			return CountDB.UNABLE_TO_COUNT;
+			return Count.UNABLE_TO_COUNT;
 		}
 	}
 
@@ -146,7 +144,7 @@ public class CountDB implements Count
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count observed operators.", e);
-			return CountDB.UNABLE_TO_COUNT;
+			return Count.UNABLE_TO_COUNT;
 		}
 	}
 }
