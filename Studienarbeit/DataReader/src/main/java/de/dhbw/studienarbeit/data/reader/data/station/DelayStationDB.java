@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayStationDB
+public class DelayStationDB implements DelayStation
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayStationDB.class.getName());
 
@@ -37,7 +37,7 @@ public class DelayStationDB
 		}
 	}
 
-	public static final List<DelayStationData> getDelays() throws IOException
+	public final List<DelayStationData> getDelays() throws IOException
 	{
 		final String sql = "SELECT " //
 				+ "stationID, " //
