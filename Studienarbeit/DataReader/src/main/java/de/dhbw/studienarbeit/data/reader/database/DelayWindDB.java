@@ -30,22 +30,7 @@ public class DelayWindDB implements Correlatable, DelayWindData
 		this.value = value;
 	}
 
-	public double getAverage()
-	{
-		return average;
-	}
-
-	public double getMaximum()
-	{
-		return maximum;
-	}
-
-	public double getValue()
-	{
-		return value;
-	}
-
-	private static final Optional<DelayWindDB> getDelayLine(ResultSet result)
+	private static final Optional<DelayWindData> getDelayLine(ResultSet result)
 	{
 		try
 		{
@@ -62,14 +47,14 @@ public class DelayWindDB implements Correlatable, DelayWindData
 		}
 	}
 
-	public static final List<DelayWindDB> getDelays() throws IOException
+	public static final List<DelayWindData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<DelayWindDB> list = new ArrayList<>();
+			final List<DelayWindData> list = new ArrayList<>();
 			database.select(r -> DelayWindDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
