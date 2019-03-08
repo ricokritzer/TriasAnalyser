@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import de.dhbw.studienarbeit.data.reader.data.line.LineData;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestDB;
+import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.database.DelayRequestDB;
-import de.dhbw.studienarbeit.data.reader.database.LinesAtStationDB;
 
 public class DelayRequestWO extends DelayRequestDB
 {

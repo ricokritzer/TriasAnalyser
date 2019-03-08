@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.reader.database;
+package de.dhbw.studienarbeit.data.reader.data.request;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -15,6 +15,7 @@ import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class LinesAtStationDB implements LineData
 {
