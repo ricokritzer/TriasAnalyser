@@ -73,31 +73,62 @@ public class DelayRequestDB
 		}
 	}
 
-	public final List<Delay> getDelays() throws IOException
+	public final Count getCancelledStops() throws IOException
 	{
-		final String sql = getSQL();
+		final String sql = getSQL("count(*) AS total") + " AND realTime IS NULL;";
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			int idx = 1;
-			preparedStatement.setString(idx++, stationID.getValue());
+			setValues(preparedStatement);
 
-			if (weekday.isPresent())
+			final List<Count> count = new ArrayList<>();
+			database.select(result -> Count.getCount(result).ifPresent(count::add), preparedStatement);
+
+			if (count.isEmpty())
 			{
-				preparedStatement.setInt(idx, weekday.get().getIdx());
-				idx++;
+				throw new SQLException("Unable to count: " + sql);
 			}
-			if (hour.isPresent())
-			{
-				preparedStatement.setInt(idx, hour.get());
-				idx++;
-			}
-			if (lineID.isPresent())
-			{
-				preparedStatement.setInt(idx, lineID.get());
-				idx++;
-			}
+
+			Count c = count.get(0);
+			LOGGER.log(Level.FINEST, c + " entries count: " + sql);
+			return c;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
+		}
+	}
+
+	private void setValues(PreparedStatement preparedStatement) throws SQLException
+	{
+		int idx = 1;
+		preparedStatement.setString(idx++, stationID.getValue());
+
+		if (weekday.isPresent())
+		{
+			preparedStatement.setInt(idx, weekday.get().getIdx());
+			idx++;
+		}
+		if (hour.isPresent())
+		{
+			preparedStatement.setInt(idx, hour.get());
+			idx++;
+		}
+		if (lineID.isPresent())
+		{
+			preparedStatement.setInt(idx, lineID.get());
+		}
+	}
+
+	public final List<Delay> getDelays() throws IOException
+	{
+		final String sql = getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay");
+
+		final DatabaseReader database = new DatabaseReader();
+		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
+		{
+			setValues(preparedStatement);
 
 			final List<Delay> list = new ArrayList<>();
 			database.select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
@@ -109,11 +140,10 @@ public class DelayRequestDB
 		}
 	}
 
-	protected String getSQL()
+	protected String getSQL(String what)
 	{
-		final StringBuilder stringBuilder = new StringBuilder()
-				.append("SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay ")
-				.append("FROM Stop WHERE stationID = ?");
+		final StringBuilder stringBuilder = new StringBuilder().append("SELECT ").append(what)
+				.append(" FROM Stop WHERE stationID = ?");
 
 		weekday.ifPresent(w -> stringBuilder.append(" AND DAYOFWEEK(timetabledTime) = ?"));
 		hour.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) = ?"));
