@@ -42,7 +42,7 @@ public class DelayStationDB implements DelayStation
 	public final List<DelayStationData> getDelays() throws IOException
 	{
 		final String sql = "SELECT " //
-				+ "stationID, " //
+				+ "Stop.stationID, " //
 				+ "name, " //
 				+ "displayName, " //
 				+ "lat, " //
