@@ -42,7 +42,7 @@ public class DelayLineDB implements DelayLine
 
 	public final List<DelayLineData> getDelays() throws IOException
 	{
-		final String sql = "SELECT " + "name, destination, lineID, "
+		final String sql = "SELECT name, destination, Stop.lineID, "
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
 				+ "FROM Stop, Line WHERE realTime IS NOT NULL AND Stop.lineID = Line.lineID GROUP BY Stop.lineID ORDER BY delay_avg DESC;";
