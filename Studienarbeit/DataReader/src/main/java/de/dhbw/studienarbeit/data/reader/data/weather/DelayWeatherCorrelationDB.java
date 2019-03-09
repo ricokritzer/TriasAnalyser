@@ -16,13 +16,13 @@ public class DelayWeatherCorrelationDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWeatherCorrelationDB.class.getName());
 
-	private static final Optional<CorrelationData> getDelay(ResultSet result, String fieldname)
+	private static final Optional<Double> getDelay(ResultSet result, String fieldname)
 	{
 		try
 		{
 			final double value = result.getDouble("correlation");
 
-			return Optional.of(new CorrelationData(value));
+			return Optional.of(Double.valueOf(value));
 		}
 		catch (SQLException e)
 		{
@@ -38,10 +38,10 @@ public class DelayWeatherCorrelationDB
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			final List<CorrelationData> list = new ArrayList<>();
+			final List<Double> list = new ArrayList<>();
 			database.select(r -> getDelay(r, fieldname).ifPresent(list::add), preparedStatement);
 
-			return list.get(0).getValue();
+			return list.get(0).doubleValue();
 		}
 		catch (SQLException | IndexOutOfBoundsException e)
 		{
