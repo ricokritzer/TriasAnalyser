@@ -34,7 +34,7 @@ public class DelayWeatherCorrelationDB
 
 	public static final List<CorrelationData> getDelay(String fieldname) throws IOException
 	{
-		final String sql = DelayWeatherCorrelationHelper.getSqlFor(fieldname);
+		final String sql = getSqlFor(fieldname);
 
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
@@ -47,5 +47,13 @@ public class DelayWeatherCorrelationDB
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	public static final String getSqlFor(String what)
+	{
+		return new StringBuilder("SELECT ").append(what)
+				.append(", (UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay ")
+				.append("FROM StopWeather, Stop, Weather ")
+				.append("WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id;").toString();
 	}
 }
