@@ -16,7 +16,7 @@ public class DelayWeatherCorrelationDB
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayWeatherCorrelationDB.class.getName());
 
-	private static final Optional<Double> getDelay(ResultSet result, String fieldname)
+	private final Optional<Double> getDelay(ResultSet result)
 	{
 		try
 		{
@@ -31,7 +31,7 @@ public class DelayWeatherCorrelationDB
 		}
 	}
 
-	public static final double getCorrelationData(String fieldname) throws IOException
+	public final double getCorrelationData(String fieldname) throws IOException
 	{
 		final String sql = getSqlFor(fieldname);
 
@@ -39,7 +39,7 @@ public class DelayWeatherCorrelationDB
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<Double> list = new ArrayList<>();
-			database.select(r -> getDelay(r, fieldname).ifPresent(list::add), preparedStatement);
+			database.select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
 
 			return list.get(0).doubleValue();
 		}
@@ -49,7 +49,7 @@ public class DelayWeatherCorrelationDB
 		}
 	}
 
-	public static final String getSqlFor(String fieldname)
+	public final String getSqlFor(String fieldname)
 	{
 		return new StringBuilder() //
 				.append("SELECT sum((x-avgX) * (y-avgY)) / SQRT(sum(POW(x-avgX,2))*sum(POW(y-avgY,2))) AS correlation ")
