@@ -20,10 +20,9 @@ public class DelayWeatherCorrelationDB
 	{
 		try
 		{
-			final double delay = result.getDouble("delay");
-			final double value = result.getDouble(fieldname);
+			final double value = result.getDouble("correlation");
 
-			return Optional.of(new CorrelationData(delay, value));
+			return Optional.of(new CorrelationData(value));
 		}
 		catch (SQLException e)
 		{
@@ -32,7 +31,7 @@ public class DelayWeatherCorrelationDB
 		}
 	}
 
-	public static final List<CorrelationData> getDelay(String fieldname) throws IOException
+	public static final double getCorrelationData(String fieldname) throws IOException
 	{
 		final String sql = getSqlFor(fieldname);
 
@@ -41,19 +40,23 @@ public class DelayWeatherCorrelationDB
 		{
 			final List<CorrelationData> list = new ArrayList<>();
 			database.select(r -> getDelay(r, fieldname).ifPresent(list::add), preparedStatement);
-			return list;
+
+			return list.get(0).getValue();
 		}
-		catch (SQLException e)
+		catch (SQLException | IndexOutOfBoundsException e)
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
 	}
 
-	public static final String getSqlFor(String what)
+	public static final String getSqlFor(String fieldname)
 	{
-		return new StringBuilder("SELECT ").append(what)
-				.append(", (UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay ")
-				.append("FROM StopWeather, Stop, Weather ")
-				.append("WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id;").toString();
+		return new StringBuilder() //
+				.append("SELECT sum((x-avgX) * (y-avgY)) / SQRT(sum(POW(x-avgX,2))*sum(POW(y-avgY,2))) AS correlation ")
+				.append("FROM ") //
+				.append("(SELECT Weather.% AS x, UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime) AS y FROM StopWeather, Stop, Weather WHERE StopWeather.stopID = Stop.stopID AND StopWeather.weatherID = Weather.id) t, ")
+				.append("(SELECT avg(%) AS avgX FROM StopWeather, Weather WHERE StopWeather.weatherID = Weather.id) tX, ") //
+				.append("(SELECT avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS avgY FROM StopWeather, Stop WHERE StopWeather.stopID = Stop.stopID) tY;")
+				.toString().replaceAll("%", fieldname);
 	}
 }

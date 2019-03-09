@@ -2,7 +2,6 @@ package de.dhbw.studienarbeit.data.reader.data.weather.clouds;
 
 import java.io.IOException;
 
-import de.dhbw.studienarbeit.data.helper.statistics.Correlation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherCorrelationDB;
 
 public class DelayCloudCorrelationDB extends DelayWeatherCorrelationDB implements DelayCloudCorrelation
@@ -11,6 +10,6 @@ public class DelayCloudCorrelationDB extends DelayWeatherCorrelationDB implement
 
 	public DelayCloudCorrelationData getDelayCloudCorrelation() throws IOException
 	{
-		return new DelayCloudCorrelationData(Correlation.of(getDelay(WHAT)));
+		return new DelayCloudCorrelationData(getCorrelationData(WHAT));
 	}
 }
