@@ -20,6 +20,7 @@ public abstract class Updateable
 		{
 			updateData();
 			lastUpdate = new Date();
+			System.gc();
 		}
 		catch (IOException e)
 		{
