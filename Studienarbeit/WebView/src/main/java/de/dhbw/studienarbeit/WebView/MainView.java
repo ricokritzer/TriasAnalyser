@@ -21,6 +21,7 @@ import de.dhbw.studienarbeit.WebView.components.DelayStationDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayTemperatureDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayVehicleTypeDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayWeatherDiv;
+import de.dhbw.studienarbeit.WebView.components.DelayWindDiv;
 import de.dhbw.studienarbeit.WebView.components.MapDiv;
 import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 
@@ -49,6 +50,7 @@ public class MainView extends VerticalLayout
 		addTab("Verspätungen nach Luftfeuchtigkeit", new DelayHumidityDiv());
 		addTab("Verspätungen nach Luftdruck", new DelayPressureDiv());
 		addTab("Verspätungen nach Bewölkung", new DelayCloudsDiv());
+		addTab("Verspätungen nach Windstärke", new DelayWindDiv());
 		addTab("Verspätungen nach Fahrzeugtyp", new DelayVehicleTypeDiv());
 		addTab("Karte", mapDiv);
 		addTab("Korrelationskoeffizienten", new CorrelationCoefficientsDiv());
