@@ -14,4 +14,10 @@ public abstract class DelayWeatherCorrelationData
 	{
 		return value;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return String.valueOf(Math.round(value * 100) / 100d);
+	}
 }
