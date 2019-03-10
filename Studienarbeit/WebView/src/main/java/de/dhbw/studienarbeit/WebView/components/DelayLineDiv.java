@@ -18,10 +18,6 @@ public class DelayLineDiv extends Div
 {
 	private static final long serialVersionUID = 8L;
 
-	private static final int SECONDS_PER_MINUTE = 60;
-	private static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * 60;
-	private static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
-
 	private final Grid<DelayLineData> grid = new Grid<>();
 	private final TextField field = new TextField();
 
