@@ -5,30 +5,32 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import de.dhbw.studienarbeit.data.reader.data.Delay;
+
 class DisplayHelperTest
 {
 
 	@Test
 	void sekundenWerdenRichtigKonvertiert()
 	{
-		assertThat(DisplayHelper.delayToString(11.111), is("11.11s"));
+		assertThat(new Delay(11.111).toString(), is("11.11s"));
 	}
 	
 	@Test
 	void sekundenWerdenRichtigAufgerundet()
 	{
-		assertThat(DisplayHelper.delayToString(11.115), is("11.12s"));
+		assertThat(new Delay(11.115).toString(), is("11.12s"));
 	}
 	
 	@Test
 	void MinutenWerdenRichtigKonvertiert()
 	{
-		assertThat(DisplayHelper.delayToString(65.123), is("1m 5s"));
+		assertThat(new Delay(65.123).toString(), is("1m 5s"));
 	}
 	
 	@Test
 	void StundenWerdenRichtigKonvertiert()
 	{
-		assertThat(DisplayHelper.delayToString(9000), is("2h 30m 0s"));
+		assertThat(new Delay(9000).toString(), is("2h 30m 0s"));
 	}
 }
