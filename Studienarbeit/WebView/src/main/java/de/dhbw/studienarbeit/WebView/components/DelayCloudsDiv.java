@@ -35,9 +35,9 @@ public class DelayCloudsDiv extends Div
 		grid.addColumn(db -> db.getClouds()).setHeader("Bewölkung")
 				.setComparator((db1, db2) -> Double.compare(db1.getClouds(), db2.getClouds())).setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
-				.setComparator((db1, db2) -> Double.compare(db1.getAverage().getValue(), db2.getAverage().getValue())).setSortable(true);
+				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
-				.setComparator((db1, db2) -> Double.compare(db1.getMaximum().getValue(), db2.getMaximum().getValue())).setSortable(true);
+				.setComparator((db1, db2) -> db1.getMaximum().compareTo(db2.getMaximum())).setSortable(true);
 
 		grid.setSizeFull();
 		grid.setSelectionMode(SelectionMode.NONE);
