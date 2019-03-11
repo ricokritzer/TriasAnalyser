@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.WebView;
+package de.dhbw.studienarbeit.WebView.overview;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;

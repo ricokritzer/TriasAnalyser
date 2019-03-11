@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.WebView;
+package de.dhbw.studienarbeit.WebView.overview;
 
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
