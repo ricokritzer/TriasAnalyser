@@ -1,5 +1,7 @@
 package de.dhbw.studienarbeit.WebView;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
@@ -13,6 +15,8 @@ public class WelcomeOverview extends Overview
 	{
 		super();
 		
-		setContent(new WelcomeDiv());
+		Component content = new Span(new WelcomeDiv());
+		
+		setContent(content);
 	}
 }
