@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayCloudsWO extends Updateable
 {
-	private final DelayClouds delayClouds = new DelayCloudsDB();
+	private DelayClouds delayClouds = new DelayCloudsDB();
 
 	private List<DelayCloudsData> data = new ArrayList<>();
 
@@ -31,5 +31,10 @@ public class DelayCloudsWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayClouds.getDelays();
+	}
+
+	public void setDelayClouds(DelayClouds delayClouds)
+	{
+		this.delayClouds = delayClouds;
 	}
 }

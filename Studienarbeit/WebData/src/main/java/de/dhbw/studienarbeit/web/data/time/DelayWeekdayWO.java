@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeekdayWO extends Updateable
 {
-	private final DelayWeekday delayWeekday = new DelayWeekdayDB();
+	private DelayWeekday delayWeekday = new DelayWeekdayDB();
 
 	private List<DelayWeekdayData> data = new ArrayList<>();
 
@@ -31,5 +31,10 @@ public class DelayWeekdayWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayWeekday.getDelays();
+	}
+
+	public void setDelayWeekday(DelayWeekday delayWeekday)
+	{
+		this.delayWeekday = delayWeekday;
 	}
 }

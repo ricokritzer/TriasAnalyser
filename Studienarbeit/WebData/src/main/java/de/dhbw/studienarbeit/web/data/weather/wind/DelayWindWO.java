@@ -32,4 +32,9 @@ public class DelayWindWO extends Updateable
 	{
 		data = delayWind.getDelays();
 	}
+
+	public void setDelayWind(DelayWind delayWind)
+	{
+		this.delayWind = delayWind;
+	}
 }

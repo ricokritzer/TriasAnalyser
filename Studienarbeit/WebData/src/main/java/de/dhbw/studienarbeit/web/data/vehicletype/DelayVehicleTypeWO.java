@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayVehicleTypeWO extends Updateable
 {
-	private final DelayVehicleType delayVehicleType = new DelayVehicleTypeDB();
+	private DelayVehicleType delayVehicleType = new DelayVehicleTypeDB();
 
 	private List<DelayVehicleTypeData> data = new ArrayList<>();
 
@@ -31,5 +31,10 @@ public class DelayVehicleTypeWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayVehicleType.getDelays();
+	}
+
+	public void setDelayVehicleType(DelayVehicleType delayVehicleType)
+	{
+		this.delayVehicleType = delayVehicleType;
 	}
 }

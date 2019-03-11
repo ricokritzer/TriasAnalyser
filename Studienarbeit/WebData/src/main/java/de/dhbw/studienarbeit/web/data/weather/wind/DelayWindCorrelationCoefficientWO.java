@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWindCorrelationCoefficientWO extends Updateable
 {
-	private DelayWindCorrelation correlation = new DelayWindCorrelationDB();
+	private DelayWindCorrelation delayWindCorrelation = new DelayWindCorrelationDB();
 
 	private DelayWindCorrelationData data = new DelayWindCorrelationData(0.0);
 
@@ -28,6 +28,11 @@ public class DelayWindCorrelationCoefficientWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = correlation.getDelayWindCorrelation();
+		data = delayWindCorrelation.getDelayWindCorrelation();
+	}
+
+	public void setDelayWindCorrelation(DelayWindCorrelation delayWindCorrelation)
+	{
+		this.delayWindCorrelation = delayWindCorrelation;
 	}
 }

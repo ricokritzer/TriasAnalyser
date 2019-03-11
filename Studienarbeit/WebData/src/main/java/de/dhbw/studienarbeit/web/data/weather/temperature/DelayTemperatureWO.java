@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayTemperatureWO extends Updateable
 {
-	private final DelayTemperature delayTemperature = new DelayTemperatureDB();
+	private DelayTemperature delayTemperature = new DelayTemperatureDB();
 
 	private List<DelayTemperatureData> data = new ArrayList<>();
 
@@ -31,5 +31,10 @@ public class DelayTemperatureWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayTemperature.getDelays();
+	}
+
+	public void setDelayTemperature(DelayTemperature delayTemperature)
+	{
+		this.delayTemperature = delayTemperature;
 	}
 }

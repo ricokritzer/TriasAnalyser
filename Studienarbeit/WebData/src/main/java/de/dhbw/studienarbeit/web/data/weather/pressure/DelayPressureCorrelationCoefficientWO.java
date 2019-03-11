@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayPressureCorrelationCoefficientWO extends Updateable
 {
-	private DelayPressureCorrelation correlation = new DelayPressureCorrelationDB();
+	private DelayPressureCorrelation delayPressureCorrelation = new DelayPressureCorrelationDB();
 
 	private DelayPressureCorrelationData data = new DelayPressureCorrelationData(0.0);
 
@@ -28,6 +28,11 @@ public class DelayPressureCorrelationCoefficientWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = correlation.getDelayPressureCorrelation();
+		data = delayPressureCorrelation.getDelayPressureCorrelation();
+	}
+
+	public void setDelayPressureCorrelation(DelayPressureCorrelation delayPressureCorrelation)
+	{
+		this.delayPressureCorrelation = delayPressureCorrelation;
 	}
 }

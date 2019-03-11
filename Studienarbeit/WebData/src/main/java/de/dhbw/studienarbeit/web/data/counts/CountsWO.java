@@ -24,11 +24,11 @@ public class CountsWO extends Updateable
 {
 	private static final int MAX_COUNT_ITEMS = 10;
 
-	protected final CountStations countStations = new CountStationsDB();
-	protected final CountLines countLines = new CountLinesDB();
-	protected final CountStops countStops = new CountStopsDB();
-	protected final CountWeather countWeather = new CountWeatherDB();
-	protected final CountOperators countOperators = new CountOperatorsDB();
+	protected CountStations countStations = new CountStationsDB();
+	protected CountLines countLines = new CountLinesDB();
+	protected CountStops countStops = new CountStopsDB();
+	protected CountWeather countWeather = new CountWeatherDB();
+	protected CountOperators countOperators = new CountOperatorsDB();
 
 	private List<Counts> data = new ArrayList<>();
 
@@ -66,5 +66,30 @@ public class CountsWO extends Updateable
 		{
 			list.remove(MAX_COUNT_ITEMS);
 		}
+	}
+
+	public void setCountStations(CountStations countStations)
+	{
+		this.countStations = countStations;
+	}
+
+	public void setCountLines(CountLines countLines)
+	{
+		this.countLines = countLines;
+	}
+
+	public void setCountStops(CountStops countStops)
+	{
+		this.countStops = countStops;
+	}
+
+	public void setCountWeather(CountWeather countWeather)
+	{
+		this.countWeather = countWeather;
+	}
+
+	public void setCountOperators(CountOperators countOperators)
+	{
+		this.countOperators = countOperators;
 	}
 }

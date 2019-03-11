@@ -32,4 +32,9 @@ public class DelayLineWO extends Updateable
 	{
 		data = delayLine.getDelays();
 	}
+
+	public void setDelayLine(DelayLine delayLine)
+	{
+		this.delayLine = delayLine;
+	}
 }

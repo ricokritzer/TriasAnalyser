@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayTemperatureCorrelationCoefficientWO extends Updateable
 {
-	private DelayTemperatureCorrelation correlation = new DelayTemperatureCorrelationDB();
+	private DelayTemperatureCorrelation delayTemperatureCorrelation = new DelayTemperatureCorrelationDB();
 
 	private DelayTemperatureCorrelationData data = new DelayTemperatureCorrelationData(0.0);
 
@@ -25,15 +25,14 @@ public class DelayTemperatureCorrelationCoefficientWO extends Updateable
 		return data;
 	}
 
-	@Deprecated
-	public double getData()
-	{
-		return data.getValue();
-	}
-
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = correlation.getDelayTemperatureCorrelation();
+		data = delayTemperatureCorrelation.getDelayTemperatureCorrelation();
+	}
+
+	public void setDelayTemperatureCorrelation(DelayTemperatureCorrelation delayTemperatureCorrelation)
+	{
+		this.delayTemperatureCorrelation = delayTemperatureCorrelation;
 	}
 }

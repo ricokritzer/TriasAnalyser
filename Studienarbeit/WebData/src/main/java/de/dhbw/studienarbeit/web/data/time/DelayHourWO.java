@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayHourWO extends Updateable
 {
-	private final DelayHour delayHour = new DelayHourDB();
+	private DelayHour delayHour = new DelayHourDB();
 
 	private List<DelayHourData> data = new ArrayList<>();
 
@@ -31,5 +31,10 @@ public class DelayHourWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayHour.getDelays();
+	}
+
+	public void setDelayHour(DelayHour delayHour)
+	{
+		this.delayHour = delayHour;
 	}
 }

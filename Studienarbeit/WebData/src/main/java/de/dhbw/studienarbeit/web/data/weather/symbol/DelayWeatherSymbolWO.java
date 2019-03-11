@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeatherSymbolWO extends Updateable
 {
-	private final DelayWeatherSymbol delayWeatherSymbol = new DelayWeatherSymbolDB();
+	private DelayWeatherSymbol delayWeatherSymbol = new DelayWeatherSymbolDB();
 
 	private List<DelayWeatherSymbolData> data = new ArrayList<>();
 
@@ -31,5 +31,10 @@ public class DelayWeatherSymbolWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayWeatherSymbol.getDelays();
+	}
+
+	public void setDelayWeatherSymbol(DelayWeatherSymbol delayWeatherSymbol)
+	{
+		this.delayWeatherSymbol = delayWeatherSymbol;
 	}
 }

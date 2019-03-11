@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayHumidityCorrelationCoefficientWO extends Updateable
 {
-	private DelayHumidityCorrelation correlation = new DelayHumidityCorrelationDB();
+	private DelayHumidityCorrelation delayHumidityCorrelation = new DelayHumidityCorrelationDB();
 
 	private DelayHumidityCorrelationData data = new DelayHumidityCorrelationData(0.0);
 
@@ -28,6 +28,11 @@ public class DelayHumidityCorrelationCoefficientWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		data = correlation.getDelayHumidityCorrelation();
+		data = delayHumidityCorrelation.getDelayHumidityCorrelation();
+	}
+
+	public void setDelayHumidityCorrelation(DelayHumidityCorrelation delayHumidityCorrelation)
+	{
+		this.delayHumidityCorrelation = delayHumidityCorrelation;
 	}
 }

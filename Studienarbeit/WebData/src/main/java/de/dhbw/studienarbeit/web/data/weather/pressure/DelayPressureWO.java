@@ -32,4 +32,9 @@ public class DelayPressureWO extends Updateable
 	{
 		data = delayPressure.getDelays();
 	}
+
+	public void setDelayPressure(DelayPressure delayPressure)
+	{
+		this.delayPressure = delayPressure;
+	}
 }

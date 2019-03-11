@@ -32,4 +32,9 @@ public class DelayHumidityWO extends Updateable
 	{
 		data = delayHumidity.getDelays();
 	}
+
+	public void setDelayHumidity(DelayHumidity delayHumidity)
+	{
+		this.delayHumidity = delayHumidity;
+	}
 }

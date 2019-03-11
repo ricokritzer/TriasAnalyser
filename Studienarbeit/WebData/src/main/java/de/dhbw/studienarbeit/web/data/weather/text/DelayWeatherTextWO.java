@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeatherTextWO extends Updateable
 {
-	private final DelayWeatherText delayWeatherText = new DelayWeatherTextDB();
+	private DelayWeatherText delayWeatherText = new DelayWeatherTextDB();
 
 	private List<DelayWeatherTextData> data = new ArrayList<>();
 
@@ -31,5 +31,10 @@ public class DelayWeatherTextWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayWeatherText.getDelays();
+	}
+
+	public void setDelayWeatherText(DelayWeatherText delayWeatherText)
+	{
+		this.delayWeatherText = delayWeatherText;
 	}
 }

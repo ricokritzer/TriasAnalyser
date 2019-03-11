@@ -13,7 +13,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayStationWO extends Updateable
 {
-	private final DelayStation delayStation = new DelayStationDB();
+	private DelayStation delayStation = new DelayStationDB();
 
 	private List<DelayStationData> data = new ArrayList<>();
 
@@ -31,5 +31,10 @@ public class DelayStationWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayStation.getDelays();
+	}
+
+	public void setDelayStation(DelayStation delayStation)
+	{
+		this.delayStation = delayStation;
 	}
 }

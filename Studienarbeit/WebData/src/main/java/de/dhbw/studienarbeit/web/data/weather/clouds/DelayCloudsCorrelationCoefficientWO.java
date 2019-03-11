@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayCloudsCorrelationCoefficientWO extends Updateable
 {
-	private final DelayCloudCorrelation delayCloudCorrelation = new DelayCloudCorrelationDB();
+	private DelayCloudCorrelation delayCloudCorrelation = new DelayCloudCorrelationDB();
 
 	private DelayCloudCorrelationData data = new DelayCloudCorrelationData(0.0);
 
@@ -35,5 +35,10 @@ public class DelayCloudsCorrelationCoefficientWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		data = delayCloudCorrelation.getDelayCloudCorrelation();
+	}
+
+	public void setDelayCloudCorrelation(DelayCloudCorrelation delayCloudCorrelation)
+	{
+		this.delayCloudCorrelation = delayCloudCorrelation;
 	}
 }
