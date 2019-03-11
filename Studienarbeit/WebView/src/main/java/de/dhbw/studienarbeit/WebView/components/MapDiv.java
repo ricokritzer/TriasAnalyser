@@ -5,7 +5,7 @@ import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
 
-import de.dhbw.studienarbeit.WebView.util.MapGenerator;
+import de.dhbw.studienarbeit.WebView.map.MapGenerator;
 
 @StyleSheet("https://unpkg.com/leaflet@1.4.0/dist/leaflet.css")
 @JavaScript("https://unpkg.com/leaflet@1.4.0/dist/leaflet.js")

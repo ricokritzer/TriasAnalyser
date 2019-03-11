@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.WebView.util;
+package de.dhbw.studienarbeit.WebView.map;
 
 import java.util.List;
 
