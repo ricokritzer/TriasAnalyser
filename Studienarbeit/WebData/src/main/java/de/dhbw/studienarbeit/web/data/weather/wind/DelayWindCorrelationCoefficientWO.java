@@ -34,5 +34,6 @@ public class DelayWindCorrelationCoefficientWO extends Updateable
 	public void setDelayWindCorrelation(DelayWindCorrelation delayWindCorrelation)
 	{
 		this.delayWindCorrelation = delayWindCorrelation;
+		update();
 	}
 }

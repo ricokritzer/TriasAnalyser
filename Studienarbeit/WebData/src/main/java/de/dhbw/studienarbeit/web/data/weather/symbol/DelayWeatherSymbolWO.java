@@ -36,5 +36,6 @@ public class DelayWeatherSymbolWO extends Updateable
 	public void setDelayWeatherSymbol(DelayWeatherSymbol delayWeatherSymbol)
 	{
 		this.delayWeatherSymbol = delayWeatherSymbol;
+		update();
 	}
 }

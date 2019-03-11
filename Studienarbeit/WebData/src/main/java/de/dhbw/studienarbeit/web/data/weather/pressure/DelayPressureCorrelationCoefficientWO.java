@@ -34,5 +34,6 @@ public class DelayPressureCorrelationCoefficientWO extends Updateable
 	public void setDelayPressureCorrelation(DelayPressureCorrelation delayPressureCorrelation)
 	{
 		this.delayPressureCorrelation = delayPressureCorrelation;
+		update();
 	}
 }

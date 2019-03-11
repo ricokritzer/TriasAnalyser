@@ -36,5 +36,6 @@ public class DelayCloudsWO extends Updateable
 	public void setDelayClouds(DelayClouds delayClouds)
 	{
 		this.delayClouds = delayClouds;
+		update();
 	}
 }

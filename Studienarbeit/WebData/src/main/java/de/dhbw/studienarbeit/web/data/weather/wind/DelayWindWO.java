@@ -36,5 +36,6 @@ public class DelayWindWO extends Updateable
 	public void setDelayWind(DelayWind delayWind)
 	{
 		this.delayWind = delayWind;
+		update();
 	}
 }

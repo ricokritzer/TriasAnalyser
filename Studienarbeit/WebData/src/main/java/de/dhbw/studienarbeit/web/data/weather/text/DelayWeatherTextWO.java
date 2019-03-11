@@ -36,5 +36,6 @@ public class DelayWeatherTextWO extends Updateable
 	public void setDelayWeatherText(DelayWeatherText delayWeatherText)
 	{
 		this.delayWeatherText = delayWeatherText;
+		update();
 	}
 }

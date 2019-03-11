@@ -25,12 +25,6 @@ public class DelayCloudsCorrelationCoefficientWO extends Updateable
 		return data;
 	}
 
-	@Deprecated
-	public double getData()
-	{
-		return data.getValue();
-	}
-
 	@Override
 	protected void updateData() throws IOException
 	{
@@ -40,5 +34,6 @@ public class DelayCloudsCorrelationCoefficientWO extends Updateable
 	public void setDelayCloudCorrelation(DelayCloudCorrelation delayCloudCorrelation)
 	{
 		this.delayCloudCorrelation = delayCloudCorrelation;
+		update();
 	}
 }

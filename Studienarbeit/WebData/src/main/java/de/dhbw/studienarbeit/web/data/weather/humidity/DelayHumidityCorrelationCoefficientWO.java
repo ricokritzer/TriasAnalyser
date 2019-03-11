@@ -34,5 +34,6 @@ public class DelayHumidityCorrelationCoefficientWO extends Updateable
 	public void setDelayHumidityCorrelation(DelayHumidityCorrelation delayHumidityCorrelation)
 	{
 		this.delayHumidityCorrelation = delayHumidityCorrelation;
+		update();
 	}
 }

@@ -36,5 +36,6 @@ public class DelayTemperatureWO extends Updateable
 	public void setDelayTemperature(DelayTemperature delayTemperature)
 	{
 		this.delayTemperature = delayTemperature;
+		update();
 	}
 }

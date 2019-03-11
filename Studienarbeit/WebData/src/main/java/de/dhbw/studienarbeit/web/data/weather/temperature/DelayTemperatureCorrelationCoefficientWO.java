@@ -34,5 +34,6 @@ public class DelayTemperatureCorrelationCoefficientWO extends Updateable
 	public void setDelayTemperatureCorrelation(DelayTemperatureCorrelation delayTemperatureCorrelation)
 	{
 		this.delayTemperatureCorrelation = delayTemperatureCorrelation;
+		update();
 	}
 }

@@ -36,5 +36,6 @@ public class DelayPressureWO extends Updateable
 	public void setDelayPressure(DelayPressure delayPressure)
 	{
 		this.delayPressure = delayPressure;
+		update();
 	}
 }
