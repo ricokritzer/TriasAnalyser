@@ -4,6 +4,9 @@ import java.util.Objects;
 
 public class Delay implements Comparable<Delay>
 {
+	private final static int SECONDS_PER_MINUTE = 60;
+	private final static int SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
+
 	private final double value;
 
 	public Delay(double value)
@@ -39,33 +42,28 @@ public class Delay implements Comparable<Delay>
 	{
 		return Objects.hash(value);
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		double delay = value;
-		int hour = 0;
-		int min = 0;
-		
-		while (delay >= 3600)
+
+		final int hour = (int) delay / SECONDS_PER_HOUR;
+		delay -= hour * SECONDS_PER_HOUR;
+
+		final int min = (int) delay / SECONDS_PER_MINUTE;
+		delay -= min * SECONDS_PER_MINUTE;
+
+		if (hour > 0)
 		{
-			hour++;
-			delay -= 3600;
+			return hour + "h " + min + "m " + Math.round(delay) + "s";
 		}
-		while (delay >= 60)
+
+		if (min > 0)
 		{
-			min++;
-			delay -= 60;
-		}
-		
-		if (hour == 0)
-		{
-			if (min == 0)
-			{
-				return Math.round(delay * 100) / 100d + "s";
-			}
 			return min + "m " + Math.round(delay) + "s";
 		}
-		return hour + "h " + min + "m " + Math.round(delay) + "s";
+
+		return Math.round(delay * 100) / 100d + "s";
 	}
 }

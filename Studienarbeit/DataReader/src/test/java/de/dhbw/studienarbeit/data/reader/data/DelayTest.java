@@ -1,33 +1,39 @@
 package de.dhbw.studienarbeit.data.reader.data;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
 public class DelayTest
 {
 	@Test
-	void sekundenWerdenRichtigKonvertiert()
+	public void sekundenWerdenRichtigKonvertiert()
 	{
 		assertThat(new Delay(11.111).toString(), is("11.11s"));
 	}
 
 	@Test
-	void sekundenWerdenRichtigAufgerundet()
+	public void sekundenWerdenRichtigAufgerundet()
 	{
 		assertThat(new Delay(11.115).toString(), is("11.12s"));
 	}
 
 	@Test
-	void MinutenWerdenRichtigKonvertiert()
+	public void MinutenWerdenRichtigKonvertiert()
 	{
 		assertThat(new Delay(65.123).toString(), is("1m 5s"));
 	}
 
 	@Test
-	void StundenWerdenRichtigKonvertiert()
+	public void StundenWerdenRichtigKonvertiert()
 	{
 		assertThat(new Delay(9000).toString(), is("2h 30m 0s"));
+	}
+
+	@Test
+	public void OneMinute()
+	{
+		assertThat(new Delay(60).toString(), is("1m 0s"));
 	}
 }
