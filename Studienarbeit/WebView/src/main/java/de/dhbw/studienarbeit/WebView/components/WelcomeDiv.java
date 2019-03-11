@@ -1,10 +1,9 @@
 package de.dhbw.studienarbeit.WebView.components;
 
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 
-public class WelcomeDiv extends Div
+public class WelcomeDiv extends VerticalLayout
 {
 	private static final long serialVersionUID = 2L;
 
@@ -12,13 +11,13 @@ public class WelcomeDiv extends Div
 	{
 		super();
 
-		VerticalLayout layout = new VerticalLayout();
+		setAlignItems(Alignment.CENTER);
 
 		final TextArea txtAbout = new TextArea();
 		txtAbout.setLabel("Unsere Studienarbeit");
 		txtAbout.setReadOnly(true);
 		txtAbout.setValue("Patrick Siewert" + System.lineSeparator() + "Rico Kritzer");
-		layout.add(txtAbout);
+		add(txtAbout);
 
 		final TextArea txtImpress = new TextArea();
 		txtImpress.setLabel("Impressum");
@@ -29,9 +28,6 @@ public class WelcomeDiv extends Div
 				.append("76133 Karlsruhe").append(System.lineSeparator()) //
 				.append("Deutschland") //
 				.toString());
-		layout.add(txtImpress);
-
-		add(layout);
-		setVisible(false);
+		add(txtImpress);
 	}
 }
