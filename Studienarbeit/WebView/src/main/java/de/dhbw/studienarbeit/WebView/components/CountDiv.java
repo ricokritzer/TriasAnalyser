@@ -46,9 +46,7 @@ public class CountDiv extends Div
 		layout.add(grid);
 
 		add(layout);
-
-		setVisible(false);
-
+		
 		final Timer timer = new Timer();
 		timer.schedule(new MyTimerTask(this::update), new Date(), 1000);
 	}

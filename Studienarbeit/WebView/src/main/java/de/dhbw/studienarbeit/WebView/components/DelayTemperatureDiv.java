@@ -45,7 +45,5 @@ public class DelayTemperatureDiv extends Div
 
 		layout.add(grid);
 		add(layout);
-
-		setVisible(false);
 	}
 }

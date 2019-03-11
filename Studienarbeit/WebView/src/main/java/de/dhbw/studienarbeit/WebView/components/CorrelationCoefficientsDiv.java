@@ -27,6 +27,5 @@ public class CorrelationCoefficientsDiv extends Div
 		
 		layout.add(txt);
 		add(layout);
-		setVisible(false);
 	}
 }

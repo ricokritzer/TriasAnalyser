@@ -45,7 +45,5 @@ public class DelayHumidityDiv extends Div
 
 		layout.add(grid);
 		add(layout);
-
-		setVisible(false);
 	}
 }

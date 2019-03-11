@@ -49,8 +49,6 @@ public class DelayStationDiv extends Div
 
 		layout.add(grid);
 		add(layout);
-
-		setVisible(false);
 	}
 
 	private String convertToRating(int count)

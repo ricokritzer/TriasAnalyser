@@ -32,6 +32,5 @@ public class AboutDiv extends Div
 		layout.add(txtImpress);
 
 		add(layout);
-		setVisible(false);
 	}
 }

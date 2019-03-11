@@ -5,7 +5,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 
 public class WelcomeDiv extends VerticalLayout
 {
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 1L;
 
 	public WelcomeDiv()
 	{

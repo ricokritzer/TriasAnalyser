@@ -47,7 +47,5 @@ public class DelayLineDiv extends Div
 
 		layout.add(grid);
 		add(layout);
-
-		setVisible(false);
 	}
 }

@@ -45,7 +45,5 @@ public class DelayHourDiv extends Div
 
 		layout.add(grid);
 		add(layout);
-
-		setVisible(false);
 	}
 }
