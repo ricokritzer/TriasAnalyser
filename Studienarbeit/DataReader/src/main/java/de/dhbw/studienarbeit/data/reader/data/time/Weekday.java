@@ -4,15 +4,12 @@ import java.util.Arrays;
 
 public enum Weekday
 {
-	
-	// Bitte in der Reihenfolge lassen, weil die compareTo-Methode die Reihenfolge verwendet
-	
 	MONDAY("Montag"), //
 	TUESDAY("Dienstag"), //
 	WEDNESDAY("Mittwoch"), //
 	THURSDAY("Donnerstag"), //
 	FRIDAY("Freitag"), //
-	SATURDAY("Samstag"), // ,
+	SATURDAY("Samstag"), //
 	SUNDAY("Sonntag");
 
 	private final String name;
