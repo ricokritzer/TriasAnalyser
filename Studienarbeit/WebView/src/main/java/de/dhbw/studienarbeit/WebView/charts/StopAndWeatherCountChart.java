@@ -5,36 +5,25 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.syndybat.chartjs.ChartJs;
-import com.vaadin.flow.component.html.Div;
-
 import be.ceau.chart.LineChart;
 import be.ceau.chart.color.Color;
 import be.ceau.chart.data.LineData;
 import be.ceau.chart.dataset.LineDataset;
 import be.ceau.chart.options.LineOptions;
-import be.ceau.chart.options.Title;
 import de.dhbw.studienarbeit.web.data.Data;
 
-public class StopAndWeatherCountChart extends Div
+public class StopAndWeatherCountChart extends AbstractChart
 {
 	private static final long serialVersionUID = 1L;
 
-	public StopAndWeatherCountChart()
-	{
-		ChartJs chart = new ChartJs(getChart());
-		add(chart);
-		setSizeFull();
-	}
-
-	private String getChart()
+	protected String getChart()
 	{
 		LineDataset datasetStop = new LineDataset().setData(getStopData()).setLabel("Stops").setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
 		LineDataset datasetWeather = new LineDataset().setData(getWeatherData()).setLabel("Wettereinträge").setBorderColor(Color.RED).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
 		
 		LineData data = new LineData().addDataset(datasetStop).addDataset(datasetWeather).addLabels(getLabels());
 		
-		LineOptions options = new LineOptions().setResponsive(true).setTitle(new Title().setText("Gespeicherte Stops"));
+		LineOptions options = new LineOptions().setResponsive(true);
 		
 		return new LineChart(data, options).toJson();
 	}

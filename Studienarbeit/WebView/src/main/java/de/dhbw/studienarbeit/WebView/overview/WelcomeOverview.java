@@ -6,6 +6,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.Route;
 
+import de.dhbw.studienarbeit.WebView.charts.LineCountChart;
+import de.dhbw.studienarbeit.WebView.charts.StationCountChart;
 import de.dhbw.studienarbeit.WebView.charts.StopAndWeatherCountChart;
 import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 
@@ -40,8 +42,12 @@ public class WelcomeOverview extends Overview
 				.toString());
 		txtImpress.setSizeFull();
 		textAreas.add(txtImpress);
-
-		VerticalLayout charts = new VerticalLayout(new StopAndWeatherCountChart());
+		
+		HorizontalLayout smallerCharts = new HorizontalLayout(new StationCountChart(), new LineCountChart());
+		smallerCharts.setAlignItems(Alignment.CENTER);
+		smallerCharts.setHeight("50%");
+		
+		VerticalLayout charts = new VerticalLayout(new StopAndWeatherCountChart(), smallerCharts);
 		charts.setAlignItems(Alignment.STRETCH);
 		charts.setWidth("75%");
 
