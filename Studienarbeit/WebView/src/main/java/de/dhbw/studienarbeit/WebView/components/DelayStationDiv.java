@@ -43,7 +43,7 @@ public class DelayStationDiv extends Div
 		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage")
 				.setComparator((db1, db2) -> Integer.compare(db1.getCount(), db2.getCount())).setSortable(true);
 
-		grid.setSizeFull();
+		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
 		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysStationWO().getData()));
 

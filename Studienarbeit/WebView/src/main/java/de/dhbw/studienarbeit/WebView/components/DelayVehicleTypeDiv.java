@@ -38,7 +38,7 @@ public class DelayVehicleTypeDiv extends Div
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
 				.setComparator((db1, db2) -> db1.getMaximum().compareTo(db2.getMaximum())).setSortable(true);
 
-		grid.setSizeFull();
+		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
 		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysVehicleTypeWO().getData()));
 

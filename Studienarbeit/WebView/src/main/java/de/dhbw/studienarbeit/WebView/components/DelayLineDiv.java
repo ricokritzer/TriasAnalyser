@@ -42,7 +42,7 @@ public class DelayLineDiv extends Div
 
 		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayLineWO().getData()));
 
-		grid.setSizeFull();
+		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
 
 		layout.add(grid);
