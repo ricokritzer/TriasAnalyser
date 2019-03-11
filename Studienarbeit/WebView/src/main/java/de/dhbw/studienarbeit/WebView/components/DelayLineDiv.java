@@ -46,6 +46,7 @@ public class DelayLineDiv extends Div
 		grid.setSelectionMode(SelectionMode.NONE);
 
 		layout.add(grid);
+		
 		add(layout);
 	}
 }

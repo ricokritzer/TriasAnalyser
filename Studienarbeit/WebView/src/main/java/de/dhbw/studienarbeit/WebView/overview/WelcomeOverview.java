@@ -9,7 +9,6 @@ import com.vaadin.flow.router.Route;
 import de.dhbw.studienarbeit.WebView.charts.LineCountChart;
 import de.dhbw.studienarbeit.WebView.charts.StationCountChart;
 import de.dhbw.studienarbeit.WebView.charts.StopAndWeatherCountChart;
-import de.dhbw.studienarbeit.WebView.components.WelcomeDiv;
 
 @Route("")
 public class WelcomeOverview extends Overview
@@ -20,7 +19,7 @@ public class WelcomeOverview extends Overview
 	{
 		super();
 
-		VerticalLayout textAreas = new VerticalLayout(new WelcomeDiv());
+		VerticalLayout textAreas = new VerticalLayout();
 		textAreas.setAlignItems(Alignment.CENTER);
 		textAreas.setWidth("25%");
 		

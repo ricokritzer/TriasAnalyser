@@ -31,7 +31,7 @@ public class DelayCloudsDiv extends Div
 		field.setReadOnly(true);
 		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelayCloudsWO().getLastUpdated()));
 		layout.add(field);
-
+		
 		grid.addColumn(db -> db.getClouds()).setHeader("Bewölkung")
 				.setComparator((db1, db2) -> Double.compare(db1.getClouds(), db2.getClouds())).setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
