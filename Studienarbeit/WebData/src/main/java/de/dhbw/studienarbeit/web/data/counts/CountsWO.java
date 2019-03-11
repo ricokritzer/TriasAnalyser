@@ -71,25 +71,30 @@ public class CountsWO extends Updateable
 	public void setCountStations(CountStations countStations)
 	{
 		this.countStations = countStations;
+		update();
 	}
 
 	public void setCountLines(CountLines countLines)
 	{
 		this.countLines = countLines;
+		update();
 	}
 
 	public void setCountStops(CountStops countStops)
 	{
 		this.countStops = countStops;
+		update();
 	}
 
 	public void setCountWeather(CountWeather countWeather)
 	{
 		this.countWeather = countWeather;
+		update();
 	}
 
 	public void setCountOperators(CountOperators countOperators)
 	{
 		this.countOperators = countOperators;
+		update();
 	}
 }

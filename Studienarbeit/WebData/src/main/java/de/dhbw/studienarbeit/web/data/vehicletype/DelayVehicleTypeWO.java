@@ -36,5 +36,6 @@ public class DelayVehicleTypeWO extends Updateable
 	public void setDelayVehicleType(DelayVehicleType delayVehicleType)
 	{
 		this.delayVehicleType = delayVehicleType;
+		update();
 	}
 }

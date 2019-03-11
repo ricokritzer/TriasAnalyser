@@ -36,5 +36,6 @@ public class DelayStationWO extends Updateable
 	public void setDelayStation(DelayStation delayStation)
 	{
 		this.delayStation = delayStation;
+		update();
 	}
 }

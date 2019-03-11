@@ -36,5 +36,6 @@ public class DelayHourWO extends Updateable
 	public void setDelayHour(DelayHour delayHour)
 	{
 		this.delayHour = delayHour;
+		update();
 	}
 }

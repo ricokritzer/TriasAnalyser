@@ -36,5 +36,6 @@ public class DelayLineWO extends Updateable
 	public void setDelayLine(DelayLine delayLine)
 	{
 		this.delayLine = delayLine;
+		update();
 	}
 }

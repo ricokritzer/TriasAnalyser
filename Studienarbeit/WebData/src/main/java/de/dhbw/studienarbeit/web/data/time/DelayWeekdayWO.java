@@ -36,5 +36,6 @@ public class DelayWeekdayWO extends Updateable
 	public void setDelayWeekday(DelayWeekday delayWeekday)
 	{
 		this.delayWeekday = delayWeekday;
+		update();
 	}
 }
