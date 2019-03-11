@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 public enum Hour
 {
+	
+	// Bitte in der Reihenfolge lassen, weil die compareTo-Methode die Reihenfolge verwendet
+	
 	BETWEEN_00_AND_01("00:00 - 00:59 Uhr"), //
 	BETWEEN_01_AND_02("01:00 - 01:59 Uhr"), //
 	BETWEEN_02_AND_03("02:00 - 02:59 Uhr"), //
