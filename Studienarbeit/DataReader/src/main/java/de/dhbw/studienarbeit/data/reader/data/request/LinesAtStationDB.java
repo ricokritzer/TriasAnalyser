@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.line.LineData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
@@ -17,20 +18,9 @@ import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class LinesAtStationDB implements LineData
+public class LinesAtStationDB implements LinesAtStation
 {
 	private static final Logger LOGGER = Logger.getLogger(LinesAtStationDB.class.getName());
-
-	private final LineID lineID;
-	private final LineName lineName;
-	private final LineDestination lineDestination;
-
-	public LinesAtStationDB(LineID lineID, LineName lineName, LineDestination lineDestination)
-	{
-		this.lineID = lineID;
-		this.lineName = lineName;
-		this.lineDestination = lineDestination;
-	}
 
 	private static final Optional<LineData> getLines(ResultSet result)
 	{
@@ -40,7 +30,7 @@ public class LinesAtStationDB implements LineData
 			final LineName name = new LineName(result.getString("name"));
 			final LineDestination destination = new LineDestination(result.getString("destination"));
 
-			return Optional.of(new LinesAtStationDB(lineID, name, destination));
+			return Optional.of(new Line(lineID, name, destination));
 		}
 		catch (SQLException e)
 		{
@@ -49,7 +39,8 @@ public class LinesAtStationDB implements LineData
 		}
 	}
 
-	public static final List<LineData> getLinesAt(StationID stationID) throws IOException
+	@Override
+	public final List<LineData> getLinesAt(StationID stationID) throws IOException
 	{
 		final String sql = "SELECT DISTINCT name, destination, Stop.lineID "
 				+ "FROM Stop, Line WHERE Stop.lineID = Line.lineID AND Stop.stationID = ?;";
@@ -66,35 +57,5 @@ public class LinesAtStationDB implements LineData
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
-	}
-
-	@Override
-	public LineID getID()
-	{
-		return lineID;
-	}
-
-	@Override
-	public LineName getName()
-	{
-		return lineName;
-	}
-
-	@Override
-	public LineDestination getDestination()
-	{
-		return lineDestination;
-	}
-
-	@Override
-	public String getLineName()
-	{
-		return lineName.getValue();
-	}
-
-	@Override
-	public String getLineDestination()
-	{
-		return lineDestination.getValue();
 	}
 }
