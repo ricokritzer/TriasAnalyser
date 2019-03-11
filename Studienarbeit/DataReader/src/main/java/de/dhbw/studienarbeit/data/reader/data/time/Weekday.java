@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 public enum Weekday
 {
+	
+	// Bitte in der Reihenfolge lassen, weil die compareTo-Methode die Reihenfolge verwendet
+	
 	MONDAY("Montag"), //
 	TUESDAY("Dienstag"), //
 	WEDNESDAY("Mittwoch"), //
