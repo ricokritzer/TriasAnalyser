@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class StationNeighbourDB
+public class StationNeighbourDB implements StationNeighbour
 {
 	private static final Logger LOGGER = Logger.getLogger(StationNeighbourDB.class.getName());
 
@@ -43,7 +43,7 @@ public class StationNeighbourDB
 		}
 	}
 
-	public static final List<StationNeighbourData> getStationNeighbours() throws IOException
+	public final List<StationNeighbourData> getStationNeighbours() throws IOException
 	{
 		final String sql = "SELECT DISTINCT "
 				+ "stationID1, station1.lat AS lat1, station1.lon AS lon1, station1.name AS name1, station1.operator AS operator1, "

@@ -38,8 +38,7 @@ public class DelayStationNeighbourDB implements DelayStationNeighbour
 		return list;
 	}
 
-	public static Optional<DelayStationNeighbourData> convertToStationNeighbour(
-			final StationNeighbourData stationNeighbour)
+	public Optional<DelayStationNeighbourData> convertToStationNeighbour(final StationNeighbourData stationNeighbour)
 	{
 		double avg1 = 0.0;
 		double avg2 = 0.0;
