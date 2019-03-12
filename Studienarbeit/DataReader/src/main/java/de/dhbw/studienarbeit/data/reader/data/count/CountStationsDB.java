@@ -11,26 +11,6 @@ public class CountStationsDB implements CountStations
 	private static final Logger LOGGER = Logger.getLogger(CountStationsDB.class.getName());
 
 	@Override
-	public CountData countStations()
-	{
-		return count();
-	}
-
-	@Override
-	public CountData countStationsWithRealtimeData()
-	{
-		try
-		{
-			return new DatabaseReader().count("SELECT count(*) AS total FROM Station WHERE stopSaved = true;");
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to count stations with realtime data.", e);
-			return CountData.UNABLE_TO_COUNT;
-		}
-	}
-
-	@Override
 	public CountData countObservedStations()
 	{
 		try

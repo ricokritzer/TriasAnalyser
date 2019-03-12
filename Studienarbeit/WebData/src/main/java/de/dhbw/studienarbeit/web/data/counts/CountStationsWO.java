@@ -26,6 +26,6 @@ public class CountStationsWO extends CountListWO
 	@Override
 	protected CountData count() throws IOException
 	{
-		return countStations.countStations();
+		return countStations.count();
 	}
 }
