@@ -10,7 +10,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public abstract class CountListWO extends Updateable
 {
-	private static final int MAX_COUNT_ITEMS = 10;
+	protected static final int MAX_COUNT_ITEMS = 10;
 
 	protected List<CountWO> values = new ArrayList<>();
 
