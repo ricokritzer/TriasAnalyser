@@ -4,6 +4,7 @@ import java.util.Date;
 
 import de.dhbw.studienarbeit.data.reader.data.count.Count;
 
+@Deprecated
 public class Counts
 {
 	private final Count countStations;

@@ -2,6 +2,13 @@ package de.dhbw.studienarbeit.web.data;
 
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.web.data.counts.CountLinesWO;
+import de.dhbw.studienarbeit.web.data.counts.CountObservedStationsWO;
+import de.dhbw.studienarbeit.web.data.counts.CountOperatorsWO;
+import de.dhbw.studienarbeit.web.data.counts.CountStationsWO;
+import de.dhbw.studienarbeit.web.data.counts.CountStationsWithRealtimeDataWO;
+import de.dhbw.studienarbeit.web.data.counts.CountStopsWO;
+import de.dhbw.studienarbeit.web.data.counts.CountWeathersWO;
 import de.dhbw.studienarbeit.web.data.counts.CountsWO;
 import de.dhbw.studienarbeit.web.data.line.DelayLineWO;
 import de.dhbw.studienarbeit.web.data.station.DelayStationNeighbourWO;
@@ -26,6 +33,14 @@ import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindWO;
 public class Data
 {
 	private final CountsWO countsWO;
+
+	private final CountLinesWO countLinesWO;
+	private final CountObservedStationsWO countObservedStationsWO;
+	private final CountOperatorsWO countOperatorsWO;
+	private final CountStationsWithRealtimeDataWO countStationsWithRealtimeDataWO;
+	private final CountStationsWO countStationsWO;
+	private final CountStopsWO countStopsWO;
+	private final CountWeathersWO countWeathersWO;
 
 	private final DelayStationWO delaysStationWO;
 	private final DelayLineWO delayLineWO;
@@ -56,6 +71,14 @@ public class Data
 		final Optional<DataUpdater> updater = Optional.of(DataUpdater.getInstance());
 
 		countsWO = new CountsWO(updater);
+
+		countLinesWO = new CountLinesWO(updater);
+		countObservedStationsWO = new CountObservedStationsWO(updater);
+		countOperatorsWO = new CountOperatorsWO(updater);
+		countStationsWithRealtimeDataWO = new CountStationsWithRealtimeDataWO(updater);
+		countStationsWO = new CountStationsWO(updater);
+		countStopsWO = new CountStopsWO(updater);
+		countWeathersWO = new CountWeathersWO(updater);
 
 		delaysStationWO = new DelayStationWO(updater);
 		delayLineWO = new DelayLineWO(updater);
@@ -89,6 +112,7 @@ public class Data
 		return INSTANCE;
 	}
 
+	@Deprecated
 	public static final CountsWO getCountsWO()
 	{
 		return getInstance().countsWO;
@@ -182,5 +206,45 @@ public class Data
 	public static final DelayWeatherSymbolWO getDelayWeatherSymbolWO()
 	{
 		return getInstance().delayWeatherSymbolWO;
+	}
+
+	public static CountLinesWO getCountLinesWO()
+	{
+		return getInstance().countLinesWO;
+	}
+
+	public static CountObservedStationsWO getCountObservedStationsWO()
+	{
+		return getInstance().countObservedStationsWO;
+	}
+
+	public static CountOperatorsWO getCountOperatorsWO()
+	{
+		return getInstance().countOperatorsWO;
+	}
+
+	public static CountStationsWithRealtimeDataWO getCountStationsWithRealtimeDataWO()
+	{
+		return getInstance().countStationsWithRealtimeDataWO;
+	}
+
+	public static CountStationsWO getCountStationsWO()
+	{
+		return getInstance().countStationsWO;
+	}
+
+	public static CountStopsWO getCountStopsWO()
+	{
+		return getInstance().countStopsWO;
+	}
+
+	public static CountWeathersWO getCountWeathersWO()
+	{
+		return getInstance().countWeathersWO;
+	}
+
+	public static DelayVehicleTypeWO getDelayVehicleTypeWO()
+	{
+		return getInstance().delayVehicleTypeWO;
 	}
 }

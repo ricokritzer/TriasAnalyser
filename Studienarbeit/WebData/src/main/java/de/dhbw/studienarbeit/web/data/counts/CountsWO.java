@@ -20,6 +20,7 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountWeatherDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
+@Deprecated
 public class CountsWO extends Updateable
 {
 	private static final int MAX_COUNT_ITEMS = 10;
