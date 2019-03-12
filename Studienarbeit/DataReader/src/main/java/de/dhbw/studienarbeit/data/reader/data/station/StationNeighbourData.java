@@ -2,21 +2,21 @@ package de.dhbw.studienarbeit.data.reader.data.station;
 
 public class StationNeighbourData
 {
-	private final StationNeighbourPart stationFrom;
-	private final StationNeighbourPart stationTo;
+	private final StationData stationFrom;
+	private final StationData stationTo;
 
-	public StationNeighbourData(StationNeighbourPart stationFrom, StationNeighbourPart stationTo)
+	public StationNeighbourData(StationData stationFrom, StationData stationTo)
 	{
 		this.stationFrom = stationFrom;
 		this.stationTo = stationTo;
 	}
 
-	public StationNeighbourPart getStationFrom()
+	public StationData getStationFrom()
 	{
 		return stationFrom;
 	}
 
-	public StationNeighbourPart getStationTo()
+	public StationData getStationTo()
 	{
 		return stationTo;
 	}

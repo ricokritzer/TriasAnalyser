@@ -24,15 +24,13 @@ public class StationNeighbourDB implements StationNeighbour
 			final StationName stationName1 = new StationName(result.getString("name1"));
 			final Position position1 = new Position(result.getDouble("lat1"), result.getDouble("lon1"));
 			final OperatorName operator1 = new OperatorName("operator1");
-			final StationNeighbourPart stationFrom = new StationNeighbourPart(station1, stationName1, position1,
-					operator1);
+			final StationData stationFrom = new StationData(station1, stationName1, position1, operator1);
 
 			final StationID station2 = new StationID(result.getString("stationID2"));
 			final StationName stationName2 = new StationName(result.getString("name2"));
 			final Position position2 = new Position(result.getDouble("lat2"), result.getDouble("lon2"));
 			final OperatorName operator2 = new OperatorName("operator2");
-			final StationNeighbourPart stationTo = new StationNeighbourPart(station2, stationName2, position2,
-					operator2);
+			final StationData stationTo = new StationData(station2, stationName2, position2, operator2);
 
 			return Optional.of(new StationNeighbourData(stationFrom, stationTo));
 		}

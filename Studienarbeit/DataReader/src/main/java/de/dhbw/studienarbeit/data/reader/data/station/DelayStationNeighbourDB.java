@@ -90,8 +90,8 @@ public class DelayStationNeighbourDB implements DelayStationNeighbour
 			return Optional.empty();
 		}
 
-		final StationNeighbourPart from = stationNeighbour.getStationFrom();
-		final StationNeighbourPart to = stationNeighbour.getStationTo();
+		final StationData from = stationNeighbour.getStationFrom();
+		final StationData to = stationNeighbour.getStationTo();
 
 		return Optional.of(new DelayStationNeighbourData(from.getName(), from.getPosition(), avg1, to.getName(),
 				to.getPosition(), avg2));
