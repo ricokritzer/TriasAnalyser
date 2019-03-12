@@ -11,20 +11,6 @@ public class CountStationsDB implements CountStations
 	private static final Logger LOGGER = Logger.getLogger(CountStationsDB.class.getName());
 
 	@Override
-	public CountData countObservedStations()
-	{
-		try
-		{
-			return new DatabaseReader().count("SELECT count(*) AS total FROM Station WHERE observe = true;");
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to count observed stations.", e);
-			return CountData.UNABLE_TO_COUNT;
-		}
-	}
-
-	@Override
 	public CountData count()
 	{
 		try
