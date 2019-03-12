@@ -49,7 +49,7 @@ public class CountsWO extends Updateable
 		final CountData stations = this.countStations.countStations();
 		final CountData observedStations = this.countStations.countObservedStations();
 		final CountData stationsWithRealtimeData = this.countStations.countStationsWithRealtimeData();
-		final CountData lines = this.countLines.countLines();
+		final CountData lines = this.countLines.count();
 		final CountData stops = this.countStops.countStops();
 		final CountData weather = this.countWeather.countWeather();
 		final CountData operators = this.countOperators.countObservedOperators();

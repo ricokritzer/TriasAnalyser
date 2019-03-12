@@ -11,12 +11,6 @@ public class CountLinesDB implements CountLines
 	private static final Logger LOGGER = Logger.getLogger(CountLinesDB.class.getName());
 
 	@Override
-	public CountData countLines()
-	{
-		return count();
-	}
-
-	@Override
 	public CountData count()
 	{
 		try

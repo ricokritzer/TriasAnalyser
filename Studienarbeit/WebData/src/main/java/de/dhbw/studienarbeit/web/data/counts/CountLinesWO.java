@@ -26,6 +26,6 @@ public class CountLinesWO extends CountListWO
 	@Override
 	protected CountData count() throws IOException
 	{
-		return countLines.countLines();
+		return countLines.count();
 	}
 }
