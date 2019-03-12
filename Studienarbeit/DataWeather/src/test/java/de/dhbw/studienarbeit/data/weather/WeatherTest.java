@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
 
@@ -42,7 +42,7 @@ public class WeatherTest
 		final Weather coordinates = new Weather(49.01, 8.4);
 		try
 		{
-			final ApiKey apiWeather = new ApiKey("9412f9cf01e1de32009e18c8276ea082", 2,
+			final ApiKeyData apiWeather = new ApiKeyData("9412f9cf01e1de32009e18c8276ea082", 2,
 					"https://api.openweathermap.org/data/2.5/weather");
 			coordinates.updateData(apiWeather);
 		}

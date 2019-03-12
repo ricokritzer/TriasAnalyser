@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
@@ -81,7 +81,7 @@ public class Station implements Manageable
 		return calculateNextUpdate();
 	}
 
-	private void updateStops(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
+	private void updateStops(ApiKeyData apiKey) throws UpdateException, ServerNotAvailableException
 	{
 		previousStops = currentStops;
 		TriasXMLRequest request = new TriasXMLRequest(apiKey, this);
@@ -208,7 +208,7 @@ public class Station implements Manageable
 	}
 
 	@Override
-	public void updateAndSaveData(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
+	public void updateAndSaveData(ApiKeyData apiKey) throws UpdateException, ServerNotAvailableException
 	{
 		updateStops(apiKey);
 		saveStops();

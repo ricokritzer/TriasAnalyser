@@ -1,12 +1,12 @@
 package de.dhbw.studienarbeit.data.helper.datamanagement;
 
-public class ApiKey
+public class ApiKeyData
 {
 	private final String key;
 	private final int requestsPerMinute;
 	private final String url;
 
-	public ApiKey(String key, int requestsPerMinute, String url)
+	public ApiKeyData(String key, int requestsPerMinute, String url)
 	{
 		this.key = key;
 		this.requestsPerMinute = requestsPerMinute;

@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.helper.datamanagement.DataManager;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
@@ -60,8 +60,8 @@ public class TestApp
 		try
 		{
 			final OperatorID operator = new OperatorID("kvv");
-			final ApiKey keyFromDB = ApiKeyDB.getApiKeys(operator).get(0);
-			final ApiKey testApiKey = new ApiKey(keyFromDB.getKey(), number, keyFromDB.getUrl());
+			final ApiKeyData keyFromDB = ApiKeyDB.getApiKeys(operator).get(0);
+			final ApiKeyData testApiKey = new ApiKeyData(keyFromDB.getKey(), number, keyFromDB.getUrl());
 			manager = new DataManager("no name", new ArrayList<>());
 			manager.addApiKey(testApiKey);
 

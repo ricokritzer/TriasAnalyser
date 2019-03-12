@@ -24,20 +24,20 @@ public class DataManager
 	private boolean serverAvailable = true;
 	private final Object serverAvailableSynchronObject = new Object();
 
-	public DataManager(String name, final List<ApiKey> apiKeys)
+	public DataManager(String name, final List<ApiKeyData> apiKeys)
 	{
 		this.name = name;
 		addApiKey(apiKeys);
 	}
 
-	public void addApiKey(final ApiKey apiKey)
+	public void addApiKey(final ApiKeyData apiKey)
 	{
 		final Timer timer = new Timer();
 		timer.schedule(schedulerTimerTask(apiKey), new Date(), apiKey.delayBetweenRequests());
 		requestTimers.add(timer);
 	}
 
-	public void addApiKey(final List<ApiKey> apiKeys)
+	public void addApiKey(final List<ApiKeyData> apiKeys)
 	{
 		apiKeys.forEach(this::addApiKey);
 	}
@@ -52,7 +52,7 @@ public class DataManager
 		models.forEach(this::add);
 	}
 
-	private TimerTask schedulerTimerTask(final ApiKey apiKey)
+	private TimerTask schedulerTimerTask(final ApiKeyData apiKey)
 	{
 		return new MyTimerTask(
 				() -> new Thread(() -> firstWaitingDataModel().ifPresent(d -> updateSaveAndSchedule(d, apiKey)))
@@ -92,7 +92,7 @@ public class DataManager
 		return new MyTimerTask(() -> readyToUpdate(model));
 	}
 
-	private void updateSaveAndSchedule(final Manageable model, final ApiKey apiKey)
+	private void updateSaveAndSchedule(final Manageable model, final ApiKeyData apiKey)
 	{
 		try
 		{

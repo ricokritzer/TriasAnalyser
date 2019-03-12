@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
@@ -18,14 +18,14 @@ public class ApiKeyDB
 {
 	private static final Logger LOGGER = Logger.getLogger(ApiKeyDB.class.getName());
 
-	private static final Optional<ApiKey> getApiKey(ResultSet result)
+	private static final Optional<ApiKeyData> getApiKey(ResultSet result)
 	{
 		try
 		{
 			final String key = result.getString("apiKey");
 			final int requests = result.getInt("maximumRequests");
 			final String url = result.getString("url");
-			return Optional.of(new ApiKey(key, requests, url));
+			return Optional.of(new ApiKeyData(key, requests, url));
 		}
 		catch (SQLException e)
 		{
@@ -34,7 +34,7 @@ public class ApiKeyDB
 		}
 	}
 
-	public static final List<ApiKey> getApiKeys(OperatorID operator) throws IOException
+	public static final List<ApiKeyData> getApiKeys(OperatorID operator) throws IOException
 	{
 		final String sql = "SELECT * FROM Api WHERE name = ?;";
 		final DatabaseReader database = new DatabaseReader();
@@ -42,7 +42,7 @@ public class ApiKeyDB
 		{
 			preparedStatement.setString(1, operator.getName());
 
-			final List<ApiKey> list = new ArrayList<>();
+			final List<ApiKeyData> list = new ArrayList<>();
 			database.select(r -> getApiKey(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}

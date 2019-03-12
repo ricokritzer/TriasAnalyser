@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
@@ -26,7 +26,7 @@ public class TestAppMidnight
 		LogLevelHelper.setLogLevel(Level.ALL);
 
 		final OperatorID operator = new OperatorID("kvv");
-		final ApiKey key = ApiKeyDB.getApiKeys(operator).get(0);
+		final ApiKeyData key = ApiKeyDB.getApiKeys(operator).get(0);
 		final Station station = new Station("de:08212:1", "Marktplatz", 0.0, 0.0, "kvv");
 
 		final Date date = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").parse("2018-11-08 00-01-00");
@@ -36,7 +36,7 @@ public class TestAppMidnight
 		timer.schedule(new MyTimerTask(() -> update(station, key)), date);
 	}
 
-	private static void update(Station station, ApiKey key)
+	private static void update(Station station, ApiKeyData key)
 	{
 		try
 		{

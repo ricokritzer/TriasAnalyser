@@ -25,7 +25,7 @@ import org.xml.sax.InputSource;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
@@ -54,7 +54,7 @@ public class Weather implements Manageable, Saveable
 		this.lon = round(lon, 2);
 	}
 
-	protected void updateData(final ApiKey apiKey) throws UpdateException, ServerNotAvailableException
+	protected void updateData(final ApiKeyData apiKey) throws UpdateException, ServerNotAvailableException
 	{
 		try
 		{
@@ -71,7 +71,7 @@ public class Weather implements Manageable, Saveable
 		}
 	}
 
-	private HttpURLConnection connectToAPI(final ApiKey apiKey) throws IOException
+	private HttpURLConnection connectToAPI(final ApiKeyData apiKey) throws IOException
 	{
 		final URL url = buildRequestURL(apiKey);
 		final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -92,7 +92,7 @@ public class Weather implements Manageable, Saveable
 		nextUpdate = cal.getTime();
 	}
 
-	private URL buildRequestURL(final ApiKey apiKey) throws MalformedURLException
+	private URL buildRequestURL(final ApiKeyData apiKey) throws MalformedURLException
 	{
 		return new URL(new StringBuilder() //
 				.append(apiKey.getUrl()).append("?") //
@@ -198,7 +198,7 @@ public class Weather implements Manageable, Saveable
 	}
 
 	@Override
-	public void updateAndSaveData(ApiKey apiKey) throws UpdateException, ServerNotAvailableException
+	public void updateAndSaveData(ApiKeyData apiKey) throws UpdateException, ServerNotAvailableException
 	{
 		try
 		{

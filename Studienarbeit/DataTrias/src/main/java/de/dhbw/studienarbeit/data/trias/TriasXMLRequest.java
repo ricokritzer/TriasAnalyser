@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKey;
+import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -43,7 +43,7 @@ public class TriasXMLRequest
 
 	private static final Logger LOGGER = Logger.getLogger(TriasXMLRequest.class.getName());
 
-	public TriasXMLRequest(ApiKey apiKey, Station station)
+	public TriasXMLRequest(ApiKeyData apiKey, Station station)
 	{
 		this.url = apiKey.getUrl();
 		this.key = apiKey.getKey();
