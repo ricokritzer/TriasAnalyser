@@ -11,7 +11,7 @@ public class CountWeatherDB implements CountWeather
 	private static final Logger LOGGER = Logger.getLogger(CountWeatherDB.class.getName());
 
 	@Override
-	public Count countWeather()
+	public CountData countWeather()
 	{
 		try
 		{
@@ -20,7 +20,7 @@ public class CountWeatherDB implements CountWeather
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count weather.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 }

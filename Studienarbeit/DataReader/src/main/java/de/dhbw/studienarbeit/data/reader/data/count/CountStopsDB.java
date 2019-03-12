@@ -11,7 +11,7 @@ public class CountStopsDB implements CountStops
 	private static final Logger LOGGER = Logger.getLogger(CountStopsDB.class.getName());
 
 	@Override
-	public Count countStops()
+	public CountData countStops()
 	{
 		try
 		{
@@ -20,7 +20,7 @@ public class CountStopsDB implements CountStops
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stops.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 }

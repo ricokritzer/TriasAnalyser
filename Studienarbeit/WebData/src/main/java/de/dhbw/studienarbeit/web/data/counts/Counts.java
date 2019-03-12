@@ -2,22 +2,22 @@ package de.dhbw.studienarbeit.web.data.counts;
 
 import java.util.Date;
 
-import de.dhbw.studienarbeit.data.reader.data.count.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
 @Deprecated
 public class Counts
 {
-	private final Count countStations;
-	private final Count countObservedStations;
-	private final Count countStationsWithRealtimeData;
-	private final Count countLines;
-	private final Count countStops;
-	private final Count countWeathers;
-	private final Count countOperators;
+	private final CountData countStations;
+	private final CountData countObservedStations;
+	private final CountData countStationsWithRealtimeData;
+	private final CountData countLines;
+	private final CountData countStops;
+	private final CountData countWeathers;
+	private final CountData countOperators;
 	private final Date lastUpdate;
 
-	public Counts(Count countStations, Count countObservedStations, Count countStationsWithRealtimeData,
-			Count countLines, Count countStops, Count countWeathers, Count countOperators, Date lastUpdate)
+	public Counts(CountData countStations, CountData countObservedStations, CountData countStationsWithRealtimeData,
+			CountData countLines, CountData countStops, CountData countWeathers, CountData countOperators, Date lastUpdate)
 	{
 		super();
 		this.countStations = countStations;
@@ -30,37 +30,37 @@ public class Counts
 		this.lastUpdate = lastUpdate;
 	}
 
-	public Count getCountStations()
+	public CountData getCountStations()
 	{
 		return countStations;
 	}
 
-	public Count getCountObservedStations()
+	public CountData getCountObservedStations()
 	{
 		return countObservedStations;
 	}
 
-	public Count getCountStationsWithRealtimeData()
+	public CountData getCountStationsWithRealtimeData()
 	{
 		return countStationsWithRealtimeData;
 	}
 
-	public Count getCountLines()
+	public CountData getCountLines()
 	{
 		return countLines;
 	}
 
-	public Count getCountStops()
+	public CountData getCountStops()
 	{
 		return countStops;
 	}
 
-	public Count getCountWeathers()
+	public CountData getCountWeathers()
 	{
 		return countWeathers;
 	}
 
-	public Count getCountOperators()
+	public CountData getCountOperators()
 	{
 		return countOperators;
 	}

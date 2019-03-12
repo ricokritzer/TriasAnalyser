@@ -3,7 +3,7 @@ package de.dhbw.studienarbeit.web.data.counts;
 import java.io.IOException;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.count.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountOperators;
 import de.dhbw.studienarbeit.data.reader.data.count.CountOperatorsDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -24,7 +24,7 @@ public class CountObservedOperatorsWO extends CountListWO
 	}
 
 	@Override
-	protected Count count() throws IOException
+	protected CountData count() throws IOException
 	{
 		return countOperators.countObservedOperators();
 	}

@@ -2,7 +2,7 @@ package de.dhbw.studienarbeit.data.reader.data.count;
 
 public interface CountOperators
 {
-	Count countOperators();
+	CountData countOperators();
 
-	Count countObservedOperators();
+	CountData countObservedOperators();
 }

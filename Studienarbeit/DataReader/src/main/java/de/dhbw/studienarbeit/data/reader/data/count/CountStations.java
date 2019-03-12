@@ -2,9 +2,9 @@ package de.dhbw.studienarbeit.data.reader.data.count;
 
 public interface CountStations
 {
-	Count countStations();
+	CountData countStations();
 
-	Count countStationsWithRealtimeData();
+	CountData countStationsWithRealtimeData();
 	
-	Count countObservedStations();
+	CountData countObservedStations();
 }

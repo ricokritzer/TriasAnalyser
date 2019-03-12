@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.Delay;
-import de.dhbw.studienarbeit.data.reader.data.count.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
@@ -78,7 +78,7 @@ public class DelayRequestDB
 		}
 	}
 
-	public final Count getCancelledStops() throws IOException
+	public final CountData getCancelledStops() throws IOException
 	{
 		final String sql = getSQL("count(*) AS total") + " AND realTime IS NULL;";
 
@@ -87,7 +87,7 @@ public class DelayRequestDB
 		{
 			setValues(preparedStatement);
 
-			final List<Count> count = new ArrayList<>();
+			final List<CountData> count = new ArrayList<>();
 			database.select(result -> CountDB.getCount(result).ifPresent(count::add), preparedStatement);
 
 			if (count.isEmpty())
@@ -95,7 +95,7 @@ public class DelayRequestDB
 				throw new SQLException("Unable to count: " + sql);
 			}
 
-			Count c = count.get(0);
+			CountData c = count.get(0);
 			LOGGER.log(Level.FINEST, c + " entries count: " + sql);
 			return c;
 		}

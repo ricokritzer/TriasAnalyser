@@ -11,7 +11,7 @@ public class CountLinesDB implements CountLines
 	private static final Logger LOGGER = Logger.getLogger(CountLinesDB.class.getName());
 
 	@Override
-	public Count countLines()
+	public CountData countLines()
 	{
 		try
 		{
@@ -20,7 +20,7 @@ public class CountLinesDB implements CountLines
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count lines.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 }

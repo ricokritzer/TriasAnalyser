@@ -1,12 +1,12 @@
 package de.dhbw.studienarbeit.data.reader.data.count;
 
-public class Count
+public class CountData
 {
-	public static final Count UNABLE_TO_COUNT = new Count(-1);
+	public static final CountData UNABLE_TO_COUNT = new CountData(-1);
 
 	private final long value;
 
-	public Count(long value)
+	public CountData(long value)
 	{
 		super();
 		this.value = value;

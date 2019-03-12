@@ -11,7 +11,7 @@ public class CountStationsDB implements CountStations
 	private static final Logger LOGGER = Logger.getLogger(CountStationsDB.class.getName());
 
 	@Override
-	public Count countStations()
+	public CountData countStations()
 	{
 		try
 		{
@@ -20,12 +20,12 @@ public class CountStationsDB implements CountStations
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stations.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 
 	@Override
-	public Count countStationsWithRealtimeData()
+	public CountData countStationsWithRealtimeData()
 	{
 		try
 		{
@@ -34,12 +34,12 @@ public class CountStationsDB implements CountStations
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count stations with realtime data.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 
 	@Override
-	public Count countObservedStations()
+	public CountData countObservedStations()
 	{
 		try
 		{
@@ -48,7 +48,7 @@ public class CountStationsDB implements CountStations
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count observed stations.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 }

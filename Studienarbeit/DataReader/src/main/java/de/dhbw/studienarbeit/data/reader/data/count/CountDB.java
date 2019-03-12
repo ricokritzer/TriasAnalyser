@@ -9,11 +9,11 @@ public class CountDB
 	private CountDB()
 	{}
 
-	public static final Optional<Count> getCount(ResultSet result)
+	public static final Optional<CountData> getCount(ResultSet result)
 	{
 		try
 		{
-			return Optional.ofNullable(new Count(result.getLong("total")));
+			return Optional.ofNullable(new CountData(result.getLong("total")));
 		}
 		catch (SQLException e)
 		{

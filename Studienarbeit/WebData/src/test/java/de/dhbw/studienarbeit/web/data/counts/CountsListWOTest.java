@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.dhbw.studienarbeit.data.reader.data.count.Count;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
 public class CountsListWOTest
 {
@@ -78,16 +78,16 @@ public class CountsListWOTest
 		return new CountListWO()
 		{
 			@Override
-			protected Count count() throws IOException
+			protected CountData count() throws IOException
 			{
-				return new Count(1l);
+				return new CountData(1l);
 			}
 		};
 	}
 
 	private CountWO createCountWO()
 	{
-		return new CountWO(new Count(1), new Date());
+		return new CountWO(new CountData(1), new Date());
 	}
 
 	private void addElements(int count, CountListWO countListWO)

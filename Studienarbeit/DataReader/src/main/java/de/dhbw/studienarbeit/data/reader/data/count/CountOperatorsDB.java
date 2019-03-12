@@ -11,7 +11,7 @@ public class CountOperatorsDB implements CountOperators
 	private static final Logger LOGGER = Logger.getLogger(CountOperators.class.getName());
 
 	@Override
-	public Count countOperators()
+	public CountData countOperators()
 	{
 		try
 		{
@@ -20,12 +20,12 @@ public class CountOperatorsDB implements CountOperators
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count operators.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 
 	@Override
-	public Count countObservedOperators()
+	public CountData countObservedOperators()
 	{
 		try
 		{
@@ -35,7 +35,7 @@ public class CountOperatorsDB implements CountOperators
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count observed operators.", e);
-			return Count.UNABLE_TO_COUNT;
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 
