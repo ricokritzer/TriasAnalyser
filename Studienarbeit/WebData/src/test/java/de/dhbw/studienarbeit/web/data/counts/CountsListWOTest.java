@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.dhbw.studienarbeit.data.reader.data.count.Count;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
 public class CountsListWOTest
@@ -48,7 +49,7 @@ public class CountsListWOTest
 	@Test
 	public void testWillRemoveOldestElement() throws Exception
 	{
-		final CountListWO countListWO = createCountListWO();
+		final CountListWO<Count> countListWO = createCountListWO();
 
 		final CountWO oldestCount = createCountWO();
 		countListWO.add(oldestCount);
@@ -65,16 +66,16 @@ public class CountsListWOTest
 	@Test
 	public void addingToMuchElementsWillReduceToMaximum() throws Exception
 	{
-		final CountListWO countListWO = createCountListWO();
+		final CountListWO<Count> countListWO = createCountListWO();
 
 		addElements(CountListWO.MAX_COUNT_ITEMS + 1, countListWO);
 
 		assertThat(countListWO.values.size(), is(CountListWO.MAX_COUNT_ITEMS));
 	}
 
-	private CountListWO createCountListWO()
+	private CountListWO<Count> createCountListWO()
 	{
-		return new CountListWO()
+		return new CountListWO<Count>()
 		{};
 	}
 
@@ -83,7 +84,7 @@ public class CountsListWOTest
 		return new CountWO(new CountData(1), new Date());
 	}
 
-	private void addElements(int count, CountListWO countListWO)
+	private void addElements(int count, CountListWO<Count> countListWO)
 	{
 		for (int i = 0; i < count; i++)
 		{
