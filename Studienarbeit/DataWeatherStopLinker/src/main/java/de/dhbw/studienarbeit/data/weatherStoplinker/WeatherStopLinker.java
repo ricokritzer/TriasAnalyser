@@ -26,7 +26,7 @@ public class WeatherStopLinker
 
 	private void link()
 	{
-		final long count = countStops.countStops().getValue();
+		final long count = countStops.count().getValue();
 		final long consiciousError = 1000;
 
 		LOGGER.log(Level.INFO, "Linker starts with: " + count);
@@ -36,7 +36,7 @@ public class WeatherStopLinker
 
 	private void linkForeward(long start)
 	{
-		final long count = countStops.countStops().getValue();
+		final long count = countStops.count().getValue();
 
 		for (long i = start; i < count; i++)
 		{

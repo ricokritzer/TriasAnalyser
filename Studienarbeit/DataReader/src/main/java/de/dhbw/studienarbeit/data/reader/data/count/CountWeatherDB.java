@@ -11,12 +11,6 @@ public class CountWeatherDB implements CountWeather
 	private static final Logger LOGGER = Logger.getLogger(CountWeatherDB.class.getName());
 
 	@Override
-	public CountData countWeather()
-	{
-		return count();
-	}
-
-	@Override
 	public CountData count()
 	{
 		try

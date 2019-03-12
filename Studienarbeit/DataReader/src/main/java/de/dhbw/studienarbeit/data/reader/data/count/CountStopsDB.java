@@ -11,12 +11,6 @@ public class CountStopsDB implements CountStops
 	private static final Logger LOGGER = Logger.getLogger(CountStopsDB.class.getName());
 
 	@Override
-	public CountData countStops()
-	{
-		return count();
-	}
-
-	@Override
 	public CountData count()
 	{
 		try
