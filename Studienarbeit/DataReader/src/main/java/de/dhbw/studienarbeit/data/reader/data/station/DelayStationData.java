@@ -4,22 +4,14 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayStationData extends DelayData implements StationData
+public class DelayStationData extends DelayData<StationData> implements StationData
 {
-	private final StationID stationID;
-	private final StationName stationName;
-	private final OperatorName operator;
-	private final Position position;
 	private final int count;
 
 	public DelayStationData(DelayMaximum maximum, DelayAverage average, StationID stationID, StationName stationName,
 			OperatorName operator, Position position, int count)
 	{
-		super(maximum, average);
-		this.stationID = stationID;
-		this.stationName = stationName;
-		this.operator = operator;
-		this.position = position;
+		super(maximum, average, new StationNeighbourPart(stationID, stationName, position, operator));
 		this.count = count;
 	}
 
@@ -31,24 +23,24 @@ public class DelayStationData extends DelayData implements StationData
 	@Override
 	public StationID getStationID()
 	{
-		return stationID;
+		return value.getStationID();
 	}
 
 	@Override
 	public StationName getName()
 	{
-		return stationName;
+		return value.getName();
 	}
 
 	@Override
 	public Position getPosition()
 	{
-		return position;
+		return value.getPosition();
 	}
 
 	@Override
 	public OperatorName getOperator()
 	{
-		return operator;
+		return value.getOperator();
 	}
 }

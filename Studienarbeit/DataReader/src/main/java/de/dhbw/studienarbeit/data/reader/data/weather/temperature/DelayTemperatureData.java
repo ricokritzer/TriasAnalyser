@@ -4,19 +4,11 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayTemperatureData extends DelayData
+public class DelayTemperatureData extends DelayData<Double>
 {
-	private final double value;
-
 	public DelayTemperatureData(DelayMaximum delayMaximum, DelayAverage delayAverage, double temperature)
 	{
-		super(delayMaximum, delayAverage);
-		this.value = temperature;
-	}
-
-	public double getValue()
-	{
-		return value;
+		super(delayMaximum, delayAverage, temperature);
 	}
 
 	@Deprecated

@@ -4,18 +4,16 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayCloudsData extends DelayData
+public class DelayCloudsData extends DelayData<Double>
 {
-	private final double clouds;
-
 	public DelayCloudsData(DelayMaximum delayMaximum, DelayAverage delayAverage, double clouds)
 	{
-		super(delayMaximum, delayAverage);
-		this.clouds = clouds;
+		super(delayMaximum, delayAverage, clouds);
 	}
 
+	@Deprecated
 	public double getClouds()
 	{
-		return clouds;
+		return value;
 	}
 }

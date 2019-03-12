@@ -4,18 +4,10 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayPressureData extends DelayData
+public class DelayPressureData extends DelayData<Double>
 {
-	private final double value;
-
 	public DelayPressureData(DelayMaximum delayMaximum, DelayAverage delayAverage, double pressure)
 	{
-		super(delayMaximum, delayAverage);
-		value = pressure;
-	}
-
-	public double getValue()
-	{
-		return value;
+		super(delayMaximum, delayAverage, pressure);
 	}
 }

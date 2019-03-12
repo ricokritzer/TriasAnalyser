@@ -4,16 +4,14 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayHourData extends DelayData
+public class DelayHourData extends DelayData<Hour>
 {
-	private final Hour value;
-
 	public DelayHourData(DelayMaximum delayMaximum, DelayAverage delayAverage, Hour value)
 	{
-		super(delayMaximum, delayAverage);
-		this.value = value;
+		super(delayMaximum, delayAverage, value);
 	}
 
+	@Deprecated
 	public Hour getHour()
 	{
 		return value;

@@ -4,16 +4,14 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayWeekdayData extends DelayData
+public class DelayWeekdayData extends DelayData<Weekday>
 {
-	private final Weekday value;
-
 	public DelayWeekdayData(DelayMaximum delayMaximum, DelayAverage delayAverage, Weekday value)
 	{
-		super(delayMaximum, delayAverage);
-		this.value = value;
+		super(delayMaximum, delayAverage, value);
 	}
 
+	@Deprecated
 	public Weekday getWeekday()
 	{
 		return value;

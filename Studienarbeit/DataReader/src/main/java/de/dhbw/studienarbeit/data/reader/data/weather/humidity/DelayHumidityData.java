@@ -4,16 +4,14 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayHumidityData extends DelayData
+public class DelayHumidityData extends DelayData<Double>
 {
-	private final double value;
-
 	public DelayHumidityData(DelayMaximum delayMaximum, DelayAverage delayAverage, double value)
 	{
-		super(delayMaximum, delayAverage);
-		this.value = value;
+		super(delayMaximum, delayAverage, value);
 	}
 
+	@Deprecated
 	public double getHumidity()
 	{
 		return value;

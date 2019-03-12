@@ -4,18 +4,16 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayVehicleTypeData extends DelayData
+public class DelayVehicleTypeData extends DelayData<String>
 {
-	private final String vehicleType;
-
 	public DelayVehicleTypeData(DelayMaximum delayMaximum, DelayAverage delayAverage, String vehicleType)
 	{
-		super(delayMaximum, delayAverage);
-		this.vehicleType = vehicleType;
+		super(delayMaximum, delayAverage, vehicleType);
 	}
 
+	@Deprecated
 	public String getVehicleType()
 	{
-		return vehicleType;
+		return value;
 	}
 }
