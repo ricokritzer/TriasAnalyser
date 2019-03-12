@@ -23,11 +23,13 @@ public class DelayWeatherTextData extends DelayData<String>
 		return value;
 	}
 
+	@Deprecated
 	public String getIcon()
 	{
 		return icon;
 	}
 
+	@Deprecated
 	public String getIconURL()
 	{
 		return new StringBuilder(URL_PRE).append(icon).append(URL_END).toString();
