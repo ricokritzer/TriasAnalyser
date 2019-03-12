@@ -15,6 +15,10 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 	private final Position position2;
 	private final DelayAverage delayAverage2;
 
+	/*
+	 * @Deprecated use the other constructor.
+	 */
+	@Deprecated
 	public DelayStationNeighbourData(StationName stationName1, Position position1, double avg1,
 			StationName stationName2, Position position2, double avg2)
 	{
@@ -25,6 +29,18 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 		this.stationName2 = stationName2;
 		this.position2 = position2;
 		this.delayAverage2 = new DelayAverage(avg2);
+	}
+
+	public DelayStationNeighbourData(StationName stationName1, Position position1, DelayAverage delayAverage1,
+			StationName stationName2, Position position2, DelayAverage delayAverage2)
+	{
+		super();
+		this.stationName1 = stationName1;
+		this.position1 = position1;
+		this.delayAverage1 = delayAverage1;
+		this.stationName2 = stationName2;
+		this.position2 = position2;
+		this.delayAverage2 = delayAverage2;
 	}
 
 	public StationName getName1()
