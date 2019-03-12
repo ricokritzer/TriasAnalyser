@@ -10,10 +10,9 @@ import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
 public class CountStationsWithRealtimeDataWO extends CountListWO<CountStationsWithRealtimeData>
 {
-	protected CountStationsWithRealtimeData countStationsWithRealtimeData = new CountStationsWithRealtimeDataDB();
-
 	public CountStationsWithRealtimeDataWO(Optional<DataUpdater> updater)
 	{
+		counter = new CountStationsWithRealtimeDataDB();
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
@@ -23,13 +22,12 @@ public class CountStationsWithRealtimeDataWO extends CountListWO<CountStationsWi
 	@Deprecated
 	public void setCountStations(CountStationsWithRealtimeData countStationsWithRealtimeData)
 	{
-		this.countStationsWithRealtimeData = countStationsWithRealtimeData;
-		update();
+		setCounter(countStationsWithRealtimeData);
 	}
 
 	@Override
 	protected CountData count() throws IOException
 	{
-		return countStationsWithRealtimeData.count();
+		return counter.count();
 	}
 }

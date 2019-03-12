@@ -10,10 +10,10 @@ import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
 public class CountWeathersWO extends CountListWO<CountWeather>
 {
-	protected CountWeather countWeather = new CountWeatherDB();
 
 	public CountWeathersWO(Optional<DataUpdater> updater)
 	{
+		counter = new CountWeatherDB();
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
@@ -23,13 +23,12 @@ public class CountWeathersWO extends CountListWO<CountWeather>
 	@Deprecated
 	public void setCountWeather(CountWeather countWeather)
 	{
-		this.countWeather = countWeather;
-		update();
+		setCounter(countWeather);
 	}
 
 	@Override
 	protected CountData count() throws IOException
 	{
-		return countWeather.count();
+		return counter.count();
 	}
 }

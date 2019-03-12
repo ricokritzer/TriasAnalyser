@@ -10,10 +10,9 @@ import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
 public class CountStopsWO extends CountListWO<CountStops>
 {
-	protected CountStops countStops = new CountStopsDB();
-
 	public CountStopsWO(Optional<DataUpdater> updater)
 	{
+		counter = new CountStopsDB();
 		updater.ifPresent(u -> u.updateEvery(5, MINUTES, this));
 	}
 
@@ -23,13 +22,12 @@ public class CountStopsWO extends CountListWO<CountStops>
 	@Deprecated
 	public void setCountStops(CountStops countStops)
 	{
-		this.countStops = countStops;
-		update();
+		setCounter(countStops);
 	}
 
 	@Override
 	protected CountData count() throws IOException
 	{
-		return countStops.count();
+		return counter.count();
 	}
 }

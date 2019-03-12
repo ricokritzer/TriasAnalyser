@@ -10,10 +10,10 @@ import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
 public class CountStationsWO extends CountListWO<CountStations>
 {
-	protected CountStations countStations = new CountStationsDB();
 
 	public CountStationsWO(Optional<DataUpdater> updater)
 	{
+		counter = new CountStationsDB();
 		updater.ifPresent(u -> u.updateEvery(5, MINUTES, this));
 	}
 
@@ -23,13 +23,12 @@ public class CountStationsWO extends CountListWO<CountStations>
 	@Deprecated
 	public void setCountStations(CountStations countStations)
 	{
-		this.countStations = countStations;
-		update();
+		setCounter(countStations);
 	}
 
 	@Override
 	protected CountData count() throws IOException
 	{
-		return countStations.count();
+		return counter.count();
 	}
 }
