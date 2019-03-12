@@ -8,11 +8,11 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountOperators;
 import de.dhbw.studienarbeit.data.reader.data.count.CountOperatorsDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
-public class CountOperatorsWO extends CountListWO
+public class CountObservedOperatorsWO extends CountListWO
 {
 	protected CountOperators countOperators = new CountOperatorsDB();
 
-	public CountOperatorsWO(Optional<DataUpdater> updater)
+	public CountObservedOperatorsWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}

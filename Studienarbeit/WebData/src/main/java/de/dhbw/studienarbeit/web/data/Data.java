@@ -3,8 +3,8 @@ package de.dhbw.studienarbeit.web.data;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.web.data.counts.CountLinesWO;
+import de.dhbw.studienarbeit.web.data.counts.CountObservedOperatorsWO;
 import de.dhbw.studienarbeit.web.data.counts.CountObservedStationsWO;
-import de.dhbw.studienarbeit.web.data.counts.CountOperatorsWO;
 import de.dhbw.studienarbeit.web.data.counts.CountStationsWO;
 import de.dhbw.studienarbeit.web.data.counts.CountStationsWithRealtimeDataWO;
 import de.dhbw.studienarbeit.web.data.counts.CountStopsWO;
@@ -36,7 +36,7 @@ public class Data
 
 	private final CountLinesWO countLinesWO;
 	private final CountObservedStationsWO countObservedStationsWO;
-	private final CountOperatorsWO countOperatorsWO;
+	private final CountObservedOperatorsWO countObservedOperatorsWO;
 	private final CountStationsWithRealtimeDataWO countStationsWithRealtimeDataWO;
 	private final CountStationsWO countStationsWO;
 	private final CountStopsWO countStopsWO;
@@ -74,7 +74,7 @@ public class Data
 
 		countLinesWO = new CountLinesWO(updater);
 		countObservedStationsWO = new CountObservedStationsWO(updater);
-		countOperatorsWO = new CountOperatorsWO(updater);
+		countObservedOperatorsWO = new CountObservedOperatorsWO(updater);
 		countStationsWithRealtimeDataWO = new CountStationsWithRealtimeDataWO(updater);
 		countStationsWO = new CountStationsWO(updater);
 		countStopsWO = new CountStopsWO(updater);
@@ -218,9 +218,9 @@ public class Data
 		return getInstance().countObservedStationsWO;
 	}
 
-	public static CountOperatorsWO getCountOperatorsWO()
+	public static CountObservedOperatorsWO getCountObservedOperatorsWO()
 	{
-		return getInstance().countOperatorsWO;
+		return getInstance().countObservedOperatorsWO;
 	}
 
 	public static CountStationsWithRealtimeDataWO getCountStationsWithRealtimeDataWO()
