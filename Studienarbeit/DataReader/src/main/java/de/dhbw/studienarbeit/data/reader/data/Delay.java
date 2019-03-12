@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Delay implements Comparable<Delay>
 {
-	private final static int SECONDS_PER_MINUTE = 60;
-	private final static int SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
+	private static final int SECONDS_PER_MINUTE = 60;
+	private static final int SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
 
 	private final double value;
 
@@ -65,5 +65,10 @@ public class Delay implements Comparable<Delay>
 		}
 
 		return Math.round(delay * 100) / 100d + "s";
+	}
+
+	public static double difference(Delay delay1, Delay delay2)
+	{
+		return delay1.value - delay2.value;
 	}
 }
