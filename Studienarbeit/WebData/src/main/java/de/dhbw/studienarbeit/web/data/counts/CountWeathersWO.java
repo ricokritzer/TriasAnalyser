@@ -26,6 +26,6 @@ public class CountWeathersWO extends CountListWO
 	@Override
 	protected CountData count() throws IOException
 	{
-		return countWeather.countWeather();
+		return countWeather.count();
 	}
 }
