@@ -2,15 +2,18 @@ package de.dhbw.studienarbeit.data.reader.data.station;
 
 import java.util.Objects;
 
+import de.dhbw.studienarbeit.data.reader.data.Delay;
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+
 public class DelayStationNeighbourData implements Comparable<DelayStationNeighbourData>
 {
 	private final StationName stationName1;
 	private final Position position1;
-	private final double avg1;
+	private final DelayAverage delayAverage1;
 
 	private final StationName stationName2;
 	private final Position position2;
-	private final double avg2;
+	private final DelayAverage delayAverage2;
 
 	public DelayStationNeighbourData(StationName stationName1, Position position1, double avg1,
 			StationName stationName2, Position position2, double avg2)
@@ -18,10 +21,10 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 		super();
 		this.stationName1 = stationName1;
 		this.position1 = position1;
-		this.avg1 = avg1;
+		this.delayAverage1 = new DelayAverage(avg1);
 		this.stationName2 = stationName2;
 		this.position2 = position2;
-		this.avg2 = avg2;
+		this.delayAverage2 = new DelayAverage(avg2);
 	}
 
 	public StationName getName1()
@@ -29,26 +32,23 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 		return stationName1;
 	}
 
-	@Deprecated
-	public double getLat1()
-	{
-		return position1.getLat();
-	}
-
-	@Deprecated
-	public double getLon1()
-	{
-		return position1.getLon();
-	}
-
 	public Position getPosition1()
 	{
 		return position1;
 	}
 
+	/*
+	 * @Deprecated use getDelayAverage instead.
+	 */
+	@Deprecated
 	public double getAvg1()
 	{
-		return avg1;
+		return delayAverage1.getValue();
+	}
+
+	public DelayAverage getDelayAverage1()
+	{
+		return delayAverage1;
 	}
 
 	public StationName getName2()
@@ -56,32 +56,28 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 		return stationName2;
 	}
 
-	@Deprecated
-	public double getLat2()
-	{
-		return position2.getLat();
-	}
-
-	@Deprecated
-	public double getLon2()
-	{
-		return position2.getLon();
-	}
-
 	public Position getPosition2()
 	{
 		return position2;
 	}
 
+	/*
+	 * @Deprecated use getDelayAverage instead.
+	 */
 	public double getAvg2()
 	{
-		return avg2;
+		return delayAverage2.getValue();
+	}
+
+	public DelayAverage getDelayAverage2()
+	{
+		return delayAverage2;
 	}
 
 	public double getSlope()
 	{
 		final double distance = Position.getDistance(position1, position2);
-		final double delayDifference = Math.abs(avg1 - avg2);
+		final double delayDifference = Math.abs(Delay.difference(delayAverage1, delayAverage2));
 
 		return delayDifference / distance;
 	}
