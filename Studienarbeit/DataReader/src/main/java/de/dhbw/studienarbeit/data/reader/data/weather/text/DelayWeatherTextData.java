@@ -3,18 +3,17 @@ package de.dhbw.studienarbeit.data.reader.data.weather.text;
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.data.weather.symbol.WeatherSymbol;
 
 public class DelayWeatherTextData extends DelayData<String>
 {
-	private static final String URL_PRE = "http://openweathermap.org/img/w/";
-	private static final String URL_END = ".png";
+	private final WeatherSymbol symbol;
 
-	private final String icon;
-
-	public DelayWeatherTextData(DelayMaximum delayMaximum, DelayAverage delayAverage, String textDE, String icon)
+	public DelayWeatherTextData(DelayMaximum delayMaximum, DelayAverage delayAverage, String textDE,
+			WeatherSymbol symbol)
 	{
 		super(delayMaximum, delayAverage, textDE);
-		this.icon = icon;
+		this.symbol = symbol;
 	}
 
 	@Deprecated
@@ -26,6 +25,6 @@ public class DelayWeatherTextData extends DelayData<String>
 	@Deprecated
 	public String getIconURL()
 	{
-		return new StringBuilder(URL_PRE).append(icon).append(URL_END).toString();
+		return symbol.getURLString();
 	}
 }
