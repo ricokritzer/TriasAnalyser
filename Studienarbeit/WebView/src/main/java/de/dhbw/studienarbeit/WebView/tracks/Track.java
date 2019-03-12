@@ -36,28 +36,4 @@ public class Track
 	{
 		return super.hashCode();
 	}
-
-	@Deprecated
-	public double getLat1()
-	{
-		return data.getLat1();
-	}
-
-	@Deprecated
-	public double getLat2()
-	{
-		return data.getLat2();
-	}
-
-	@Deprecated
-	public double getLon1()
-	{
-		return data.getLon1();
-	}
-
-	@Deprecated
-	public double getLon2()
-	{
-		return data.getLon2();
-	}
 }
