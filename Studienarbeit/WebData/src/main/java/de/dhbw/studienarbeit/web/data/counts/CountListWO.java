@@ -1,8 +1,11 @@
 package de.dhbw.studienarbeit.web.data.counts;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.reader.data.count.Count;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public abstract class CountListWO extends Updateable
@@ -16,6 +19,16 @@ public abstract class CountListWO extends Updateable
 		values.add(0, countWO);
 		reduceListElements(values);
 	}
+
+	@Override
+	protected void updateData() throws IOException
+	{
+		final Count value = count();
+		final Date lastUpdate = new Date();
+		add(new CountWO(value, lastUpdate));
+	}
+
+	protected abstract Count count() throws IOException;
 
 	public final List<CountWO> getValues()
 	{
