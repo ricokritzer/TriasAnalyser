@@ -8,7 +8,7 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountObservedOperators;
 import de.dhbw.studienarbeit.data.reader.data.count.CountObservedOperatorsDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
-public class CountObservedOperatorsWO extends CountListWO
+public class CountObservedOperatorsWO extends CountListWO<CountObservedOperators>
 {
 	protected CountObservedOperators countObservedOperators = new CountObservedOperatorsDB();
 
@@ -17,6 +17,10 @@ public class CountObservedOperatorsWO extends CountListWO
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
+	/**
+	 * @deprecated use setCounter() instead.
+	 */
+	@Deprecated
 	public void setCountOperators(CountObservedOperators countObservedOperators)
 	{
 		this.countObservedOperators = countObservedOperators;

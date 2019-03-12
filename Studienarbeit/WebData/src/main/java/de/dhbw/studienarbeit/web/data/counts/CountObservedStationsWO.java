@@ -8,7 +8,7 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountObservedStations;
 import de.dhbw.studienarbeit.data.reader.data.count.CountObservedStationsDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
-public class CountObservedStationsWO extends CountListWO
+public class CountObservedStationsWO extends CountListWO<CountObservedStations>
 {
 	protected CountObservedStations countObservedStations = new CountObservedStationsDB();
 
@@ -17,6 +17,10 @@ public class CountObservedStationsWO extends CountListWO
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
+	/**
+	 * @deprecated use setCounter() instead.
+	 */
+	@Deprecated
 	public void setCountStations(CountObservedStations countObservedStations)
 	{
 		this.countObservedStations = countObservedStations;

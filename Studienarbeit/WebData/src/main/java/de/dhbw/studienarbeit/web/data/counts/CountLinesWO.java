@@ -8,24 +8,26 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountLines;
 import de.dhbw.studienarbeit.data.reader.data.count.CountLinesDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
-public class CountLinesWO extends CountListWO
+public class CountLinesWO extends CountListWO<CountLines>
 {
-	protected CountLines countLines = new CountLinesDB();
-
 	public CountLinesWO(Optional<DataUpdater> updater)
 	{
+		counter = new CountLinesDB();
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
+	/*
+	 * @deprecated use setCounter(...) instead
+	 */
+	@Deprecated
 	public void setCountLines(CountLines countLines)
 	{
-		this.countLines = countLines;
-		update();
+		setCounter(countLines);
 	}
 
 	@Override
 	protected CountData count() throws IOException
 	{
-		return countLines.count();
+		return counter.count();
 	}
 }

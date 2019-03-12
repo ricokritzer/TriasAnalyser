@@ -8,7 +8,7 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountStops;
 import de.dhbw.studienarbeit.data.reader.data.count.CountStopsDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
-public class CountStopsWO extends CountListWO
+public class CountStopsWO extends CountListWO<CountStops>
 {
 	protected CountStops countStops = new CountStopsDB();
 
@@ -17,6 +17,10 @@ public class CountStopsWO extends CountListWO
 		updater.ifPresent(u -> u.updateEvery(5, MINUTES, this));
 	}
 
+	/**
+	 * @deprecated use setCounter() instead.
+	 */
+	@Deprecated
 	public void setCountStops(CountStops countStops)
 	{
 		this.countStops = countStops;

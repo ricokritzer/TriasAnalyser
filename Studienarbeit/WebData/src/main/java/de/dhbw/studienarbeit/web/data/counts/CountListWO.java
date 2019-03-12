@@ -8,16 +8,24 @@ import java.util.List;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
-public abstract class CountListWO extends Updateable
+public abstract class CountListWO<T> extends Updateable
 {
 	protected static final int MAX_COUNT_ITEMS = 10;
 
 	protected List<CountWO> values = new ArrayList<>();
 
+	protected T counter;
+
 	protected void add(CountWO countWO)
 	{
 		values.add(0, countWO);
 		reduceListElements(values);
+	}
+
+	public void setCounter(T counter)
+	{
+		this.counter = counter;
+		update();
 	}
 
 	@Override

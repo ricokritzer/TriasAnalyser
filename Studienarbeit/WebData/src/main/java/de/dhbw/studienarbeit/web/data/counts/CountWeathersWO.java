@@ -8,7 +8,7 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountWeather;
 import de.dhbw.studienarbeit.data.reader.data.count.CountWeatherDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
-public class CountWeathersWO extends CountListWO
+public class CountWeathersWO extends CountListWO<CountWeather>
 {
 	protected CountWeather countWeather = new CountWeatherDB();
 
@@ -17,6 +17,10 @@ public class CountWeathersWO extends CountListWO
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
+	/**
+	 * @deprecated use setCounter() instead.
+	 */
+	@Deprecated
 	public void setCountWeather(CountWeather countWeather)
 	{
 		this.countWeather = countWeather;
