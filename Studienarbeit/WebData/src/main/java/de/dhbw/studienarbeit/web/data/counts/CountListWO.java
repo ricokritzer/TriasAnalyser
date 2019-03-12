@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.dhbw.studienarbeit.data.reader.data.count.Count;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
-public abstract class CountListWO<T> extends Updateable
+public abstract class CountListWO<T extends Count> extends Updateable
 {
 	protected static final int MAX_COUNT_ITEMS = 10;
 
@@ -31,12 +32,10 @@ public abstract class CountListWO<T> extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		final CountData value = count();
+		final CountData value = counter.count();
 		final Date lastUpdate = new Date();
 		add(new CountWO(value, lastUpdate));
 	}
-
-	protected abstract CountData count() throws IOException;
 
 	public final List<CountWO> getValues()
 	{

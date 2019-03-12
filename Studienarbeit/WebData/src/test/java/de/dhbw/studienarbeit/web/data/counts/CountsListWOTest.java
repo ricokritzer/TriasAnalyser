@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,13 +75,7 @@ public class CountsListWOTest
 	private CountListWO createCountListWO()
 	{
 		return new CountListWO()
-		{
-			@Override
-			protected CountData count() throws IOException
-			{
-				return new CountData(1l);
-			}
-		};
+		{};
 	}
 
 	private CountWO createCountWO()
