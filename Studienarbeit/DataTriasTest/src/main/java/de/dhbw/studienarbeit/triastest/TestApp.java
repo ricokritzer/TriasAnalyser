@@ -60,7 +60,7 @@ public class TestApp
 		try
 		{
 			final OperatorID operator = new OperatorID("kvv");
-			final ApiKeyData keyFromDB = ApiKeyDB.getApiKeys(operator).get(0);
+			final ApiKeyData keyFromDB = new ApiKeyDB().getApiKeys(operator).get(0);
 			final ApiKeyData testApiKey = new ApiKeyData(keyFromDB.getKey(), number, keyFromDB.getUrl());
 			manager = new DataManager("no name", new ArrayList<>());
 			manager.addApiKey(testApiKey);

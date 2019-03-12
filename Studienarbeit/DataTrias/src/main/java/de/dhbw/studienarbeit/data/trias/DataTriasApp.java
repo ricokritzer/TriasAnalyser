@@ -33,7 +33,7 @@ public class DataTriasApp
 				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
 				.collect(Collectors.toList());
 		final Date start = new Date();
-		manager = new DataManager(operator.getName(), ApiKeyDB.getApiKeys(operator));
+		manager = new DataManager(operator.getName(), new ApiKeyDB().getApiKeys(operator));
 		manager.add(stations);
 
 		final Timer monitorTimer = new Timer();

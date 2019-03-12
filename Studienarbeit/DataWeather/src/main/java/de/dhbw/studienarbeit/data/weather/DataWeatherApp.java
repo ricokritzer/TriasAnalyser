@@ -36,7 +36,7 @@ public class DataWeatherApp
 	public void startDataCollection(final List<StationDB> stations) throws IOException
 	{
 		final OperatorID weatherOperator = new OperatorID("weather");
-		final List<ApiKeyData> apiKeys = ApiKeyDB.getApiKeys(weatherOperator);
+		final List<ApiKeyData> apiKeys = new ApiKeyDB().getApiKeys(weatherOperator);
 		final Date start = new Date();
 		manager = new DataManager("weather", apiKeys);
 		final List<Weather> weather = convertToWeather(stations);

@@ -123,7 +123,7 @@ public class BBBStationUtil
 
 	private static HttpURLConnection createConnection() throws IOException
 	{
-		final URL triasURL = new URL(ApiKeyDB.getApiKeys(new OperatorID("bbb")).get(0).getUrl());
+		final URL triasURL = new URL(new ApiKeyDB().getApiKeys(new OperatorID("bbb")).get(0).getUrl());
 		final HttpURLConnection con = (HttpURLConnection) triasURL.openConnection();
 		con.setDoInput(true);
 		con.setDoOutput(true);

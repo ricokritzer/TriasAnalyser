@@ -14,7 +14,7 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class ApiKeyDB
+public class ApiKeyDB implements ApiKey
 {
 	private static final Logger LOGGER = Logger.getLogger(ApiKeyDB.class.getName());
 
@@ -34,7 +34,7 @@ public class ApiKeyDB
 		}
 	}
 
-	public static final List<ApiKeyData> getApiKeys(OperatorID operator) throws IOException
+	public final List<ApiKeyData> getApiKeys(OperatorID operator) throws IOException
 	{
 		final String sql = "SELECT * FROM Api WHERE name = ?;";
 		final DatabaseReader database = new DatabaseReader();
