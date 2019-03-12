@@ -7,16 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
-import de.dhbw.studienarbeit.data.reader.data.count.CountLines;
 import de.dhbw.studienarbeit.data.reader.data.count.CountLinesDB;
 import de.dhbw.studienarbeit.data.reader.data.count.CountObservedOperatorsDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountOperators;
-import de.dhbw.studienarbeit.data.reader.data.count.CountOperatorsDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountStations;
 import de.dhbw.studienarbeit.data.reader.data.count.CountStationsDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountStops;
+import de.dhbw.studienarbeit.data.reader.data.count.CountStationsWithRealtimeDataDB;
 import de.dhbw.studienarbeit.data.reader.data.count.CountStopsDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountWeather;
 import de.dhbw.studienarbeit.data.reader.data.count.CountWeatherDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
@@ -25,12 +20,6 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 public class CountsWO extends Updateable
 {
 	private static final int MAX_COUNT_ITEMS = 10;
-
-	protected CountStations countStations = new CountStationsDB();
-	protected CountLines countLines = new CountLinesDB();
-	protected CountStops countStops = new CountStopsDB();
-	protected CountWeather countWeather = new CountWeatherDB();
-	protected CountOperators countOperators = new CountOperatorsDB();
 
 	private List<Counts> data = new ArrayList<>();
 
@@ -47,12 +36,12 @@ public class CountsWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		final CountData stations = this.countStations.countStations();
-		final CountData observedStations = this.countStations.countObservedStations();
-		final CountData stationsWithRealtimeData = this.countStations.countStationsWithRealtimeData();
-		final CountData lines = this.countLines.count();
-		final CountData stops = this.countStops.count();
-		final CountData weather = this.countWeather.count();
+		final CountData stations = new CountStationsDB().count();
+		final CountData observedStations = new CountObservedOperatorsDB().count();
+		final CountData stationsWithRealtimeData = new CountStationsWithRealtimeDataDB().count();
+		final CountData lines = new CountLinesDB().count();
+		final CountData stops = new CountStopsDB().count();
+		final CountData weather = new CountWeatherDB().count();
 		final CountData operators = new CountObservedOperatorsDB().count();
 		final Date lastUpdate = new Date();
 
@@ -68,35 +57,5 @@ public class CountsWO extends Updateable
 		{
 			list.remove(MAX_COUNT_ITEMS);
 		}
-	}
-
-	public void setCountStations(CountStations countStations)
-	{
-		this.countStations = countStations;
-		update();
-	}
-
-	public void setCountLines(CountLines countLines)
-	{
-		this.countLines = countLines;
-		update();
-	}
-
-	public void setCountStops(CountStops countStops)
-	{
-		this.countStops = countStops;
-		update();
-	}
-
-	public void setCountWeather(CountWeather countWeather)
-	{
-		this.countWeather = countWeather;
-		update();
-	}
-
-	public void setCountOperators(CountOperators countOperators)
-	{
-		this.countOperators = countOperators;
-		update();
 	}
 }
