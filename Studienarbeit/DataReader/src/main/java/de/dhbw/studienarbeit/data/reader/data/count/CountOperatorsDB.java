@@ -11,27 +11,6 @@ public class CountOperatorsDB implements CountOperators
 	private static final Logger LOGGER = Logger.getLogger(CountOperatorsDB.class.getName());
 
 	@Override
-	public CountData countOperators()
-	{
-		return count();
-	}
-
-	@Override
-	public CountData countObservedOperators()
-	{
-		try
-		{
-			return new DatabaseReader().count(
-					"SELECT count(*) AS total FROM (SELECT DISTINCT operator FROM Station WHERE observe=true) t;");
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to count observed operators.", e);
-			return CountData.UNABLE_TO_COUNT;
-		}
-	}
-
-	@Override
 	public CountData count()
 	{
 		try

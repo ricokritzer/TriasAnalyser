@@ -9,6 +9,7 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountLines;
 import de.dhbw.studienarbeit.data.reader.data.count.CountLinesDB;
+import de.dhbw.studienarbeit.data.reader.data.count.CountObservedOperatorsDB;
 import de.dhbw.studienarbeit.data.reader.data.count.CountOperators;
 import de.dhbw.studienarbeit.data.reader.data.count.CountOperatorsDB;
 import de.dhbw.studienarbeit.data.reader.data.count.CountStations;
@@ -50,9 +51,9 @@ public class CountsWO extends Updateable
 		final CountData observedStations = this.countStations.countObservedStations();
 		final CountData stationsWithRealtimeData = this.countStations.countStationsWithRealtimeData();
 		final CountData lines = this.countLines.count();
-		final CountData stops = this.countStops.countStops();
-		final CountData weather = this.countWeather.countWeather();
-		final CountData operators = this.countOperators.countObservedOperators();
+		final CountData stops = this.countStops.count();
+		final CountData weather = this.countWeather.count();
+		final CountData operators = new CountObservedOperatorsDB().count();
 		final Date lastUpdate = new Date();
 
 		data.add(0, new Counts(stations, observedStations, stationsWithRealtimeData, lines, stops, weather, operators,
