@@ -25,9 +25,9 @@ public class DelayWeatherSymbolDB implements DelayWeatherSymbol
 		{
 			final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
-			final String icon = result.getString("icon");
+			final WeatherSymbol symbol = new WeatherSymbol(result.getString("icon"));
 
-			return Optional.of(new DelayWeatherSymbolData(delayMaximum, delayAverage, icon));
+			return Optional.of(new DelayWeatherSymbolData(delayMaximum, delayAverage, symbol));
 		}
 		catch (SQLException e)
 		{

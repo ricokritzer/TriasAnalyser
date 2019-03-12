@@ -4,18 +4,10 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayWeatherSymbolData extends DelayData<String>
+public class DelayWeatherSymbolData extends DelayData<WeatherSymbol>
 {
-	private static final String URL_PRE = "http://openweathermap.org/img/w/";
-	private static final String URL_END = ".png";
-
-	public DelayWeatherSymbolData(DelayMaximum delayMaximum, DelayAverage delayAverage, String icon)
+	public DelayWeatherSymbolData(DelayMaximum delayMaximum, DelayAverage delayAverage, WeatherSymbol symbol)
 	{
-		super(delayMaximum, delayAverage, icon);
-	}
-
-	public String getIconURL()
-	{
-		return new StringBuilder(URL_PRE).append(value).append(URL_END).toString();
+		super(delayMaximum, delayAverage, symbol);
 	}
 }
