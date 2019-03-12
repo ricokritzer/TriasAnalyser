@@ -13,6 +13,12 @@ public class CountWeatherDB implements CountWeather
 	@Override
 	public CountData countWeather()
 	{
+		return count();
+	}
+
+	@Override
+	public CountData count()
+	{
 		try
 		{
 			return new DatabaseReader().count("SELECT count(*) AS total FROM Weather;");

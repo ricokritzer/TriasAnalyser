@@ -6,18 +6,12 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class CountOperatorsDB implements CountOperators
+public class CountObservedOperatorsDB implements CountObservedOperators
 {
-	private static final Logger LOGGER = Logger.getLogger(CountOperatorsDB.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CountObservedOperatorsDB.class.getName());
 
 	@Override
-	public CountData countOperators()
-	{
-		return count();
-	}
-
-	@Override
-	public CountData countObservedOperators()
+	public CountData count()
 	{
 		try
 		{
@@ -27,20 +21,6 @@ public class CountOperatorsDB implements CountOperators
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count observed operators.", e);
-			return CountData.UNABLE_TO_COUNT;
-		}
-	}
-
-	@Override
-	public CountData count()
-	{
-		try
-		{
-			return new DatabaseReader().count("SELECT count(*) AS total FROM Operator;");
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to count operators.", e);
 			return CountData.UNABLE_TO_COUNT;
 		}
 	}

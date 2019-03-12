@@ -6,26 +6,20 @@ import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class CountStopsDB implements CountStops
+public class CountObservedStationsDB implements CountObservedStations
 {
-	private static final Logger LOGGER = Logger.getLogger(CountStopsDB.class.getName());
-
-	@Override
-	public CountData countStops()
-	{
-		return count();
-	}
+	private static final Logger LOGGER = Logger.getLogger(CountObservedStationsDB.class.getName());
 
 	@Override
 	public CountData count()
 	{
 		try
 		{
-			return new DatabaseReader().count("SELECT count(*) AS total FROM Stop;");
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Station WHERE observe = true;");
 		}
 		catch (IOException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to count stops.", e);
+			LOGGER.log(Level.WARNING, "Unable to count observed stations.", e);
 			return CountData.UNABLE_TO_COUNT;
 		}
 	}

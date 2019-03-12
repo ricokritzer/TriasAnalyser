@@ -13,15 +13,7 @@ public class CountStationsDB implements CountStations
 	@Override
 	public CountData countStations()
 	{
-		try
-		{
-			return new DatabaseReader().count("SELECT count(*) AS total FROM Station;");
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to count stations.", e);
-			return CountData.UNABLE_TO_COUNT;
-		}
+		return count();
 	}
 
 	@Override
@@ -48,6 +40,20 @@ public class CountStationsDB implements CountStations
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to count observed stations.", e);
+			return CountData.UNABLE_TO_COUNT;
+		}
+	}
+
+	@Override
+	public CountData count()
+	{
+		try
+		{
+			return new DatabaseReader().count("SELECT count(*) AS total FROM Station;");
+		}
+		catch (IOException e)
+		{
+			LOGGER.log(Level.WARNING, "Unable to count stations.", e);
 			return CountData.UNABLE_TO_COUNT;
 		}
 	}

@@ -13,6 +13,12 @@ public class CountLinesDB implements CountLines
 	@Override
 	public CountData countLines()
 	{
+		return count();
+	}
+
+	@Override
+	public CountData count()
+	{
 		try
 		{
 			return new DatabaseReader().count("SELECT count(*) AS total FROM Line;");
