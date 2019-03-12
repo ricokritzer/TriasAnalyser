@@ -4,7 +4,7 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayLineData extends DelayData<Line> implements LineData
+public class DelayLineData extends DelayData<Line> implements Line
 {
 	public DelayLineData(DelayMaximum delayMaximum, DelayAverage delayAverage, Line line)
 	{

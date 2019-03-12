@@ -29,7 +29,7 @@ public class DelayLineDB implements DelayLine
 			final LineName name = new LineName(result.getString("name"));
 			final LineDestination destination = new LineDestination(result.getString("destination"));
 
-			final Line line = new Line(lineID, name, destination);
+			final Line line = new LineData(lineID, name, destination);
 
 			return Optional.of(new DelayLineData(delayMaximum, delayAverage, line));
 		}

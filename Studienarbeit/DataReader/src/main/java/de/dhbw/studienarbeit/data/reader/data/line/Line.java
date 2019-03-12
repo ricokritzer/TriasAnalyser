@@ -1,46 +1,16 @@
 package de.dhbw.studienarbeit.data.reader.data.line;
 
-public class Line implements LineData
+public interface Line
 {
-	private final LineID lineID;
-	private final LineName lineName;
-	private final LineDestination lineDestination;
+	LineID getID();
 
-	public Line(LineID lineID, LineName lineName, LineDestination lineDestination)
-	{
-		super();
-		this.lineID = lineID;
-		this.lineName = lineName;
-		this.lineDestination = lineDestination;
-	}
+	LineName getName();
 
-	@Override
-	public LineID getID()
-	{
-		return lineID;
-	}
+	LineDestination getDestination();
 
-	@Override
-	public LineName getName()
-	{
-		return lineName;
-	}
+	@Deprecated
+	String getLineName();
 
-	@Override
-	public LineDestination getDestination()
-	{
-		return lineDestination;
-	}
-
-	@Override
-	public String getLineName()
-	{
-		return lineName.getValue();
-	}
-
-	@Override
-	public String getLineDestination()
-	{
-		return lineDestination.getValue();
-	}
+	@Deprecated
+	String getLineDestination();
 }

@@ -30,7 +30,7 @@ public class LinesAtStationDB implements LinesAtStation
 			final LineName name = new LineName(result.getString("name"));
 			final LineDestination destination = new LineDestination(result.getString("destination"));
 
-			return Optional.of(new Line(lineID, name, destination));
+			return Optional.of(new LineData(lineID, name, destination));
 		}
 		catch (SQLException e)
 		{
@@ -40,7 +40,7 @@ public class LinesAtStationDB implements LinesAtStation
 	}
 
 	@Override
-	public final List<LineData> getLinesAt(StationID stationID) throws IOException
+	public final List<Line> getLinesAt(StationID stationID) throws IOException
 	{
 		final String sql = "SELECT DISTINCT name, destination, Stop.lineID "
 				+ "FROM Stop, Line WHERE Stop.lineID = Line.lineID AND Stop.stationID = ?;";
@@ -49,7 +49,7 @@ public class LinesAtStationDB implements LinesAtStation
 		{
 			preparedStatement.setString(1, stationID.getValue());
 
-			final List<LineData> list = new ArrayList<>();
+			final List<Line> list = new ArrayList<>();
 			database.select(r -> getLines(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
