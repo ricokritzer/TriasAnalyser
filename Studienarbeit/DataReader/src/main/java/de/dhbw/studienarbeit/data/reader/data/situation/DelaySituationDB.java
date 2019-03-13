@@ -46,13 +46,14 @@ public class DelaySituationDB implements DelaySituation
 
 	public final List<DelaySituationDataPart> getDelayParts(SituationID situationID) throws IOException
 	{
-		final String sql = "SELECT avg(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay_avg, (stopID IN (SELECT stopID FROM StopSituation)) AS withSituation "
+		final String sql = "SELECT avg(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay_avg, (stopID IN (SELECT stopID FROM StopSituation WHERE situationID = ?)) AS withSituation "
 				+ "FROM Stop WHERE lineID IN (SELECT DISTINCT lineID FROM StopSituation, Stop WHERE Stop.stopID = StopSituation.stopID AND StopSituation.situationID = ?) "
 				+ "GROUP BY withSituation;";
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			preparedStatement.setString(1, situationID.getValue());
+			preparedStatement.setString(2, situationID.getValue());
 
 			final List<DelaySituationDataPart> list = new ArrayList<>();
 			database.select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
