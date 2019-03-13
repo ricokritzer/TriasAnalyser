@@ -50,12 +50,12 @@ public abstract class CountListWO<T extends Count> extends Updateable
 		}
 	}
 
-	public CountWO getNewestValue()
+	public CountData getNewestValue()
 	{
 		if (values.isEmpty())
 		{
-			return new CountWO(CountData.UNABLE_TO_COUNT, new Date(0));
+			return CountData.UNABLE_TO_COUNT;
 		}
-		return values.get(0);
+		return values.get(0).getValue();
 	}
 }
