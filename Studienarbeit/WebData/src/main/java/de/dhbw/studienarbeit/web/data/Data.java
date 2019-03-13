@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
+import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayHourData;
@@ -32,6 +33,7 @@ import de.dhbw.studienarbeit.web.data.counts.CountWO;
 import de.dhbw.studienarbeit.web.data.counts.CountWeathersWO;
 import de.dhbw.studienarbeit.web.data.counts.CountsWO;
 import de.dhbw.studienarbeit.web.data.line.DelayLineWO;
+import de.dhbw.studienarbeit.web.data.situation.DelaySituationWO;
 import de.dhbw.studienarbeit.web.data.station.DelayStationNeighbourWO;
 import de.dhbw.studienarbeit.web.data.station.DelayStationWO;
 import de.dhbw.studienarbeit.web.data.time.DelayHourWO;
@@ -85,6 +87,8 @@ public class Data
 
 	private final DelayStationNeighbourWO stationNeighbourWO;
 
+	private final DelaySituationWO delaySituationWO;
+
 	private static final Data INSTANCE = new Data();
 
 	private Data()
@@ -126,6 +130,8 @@ public class Data
 		delayWeatherSymbolWO = new DelayWeatherSymbolWO(updater);
 
 		stationNeighbourWO = new DelayStationNeighbourWO(updater);
+
+		delaySituationWO = new DelaySituationWO(updater);
 	}
 
 	public static Data getInstance()
@@ -656,5 +662,15 @@ public class Data
 	public static DelayVehicleTypeWO getDelayVehicleTypeWO()
 	{
 		return getInstance().delayVehicleTypeWO;
+	}
+
+	public static List<DelaySituationData> getDelaysSituation()
+	{
+		return getInstance().delaySituationWO.getData();
+	}
+
+	public static Date getDelaysSituationLastUpdated()
+	{
+		return getInstance().delaySituationWO.getLastUpdated();
 	}
 }
