@@ -49,4 +49,13 @@ public abstract class CountListWO<T extends Count> extends Updateable
 			list.remove(MAX_COUNT_ITEMS);
 		}
 	}
+
+	public CountWO getNewestValue()
+	{
+		if (values.isEmpty())
+		{
+			return new CountWO(CountData.UNABLE_TO_COUNT, new Date(0));
+		}
+		return values.get(0);
+	}
 }
