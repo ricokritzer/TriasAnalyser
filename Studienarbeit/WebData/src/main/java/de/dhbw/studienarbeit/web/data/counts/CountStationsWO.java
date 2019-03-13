@@ -14,13 +14,4 @@ public class CountStationsWO extends CountListWO<CountStations>
 		counter = new CountStationsDB();
 		updater.ifPresent(u -> u.updateEvery(5, MINUTES, this));
 	}
-
-	/**
-	 * @deprecated use setCounter() instead.
-	 */
-	@Deprecated
-	public void setCountStations(CountStations countStations)
-	{
-		setCounter(countStations);
-	}
 }

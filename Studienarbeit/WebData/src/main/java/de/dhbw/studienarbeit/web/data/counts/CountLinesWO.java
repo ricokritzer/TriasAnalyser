@@ -13,13 +13,4 @@ public class CountLinesWO extends CountListWO<CountLines>
 		counter = new CountLinesDB();
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
-
-	/*
-	 * @deprecated use setCounter(...) instead
-	 */
-	@Deprecated
-	public void setCountLines(CountLines countLines)
-	{
-		setCounter(countLines);
-	}
 }

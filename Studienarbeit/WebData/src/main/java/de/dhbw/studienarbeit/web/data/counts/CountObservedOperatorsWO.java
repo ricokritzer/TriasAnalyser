@@ -13,13 +13,4 @@ public class CountObservedOperatorsWO extends CountListWO<CountObservedOperators
 		counter = new CountObservedOperatorsDB();
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
-
-	/**
-	 * @deprecated use setCounter() instead.
-	 */
-	@Deprecated
-	public void setCountOperators(CountObservedOperators countObservedOperators)
-	{
-		setCounter(countObservedOperators);
-	}
 }

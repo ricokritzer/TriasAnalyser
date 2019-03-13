@@ -13,13 +13,4 @@ public class CountStationsWithRealtimeDataWO extends CountListWO<CountStationsWi
 		counter = new CountStationsWithRealtimeDataDB();
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
-
-	/**
-	 * @deprecated use setCounter() instead.
-	 */
-	@Deprecated
-	public void setCountStations(CountStationsWithRealtimeData countStationsWithRealtimeData)
-	{
-		setCounter(countStationsWithRealtimeData);
-	}
 }

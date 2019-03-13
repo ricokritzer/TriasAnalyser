@@ -14,13 +14,4 @@ public class CountWeathersWO extends CountListWO<CountWeather>
 		counter = new CountWeatherDB();
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
-
-	/**
-	 * @deprecated use setCounter() instead.
-	 */
-	@Deprecated
-	public void setCountWeather(CountWeather countWeather)
-	{
-		setCounter(countWeather);
-	}
 }
