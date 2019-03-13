@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayStationNeighbourDB implements DelayStationNeighbour
@@ -38,62 +39,52 @@ public class DelayStationNeighbourDB implements DelayStationNeighbour
 		return list;
 	}
 
-	public Optional<DelayStationNeighbourData> convertToStationNeighbour(final StationNeighbourData stationNeighbour)
+	private Optional<DelayAverage> getDelay(StationData stationFrom, StationData stationTo,
+			StationData requestedStation)
 	{
-		double avg1 = 0.0;
-		double avg2 = 0.0;
-
 		final String sql = "SELECT avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay "
 				+ "FROM Stop "
 				+ "WHERE Stop.lineID in (SELECT LineId FROM StationNeighbour WHERE stationID1 = ? AND stationID2 = ?) "
-				+ "AND Stop.stationID = ?";
+				+ "AND Stop.stationID = ? HAVING count(Stop.realTime) > 1";
 
 		final DatabaseReader database = new DatabaseReader();
 
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
-			preparedStatement.setString(1, stationNeighbour.getStationFrom().getStationID().getValue());
-			preparedStatement.setString(2, stationNeighbour.getStationTo().getStationID().getValue());
-			preparedStatement.setString(3, stationNeighbour.getStationFrom().getStationID().getValue());
+			preparedStatement.setString(1, stationFrom.getStationID().getValue());
+			preparedStatement.setString(2, stationTo.getStationID().getValue());
+			preparedStatement.setString(3, requestedStation.getStationID().getValue());
 
 			final List<Double> list = new ArrayList<>();
 			database.select(r -> DelayStationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
 
-			if (list.size() == 1)
-			{
-				avg1 = list.get(0).doubleValue();
-			}
+			return Optional.ofNullable(new DelayAverage(list.get(0).doubleValue()));
 		}
 		catch (SQLException | IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
 			return Optional.empty();
 		}
+	}
 
-		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
-		{
-			preparedStatement.setString(1, stationNeighbour.getStationFrom().getStationID().getValue());
-			preparedStatement.setString(2, stationNeighbour.getStationTo().getStationID().getValue());
-			preparedStatement.setString(3, stationNeighbour.getStationTo().getStationID().getValue());
-
-			final List<Double> list = new ArrayList<>();
-			database.select(r -> DelayStationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
-
-			if (list.size() == 1)
-			{
-				avg2 = list.get(0).doubleValue();
-			}
-		}
-		catch (SQLException | IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
-			return Optional.empty();
-		}
-
+	public Optional<DelayStationNeighbourData> convertToStationNeighbour(final StationNeighbourData stationNeighbour)
+	{
 		final StationData from = stationNeighbour.getStationFrom();
 		final StationData to = stationNeighbour.getStationTo();
 
-		return Optional.of(new DelayStationNeighbourData(from.getName(), from.getPosition(), avg1, to.getName(),
-				to.getPosition(), avg2));
+		final Optional<DelayAverage> avg1 = getDelay(from, to, from);
+		if (!avg1.isPresent())
+		{
+			return Optional.empty();
+		}
+
+		final Optional<DelayAverage> avg2 = getDelay(from, to, to);
+		if (!avg2.isPresent())
+		{
+			return Optional.empty();
+		}
+
+		return Optional.of(new DelayStationNeighbourData(from.getName(), from.getPosition(), avg1.get(), to.getName(),
+				to.getPosition(), avg2.get()));
 	}
 }

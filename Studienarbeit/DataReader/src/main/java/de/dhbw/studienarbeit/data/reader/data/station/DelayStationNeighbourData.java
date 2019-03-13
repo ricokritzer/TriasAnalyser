@@ -80,6 +80,7 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 	/*
 	 * @Deprecated use getDelayAverage instead.
 	 */
+	@Deprecated
 	public double getAvg2()
 	{
 		return delayAverage2.getValue();
