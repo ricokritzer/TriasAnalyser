@@ -27,7 +27,7 @@ public class SituationDB
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
+			LOGGER.log(Level.WARNING, "Unable to parse to situation.", e);
 			return Optional.empty();
 		}
 	}
