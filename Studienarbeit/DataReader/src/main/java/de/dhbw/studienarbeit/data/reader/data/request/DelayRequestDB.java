@@ -20,7 +20,7 @@ import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayRequestDB extends DB<Delay>
+public class DelayRequestDB extends DB<Delay> implements DelayRequest
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayRequestDB.class.getName());
 

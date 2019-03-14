@@ -1,14 +1,21 @@
 package de.dhbw.studienarbeit.web.data;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
+import de.dhbw.studienarbeit.data.reader.data.line.Line;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequest;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestDB;
+import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayHourData;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
@@ -672,5 +679,22 @@ public class Data
 	public static Date getDelaysSituationLastUpdated()
 	{
 		return getInstance().delaySituationWO.getLastUpdated();
+	}
+
+	public static DelayRequest getDelayRequestFor(StationID stationID)
+	{
+		return new DelayRequestDB(stationID);
+	}
+
+	public static List<Line> getLinesAt(StationID stationID)
+	{
+		try
+		{
+			return new LinesAtStationDB().getLinesAt(stationID);
+		}
+		catch (IOException e)
+		{
+			return new ArrayList<>();
+		}
 	}
 }
