@@ -11,15 +11,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.Delay;
-import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
+import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayRequestDB
+public class DelayRequestDB extends DB<Delay>
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayRequestDB.class.getName());
 
@@ -62,20 +63,6 @@ public class DelayRequestDB
 	public void setLineID(LineID lineID)
 	{
 		this.lineID = Optional.ofNullable(lineID);
-	}
-
-	private static final Optional<Delay> getDelay(ResultSet result)
-	{
-		try
-		{
-			final double delay = result.getDouble("delay");
-			return Optional.of(new Delay(delay));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to " + Delay.class.getName(), e);
-			return Optional.empty();
-		}
 	}
 
 	public final CountData getCancelledStops() throws IOException
@@ -136,7 +123,7 @@ public class DelayRequestDB
 			setValues(preparedStatement);
 
 			final List<Delay> list = new ArrayList<>();
-			database.select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
@@ -155,5 +142,11 @@ public class DelayRequestDB
 		lineID.ifPresent(h -> stringBuilder.append(" AND lineID = ?"));
 
 		return stringBuilder.toString();
+	}
+
+	@Override
+	protected Optional<Delay> getValue(ResultSet result) throws SQLException
+	{
+		return Optional.of(new Delay(result.getDouble("delay")));
 	}
 }
