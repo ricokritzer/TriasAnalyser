@@ -58,6 +58,10 @@ public class DelayStationNeighbourDB implements DelayStationNeighbour
 			final List<Double> list = new ArrayList<>();
 			database.select(r -> DelayStationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
 
+			if (list.isEmpty())
+			{
+				return Optional.empty();
+			}
 			return Optional.ofNullable(new DelayAverage(list.get(0).doubleValue()));
 		}
 		catch (SQLException | IOException e)
