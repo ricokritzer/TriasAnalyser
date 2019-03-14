@@ -7,40 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class StationNeighbourDB implements StationNeighbour
+public class StationNeighbourDB extends DB<StationNeighbourData> implements StationNeighbour
 {
-	private static final Logger LOGGER = Logger.getLogger(StationNeighbourDB.class.getName());
-
-	private static final Optional<StationNeighbourData> getTrack(ResultSet result)
-	{
-		try
-		{
-			final StationID station1 = new StationID(result.getString("stationID1"));
-			final StationName stationName1 = new StationName(result.getString("name1"));
-			final Position position1 = new Position(result.getDouble("lat1"), result.getDouble("lon1"));
-			final OperatorName operator1 = new OperatorName("operator1");
-			final StationData stationFrom = new StationData(station1, stationName1, position1, operator1);
-
-			final StationID station2 = new StationID(result.getString("stationID2"));
-			final StationName stationName2 = new StationName(result.getString("name2"));
-			final Position position2 = new Position(result.getDouble("lat2"), result.getDouble("lon2"));
-			final OperatorName operator2 = new OperatorName("operator2");
-			final StationData stationTo = new StationData(station2, stationName2, position2, operator2);
-
-			return Optional.of(new StationNeighbourData(stationFrom, stationTo));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to track.", e);
-			return Optional.empty();
-		}
-	}
-
 	public final List<StationNeighbourData> getStationNeighbours() throws IOException
 	{
 		final String sql = "SELECT DISTINCT "
@@ -53,12 +25,30 @@ public class StationNeighbourDB implements StationNeighbour
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<StationNeighbourData> list = new ArrayList<>();
-			database.select(r -> StationNeighbourDB.getTrack(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	protected Optional<StationNeighbourData> getValue(ResultSet result) throws SQLException
+	{
+		final StationID station1 = new StationID(result.getString("stationID1"));
+		final StationName stationName1 = new StationName(result.getString("name1"));
+		final Position position1 = new Position(result.getDouble("lat1"), result.getDouble("lon1"));
+		final OperatorName operator1 = new OperatorName("operator1");
+		final StationData stationFrom = new StationData(station1, stationName1, position1, operator1);
+
+		final StationID station2 = new StationID(result.getString("stationID2"));
+		final StationName stationName2 = new StationName(result.getString("name2"));
+		final Position position2 = new Position(result.getDouble("lat2"), result.getDouble("lon2"));
+		final OperatorName operator2 = new OperatorName("operator2");
+		final StationData stationTo = new StationData(station2, stationName2, position2, operator2);
+
+		return Optional.of(new StationNeighbourData(stationFrom, stationTo));
 	}
 }
