@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.line.LineData;
@@ -16,29 +14,11 @@ import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class LinesAtStationDB implements LinesAtStation
+public class LinesAtStationDB extends DB<LineData> implements LinesAtStation
 {
-	private static final Logger LOGGER = Logger.getLogger(LinesAtStationDB.class.getName());
-
-	private static final Optional<LineData> getLines(ResultSet result)
-	{
-		try
-		{
-			final LineID lineID = new LineID(result.getInt("lineID"));
-			final LineName name = new LineName(result.getString("name"));
-			final LineDestination destination = new LineDestination(result.getString("destination"));
-
-			return Optional.of(new LineData(lineID, name, destination));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to stop.", e);
-			return Optional.empty();
-		}
-	}
-
 	@Override
 	public final List<Line> getLinesAt(StationID stationID) throws IOException
 	{
@@ -50,12 +30,22 @@ public class LinesAtStationDB implements LinesAtStation
 			preparedStatement.setString(1, stationID.getValue());
 
 			final List<Line> list = new ArrayList<>();
-			database.select(r -> getLines(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	protected Optional<LineData> getValue(ResultSet result) throws SQLException
+	{
+		final LineID lineID = new LineID(result.getInt("lineID"));
+		final LineName name = new LineName(result.getString("name"));
+		final LineDestination destination = new LineDestination(result.getString("destination"));
+
+		return Optional.of(new LineData(lineID, name, destination));
 	}
 }
