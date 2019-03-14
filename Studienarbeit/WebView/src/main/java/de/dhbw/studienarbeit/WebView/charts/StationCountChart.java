@@ -32,17 +32,18 @@ public class StationCountChart extends AbstractChart
 
 	private List<BigDecimal> getStationData()
 	{
-		return Data.getCountsWO().getData().stream().map(e -> BigDecimal.valueOf(e.getCountStations().getValue())).collect(Collectors.toList());
+		
+		return Data.getCountStationsWO().getValues().stream().map(e -> BigDecimal.valueOf(e.getValue().getValue())).collect(Collectors.toList());
 	}
 
 	private List<BigDecimal> getRealTimeData()
 	{
-		return Data.getCountsWO().getData().stream().map(e -> BigDecimal.valueOf(e.getCountStationsWithRealtimeData().getValue())).collect(Collectors.toList());
+		return Data.getCountStationsWithRealtimeDataWO().getValues().stream().map(e -> BigDecimal.valueOf(e.getValue().getValue())).collect(Collectors.toList());
 	}
 
 	private List<BigDecimal> getObservedData()
 	{
-		return Data.getCountsWO().getData().stream().map(e -> BigDecimal.valueOf(e.getCountObservedStations().getValue())).collect(Collectors.toList());
+		return Data.getCountObservedStationsWO().getValues().stream().map(e -> BigDecimal.valueOf(e.getValue().getValue())).collect(Collectors.toList());
 	}
 	
 	private String[] getLabels()

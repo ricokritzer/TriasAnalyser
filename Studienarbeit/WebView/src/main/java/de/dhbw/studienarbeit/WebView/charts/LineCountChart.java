@@ -19,7 +19,7 @@ public class LineCountChart extends AbstractChart
 	@Override
 	protected String getChart()
 	{
-		LineDataset dataset = new LineDataset().setData(getData()).setLabel("Stationen").setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
+		LineDataset dataset = new LineDataset().setData(getData()).setLabel("Linien").setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
 		
 		LineData data = new LineData().addDataset(dataset).addLabels(getLabels());
 		
