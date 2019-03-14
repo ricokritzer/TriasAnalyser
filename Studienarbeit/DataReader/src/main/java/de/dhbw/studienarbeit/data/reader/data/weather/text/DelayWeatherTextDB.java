@@ -7,34 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayWeatherTextDB implements DelayWeatherText
+public class DelayWeatherTextDB extends DB<DelayWeatherTextData> implements DelayWeatherText
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayWeatherTextDB.class.getName());
-
-	private static final Optional<DelayWeatherTextData> getDelayLine(ResultSet result)
-	{
-		try
-		{
-			final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
-			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
-			final WeatherText textDE = new WeatherText(result.getString("textDE"));
-
-			return Optional.of(new DelayWeatherTextData(delayMaximum, delayAverage, textDE));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayWeatherTextDB.class.getName(), e);
-			return Optional.empty();
-		}
-	}
-
 	public static String getSQL()
 	{
 		return "SELECT " + "avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
@@ -52,12 +32,22 @@ public class DelayWeatherTextDB implements DelayWeatherText
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<DelayWeatherTextData> list = new ArrayList<>();
-			database.select(r -> DelayWeatherTextDB.getDelayLine(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
 			return list;
 		}
 		catch (SQLException e)
 		{
 			throw new IOException("Selecting does not succeed.", e);
 		}
+	}
+
+	@Override
+	protected Optional<DelayWeatherTextData> getValue(ResultSet result) throws SQLException
+	{
+		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
+		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
+		final WeatherText textDE = new WeatherText(result.getString("textDE"));
+
+		return Optional.of(new DelayWeatherTextData(delayMaximum, delayAverage, textDE));
 	}
 }
