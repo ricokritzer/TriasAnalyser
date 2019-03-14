@@ -7,30 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayWeatherCorrelationDB
+public class DelayWeatherCorrelationDB extends DB<Double>
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayWeatherCorrelationDB.class.getName());
-
-	private final Optional<Double> getDelay(ResultSet result)
-	{
-		try
-		{
-			final double value = result.getDouble("correlation");
-
-			return Optional.of(Double.valueOf(value));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to " + DelayWeatherCorrelationDB.class.getName(), e);
-			return Optional.empty();
-		}
-	}
-
 	public final double getCorrelationData(String fieldname) throws IOException
 	{
 		final String sql = getSqlFor(fieldname);
@@ -39,7 +21,7 @@ public class DelayWeatherCorrelationDB
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
 		{
 			final List<Double> list = new ArrayList<>();
-			database.select(r -> getDelay(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
 
 			return list.get(0).doubleValue();
 		}
@@ -58,5 +40,11 @@ public class DelayWeatherCorrelationDB
 				.append("(SELECT avg(%) AS avgX FROM StopWeather, Weather WHERE StopWeather.weatherID = Weather.id) tX, ") //
 				.append("(SELECT avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS avgY FROM StopWeather, Stop WHERE StopWeather.stopID = Stop.stopID) tY;")
 				.toString().replaceAll("%", fieldname);
+	}
+
+	@Override
+	protected Optional<Double> getValue(ResultSet result) throws SQLException
+	{
+		return Optional.of(Double.valueOf(result.getDouble("correlation")));
 	}
 }
