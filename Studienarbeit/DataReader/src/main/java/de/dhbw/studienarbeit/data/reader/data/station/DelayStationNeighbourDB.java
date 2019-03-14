@@ -11,26 +11,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayStationNeighbourDB implements DelayStationNeighbour
+public class DelayStationNeighbourDB extends DB<Double> implements DelayStationNeighbour
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayStationNeighbourDB.class.getName());
-
-	private static final Optional<Double> getDelay(ResultSet result)
-	{
-		try
-		{
-			final double delay = result.getDouble("delay");
-
-			return Optional.of(Double.valueOf(delay));
-		}
-		catch (SQLException e)
-		{
-			LOGGER.log(Level.WARNING, "Unable to parse to station.", e);
-			return Optional.empty();
-		}
-	}
 
 	public List<DelayStationNeighbourData> convertToStationNeighbours(final List<StationNeighbourData> tracks)
 	{
@@ -56,7 +42,7 @@ public class DelayStationNeighbourDB implements DelayStationNeighbour
 			preparedStatement.setString(3, requestedStation.getStationID().getValue());
 
 			final List<Double> list = new ArrayList<>();
-			database.select(r -> DelayStationNeighbourDB.getDelay(r).ifPresent(list::add), preparedStatement);
+			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
 
 			if (list.isEmpty())
 			{
@@ -90,5 +76,11 @@ public class DelayStationNeighbourDB implements DelayStationNeighbour
 
 		return Optional.of(new DelayStationNeighbourData(from.getName(), from.getPosition(), avg1.get(), to.getName(),
 				to.getPosition(), avg2.get()));
+	}
+
+	@Override
+	protected Optional<Double> getValue(ResultSet result) throws SQLException
+	{
+		return Optional.of(result.getDouble("delay"));
 	}
 }
