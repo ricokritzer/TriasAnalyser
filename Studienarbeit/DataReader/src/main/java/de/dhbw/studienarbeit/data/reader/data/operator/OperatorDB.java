@@ -7,15 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class OperatorDB extends DB<OperatorID> implements Operator
 {
-	private static final Logger LOGGER = Logger.getLogger(OperatorDB.class.getName());
-
 	public final List<OperatorID> getAllOperators() throws IOException
 	{
 		final String sql = "SELECT DISTINCT operator FROM Station;";
