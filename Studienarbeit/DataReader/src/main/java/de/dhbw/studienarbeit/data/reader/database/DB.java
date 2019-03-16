@@ -1,7 +1,11 @@
 package de.dhbw.studienarbeit.data.reader.database;
 
+import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +22,21 @@ public abstract class DB<T extends Object>
 		{
 			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Parsing does not succeed.", e);
 			return Optional.empty();
+		}
+	}
+
+	public List<T> readFromDatabase(final String sql) throws IOException
+	{
+		final DatabaseReader database = new DatabaseReader();
+		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
+		{
+			final List<T> list = new ArrayList<>();
+			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
+			return list;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
 		}
 	}
 
