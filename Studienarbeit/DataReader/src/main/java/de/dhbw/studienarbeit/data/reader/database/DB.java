@@ -40,5 +40,22 @@ public abstract class DB<T extends Object>
 		}
 	}
 
+	protected List<T> readFromDatabase(String sql, SetPreparedStatementArguments setValues) throws IOException
+	{
+		final DatabaseReader database = new DatabaseReader();
+		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
+		{
+			setValues.accept(preparedStatement);
+
+			final List<T> list = new ArrayList<>();
+			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
+			return list;
+		}
+		catch (SQLException e)
+		{
+			throw new IOException("Selecting does not succeed.", e);
+		}
+	}
+
 	protected abstract Optional<T> getValue(final ResultSet result) throws SQLException;
 }
