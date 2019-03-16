@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
@@ -28,10 +29,16 @@ public class TrackHelperTest
 		final Position pos2 = new Position(2, 2);
 		final Position pos4 = new Position(4, 4);
 
+		final DelayAverage delayZero = new DelayAverage(0.0);
+
+		final DelayAverage delayAverage1 = new DelayAverage(2);
+		final DelayAverage delayAverage2 = new DelayAverage(4);
+		final DelayAverage delayAverage3 = new DelayAverage(1);
+
 		final List<DelayStationNeighbourData> stationNeighbours = new ArrayList<>();
-		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, 0, name, pos2, 2));
-		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, 0, name, pos4, 4));
-		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, 0, name, pos1, 1));
+		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, delayZero, name, pos2, delayAverage1));
+		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, delayZero, name, pos4, delayAverage2));
+		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, delayZero, name, pos1, delayAverage3));
 
 		final List<Track> tracks = TrackHelper.convertToTrackList(stationNeighbours);
 
