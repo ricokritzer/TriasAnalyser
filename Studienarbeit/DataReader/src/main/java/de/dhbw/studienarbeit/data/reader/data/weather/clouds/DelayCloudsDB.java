@@ -1,10 +1,8 @@
 package de.dhbw.studienarbeit.data.reader.data.weather.clouds;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +10,6 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DB;
-import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayCloudsDB extends DB<DelayCloudsData> implements DelayClouds
 {
