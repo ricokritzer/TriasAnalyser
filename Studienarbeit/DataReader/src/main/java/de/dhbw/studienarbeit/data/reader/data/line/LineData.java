@@ -33,12 +33,6 @@ public class LineData implements Line
 	}
 
 	@Override
-	public String getLineName()
-	{
-		return lineName.getValue();
-	}
-
-	@Override
 	public String getLineDestination()
 	{
 		return lineDestination.getValue();

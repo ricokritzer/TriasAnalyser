@@ -9,8 +9,5 @@ public interface Line
 	LineDestination getDestination();
 
 	@Deprecated
-	String getLineName();
-
-	@Deprecated
 	String getLineDestination();
 }

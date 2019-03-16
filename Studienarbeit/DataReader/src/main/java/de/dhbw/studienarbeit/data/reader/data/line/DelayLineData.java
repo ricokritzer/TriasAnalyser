@@ -17,7 +17,7 @@ public class DelayLineData extends DelayData<Line>
 	@Deprecated
 	public String getLineName()
 	{
-		return value.getLineName();
+		return value.getName().getValue();
 	}
 
 	/*
@@ -26,6 +26,6 @@ public class DelayLineData extends DelayData<Line>
 	@Deprecated
 	public String getLineDestination()
 	{
-		return value.getLineDestination();
+		return value.getDestination().getValue();
 	}
 }
