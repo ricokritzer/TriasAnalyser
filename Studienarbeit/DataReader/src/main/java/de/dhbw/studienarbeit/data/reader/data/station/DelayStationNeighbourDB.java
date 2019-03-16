@@ -14,7 +14,7 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayStationNeighbourDB extends DB<Double> implements DelayStationNeighbour
+public class DelayStationNeighbourDB extends DB<DelayAverage> implements DelayStationNeighbour
 {
 	private static final Logger LOGGER = Logger.getLogger(DelayStationNeighbourDB.class.getName());
 
@@ -41,14 +41,14 @@ public class DelayStationNeighbourDB extends DB<Double> implements DelayStationN
 			preparedStatement.setString(2, stationTo.getStationID().getValue());
 			preparedStatement.setString(3, requestedStation.getStationID().getValue());
 
-			final List<Double> list = new ArrayList<>();
+			final List<DelayAverage> list = new ArrayList<>();
 			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
 
 			if (list.isEmpty())
 			{
 				return Optional.empty();
 			}
-			return Optional.ofNullable(new DelayAverage(list.get(0).doubleValue()));
+			return Optional.ofNullable(list.get(0));
 		}
 		catch (SQLException | IOException e)
 		{
@@ -79,8 +79,8 @@ public class DelayStationNeighbourDB extends DB<Double> implements DelayStationN
 	}
 
 	@Override
-	protected Optional<Double> getValue(ResultSet result) throws SQLException
+	protected Optional<DelayAverage> getValue(ResultSet result) throws SQLException
 	{
-		return Optional.of(result.getDouble("delay"));
+		return Optional.of(new DelayAverage(result.getDouble("delay")));
 	}
 }
