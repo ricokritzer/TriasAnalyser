@@ -19,7 +19,8 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.ObservedStationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.ObservedStationData;
 import de.dhbw.studienarbeit.data.trias.Station;
 
 public class TestApp
@@ -65,11 +66,12 @@ public class TestApp
 			manager = new DataManager("no name", new ArrayList<>());
 			manager.addApiKey(testApiKey);
 
-			final List<StationDB> stationsDB = StationDB.getObservedStations(operator);
-			manager.add(stationsDB
-					.parallelStream().map(stationDB -> new Station(stationDB.getStationID(), stationDB.getName(),
-							stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
-					.collect(Collectors.toList()));
+			final List<ObservedStationData> stationsDB = new ObservedStationDB().getObservedStations(operator);
+			manager.add(
+					stationsDB
+							.parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
+									stationDB.getStationName(), stationDB.getPosition(), stationDB.getOperatorID()))
+							.collect(Collectors.toList()));
 		}
 		catch (IOException e)
 		{

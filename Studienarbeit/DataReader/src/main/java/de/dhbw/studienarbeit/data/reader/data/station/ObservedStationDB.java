@@ -35,10 +35,11 @@ public class ObservedStationDB extends DB<ObservedStationData> implements Observ
 	protected Optional<ObservedStationData> getValue(ResultSet result) throws SQLException
 	{
 		final StationID stationID = new StationID(result.getString("stationID"));
+		final StationName stationName = new StationName(result.getString("name"));
 		final double lat = result.getDouble("lat");
 		final double lon = result.getDouble("lon");
 		final OperatorID operator = new OperatorID(result.getString("operator"));
 
-		return Optional.of(new ObservedStationData(stationID, new Position(lat, lon), operator));
+		return Optional.of(new ObservedStationData(stationID, stationName, new Position(lat, lon), operator));
 	}
 }

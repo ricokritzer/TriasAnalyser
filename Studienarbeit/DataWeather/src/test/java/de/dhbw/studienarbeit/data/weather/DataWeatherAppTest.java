@@ -8,17 +8,23 @@ import java.util.List;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 
-import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
+import de.dhbw.studienarbeit.data.reader.data.station.ObservedStationData;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
 public class DataWeatherAppTest
 {
 	@Test
 	void testConvertToList() throws Exception
 	{
-		final StationDB station = new StationDB("foo", "bar", 49.0182304023, 8.40232424, "bla", true);
-		final StationDB stationWithSimilarWeather = new StationDB("foo2", "bar2", 49.01923123, 8.40432424, "bla2", true);
+		final ObservedStationData station = new ObservedStationData(new StationID("foo"), new StationName("bar"),
+				new Position(49.0182304023, 8.40232424), new OperatorID("bla"));
+		final ObservedStationData stationWithSimilarWeather = new ObservedStationData(new StationID("foo2"),
+				new StationName("bar2"), new Position(49.01923123, 8.40432424), new OperatorID("bla2"));
 
-		final List<StationDB> stations = new ArrayList<>();
+		final List<ObservedStationData> stations = new ArrayList<>();
 		stations.add(station);
 		stations.add(stationWithSimilarWeather);
 

@@ -17,7 +17,10 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.ObservedStationData;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
 public class DataWeatherApp
 {
@@ -27,13 +30,13 @@ public class DataWeatherApp
 	{
 		LogLevelHelper.setLogLevel(Level.ALL);
 
-		List<StationDB> testStations = new ArrayList<>();
-		testStations.add(new StationDB("de:test:Karlsruhe", "Karlsruhe", 49.01, 8.40, "Stadt", true));
-		testStations.add(new StationDB("de:test:Berlin", "Berlin", 52.521918, 13.413215, "Stadt", true));
+		List<ObservedStationData> testStations = new ArrayList<>();
+		testStations.add(new ObservedStationData(new StationID("de:test:Karlsruhe"), new StationName("Karlsruhe"),
+				new Position(49.01, 8.40), new OperatorID("Stadt")));
 		new DataWeatherApp().startDataCollection(testStations);
 	}
 
-	public void startDataCollection(final List<StationDB> stations) throws IOException
+	public void startDataCollection(final List<ObservedStationData> stations) throws IOException
 	{
 		final OperatorID weatherOperator = new OperatorID("weather");
 		final List<ApiKeyData> apiKeys = new ApiKeyDB().getApiKeys(weatherOperator);
@@ -52,16 +55,16 @@ public class DataWeatherApp
 		DatabaseSaver.saveData(waitingQueueCount);
 	}
 
-	protected List<Weather> convertToWeather(List<StationDB> stations)
+	protected List<Weather> convertToWeather(List<ObservedStationData> stations)
 	{
 		final Set<Weather> weather = new HashSet<>();
 		stations.forEach(s -> weather.add(convertToWeather(s)));
 		return new ArrayList<>(weather);
 	}
 
-	private Weather convertToWeather(final StationDB station)
+	private Weather convertToWeather(final ObservedStationData station)
 	{
-		return new Weather(station.getLat(), station.getLon());
+		return new Weather(station.getPosition().getLat(), station.getPosition().getLon());
 	}
 
 	public void stopDataCollection()

@@ -9,7 +9,8 @@ import java.util.logging.Logger;
 import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorDB;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.ObservedStation;
+import de.dhbw.studienarbeit.data.reader.data.station.ObservedStationDB;
 import de.dhbw.studienarbeit.data.trias.DataTriasApp;
 import de.dhbw.studienarbeit.data.weather.DataWeatherApp;
 
@@ -33,12 +34,14 @@ public class App
 		Logger.getLogger("").addHandler(handler);
 		LogLevelHelper.setLogLevel(Level.WARNING);
 
+		final ObservedStation observedStation = new ObservedStationDB();
+
 		for (OperatorID operator : new OperatorDB().getObservedOperators())
 		{
-			new DataTriasApp().startDataCollection(operator, StationDB.getObservedStations(operator));
+			new DataTriasApp().startDataCollection(operator, observedStation.getObservedStations(operator));
 		}
 
-		new DataWeatherApp().startDataCollection(StationDB.getObservedStations());
+		new DataWeatherApp().startDataCollection(observedStation.getObservedStations());
 		LOGGER.log(Level.INFO, "Data collection started");
 	}
 }

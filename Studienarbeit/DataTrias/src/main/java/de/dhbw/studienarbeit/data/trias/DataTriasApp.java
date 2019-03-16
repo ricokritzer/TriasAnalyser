@@ -13,7 +13,10 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
 import de.dhbw.studienarbeit.data.helper.datamanagement.WaitingQueueCount;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
+import de.dhbw.studienarbeit.data.reader.data.station.ObservedStationData;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
 public class DataTriasApp
 {
@@ -22,15 +25,18 @@ public class DataTriasApp
 
 	public static void main(String[] args) throws IOException
 	{
-		List<StationDB> testStations = new ArrayList<>();
-		testStations.add(new StationDB("de:08212:89", "bla", 49.01, 8.40, "kvv", true));
+		List<ObservedStationData> testStations = new ArrayList<>();
+		testStations.add(new ObservedStationData(new StationID("de:08212:89"), new StationName("bla"),
+				new Position(49.01, 8.40), new OperatorID("kvv")));
 		new DataTriasApp().startDataCollection(new OperatorID("kvv"), testStations);
 	}
 
-	public void startDataCollection(OperatorID operator, List<StationDB> stationsDB) throws IOException
+	public void startDataCollection(OperatorID operator, List<ObservedStationData> stationsDB) throws IOException
 	{
-		stations = stationsDB.parallelStream().map(stationDB -> new Station(stationDB.getStationID(),
-				stationDB.getName(), stationDB.getLat(), stationDB.getLat(), stationDB.getOperator()))
+		stations = stationsDB.parallelStream()
+				.map(stationDB -> new Station(stationDB.getStationID().getValue(),
+						stationDB.getStationName().getStationName(), stationDB.getPosition().getLat(),
+						stationDB.getPosition().getLon(), stationDB.getOperatorID().getName()))
 				.collect(Collectors.toList());
 		final Date start = new Date();
 		manager = new DataManager(operator.getName(), new ApiKeyDB().getApiKeys(operator));

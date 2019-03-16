@@ -12,6 +12,10 @@ import de.dhbw.studienarbeit.data.helper.datamanagement.ApiKeyData;
 import de.dhbw.studienarbeit.data.helper.datamanagement.Manageable;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import de.dhbw.studienarbeit.data.helper.datamanagement.UpdateException;
+import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
 public class Station implements Manageable
 {
@@ -33,6 +37,15 @@ public class Station implements Manageable
 		this.lat = lat;
 		this.lon = lon;
 		this.operator = operator;
+	}
+
+	public Station(StationID stationID, StationName name, Position position, OperatorID operator)
+	{
+		this.stationID = stationID.getValue();
+		this.name = name.getStationName();
+		this.lat = position.getLat();
+		this.lon = position.getLon();
+		this.operator = operator.getName();
 	}
 
 	public String getStationID()
