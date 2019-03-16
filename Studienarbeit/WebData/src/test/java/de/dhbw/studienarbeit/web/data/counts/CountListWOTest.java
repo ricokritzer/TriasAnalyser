@@ -14,7 +14,7 @@ import org.junit.Test;
 import de.dhbw.studienarbeit.data.reader.data.count.Count;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
-public class CountsListWOTest
+public class CountListWOTest
 {
 	@Test
 	public void reduceToTenDoesNothingByHavingLessElements() throws Exception
