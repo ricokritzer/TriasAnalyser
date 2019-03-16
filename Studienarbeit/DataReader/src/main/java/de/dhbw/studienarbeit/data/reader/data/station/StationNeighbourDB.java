@@ -1,15 +1,12 @@
 package de.dhbw.studienarbeit.data.reader.data.station;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.DB;
-import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class StationNeighbourDB extends DB<StationNeighbourData> implements StationNeighbour
 {
@@ -21,17 +18,7 @@ public class StationNeighbourDB extends DB<StationNeighbourData> implements Stat
 				+ "FROM StationNeighbour, Station station1, Station station2 "
 				+ "WHERE StationNeighbour.stationID1 = station1.stationID AND StationNeighbour.stationID2 = station2.stationID;";
 
-		final DatabaseReader database = new DatabaseReader();
-		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
-		{
-			final List<StationNeighbourData> list = new ArrayList<>();
-			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
-			return list;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
+		return readFromDatabase(sql);
 	}
 
 	@Override
