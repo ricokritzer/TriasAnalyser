@@ -7,7 +7,4 @@ public interface Line
 	LineName getName();
 
 	LineDestination getDestination();
-
-	@Deprecated
-	String getLineDestination();
 }

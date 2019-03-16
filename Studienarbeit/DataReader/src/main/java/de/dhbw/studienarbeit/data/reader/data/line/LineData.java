@@ -31,10 +31,4 @@ public class LineData implements Line
 	{
 		return lineDestination;
 	}
-
-	@Override
-	public String getLineDestination()
-	{
-		return lineDestination.getValue();
-	}
 }
