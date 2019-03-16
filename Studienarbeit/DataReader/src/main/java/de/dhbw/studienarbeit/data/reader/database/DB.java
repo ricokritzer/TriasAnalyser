@@ -25,7 +25,7 @@ public abstract class DB<T extends Object>
 		}
 	}
 
-	public List<T> readFromDatabase(final String sql) throws IOException
+	protected List<T> readFromDatabase(final String sql) throws IOException
 	{
 		final DatabaseReader database = new DatabaseReader();
 		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
