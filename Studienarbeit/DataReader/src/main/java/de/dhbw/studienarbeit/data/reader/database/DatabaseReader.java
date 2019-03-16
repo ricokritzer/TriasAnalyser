@@ -11,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.database.DatabaseConnector;
-import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
 public class DatabaseReader extends DatabaseConnector
 {
@@ -48,9 +48,16 @@ public class DatabaseReader extends DatabaseConnector
 				SettingsReadOnly.getInstance().getDatabaseReaderPassword());
 	}
 
-	public CountData count(String sql) throws IOException
+	public CountData count(String sql)
 	{
-		reconnectIfNeccessary();
+		try
+		{
+			reconnectIfNeccessary();
+		}
+		catch (IOException e1)
+		{
+			LOGGER.log(Level.WARNING, "Unable to reconnect", e1);
+		}
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
 		{
@@ -68,7 +75,8 @@ public class DatabaseReader extends DatabaseConnector
 		}
 		catch (SQLException e)
 		{
-			throw new IOException("Unable to count: " + sql, e);
+			LOGGER.log(Level.WARNING, "Unable to count: " + sql, e);
+			return CountData.UNABLE_TO_COUNT;
 		}
 	}
 
