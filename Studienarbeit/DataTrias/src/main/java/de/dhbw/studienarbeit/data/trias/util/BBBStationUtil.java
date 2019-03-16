@@ -27,7 +27,6 @@ import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
 import de.dhbw.studienarbeit.data.helper.datamanagement.ServerNotAvailableException;
 import de.dhbw.studienarbeit.data.reader.data.api.ApiKeyDB;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 
 public class BBBStationUtil
 {
@@ -39,11 +38,11 @@ public class BBBStationUtil
 	private static void getAllStations()
 	{
 		List<String> stationIDs = getStationIDs();
-		stationIDs.stream().map(new Function<String, StationDB>()
+		stationIDs.stream().map(new Function<String, StationSaveable>()
 		{
 
 			@Override
-			public StationDB apply(String stationID)
+			public StationSaveable apply(String stationID)
 			{
 				HttpURLConnection con;
 				try
@@ -73,14 +72,14 @@ public class BBBStationUtil
 		});
 	}
 
-	private static StationDB getStationDB(String stationID, String responseXML)
+	private static StationSaveable getStationDB(String stationID, String responseXML)
 			throws SAXException, IOException, ParserConfigurationException, NullPointerException
 	{
 		DocumentBuilder parser = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		Document doc = parser.parse(new InputSource(new StringReader(responseXML)));
 		Element docElement = doc.getDocumentElement();
 		String stationName = docElement.getElementsByTagName("StopPointName").item(0).getTextContent();
-		return new StationDB(stationID, stationName.substring(0, stationName.length() - 2),
+		return new StationSaveable(stationID, stationName.substring(0, stationName.length() - 2),
 				Double.valueOf(docElement.getElementsByTagName("Latitude").item(0).getTextContent()),
 				Double.valueOf(docElement.getElementsByTagName("Longitude").item(0).getTextContent()), "bbb", true);
 	}

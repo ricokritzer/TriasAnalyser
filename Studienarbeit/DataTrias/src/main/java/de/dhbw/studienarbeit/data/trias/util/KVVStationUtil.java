@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.dhbw.studienarbeit.data.helper.database.saver.DatabaseSaver;
-import de.dhbw.studienarbeit.data.reader.data.station.StationDB;
 
 public class KVVStationUtil
 {
@@ -19,9 +18,9 @@ public class KVVStationUtil
 		getAllStations();
 	}
 
-	public static List<StationDB> getAllStations()
+	public static List<StationSaveable> getAllStations()
 	{
-		List<StationDB> stations = new ArrayList<>();
+		List<StationSaveable> stations = new ArrayList<>();
 		try
 		{
 			File file = new File("stops_kvv.txt");
@@ -50,7 +49,7 @@ public class KVVStationUtil
 					{
 						continue;
 					}
-					stations.add(new StationDB(stationID, name, lat, lon, KVV, true));
+					stations.add(new StationSaveable(stationID, name, lat, lon, KVV, true));
 				}
 			}
 			reader.close();
@@ -66,9 +65,9 @@ public class KVVStationUtil
 		return stations;
 	}
 
-	private static boolean testAlreadySaved(List<StationDB> stations, String stationID)
+	private static boolean testAlreadySaved(List<StationSaveable> stations, String stationID)
 	{
-		for (StationDB s : stations)
+		for (StationSaveable s : stations)
 		{
 			if (s.getStationID().equals(stationID))
 			{
