@@ -37,15 +37,6 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 		return position1;
 	}
 
-	/*
-	 * @Deprecated use getDelayAverage instead.
-	 */
-	@Deprecated
-	public double getAvg1()
-	{
-		return delayAverage1.getValue();
-	}
-
 	public DelayAverage getDelayAverage1()
 	{
 		return delayAverage1;
@@ -59,15 +50,6 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 	public Position getPosition2()
 	{
 		return position2;
-	}
-
-	/*
-	 * @Deprecated use getDelayAverage instead.
-	 */
-	@Deprecated
-	public double getAvg2()
-	{
-		return delayAverage2.getValue();
 	}
 
 	public DelayAverage getDelayAverage2()
