@@ -27,8 +27,8 @@ public class DelayHumidityDB extends DB<DelayHumidityData> implements DelayHumid
 	{
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
-		final double wind = result.getDouble(NAME);
+		final double humidity = result.getDouble(NAME);
 
-		return Optional.of(new DelayHumidityData(delayMaximum, delayAverage, wind));
+		return Optional.of(new DelayHumidityData(delayMaximum, delayAverage, humidity));
 	}
 }
