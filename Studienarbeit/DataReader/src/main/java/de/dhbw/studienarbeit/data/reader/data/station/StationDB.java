@@ -14,6 +14,7 @@ import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 import de.dhbw.studienarbeit.data.reader.data.operator.OperatorID;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
+@Deprecated
 public class StationDB implements Saveable
 {
 	private static final Logger LOGGER = Logger.getLogger(StationDB.class.getName());

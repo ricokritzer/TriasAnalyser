@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.reader.data.station;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,6 +17,18 @@ public class ObservedStationDB extends DB<ObservedStationData> implements Observ
 	{
 		final String sql = "SELECT * FROM Station WHERE observe = true;";
 		return readFromDatabase(sql);
+	}
+
+	@Override
+	public List<ObservedStationData> getObservedStations(OperatorID operatorID) throws IOException
+	{
+		final String sql = "SELECT * FROM Station WHERE observe = true AND operator = ?;";
+		return readFromDatabase(sql, e -> setValues(e, operatorID));
+	}
+
+	private void setValues(PreparedStatement e, OperatorID operatorID) throws SQLException
+	{
+		e.setString(1, operatorID.getName());
 	}
 
 	@Override
