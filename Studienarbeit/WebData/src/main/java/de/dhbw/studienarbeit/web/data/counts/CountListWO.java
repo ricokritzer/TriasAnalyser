@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import de.dhbw.studienarbeit.data.reader.data.count.Count;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
@@ -13,13 +15,13 @@ public abstract class CountListWO<T extends Count> extends Updateable
 {
 	protected static final int MAX_COUNT_ITEMS = 10;
 
-	protected List<CountWO> values = new ArrayList<>();
+	protected java.util.Queue<CountWO> values = new LinkedBlockingQueue<>();
 
 	protected T counter;
 
 	protected void add(CountWO countWO)
 	{
-		values.add(0, countWO);
+		values.add(countWO);
 		reduceListElements(values);
 	}
 
@@ -39,14 +41,14 @@ public abstract class CountListWO<T extends Count> extends Updateable
 
 	public final List<CountWO> getValues()
 	{
-		return values;
+		return new ArrayList<>(values);
 	}
 
-	protected static void reduceListElements(List<? extends Object> list)
+	protected static void reduceListElements(Queue<? extends Object> queue)
 	{
-		while (list.size() > MAX_COUNT_ITEMS)
+		while (queue.size() > MAX_COUNT_ITEMS)
 		{
-			list.remove(MAX_COUNT_ITEMS);
+			queue.remove();
 		}
 	}
 
@@ -56,6 +58,6 @@ public abstract class CountListWO<T extends Count> extends Updateable
 		{
 			return CountData.UNABLE_TO_COUNT;
 		}
-		return values.get(0).getValue();
+		return values.peek().getValue();
 	}
 }

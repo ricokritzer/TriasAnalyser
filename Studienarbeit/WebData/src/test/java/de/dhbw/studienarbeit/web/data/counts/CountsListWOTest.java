@@ -5,9 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class CountsListWOTest
 	@Test
 	public void reduceToTenDoesNothingByHavingLessElements() throws Exception
 	{
-		final List<Integer> list = getListWithElements(10);
+		final Queue<Integer> list = getQueueWithElements(10);
 
 		CountListWO.reduceListElements(list);
 
@@ -29,7 +29,7 @@ public class CountsListWOTest
 	@Test
 	public void reduceToTenReducesIfThereAre11Elements() throws Exception
 	{
-		final List<Integer> list = getListWithElements(11);
+		final Queue<Integer> list = getQueueWithElements(11);
 
 		CountListWO.reduceListElements(list);
 
@@ -39,7 +39,7 @@ public class CountsListWOTest
 	@Test
 	public void reduceToTenReducesIfThereAre12Elements() throws Exception
 	{
-		final List<Integer> list = getListWithElements(12);
+		final Queue<Integer> list = getQueueWithElements(12);
 
 		CountListWO.reduceListElements(list);
 
@@ -92,13 +92,13 @@ public class CountsListWOTest
 		}
 	}
 
-	private List<Integer> getListWithElements(int count)
+	private Queue<Integer> getQueueWithElements(int count)
 	{
-		List<Integer> list = new ArrayList<>();
+		Queue<Integer> queue = new LinkedBlockingQueue<>();
 		for (int i = 0; i < 10; i++)
 		{
-			list.add(Integer.valueOf(i));
+			queue.add(Integer.valueOf(i));
 		}
-		return list;
+		return queue;
 	}
 }
