@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.Delay;
-import de.dhbw.studienarbeit.data.reader.data.count.CountDB;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
@@ -22,8 +18,6 @@ import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayRequestDB extends DB<Delay> implements DelayRequest
 {
-	private static final Logger LOGGER = Logger.getLogger(DelayRequestDB.class.getName());
-
 	protected final StationID stationID;
 
 	private Optional<Weekday> weekday = Optional.empty();
@@ -68,28 +62,7 @@ public class DelayRequestDB extends DB<Delay> implements DelayRequest
 	public final CountData getCancelledStops() throws IOException
 	{
 		final String sql = getSQL("count(*) AS total") + " AND realTime IS NULL;";
-
-		final DatabaseReader database = new DatabaseReader();
-		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
-		{
-			setValues(preparedStatement);
-
-			final List<CountData> count = new ArrayList<>();
-			database.select(result -> CountDB.getCount(result).ifPresent(count::add), preparedStatement);
-
-			if (count.isEmpty())
-			{
-				throw new SQLException("Unable to count: " + sql);
-			}
-
-			CountData c = count.get(0);
-			LOGGER.log(Level.FINEST, c + " entries count: " + sql);
-			return c;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
+		return new DatabaseReader().count(sql);
 	}
 
 	private void setValues(PreparedStatement preparedStatement) throws SQLException
@@ -116,20 +89,7 @@ public class DelayRequestDB extends DB<Delay> implements DelayRequest
 	public final List<Delay> getDelays() throws IOException
 	{
 		final String sql = getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay");
-
-		final DatabaseReader database = new DatabaseReader();
-		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
-		{
-			setValues(preparedStatement);
-
-			final List<Delay> list = new ArrayList<>();
-			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
-			return list;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
+		return readFromDatabase(sql, this::setValues);
 	}
 
 	protected String getSQL(String what)
