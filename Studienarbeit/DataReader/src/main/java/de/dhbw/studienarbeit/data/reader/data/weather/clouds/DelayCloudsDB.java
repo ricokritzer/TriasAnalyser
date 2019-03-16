@@ -22,18 +22,7 @@ public class DelayCloudsDB extends DB<DelayCloudsData> implements DelayClouds
 	public final List<DelayCloudsData> getDelays() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
-
-		final DatabaseReader database = new DatabaseReader();
-		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
-		{
-			final List<DelayCloudsData> list = new ArrayList<>();
-			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
-			return list;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
+		return readFromDatabase(sql);
 	}
 
 	@Override

@@ -1,17 +1,14 @@
 package de.dhbw.studienarbeit.data.reader.data.weather.symbol;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.database.DB;
-import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayWeatherSymbolDB extends DB<DelayWeatherSymbolData> implements DelayWeatherSymbol
 {
@@ -27,18 +24,7 @@ public class DelayWeatherSymbolDB extends DB<DelayWeatherSymbolData> implements 
 	public final List<DelayWeatherSymbolData> getDelays() throws IOException
 	{
 		final String sql = getSQL();
-
-		final DatabaseReader database = new DatabaseReader();
-		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
-		{
-			final List<DelayWeatherSymbolData> list = new ArrayList<>();
-			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
-			return list;
-		}
-		catch (SQLException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
+		return readFromDatabase(sql);
 	}
 
 	@Override

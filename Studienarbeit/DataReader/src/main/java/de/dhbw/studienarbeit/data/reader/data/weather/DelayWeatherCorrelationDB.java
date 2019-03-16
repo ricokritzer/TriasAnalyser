@@ -1,34 +1,25 @@
 package de.dhbw.studienarbeit.data.reader.data.weather;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.database.DB;
-import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayWeatherCorrelationDB extends DB<Double>
 {
 	public final double getCorrelationData(String fieldname) throws IOException
 	{
 		final String sql = getSqlFor(fieldname);
-
-		final DatabaseReader database = new DatabaseReader();
-		try (PreparedStatement preparedStatement = database.getPreparedStatement(sql))
+		List<Double> read = readFromDatabase(sql);
+		if (read.isEmpty())
 		{
-			final List<Double> list = new ArrayList<>();
-			database.select(r -> parse(r).ifPresent(list::add), preparedStatement);
+			throw new IOException("Selecting does not succeed, no elements read.");
+		}
 
-			return list.get(0).doubleValue();
-		}
-		catch (SQLException | IndexOutOfBoundsException e)
-		{
-			throw new IOException("Selecting does not succeed.", e);
-		}
+		return read.get(0).doubleValue();
 	}
 
 	public final String getSqlFor(String fieldname)
