@@ -68,10 +68,6 @@ public abstract class CountListWO<T extends Count> extends Updateable
 
 	public CountData getNewestValue()
 	{
-		if (values.isEmpty())
-		{
-			return CountData.UNABLE_TO_COUNT;
-		}
-		return values.peek().getValue();
+		return lastAdded;
 	}
 }
