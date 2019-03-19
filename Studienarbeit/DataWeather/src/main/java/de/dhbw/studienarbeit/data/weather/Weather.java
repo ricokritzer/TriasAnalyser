@@ -210,11 +210,11 @@ public class Weather implements Manageable, Saveable
 			LOGGER.log(Level.FINE, e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public String getSQLQuerry()
 	{
-		return "INSERT INTO Weather (lat, lon, timeStamp, temp, humidity, pressure, wind, clouds, text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		return "INSERT INTO Weather (lat, lon, timeStamp, temp, humidity, pressure, wind, clouds, weatherInformationID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, (SELECT id FROM WeatherInformation WHERE text = ?));";
 	}
 
 	@Override
