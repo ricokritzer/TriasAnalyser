@@ -508,6 +508,11 @@ public class Data
 		return getInstance().countLinesWO.getValues();
 	}
 
+	public static List<CountWO> getCountLinesDeltas()
+	{
+		return getInstance().countLinesWO.getDeltas();
+	}
+
 	public static CountData getCountLinesLatest()
 	{
 		return getInstance().countLinesWO.getNewestValue();
@@ -530,6 +535,11 @@ public class Data
 	public static List<CountWO> getCountObservedStations()
 	{
 		return getInstance().countObservedStationsWO.getValues();
+	}
+
+	public static List<CountWO> getCountObservedStationsDeltas()
+	{
+		return getInstance().countObservedStationsWO.getDeltas();
 	}
 
 	public static CountData getCountObservedStationsLatest()
@@ -556,6 +566,11 @@ public class Data
 		return getInstance().countObservedOperatorsWO.getValues();
 	}
 
+	public static List<CountWO> getCountObservedOperatorsDeltas()
+	{
+		return getInstance().countObservedOperatorsWO.getDeltas();
+	}
+
 	public static CountData getCountObservedOperatorsLatest()
 	{
 		return getInstance().countObservedOperatorsWO.getNewestValue();
@@ -578,6 +593,11 @@ public class Data
 	public static List<CountWO> getCountStationsWithRealtimeData()
 	{
 		return getInstance().countStationsWithRealtimeDataWO.getValues();
+	}
+
+	public static List<CountWO> getCountStationsWithRealtimeDataDeltas()
+	{
+		return getInstance().countStationsWithRealtimeDataWO.getDeltas();
 	}
 
 	public static CountData getCountStationsWithRealtimeDataLatest()
@@ -604,6 +624,11 @@ public class Data
 		return getInstance().countStationsWO.getValues();
 	}
 
+	public static List<CountWO> getCountStationsDeltas()
+	{
+		return getInstance().countStationsWO.getDeltas();
+	}
+
 	public static CountData getCountStationsLatest()
 	{
 		return getInstance().countStationsWO.getNewestValue();
@@ -628,6 +653,11 @@ public class Data
 		return getInstance().countStopsWO.getValues();
 	}
 
+	public static List<CountWO> getCountStopsDeltas()
+	{
+		return getInstance().countStopsWO.getDeltas();
+	}
+
 	public static CountData getCountStopsLatest()
 	{
 		return getInstance().countStopsWO.getNewestValue();
@@ -650,6 +680,11 @@ public class Data
 	public static List<CountWO> getCountWeathers()
 	{
 		return getInstance().countWeathersWO.getValues();
+	}
+
+	public static List<CountWO> getCountWeatersDeltas()
+	{
+		return getInstance().countWeathersWO.getDeltas();
 	}
 
 	public static CountData getCountWeathersLatest()
