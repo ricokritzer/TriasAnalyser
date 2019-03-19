@@ -2,7 +2,7 @@ package de.dhbw.studienarbeit.data.reader.data.count;
 
 public class CountData
 {
-	public static final CountData UNABLE_TO_COUNT = new CountData(-1);
+	public static final CountData UNABLE_TO_COUNT = new CountData(0);
 
 	private final long value;
 
@@ -21,5 +21,10 @@ public class CountData
 	public String toString()
 	{
 		return Long.toString(value);
+	}
+
+	public CountData difference(CountData compared)
+	{
+		return new CountData(Math.abs(compared.value - this.value));
 	}
 }

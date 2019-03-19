@@ -21,7 +21,7 @@ public class CountListWOTest
 	{
 		final Queue<Integer> list = getQueueWithElements(10);
 
-		CountListWO.reduceListElements(list);
+		CountListWO.reduceElements(list);
 
 		assertThat(list.size(), is(10));
 	}
@@ -31,7 +31,7 @@ public class CountListWOTest
 	{
 		final Queue<Integer> list = getQueueWithElements(11);
 
-		CountListWO.reduceListElements(list);
+		CountListWO.reduceElements(list);
 
 		assertThat(list.size(), is(10));
 	}
@@ -41,7 +41,7 @@ public class CountListWOTest
 	{
 		final Queue<Integer> list = getQueueWithElements(12);
 
-		CountListWO.reduceListElements(list);
+		CountListWO.reduceElements(list);
 
 		assertThat(list.size(), is(10));
 	}

@@ -15,14 +15,23 @@ public abstract class CountListWO<T extends Count> extends Updateable
 {
 	protected static final int MAX_COUNT_ITEMS = 10;
 
-	protected java.util.Queue<CountWO> values = new LinkedBlockingQueue<>();
+	protected Queue<CountWO> values = new LinkedBlockingQueue<>();
+
+	protected Queue<CountWO> deltas = new LinkedBlockingQueue<>();
+
+	protected CountData lastAdded = CountData.UNABLE_TO_COUNT;
 
 	protected T counter;
 
 	protected void add(CountWO countWO)
 	{
 		values.add(countWO);
-		reduceListElements(values);
+		reduceElements(values);
+
+		deltas.add(new CountWO(lastAdded.difference(countWO.getValue()), countWO.getLastUpdate()));
+		reduceElements(deltas);
+
+		lastAdded = countWO.getValue();
 	}
 
 	public void setCounter(T counter)
@@ -44,7 +53,12 @@ public abstract class CountListWO<T extends Count> extends Updateable
 		return new ArrayList<>(values);
 	}
 
-	protected static void reduceListElements(Queue<? extends Object> queue)
+	public final List<CountWO> getDeltas()
+	{
+		return new ArrayList<>(deltas);
+	}
+
+	protected static void reduceElements(Queue<? extends Object> queue)
 	{
 		while (queue.size() > MAX_COUNT_ITEMS)
 		{
