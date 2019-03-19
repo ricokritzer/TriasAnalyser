@@ -14,11 +14,11 @@ public class DelayWeatherTextDB extends DB<DelayWeatherTextData> implements Dela
 {
 	public static String getSQL()
 	{
-		return "SELECT " + "avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
+		return "SELECT avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, "
-				+ "WeatherIcon.textDE, " + "WeatherIcon.icon " + "FROM StopWeather, Stop, Weather, WeatherIcon "
-				+ "WHERE Stop.stopID = StopWeather.stopID " + "AND StopWeather.weatherId = Weather.id "
-				+ "AND WeatherIcon.text = Weather.text " + "GROUP BY WeatherIcon.textDE, WeatherIcon.icon;";
+				+ "textDE FROM StopWeather, Stop, Weather, WeatherInformation "
+				+ "WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id "
+				+ "AND WeatherInformation.id = Weather.weatherInformationID GROUP BY textDE";
 	}
 
 	public final List<DelayWeatherTextData> getDelays() throws IOException
