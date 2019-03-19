@@ -14,11 +14,11 @@ public class DelayWeatherSymbolDB extends DB<DelayWeatherSymbolData> implements 
 {
 	public static String getSQL()
 	{
-		return "SELECT " + "avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
+		return "SELECT avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, "
-				+ "WeatherIcon.icon " + "FROM StopWeather, Stop, Weather, WeatherIcon "
-				+ "WHERE Stop.stopID = StopWeather.stopID " + "AND StopWeather.weatherId = Weather.id "
-				+ "AND WeatherIcon.text = Weather.text " + "GROUP BY WeatherIcon.icon;";
+				+ "icon FROM StopWeather, Stop, Weather, WeatherInformation "
+				+ "WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id "
+				+ "AND WeatherInformation.id = Weather.weatherInformationID GROUP BY icon;";
 	}
 
 	public final List<DelayWeatherSymbolData> getDelays() throws IOException
