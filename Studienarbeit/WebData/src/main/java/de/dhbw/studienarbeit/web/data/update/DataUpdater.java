@@ -14,7 +14,7 @@ public class DataUpdater
 {
 	private static final Logger LOGGER = Logger.getLogger(DataUpdater.class.getName());
 
-	private static final int MAXIMUM_PARALLEL = 1;
+	private static final int MAXIMUM_PARALLEL = 3;
 
 	private final Queue<Updateable> waitingForUpdate = new LinkedBlockingQueue<>();
 
