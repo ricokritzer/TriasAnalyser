@@ -141,8 +141,8 @@ public class CountListWOTest
 
 		final List<CountWO> counts = countListWO.getValues();
 		assertThat(counts.size(), is(2));
-		assertThat(counts.get(0), is(oldest));
-		assertThat(counts.get(1), is(newest));
+		assertThat(counts.get(0), is(newest));
+		assertThat(counts.get(1), is(oldest));
 	}
 
 	private CountListWO<Count> createCountListWO()
