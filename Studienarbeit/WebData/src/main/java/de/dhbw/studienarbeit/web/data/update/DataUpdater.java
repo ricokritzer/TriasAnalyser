@@ -46,10 +46,7 @@ public class DataUpdater
 			}
 
 			opt.ifPresent(this::update);
-			if (!opt.isPresent())
-			{
-				run = false;
-			}
+			run = opt.isPresent();
 		}
 
 		new Timer().schedule(new MyTimerTask(this::updateAsync), 60 * 1000l);
