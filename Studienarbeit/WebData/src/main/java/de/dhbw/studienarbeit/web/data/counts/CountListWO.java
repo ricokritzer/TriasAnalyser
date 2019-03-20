@@ -50,12 +50,17 @@ public abstract class CountListWO<T extends Count> extends Updateable
 
 	public final List<CountWO> getValues()
 	{
-		return new ArrayList<>(values);
+		return asList(values);
 	}
 
 	public final List<CountWO> getDeltas()
 	{
-		return new ArrayList<>(deltas);
+		return asList(deltas);
+	}
+
+	private final List<CountWO> asList(Queue<? extends CountWO> queue)
+	{
+		return new ArrayList<>(queue);
 	}
 
 	protected static void reduceElements(Queue<? extends Object> queue)

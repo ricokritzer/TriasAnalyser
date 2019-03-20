@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -125,6 +126,23 @@ public class CountListWOTest
 		addElements(CountListWO.MAX_COUNT_ITEMS + 1, countListWO);
 
 		assertThat(countListWO.getValues().size(), is(10));
+	}
+
+	@Test
+	public void lastValueWillBeLastAtList() throws Exception
+	{
+		final CountListWO<Count> countListWO = createCountListWO();
+
+		final CountWO oldest = new CountWO(new CountData(1), new Date());
+		final CountWO newest = new CountWO(new CountData(2), new Date());
+
+		countListWO.add(oldest);
+		countListWO.add(newest);
+
+		final List<CountWO> counts = countListWO.getValues();
+		assertThat(counts.size(), is(2));
+		assertThat(counts.get(0), is(oldest));
+		assertThat(counts.get(1), is(newest));
 	}
 
 	private CountListWO<Count> createCountListWO()
