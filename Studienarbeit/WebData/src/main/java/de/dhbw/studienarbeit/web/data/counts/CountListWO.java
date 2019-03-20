@@ -10,7 +10,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import de.dhbw.studienarbeit.data.reader.data.count.Count;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public abstract class CountListWO<T extends Count> extends Updateable
 {
@@ -51,19 +50,17 @@ public abstract class CountListWO<T extends Count> extends Updateable
 
 	public final List<CountWO> getValues()
 	{
-		return asReversedList(values);
+		return asList(values);
 	}
 
 	public final List<CountWO> getDeltas()
 	{
-		return asReversedList(deltas);
+		return asList(deltas);
 	}
 
-	private final List<CountWO> asReversedList(Queue<? extends CountWO> queue)
+	private final List<CountWO> asList(Queue<? extends CountWO> queue)
 	{
-		final List<CountWO> list = new ArrayList<>(queue);
-		Collections.reverse(list);
-		return list;
+		return new ArrayList<>(queue);
 	}
 
 	protected static void reduceElements(Queue<? extends Object> queue)
