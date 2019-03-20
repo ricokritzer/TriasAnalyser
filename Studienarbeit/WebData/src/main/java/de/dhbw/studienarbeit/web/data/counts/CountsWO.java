@@ -7,12 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
-import de.dhbw.studienarbeit.data.reader.data.count.CountLinesDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountObservedOperatorsDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountStationsDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountStationsWithRealtimeDataDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountStopsDB;
-import de.dhbw.studienarbeit.data.reader.data.count.CountWeatherDB;
+import de.dhbw.studienarbeit.web.data.Data;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
@@ -36,13 +31,13 @@ public class CountsWO extends Updateable
 	@Override
 	protected void updateData() throws IOException
 	{
-		final CountData stations = new CountStationsDB().count();
-		final CountData observedStations = new CountObservedOperatorsDB().count();
-		final CountData stationsWithRealtimeData = new CountStationsWithRealtimeDataDB().count();
-		final CountData lines = new CountLinesDB().count();
-		final CountData stops = new CountStopsDB().count();
-		final CountData weather = new CountWeatherDB().count();
-		final CountData operators = new CountObservedOperatorsDB().count();
+		final CountData stations = Data.getCountStationsLatest();
+		final CountData observedStations = Data.getCountObservedStationsLatest();
+		final CountData stationsWithRealtimeData = Data.getCountStationsWithRealtimeDataLatest();
+		final CountData lines = Data.getCountLinesLatest();
+		final CountData stops = Data.getCountStopsLatest();
+		final CountData weather = Data.getCountWeathersLatest();
+		final CountData operators = Data.getCountObservedOperatorsLatest();
 		final Date lastUpdate = new Date();
 
 		data.add(0, new Counts(stations, observedStations, stationsWithRealtimeData, lines, stops, weather, operators,
