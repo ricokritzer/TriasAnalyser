@@ -1,15 +1,14 @@
 package de.dhbw.studienarbeit.WebView.charts;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import be.ceau.chart.LineChart;
+import be.ceau.chart.BarChart;
 import be.ceau.chart.color.Color;
-import be.ceau.chart.data.LineData;
-import be.ceau.chart.dataset.LineDataset;
-import be.ceau.chart.options.LineOptions;
+import be.ceau.chart.data.BarData;
+import be.ceau.chart.dataset.BarDataset;
+import be.ceau.chart.options.BarOptions;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class StopAndWeatherCountChart extends AbstractChart
@@ -18,34 +17,48 @@ public class StopAndWeatherCountChart extends AbstractChart
 
 	protected String getChart()
 	{
-		LineDataset datasetStop = new LineDataset().setData(getStopData()).setLabel("Stops").setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
-		LineDataset datasetWeather = new LineDataset().setData(getWeatherData()).setLabel("Wettereinträge").setBorderColor(Color.RED).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
-		
-		LineData data = new LineData().addDataset(datasetStop).addDataset(datasetWeather).addLabels(getLabels());
-		
-		LineOptions options = new LineOptions().setResponsive(true);
-		
-		return new LineChart(data, options).toJson();
+		BarDataset datasetStop = new BarDataset().setData(getStopData()).setLabel("Stops Zuwachs").setBorderColor(Color.BLUE)
+				.setBorderWidth(2).setBackgroundColor(Color.BLUE);
+		BarDataset datasetWeather = new BarDataset().setData(getWeatherData()).setLabel("Wettereinträge Zuwachs")
+				.setBorderColor(Color.RED).setBorderWidth(2).setBackgroundColor(Color.RED);
+		BarDataset datasetLine = new BarDataset().setData(getLineData()).setLabel("Linien Zuwachs")
+				.setBorderColor(Color.GREEN).setBorderWidth(2).setBackgroundColor(Color.GREEN);
+
+		BarData data = new BarData().addDataset(datasetStop).addDataset(datasetWeather).addDataset(datasetLine).addLabels(getLabels());
+
+		BarOptions options = new BarOptions().setResponsive(true);
+
+		return new BarChart(data, options).toJson();
 	}
 
-	private List<BigDecimal> getWeatherData()
+	private List<BigDecimal> getLineData()
 	{
-//		BigDecimal[] test = {BigDecimal.valueOf(3000000), BigDecimal.valueOf(4000000), BigDecimal.valueOf(5000000)};
-//		return Arrays.asList(test);
-		return Data.getCountsWO().getData().stream().map(e -> BigDecimal.valueOf(e.getCountWeathers().getValue())).collect(Collectors.toList());
-	}
-
-	private String[] getLabels()
-	{
-//		String[] test = {"hallo", "123", "test"};
-//		return test;
-		return Data.getCountsWO().getData().stream().map(e -> new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(e.getLastUpdate())).toArray(String[]::new);
+		return Data.getCountLinesDeltas().stream().map(e -> BigDecimal.valueOf(e.getValue().getValue()))
+				.collect(Collectors.toList());
 	}
 
 	private List<BigDecimal> getStopData()
 	{
-//		BigDecimal[] test = {BigDecimal.valueOf(8000000), BigDecimal.valueOf(8500000), BigDecimal.valueOf(9500000)};
-//		return Arrays.asList(test);
-		return Data.getCountsWO().getData().stream().map(e -> BigDecimal.valueOf(e.getCountStops().getValue())).collect(Collectors.toList());
+		// BigDecimal[] test = {BigDecimal.valueOf(8000000),
+		// BigDecimal.valueOf(8500000), BigDecimal.valueOf(9500000)};
+		// return Arrays.asList(test);
+		return Data.getCountStopsDeltas().stream().map(e -> BigDecimal.valueOf(e.getValue().getValue()))
+				.collect(Collectors.toList());
+	}
+
+	private List<BigDecimal> getWeatherData()
+	{
+		// BigDecimal[] test = {BigDecimal.valueOf(3000000),
+		// BigDecimal.valueOf(4000000), BigDecimal.valueOf(5000000)};
+		// return Arrays.asList(test);
+		return Data.getCountWeatersDeltas().stream().map(e -> BigDecimal.valueOf(e.getValue().getValue()))
+				.collect(Collectors.toList());
+	}
+
+	private String[] getLabels()
+	{
+		String[] test = { "vor 5 Minuten", "vor 10 Minuten", "vor 15 Minuten", "vor 20 Minuten", "vor 25 Minuten",
+				"vor 30 Minuten", "vor 35 Minuten", "vor 40 Minuten", "vor 45 Minuten", "vor 50 Minuten" };
+		return test;
 	}
 }
