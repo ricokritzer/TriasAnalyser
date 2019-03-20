@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.web.data.Data;
@@ -16,7 +18,7 @@ public class CountsWO extends Updateable
 {
 	private static final int MAX_COUNT_ITEMS = 10;
 
-	private List<Counts> data = new ArrayList<>();
+	protected Queue<Counts> data = new LinkedBlockingQueue<>();
 
 	public CountsWO(Optional<DataUpdater> updater)
 	{
@@ -25,7 +27,7 @@ public class CountsWO extends Updateable
 
 	public final List<Counts> getData()
 	{
-		return data;
+		return new ArrayList<>(data);
 	}
 
 	@Override
@@ -40,17 +42,17 @@ public class CountsWO extends Updateable
 		final CountData operators = Data.getCountObservedOperatorsLatest();
 		final Date lastUpdate = new Date();
 
-		data.add(0, new Counts(stations, observedStations, stationsWithRealtimeData, lines, stops, weather, operators,
+		data.add(new Counts(stations, observedStations, stationsWithRealtimeData, lines, stops, weather, operators,
 				lastUpdate));
 
 		reduceListElements(data);
 	}
 
-	protected static void reduceListElements(List<? extends Object> list)
+	protected static void reduceListElements(Queue<? extends Object> list)
 	{
 		while (list.size() > MAX_COUNT_ITEMS)
 		{
-			list.remove(MAX_COUNT_ITEMS);
+			list.remove();
 		}
 	}
 }
