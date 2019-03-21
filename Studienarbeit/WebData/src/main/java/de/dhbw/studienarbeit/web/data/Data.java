@@ -38,7 +38,6 @@ import de.dhbw.studienarbeit.web.data.counts.CountStationsWithRealtimeDataWO;
 import de.dhbw.studienarbeit.web.data.counts.CountStopsWO;
 import de.dhbw.studienarbeit.web.data.counts.CountWO;
 import de.dhbw.studienarbeit.web.data.counts.CountWeathersWO;
-import de.dhbw.studienarbeit.web.data.counts.CountsWO;
 import de.dhbw.studienarbeit.web.data.line.DelayLineWO;
 import de.dhbw.studienarbeit.web.data.situation.DelaySituationWO;
 import de.dhbw.studienarbeit.web.data.station.DelayStationNeighbourWO;
@@ -62,8 +61,6 @@ import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindWO;
 
 public class Data
 {
-	private final CountsWO countsWO;
-
 	private final CountLinesWO countLinesWO;
 	private final CountObservedStationsWO countObservedStationsWO;
 	private final CountObservedOperatorsWO countObservedOperatorsWO;
@@ -101,8 +98,6 @@ public class Data
 	private Data()
 	{
 		final Optional<DataUpdater> updater = Optional.of(DataUpdater.getInstance());
-
-		countsWO = new CountsWO(updater);
 
 		countLinesWO = new CountLinesWO(updater);
 		countObservedStationsWO = new CountObservedStationsWO(updater);
@@ -144,12 +139,6 @@ public class Data
 	public static Data getInstance()
 	{
 		return INSTANCE;
-	}
-
-	@Deprecated
-	public static final CountsWO getCountsWO()
-	{
-		return getInstance().countsWO;
 	}
 
 	/*
