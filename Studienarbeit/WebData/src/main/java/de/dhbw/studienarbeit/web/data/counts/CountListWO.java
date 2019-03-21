@@ -17,8 +17,6 @@ public abstract class CountListWO<T extends Count> extends Updateable
 
 	protected Queue<CountWO> values = new LinkedBlockingQueue<>();
 
-	protected Queue<CountWO> deltas = new LinkedBlockingQueue<>();
-
 	protected CountData lastAdded = CountData.UNABLE_TO_COUNT;
 
 	protected T counter;
@@ -27,9 +25,6 @@ public abstract class CountListWO<T extends Count> extends Updateable
 	{
 		values.add(countWO);
 		reduceElements(values);
-
-		deltas.add(new CountWO(lastAdded.difference(countWO.getValue()), countWO.getLastUpdate()));
-		reduceElements(deltas);
 
 		lastAdded = countWO.getValue();
 	}
@@ -51,11 +46,6 @@ public abstract class CountListWO<T extends Count> extends Updateable
 	public final List<CountWO> getValues()
 	{
 		return asList(values);
-	}
-
-	public final List<CountWO> getDeltas()
-	{
-		return asList(deltas);
 	}
 
 	private final List<CountWO> asList(Queue<? extends CountWO> queue)

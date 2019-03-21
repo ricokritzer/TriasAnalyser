@@ -83,43 +83,6 @@ public class CountListWOTest
 	}
 
 	@Test
-	public void deltaIsSameAsFirstItem() throws Exception
-	{
-		final CountListWO<Count> countListWO = createCountListWO();
-		final CountData count = new CountData(10);
-
-		countListWO.add(new CountWO(count, new Date()));
-
-		assertThat(countListWO.deltas.size(), is(1));
-		assertThat(countListWO.deltas.peek().getValue(), is(count));
-	}
-
-	@Test
-	public void deltaIsDifferenceBetweenElements() throws Exception
-	{
-		final CountListWO<Count> countListWO = createCountListWO();
-		final CountData count = new CountData(10);
-		final CountData count2 = new CountData(52);
-		final CountData countDifference = new CountData(42);
-
-		countListWO.add(new CountWO(count, new Date()));
-		countListWO.add(new CountWO(count2, new Date()));
-
-		assertThat(countListWO.deltas.size(), is(2));
-		countListWO.deltas.poll();
-		assertThat(countListWO.deltas.peek().getValue(), is(countDifference));
-	}
-
-	@Test
-	public void deltasCountIsLessThanMaximum() throws Exception
-	{
-		final CountListWO<Count> countListWO = createCountListWO();
-		addElements(CountListWO.MAX_COUNT_ITEMS + 1, countListWO);
-
-		assertThat(countListWO.getDeltas().size(), is(10));
-	}
-
-	@Test
 	public void valuesCountIsLessThanMaximum() throws Exception
 	{
 		final CountListWO<Count> countListWO = createCountListWO();
