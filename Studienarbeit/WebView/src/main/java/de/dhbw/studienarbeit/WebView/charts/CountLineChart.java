@@ -9,6 +9,7 @@ import com.syndybat.chartjs.ChartJs;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import be.ceau.chart.LineChart;
@@ -32,7 +33,9 @@ public class CountLineChart extends Div
 		ChartJs chart = new ChartJs(getChart());
 		Div divChart = new Div(chart);
 		divChart.setVisible(false);
-		Div divText = new Div(new VerticalLayout(new H1(name), new H1(current.toString()), new Text(zusatz)));
+		VerticalLayout layoutText = new VerticalLayout(new H1(name), new H1(current.toString()), new Text(zusatz));
+		layoutText.setAlignItems(Alignment.CENTER);
+		Div divText = new Div(layoutText);
 		add(divText, divChart);
 
 		divChart.addClickListener(event -> {
