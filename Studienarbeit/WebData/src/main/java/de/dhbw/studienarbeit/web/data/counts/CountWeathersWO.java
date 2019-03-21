@@ -8,10 +8,9 @@ import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 
 public class CountWeathersWO extends CountListWO<CountWeather>
 {
-
 	public CountWeathersWO(Optional<DataUpdater> updater)
 	{
 		counter = new CountWeatherDB();
-		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
+		updater.ifPresent(u -> u.updateEvery(5, MINUTES, this));
 	}
 }
