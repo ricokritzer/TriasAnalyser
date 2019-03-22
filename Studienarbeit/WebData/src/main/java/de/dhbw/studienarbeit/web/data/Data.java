@@ -16,7 +16,7 @@ import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.time.DelayHourData;
+import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanData;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelationData;
@@ -42,7 +42,7 @@ import de.dhbw.studienarbeit.web.data.line.DelayLineWO;
 import de.dhbw.studienarbeit.web.data.situation.DelaySituationWO;
 import de.dhbw.studienarbeit.web.data.station.DelayStationNeighbourWO;
 import de.dhbw.studienarbeit.web.data.station.DelayStationWO;
-import de.dhbw.studienarbeit.web.data.time.DelayHourWO;
+import de.dhbw.studienarbeit.web.data.time.DelayTimeSpanWO;
 import de.dhbw.studienarbeit.web.data.time.DelayWeekdayWO;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.vehicletype.DelayVehicleTypeWO;
@@ -73,7 +73,7 @@ public class Data
 	private final DelayLineWO delayLineWO;
 	private final DelayVehicleTypeWO delayVehicleTypeWO;
 	private final DelayWeekdayWO delayWeekdayWO;
-	private final DelayHourWO delayHourWO;
+	private final DelayTimeSpanWO delayTimeSpanWO;
 
 	private final DelayWeatherTextWO delayWeatherTextWO;
 	private final DelayWeatherSymbolWO delayWeatherSymbolWO;
@@ -111,7 +111,7 @@ public class Data
 		delayLineWO = new DelayLineWO(updater);
 		delayVehicleTypeWO = new DelayVehicleTypeWO(updater);
 		delayWeekdayWO = new DelayWeekdayWO(updater);
-		delayHourWO = new DelayHourWO(updater);
+		delayTimeSpanWO = new DelayTimeSpanWO(updater);
 
 		delayTemperatureWO = new DelayTemperatureWO(updater);
 		delayTemperatureCorrelationCoefficientWO = new DelayTemperatureCorrelationCoefficientWO(updater);
@@ -449,19 +449,19 @@ public class Data
 	 * @Deprecated choose the object you want.
 	 */
 	@Deprecated
-	public static final DelayHourWO getDelayHourWO()
+	public static final DelayTimeSpanWO getDelayTimeSpanWO()
 	{
-		return getInstance().delayHourWO;
+		return getInstance().delayTimeSpanWO;
 	}
 
-	public static final List<DelayHourData> getDelaysHour()
+	public static final List<DelayTimeSpanData> getDelaysTimeSpan()
 	{
-		return getInstance().delayHourWO.getData();
+		return getInstance().delayTimeSpanWO.getData();
 	}
 
-	public static final Date getDelaysHourLastUpdated()
+	public static final Date getDelaysTimeSpanLastUpdated()
 	{
-		return getInstance().delayHourWO.getLastUpdated();
+		return getInstance().delayTimeSpanWO.getLastUpdated();
 	}
 
 	/*

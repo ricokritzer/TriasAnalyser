@@ -7,14 +7,14 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
-import de.dhbw.studienarbeit.data.reader.data.time.Hour;
+import de.dhbw.studienarbeit.data.reader.data.time.TimeSpan;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
 public interface DelayRequest
 {
 	public void setWeekday(Optional<Weekday> weekday);
 
-	public void setHour(Optional<Hour> hour);
+	public void setHour(Optional<TimeSpan> hour);
 
 	public void setLineID(Optional<LineID> lineID);
 

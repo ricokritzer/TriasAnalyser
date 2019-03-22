@@ -10,21 +10,21 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
-public class DelayHourDB extends DB<DelayHourData> implements DelayHour
+public class DelayTimeSpanDB extends DB<DelayTimeSpanData> implements DelayTimeSpan
 {
-	public final List<DelayHourData> getDelays() throws IOException
+	public final List<DelayTimeSpanData> getDelays() throws IOException
 	{
 		final String sql = "SELECT HOUR(timetabledTime) AS hour, avg(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay_avg, max(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay_max FROM Stop GROUP BY hour;";
 		return readFromDatabase(sql);
 	}
 
 	@Override
-	protected Optional<DelayHourData> getValue(ResultSet result) throws SQLException
+	protected Optional<DelayTimeSpanData> getValue(ResultSet result) throws SQLException
 	{
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
-		final Hour value = Hour.values()[result.getInt("hour")];
+		final TimeSpan value = TimeSpan.values()[result.getInt("hour")];
 
-		return Optional.of(new DelayHourData(delayMaximum, delayAverage, value));
+		return Optional.of(new DelayTimeSpanData(delayMaximum, delayAverage, value));
 	}
 }

@@ -2,7 +2,7 @@ package de.dhbw.studienarbeit.data.reader.data.time;
 
 import java.util.Arrays;
 
-public enum Hour
+public enum TimeSpan
 {
 	BETWEEN_00_AND_01("00:00 - 00:59 Uhr"), //
 	BETWEEN_01_AND_02("01:00 - 01:59 Uhr"), //
@@ -31,7 +31,7 @@ public enum Hour
 
 	private final String text;
 
-	private Hour(String text)
+	private TimeSpan(String text)
 	{
 		this.text = text;
 	}
@@ -43,6 +43,6 @@ public enum Hour
 
 	public int getIdx()
 	{
-		return Arrays.asList(Hour.values()).indexOf(this);
+		return Arrays.asList(TimeSpan.values()).indexOf(this);
 	}
 }

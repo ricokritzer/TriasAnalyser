@@ -3,7 +3,7 @@ package de.dhbw.studienarbeit.data.reader.data.time;
 import java.io.IOException;
 import java.util.List;
 
-public interface DelayHour
+public interface DelayTimeSpan
 {
-	List<DelayHourData> getDelays() throws IOException;
+	List<DelayTimeSpanData> getDelays() throws IOException;
 }

@@ -11,7 +11,7 @@ import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.time.Hour;
+import de.dhbw.studienarbeit.data.reader.data.time.TimeSpan;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
@@ -21,7 +21,7 @@ public class DelayRequestDB extends DB<Delay> implements DelayRequest
 	protected final StationID stationID;
 
 	private Optional<Weekday> weekday = Optional.empty();
-	private Optional<Hour> hour = Optional.empty();
+	private Optional<TimeSpan> hour = Optional.empty();
 	private Optional<LineID> lineID = Optional.empty();
 
 	public DelayRequestDB(StationID stationID)
@@ -39,12 +39,12 @@ public class DelayRequestDB extends DB<Delay> implements DelayRequest
 		this.weekday = weekday;
 	}
 
-	public void setHour(Optional<Hour> hour)
+	public void setHour(Optional<TimeSpan> hour)
 	{
 		this.hour = hour;
 	}
 
-	public void setHour(Hour hour)
+	public void setHour(TimeSpan hour)
 	{
 		this.hour = Optional.ofNullable(hour);
 	}

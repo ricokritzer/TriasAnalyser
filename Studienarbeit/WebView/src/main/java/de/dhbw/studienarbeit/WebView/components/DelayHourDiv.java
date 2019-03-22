@@ -9,14 +9,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import de.dhbw.studienarbeit.data.reader.data.time.DelayHourData;
+import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanData;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class DelayHourDiv extends Div
 {
 	private static final long serialVersionUID = 16L;
 
-	private final Grid<DelayHourData> grid = new Grid<>();
+	private final Grid<DelayTimeSpanData> grid = new Grid<>();
 	private final TextField field = new TextField();
 
 	public DelayHourDiv()
@@ -41,7 +41,7 @@ public class DelayHourDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayHourWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayTimeSpanWO().getData()));
 
 		layout.add(grid);
 		add(layout);
