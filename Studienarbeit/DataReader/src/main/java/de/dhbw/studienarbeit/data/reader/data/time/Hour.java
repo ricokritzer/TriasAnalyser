@@ -51,9 +51,14 @@ public enum Hour
 		return value;
 	}
 
+	public boolean before(Hour hour)
+	{
+		return this.value < hour.value;
+	}
+
 	@Override
 	public String toString()
 	{
-		return new StringBuilder(value).append(":00 Uhr").toString();
+		return new StringBuilder().append(value).append(":00 Uhr").toString();
 	}
 }
