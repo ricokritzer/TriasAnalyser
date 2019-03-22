@@ -1,13 +1,15 @@
 package de.dhbw.studienarbeit.data.reader.data.request;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-import org.hamcrest.core.Is;
+import java.util.Optional;
+
 import org.junit.Test;
 
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.time.TimeSpan;
+import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
 public class DelayRequestDBTest
@@ -19,7 +21,7 @@ public class DelayRequestDBTest
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?";
 
-		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
+		assertThat(request.getDelaySQL(), is(sql));
 	}
 
 	@Test
@@ -31,44 +33,106 @@ public class DelayRequestDBTest
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?" + " AND DAYOFWEEK(timetabledTime) = ?";
 
-		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
+		assertThat(request.getDelaySQL(), is(sql));
 	}
 
 	@Test
-	public void sqlStationNameAndWeekdayAndHour() throws Exception
+	public void sqlLineID() throws Exception
 	{
-		final DelayRequestDB request = new DelayRequestDB(new StationID("myStationName"));
-		request.setWeekday(Weekday.MONDAY);
-		request.setHour(TimeSpan.BETWEEN_00_AND_01);
-
-		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ?" + " AND DAYOFWEEK(timetabledTime) = ? AND HOUR(timetabledTime) = ?";
-
-		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
-	}
-
-	@Test
-	public void sqlStationNameAndHour() throws Exception
-	{
-		final DelayRequestDB request = new DelayRequestDB(new StationID("myStationName"));
-		request.setHour(TimeSpan.BETWEEN_00_AND_01);
-
-		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ?" + " AND HOUR(timetabledTime) = ?";
-
-		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
-	}
-
-	@Test
-	public void sqlStationNameAndHourAndLineID() throws Exception
-	{
-		final DelayRequestDB request = new DelayRequestDB(new StationID("myStationName"));
-		request.setHour(TimeSpan.BETWEEN_00_AND_01);
+		final DelayRequestDB request = createDelayRequest();
 		request.setLineID(new LineID(9));
 
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ?" + " AND HOUR(timetabledTime) = ? AND lineID = ?";
+				+ "FROM Stop WHERE stationID = ? AND lineID = ?";
 
-		assertThat(request.getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay"), Is.is(sql));
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void setStartTimeWithoutEnd() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourStart(Optional.of(Hour.HOUR10));
+	}
+
+	@Test
+	public void setEndTimeWithoutStart() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourEnd(Optional.of(Hour.HOUR10));
+	}
+
+	@Test(expected = InvalidTimeSpanException.class)
+	public void setStartThanEndAndEndtimeBeforeStarttime() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourEnd(Optional.of(Hour.HOUR1));
+		request.setHourStart(Optional.of(Hour.HOUR10));
+	}
+
+	@Test(expected = InvalidTimeSpanException.class)
+	public void setEntThanStartAndEndtimeBeforeStarttime() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourStart(Optional.of(Hour.HOUR10));
+		request.setHourEnd(Optional.of(Hour.HOUR1));
+	}
+
+	@Test
+	public void setStartAndEndTimeSameValue() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourEnd(Optional.of(Hour.HOUR10));
+		request.setHourEnd(Optional.of(Hour.HOUR10));
+	}
+
+	@Test
+	public void setValidStartAndEndTime() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourEnd(Optional.of(Hour.HOUR1));
+		request.setHourEnd(Optional.of(Hour.HOUR10));
+	}
+
+	@Test
+	public void sqlWithStartTime() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourStart(Optional.of(Hour.HOUR1));
+
+		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) >= ?";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void sqlWithEndTime() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourEnd(Optional.of(Hour.HOUR1));
+
+		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) <= ?";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void sqlWithStartAndEndTime() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setHourStart(Optional.of(Hour.HOUR1));
+		request.setHourEnd(Optional.of(Hour.HOUR10));
+
+		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) >= ? AND HOUR(timetabledTime) <= ?";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	private DelayRequestDB createDelayRequest()
+	{
+		return new DelayRequestDB(new StationID("myStationName"));
 	}
 }
