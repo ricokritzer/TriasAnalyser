@@ -35,12 +35,12 @@ public enum Hour
 	{
 		if (value < 0)
 		{
-			throw new IllegalArgumentException("Hour could not be negative.");
+			throw new IllegalArgumentException("Hour cannot be negative.");
 		}
 
 		if (value > 24)
 		{
-			throw new IllegalArgumentException("Hour could not be over 24.");
+			throw new IllegalArgumentException("Hour cannot not be over 24.");
 		}
 
 		this.value = value;
