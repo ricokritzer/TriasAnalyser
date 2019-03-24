@@ -38,7 +38,7 @@ public class CountData
 	@Override
 	public String toString()
 	{
-		return Long.toString(value);
+		return String.format("%,d", value);
 	}
 
 	public CountData difference(CountData compared)
