@@ -28,7 +28,7 @@ public class DelayRequestDBTest
 	public void sqlStationNameAndWeekday() throws Exception
 	{
 		final DelayRequestDB request = new DelayRequestDB(new StationID("myStation"));
-		request.setWeekday(Weekday.MONDAY);
+		request.setWeekday(Optional.of(Weekday.MONDAY));
 
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?" + " AND DAYOFWEEK(timetabledTime) = ?";
@@ -40,7 +40,7 @@ public class DelayRequestDBTest
 	public void sqlLineID() throws Exception
 	{
 		final DelayRequestDB request = createDelayRequest();
-		request.setLineID(new LineID(9));
+		request.setLineID(Optional.of(new LineID(9)));
 
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND lineID = ?";

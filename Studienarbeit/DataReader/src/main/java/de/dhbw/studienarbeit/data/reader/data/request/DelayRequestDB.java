@@ -30,11 +30,6 @@ public class DelayRequestDB extends DB<Delay> implements DelayRequest
 		this.stationID = stationID;
 	}
 
-	public void setWeekday(Weekday weekday)
-	{
-		this.weekday = Optional.ofNullable(weekday);
-	}
-
 	public void setWeekday(Optional<Weekday> weekday)
 	{
 		this.weekday = weekday;
