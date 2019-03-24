@@ -145,7 +145,7 @@ public class DelayRequestDB extends DB<Delay> implements DelayRequest
 		final StringBuilder stringBuilder = new StringBuilder().append("SELECT ").append(what)
 				.append(" FROM Stop WHERE stationID = ?");
 
-		weekday.ifPresent(w -> stringBuilder.append(" AND DAYOFWEEK(timetabledTime) = ?"));
+		weekday.ifPresent(w -> stringBuilder.append(" AND WEEKDAY(timetabledTime) = ?"));
 		hourStart.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) >= ?"));
 		hourEnd.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) <= ?"));
 		lineID.ifPresent(h -> stringBuilder.append(" AND lineID = ?"));

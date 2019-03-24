@@ -31,7 +31,7 @@ public class DelayRequestDBTest
 		request.setWeekday(Optional.of(Weekday.MONDAY));
 
 		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ?" + " AND DAYOFWEEK(timetabledTime) = ?";
+				+ "FROM Stop WHERE stationID = ?" + " AND WEEKDAY(timetabledTime) = ?";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
