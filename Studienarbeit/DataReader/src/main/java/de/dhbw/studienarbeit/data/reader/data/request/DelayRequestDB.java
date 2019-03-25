@@ -16,7 +16,6 @@ import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.database.DB;
-import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 {
@@ -100,7 +99,14 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 	public final CountData getCancelledStops() throws IOException
 	{
 		final String sql = getCancelledSQL();
-		return new DatabaseReader().count(sql);
+		final List<DelayCountData> data = readFromDatabase(sql, this::setValues);
+
+		if (data.isEmpty())
+		{
+			return CountData.UNABLE_TO_COUNT;
+		}
+
+		return data.get(0).getCount();
 	}
 
 	private void setValues(PreparedStatement preparedStatement) throws SQLException
@@ -133,29 +139,20 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 		}
 	}
 
-	/*
-	 * use Data.getDelayCounts() instead. The method will allways return empty List!
-	 */
-	@Deprecated
-	public final List<Delay> getDelays() throws IOException
-	{
-		return new ArrayList<>();
-	}
-
 	protected String getDelaySQL()
 	{
-		return getSQL("count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay",
-				" AND realtime IS NOT NULL GROUP BY delay;");
+		return getSQL(" AND realtime IS NOT NULL");
 	}
 
 	protected String getCancelledSQL()
 	{
-		return getSQL("count(*) AS total", " AND realtime IS NULL;");
+		return getSQL(" AND realtime IS NULL");
 	}
 
-	private String getSQL(String what, String additional)
+	private String getSQL(String additional)
 	{
-		final StringBuilder stringBuilder = new StringBuilder().append("SELECT ").append(what)
+		final StringBuilder stringBuilder = new StringBuilder().append("SELECT ")
+				.append("count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay")
 				.append(" FROM Stop WHERE stationID = ?");
 
 		if (!weekdays.isEmpty())
@@ -185,7 +182,7 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 			stringBuilder.append(")");
 		}
 
-		return stringBuilder.append(additional).toString();
+		return stringBuilder.append(additional).append(" GROUP BY delay;").toString();
 	}
 
 	@Override

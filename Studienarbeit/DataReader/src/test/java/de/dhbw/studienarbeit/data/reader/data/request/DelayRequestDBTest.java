@@ -62,7 +62,7 @@ public class DelayRequestDBTest
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
-	
+
 	@Test
 	public void sqlMultipleLineIDs() throws Exception
 	{
@@ -82,7 +82,7 @@ public class DelayRequestDBTest
 		final DelayRequestDB request = createDelayRequest();
 		request.setLineID(Optional.of(new LineID(9)));
 
-		final String sql = "SELECT count(*) AS total FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NULL;";
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NULL GROUP BY delay;";
 
 		assertThat(request.getCancelledSQL(), is(sql));
 	}
