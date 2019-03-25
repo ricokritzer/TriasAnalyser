@@ -162,7 +162,7 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 	protected Optional<DelayCountData> getValue(ResultSet result) throws SQLException
 	{
 		final Delay delay = new Delay(result.getDouble("delay"));
-		final CountData count = new CountData(result.getLong("count"));
+		final CountData count = new CountData(result.getLong("total"));
 
 		return Optional.of(new DelayCountData(delay, count));
 	}
