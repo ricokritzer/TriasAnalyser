@@ -12,7 +12,14 @@ import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
 public interface DelayRequest
 {
+	@Deprecated
 	public void setWeekday(Optional<Weekday> weekday);
+
+	public void addWeekday(Weekday weekday);
+
+	public void removeWeekday(Weekday weekday);
+
+	public void clearWeekdays();
 
 	public void setHourStart(Optional<Hour> hour) throws InvalidTimeSpanException;
 
@@ -24,6 +31,8 @@ public interface DelayRequest
 	public void addLine(Line line);
 
 	public void removeLine(Line line);
+
+	public void clearLines();
 
 	public CountData getCancelledStops() throws IOException;
 

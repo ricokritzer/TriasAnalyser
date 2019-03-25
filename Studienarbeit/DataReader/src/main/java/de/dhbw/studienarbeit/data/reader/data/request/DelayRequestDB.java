@@ -207,14 +207,36 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 	@Override
 	public void addLine(Line line)
 	{
-		// TODO Auto-generated method stub
-
+		lineIDs.add(line.getID());
 	}
 
 	@Override
 	public void removeLine(Line line)
 	{
-		// TODO Auto-generated method stub
+		lineIDs.remove(line.getID());
+	}
 
+	@Override
+	public void clearLines()
+	{
+		lineIDs.clear();
+	}
+
+	@Override
+	public void addWeekday(Weekday weekday)
+	{
+		weekdays.add(weekday);
+	}
+
+	@Override
+	public void removeWeekday(Weekday weekday)
+	{
+		weekdays.remove(weekday);
+	}
+
+	@Override
+	public void clearWeekdays()
+	{
+		weekdays.clear();
 	}
 }
