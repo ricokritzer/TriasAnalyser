@@ -1,9 +1,11 @@
 package de.dhbw.studienarbeit.data.reader.data.request;
 
+import java.util.Objects;
+
 import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
-public class DelayCountData
+public class DelayCountData implements Comparable<DelayCountData>
 {
 	private final Delay delay;
 	private final CountData count;
@@ -33,5 +35,23 @@ public class DelayCountData
 	public long getCountValue()
 	{
 		return count.getValue();
+	}
+
+	@Override
+	public int compareTo(DelayCountData o)
+	{
+		return this.delay.compareTo(o.delay);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(delay, count);
 	}
 }
