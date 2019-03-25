@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.helper.datamanagement.MyTimerTask;
+import de.dhbw.studienarbeit.data.helper.logging.LogLevelHelper;
 import de.dhbw.studienarbeit.data.reader.data.count.CountStops;
 import de.dhbw.studienarbeit.data.reader.data.count.CountStopsDB;
 
@@ -14,6 +15,7 @@ public class WeatherStopLinker
 
 	public static void main(String[] args)
 	{
+		LogLevelHelper.setLogLevel(Level.FINEST);
 		new WeatherStopLinker(new CountStopsDB()).link();
 	}
 
@@ -27,11 +29,9 @@ public class WeatherStopLinker
 	private void link()
 	{
 		final long count = countStops.count().getValue();
-		final long consiciousError = 1000;
 
-		LOGGER.log(Level.INFO, "Linker starts with: " + count);
-		linkForeward(count - consiciousError);
-		linkReverse(count - consiciousError);
+		LOGGER.log(Level.INFO, "Linker will count until: " + count);
+		linkForeward(1);
 	}
 
 	private void linkForeward(long start)
@@ -44,24 +44,6 @@ public class WeatherStopLinker
 		}
 
 		new Timer().schedule(new MyTimerTask(() -> linkForeward(count)), 60 * 60 * 1000l);
-	}
-
-	private void linkReverse(long start)
-	{
-		linkAsync(1, start);
-	}
-
-	private void linkAsync(long start, long end)
-	{
-		new Thread(() -> link(start, end)).start();
-	}
-
-	private void link(long start, long end)
-	{
-		for (long i = end; i >= start; i--)
-		{
-			link(i);
-		}
 	}
 
 	private void link(long idx)
