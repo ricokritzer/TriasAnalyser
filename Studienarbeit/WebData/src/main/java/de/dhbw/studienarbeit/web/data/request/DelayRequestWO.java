@@ -9,6 +9,7 @@ import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStation;
 import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 
+@Deprecated
 public class DelayRequestWO extends DelayRequestDB
 {
 	private LinesAtStation linesAtStation = new LinesAtStationDB();
