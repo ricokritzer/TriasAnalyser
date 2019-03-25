@@ -23,6 +23,7 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 
 	private Optional<Hour> hourStart = Optional.empty();
 	private Optional<Hour> hourEnd = Optional.empty();
+
 	private List<LineID> lineIDs = new ArrayList<>();
 	private List<Weekday> weekdays = new ArrayList<>();
 
@@ -31,13 +32,14 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 		this.stationID = stationID;
 	}
 
+	@Override
 	public void setWeekday(Optional<Weekday> weekday)
 	{
-		weekday.ifPresent(w -> this.weekdays.add(w));
+		weekday.ifPresent(this::addWeekday);
 
 		if (!weekday.isPresent())
 		{
-			this.weekdays.clear();
+			clearWeekdays();
 		}
 	}
 
@@ -88,18 +90,17 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 	@Override
 	public void setLineID(Optional<LineID> lineID)
 	{
-		lineID.ifPresent(l -> this.lineIDs.add(l));
+		lineID.ifPresent(lineIDs::add);
 
 		if (!lineID.isPresent())
 		{
-			this.lineIDs.clear();
+			clearLines();
 		}
 	}
 
 	public final CountData getCancelledStops() throws IOException
 	{
-		final String sql = getCancelledSQL();
-		final List<DelayCountData> data = readFromDatabase(sql, this::setValues);
+		final List<DelayCountData> data = readFromDatabase(getCancelledSQL(), this::setValues);
 
 		if (data.isEmpty())
 		{
@@ -141,15 +142,15 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 
 	protected String getDelaySQL()
 	{
-		return getSQL(" AND realtime IS NOT NULL");
+		return getSQL(false);
 	}
 
 	protected String getCancelledSQL()
 	{
-		return getSQL(" AND realtime IS NULL");
+		return getSQL(true);
 	}
 
-	private String getSQL(String additional)
+	private String getSQL(boolean realtimeNull)
 	{
 		final StringBuilder stringBuilder = new StringBuilder().append("SELECT ")
 				.append("count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay")
@@ -182,7 +183,8 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 			stringBuilder.append(")");
 		}
 
-		return stringBuilder.append(additional).append(" GROUP BY delay;").toString();
+		return stringBuilder.append(realtimeNull ? " AND realtime IS NULL" : " AND realtime IS NOT NULL")
+				.append(" GROUP BY delay;").toString();
 	}
 
 	@Override
@@ -197,11 +199,11 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 	@Override
 	public List<DelayCountData> getDelayCounts() throws IOException
 	{
-		final String sql = getDelaySQL();
-		return readFromDatabase(sql, this::setValues);
+		return readFromDatabase(getDelaySQL(), this::setValues);
 	}
 
 	@Override
+
 	public void addLine(Line line)
 	{
 		lineIDs.add(line.getID());
