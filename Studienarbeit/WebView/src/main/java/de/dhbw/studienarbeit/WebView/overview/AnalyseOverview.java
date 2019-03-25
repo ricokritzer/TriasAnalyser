@@ -27,10 +27,11 @@ import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
-import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequest;
 import de.dhbw.studienarbeit.data.reader.data.request.InvalidTimeSpanException;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
@@ -39,7 +40,7 @@ import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
-import de.dhbw.studienarbeit.web.data.request.DelayRequestWO;
+import de.dhbw.studienarbeit.web.data.Data;
 
 @Route("analyse")
 public class AnalyseOverview extends Overview
@@ -53,8 +54,8 @@ public class AnalyseOverview extends Overview
 	private ComboBox<Hour> end;
 	private Button btnSearch;
 
-	private DelayRequestWO request;
-	private List<Delay> delays;
+	private DelayRequest request;
+	private List<DelayCountData> delays;
 
 	@SuppressWarnings("rawtypes")
 	private List<ComboBox> filters = new ArrayList<>();
@@ -63,10 +64,14 @@ public class AnalyseOverview extends Overview
 
 	private VerticalLayout layout;
 
+	private Div div = new Div();
+
 	public AnalyseOverview()
 	{
 		super();
-		
+
+		request = Data.getDelayRequestFor(new StationID("de:08212:1"));
+
 		btnSearch = new Button("Suchen", e -> search());
 
 		lines = new ComboBox<>("Linie");
@@ -90,7 +95,7 @@ public class AnalyseOverview extends Overview
 		filters.add(end);
 
 		filters.forEach(e -> e.setEnabled(false));
-		
+
 		stations = new ComboBox<>("Station",
 				new DelayStationData(new DelayMaximum(10), new DelayAverage(5), new StationID("de:08212:1"),
 						new StationName("test"), new OperatorName("test"), new Position(10, 10), 10));
@@ -106,6 +111,8 @@ public class AnalyseOverview extends Overview
 		layout = new VerticalLayout(filter);
 		layout.setSizeFull();
 		layout.setAlignItems(Alignment.STRETCH);
+		div.setWidth("80%");
+		layout.add(div);
 
 		setContent(layout);
 	}
@@ -114,7 +121,7 @@ public class AnalyseOverview extends Overview
 	{
 		try
 		{
-			delays = request.getDelays();
+			delays = request.getDelayCounts();
 			showDelays();
 		}
 		catch (IOException e)
@@ -126,11 +133,10 @@ public class AnalyseOverview extends Overview
 	private void showDelays()
 	{
 		Collections.sort(delays);
-		
-		Map<Delay, Integer> delayCounts = new HashMap<>();
-		Div div = new Div();
-		
-		for (Delay delay : delays)
+
+		Map<DelayCountData, Integer> delayCounts = new HashMap<>();
+
+		for (DelayCountData delay : delays)
 		{
 			if (delayCounts.containsKey(delay))
 			{
@@ -138,25 +144,26 @@ public class AnalyseOverview extends Overview
 			}
 			else
 			{
+				System.out.println(delay.getDelayValue());
 				delayCounts.put(delay, 1);
 			}
 		}
-		
-		List<Delay> sortedKeySet = asSortedList(delayCounts.keySet());
-		
-		BarDataset dataset = new BarDataset().setData(sortedData(sortedKeySet, delayCounts)).setLabel("Verspätungen").setBackgroundColor(Color.BLUE);
-		
+
+		List<DelayCountData> sortedKeySet = asSortedList(delayCounts.keySet());
+
+		BarDataset dataset = new BarDataset().setData(sortedData(sortedKeySet, delayCounts)).setLabel("Verspätungen")
+				.setBackgroundColor(Color.BLUE);
+
 		BarData data = new BarData().addLabels(asSortedArray(delayCounts.keySet())).addDataset(dataset);
-		
+
 		BarOptions options = new BarOptions().setScales(new BarScale().setyAxes(getYAxis()));
-		
+
 		BarChart chart = new BarChart().setData(data).setOptions(options);
-		
+
 		ChartJs chartJS = new ChartJs(chart.toJson());
-		
+
+		div.removeAll();
 		div.add(chartJS);
-		
-		layout.add(chartJS);
 	}
 
 	private List<YAxis<LinearTicks>> getYAxis()
@@ -168,11 +175,11 @@ public class AnalyseOverview extends Overview
 		return axis;
 	}
 
-	private int[] sortedData(List<Delay> sortedKeySet, Map<Delay, Integer> delayCounts)
+	private int[] sortedData(List<DelayCountData> sortedKeySet, Map<DelayCountData, Integer> delayCounts)
 	{
 		int[] data = new int[sortedKeySet.size()];
 		int i = 0;
-		for (Delay delay : sortedKeySet)
+		for (DelayCountData delay : sortedKeySet)
 		{
 			data[i] = delayCounts.get(delay);
 			i++;
@@ -180,16 +187,16 @@ public class AnalyseOverview extends Overview
 		return data;
 	}
 
-	private List<Delay> asSortedList(Set<Delay> keySet)
+	private List<DelayCountData> asSortedList(Set<DelayCountData> set)
 	{
-		List<Delay> list = new ArrayList<>(keySet);
+		List<DelayCountData> list = new ArrayList<>(set);
 		Collections.sort(list);
 		return list;
 	}
 
-	private String[] asSortedArray(Set<Delay> keySet)
+	private String[] asSortedArray(Set<DelayCountData> set)
 	{
-		return asSortedList(keySet).stream().map(e -> e.toString()).toArray(String[]::new);
+		return asSortedList(set).stream().map(e -> e.toString()).toArray(String[]::new);
 	}
 
 	private void setHourEnd()
@@ -295,7 +302,7 @@ public class AnalyseOverview extends Overview
 	{
 		if (lines.getOptionalValue().isPresent())
 		{
-			request.setLineID(lines.getValue().getID());
+			request.setLineID(Optional.of(lines.getValue().getID()));
 		}
 		else
 		{
@@ -311,18 +318,8 @@ public class AnalyseOverview extends Overview
 			return;
 		}
 
-		request = new DelayRequestWO(stations.getValue().getStationID());
-		try
-		{
-			lines.setItems(request.getLines());
-		}
-		catch (IOException exc)
-		{
-			Notification
-					.show("Haltestelle " + stations.getValue().getName().toString() + " wird von keiner Linie bedient");
-			filters.forEach(e -> e.setEnabled(false));
-			return;
-		}
+		request = Data.getDelayRequestFor(stations.getValue().getStationID());
+		lines.setItems(Data.getLinesAt(stations.getValue().getStationID()));
 
 		filters.forEach(e -> e.setEnabled(true));
 	}
