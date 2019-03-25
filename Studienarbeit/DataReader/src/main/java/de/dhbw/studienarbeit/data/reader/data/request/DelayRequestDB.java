@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
-public class DelayRequestDB extends DB<Delay> implements DelayRequest
+public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 {
 	protected final StationID stationID;
 
@@ -124,23 +125,27 @@ public class DelayRequestDB extends DB<Delay> implements DelayRequest
 		}
 	}
 
+	/*
+	 * use Data.getDelayCounts() instead. The method will allways return empty List!
+	 */
+	@Deprecated
 	public final List<Delay> getDelays() throws IOException
 	{
-		final String sql = getDelaySQL();
-		return readFromDatabase(sql, this::setValues);
+		return new ArrayList<>();
 	}
 
 	protected String getDelaySQL()
 	{
-		return getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay");
+		return getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay",
+				" AND realtime IS NOT NULL GROUP BY delay;");
 	}
 
 	protected String getCancelledSQL()
 	{
-		return getSQL("count(*) AS total") + " AND realTime IS NULL";
+		return getSQL("count(*) AS total", " AND realtime IS NULL;");
 	}
 
-	private String getSQL(String what)
+	private String getSQL(String what, String additional)
 	{
 		final StringBuilder stringBuilder = new StringBuilder().append("SELECT ").append(what)
 				.append(" FROM Stop WHERE stationID = ?");
@@ -150,12 +155,22 @@ public class DelayRequestDB extends DB<Delay> implements DelayRequest
 		hourEnd.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) <= ?"));
 		lineID.ifPresent(h -> stringBuilder.append(" AND lineID = ?"));
 
-		return stringBuilder.toString();
+		return stringBuilder.append(additional).toString();
 	}
 
 	@Override
-	protected Optional<Delay> getValue(ResultSet result) throws SQLException
+	protected Optional<DelayCountData> getValue(ResultSet result) throws SQLException
 	{
-		return Optional.of(new Delay(result.getDouble("delay")));
+		final Delay delay = new Delay(result.getDouble("delay"));
+		final CountData count = new CountData(result.getLong("count"));
+
+		return Optional.of(new DelayCountData(delay, count));
+	}
+
+	@Override
+	public List<DelayCountData> getDelayCounts() throws IOException
+	{
+		final String sql = getDelaySQL();
+		return readFromDatabase(sql, this::setValues);
 	}
 }

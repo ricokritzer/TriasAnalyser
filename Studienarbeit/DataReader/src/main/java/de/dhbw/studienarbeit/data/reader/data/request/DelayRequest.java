@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
@@ -22,5 +21,5 @@ public interface DelayRequest
 
 	public CountData getCancelledStops() throws IOException;
 
-	public List<Delay> getDelays() throws IOException;
+	public List<DelayCountData> getDelayCounts() throws IOException;
 }
