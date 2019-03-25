@@ -18,7 +18,7 @@ public class DelayRequestDBTest
 	public void sqlStationNameOnly() throws Exception
 	{
 		final DelayRequestDB request = new DelayRequestDB(new StationID("myStation"));
-		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
@@ -30,7 +30,7 @@ public class DelayRequestDBTest
 		final DelayRequestDB request = new DelayRequestDB(new StationID("myStation"));
 		request.setWeekday(Optional.of(Weekday.MONDAY));
 
-		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?" + " AND WEEKDAY(timetabledTime) = ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
@@ -42,7 +42,7 @@ public class DelayRequestDBTest
 		final DelayRequestDB request = createDelayRequest();
 		request.setLineID(Optional.of(new LineID(9)));
 
-		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND lineID = ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
@@ -111,7 +111,7 @@ public class DelayRequestDBTest
 		final DelayRequestDB request = createDelayRequest();
 		request.setHourStart(Optional.of(Hour.HOUR1));
 
-		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) >= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
@@ -123,7 +123,7 @@ public class DelayRequestDBTest
 		final DelayRequestDB request = createDelayRequest();
 		request.setHourEnd(Optional.of(Hour.HOUR1));
 
-		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
@@ -136,7 +136,7 @@ public class DelayRequestDBTest
 		request.setHourStart(Optional.of(Hour.HOUR1));
 		request.setHourEnd(Optional.of(Hour.HOUR10));
 
-		final String sql = "SELECT (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) >= ? AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));

@@ -136,7 +136,7 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 
 	protected String getDelaySQL()
 	{
-		return getSQL("(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay",
+		return getSQL("count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay",
 				" AND realtime IS NOT NULL GROUP BY delay;");
 	}
 
