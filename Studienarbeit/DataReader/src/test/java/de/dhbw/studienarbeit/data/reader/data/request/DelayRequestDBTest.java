@@ -31,7 +31,22 @@ public class DelayRequestDBTest
 		request.setWeekday(Optional.of(Weekday.MONDAY));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ?" + " AND WEEKDAY(timetabledTime) = ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop WHERE stationID = ?"
+				+ " AND WEEKDAY(timetabledTime) IN (?) AND realtime IS NOT NULL GROUP BY delay;";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void sqlStationNameAndMultipleWeekdays() throws Exception
+	{
+		final DelayRequestDB request = new DelayRequestDB(new StationID("myStation"));
+		request.setWeekday(Optional.of(Weekday.MONDAY));
+		request.setWeekday(Optional.of(Weekday.WEDNESDAY));
+
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ?"
+				+ " AND WEEKDAY(timetabledTime) IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -43,18 +58,31 @@ public class DelayRequestDBTest
 		request.setLineID(Optional.of(new LineID(9)));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND lineID = ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
 	
+	@Test
+	public void sqlMultipleLineIDs() throws Exception
+	{
+		final DelayRequestDB request = createDelayRequest();
+		request.setLineID(Optional.of(new LineID(9)));
+		request.setLineID(Optional.of(new LineID(1)));
+
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND lineID IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
 	@Test
 	public void sqlCount() throws Exception
 	{
 		final DelayRequestDB request = createDelayRequest();
 		request.setLineID(Optional.of(new LineID(9)));
 
-		final String sql = "SELECT count(*) AS total FROM Stop WHERE stationID = ? AND lineID = ? AND realtime IS NULL;";
+		final String sql = "SELECT count(*) AS total FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NULL;";
 
 		assertThat(request.getCancelledSQL(), is(sql));
 	}

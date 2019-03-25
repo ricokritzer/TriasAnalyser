@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
+import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
@@ -21,10 +22,10 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 {
 	protected final StationID stationID;
 
-	private Optional<Weekday> weekday = Optional.empty();
 	private Optional<Hour> hourStart = Optional.empty();
 	private Optional<Hour> hourEnd = Optional.empty();
-	private Optional<LineID> lineID = Optional.empty();
+	private List<LineID> lineIDs = new ArrayList<>();
+	private List<Weekday> weekdays = new ArrayList<>();
 
 	public DelayRequestDB(StationID stationID)
 	{
@@ -33,7 +34,12 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 
 	public void setWeekday(Optional<Weekday> weekday)
 	{
-		this.weekday = weekday;
+		weekday.ifPresent(w -> this.weekdays.add(w));
+
+		if (!weekday.isPresent())
+		{
+			this.weekdays.clear();
+		}
 	}
 
 	@Override
@@ -80,14 +86,15 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 		return !e.before(s);
 	}
 
+	@Override
 	public void setLineID(Optional<LineID> lineID)
 	{
-		this.lineID = lineID;
-	}
+		lineID.ifPresent(l -> this.lineIDs.add(l));
 
-	public void setLineID(LineID lineID)
-	{
-		this.lineID = Optional.ofNullable(lineID);
+		if (!lineID.isPresent())
+		{
+			this.lineIDs.clear();
+		}
 	}
 
 	public final CountData getCancelledStops() throws IOException
@@ -101,9 +108,9 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 		int idx = 1;
 		preparedStatement.setString(idx++, stationID.getValue());
 
-		if (weekday.isPresent())
+		for (Weekday weekday : weekdays)
 		{
-			preparedStatement.setInt(idx, weekday.get().getIdx());
+			preparedStatement.setInt(idx, weekday.getIdx());
 			idx++;
 		}
 
@@ -119,9 +126,10 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 			idx++;
 		}
 
-		if (lineID.isPresent())
+		for (LineID lineID : lineIDs)
 		{
-			preparedStatement.setInt(idx, lineID.get().getValue());
+			preparedStatement.setInt(idx, lineID.getValue());
+			idx++;
 		}
 	}
 
@@ -150,10 +158,32 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 		final StringBuilder stringBuilder = new StringBuilder().append("SELECT ").append(what)
 				.append(" FROM Stop WHERE stationID = ?");
 
-		weekday.ifPresent(w -> stringBuilder.append(" AND WEEKDAY(timetabledTime) = ?"));
+		if (!weekdays.isEmpty())
+		{
+			stringBuilder.append(" AND WEEKDAY(timetabledTime) IN (?");
+
+			for (int i = 1; i < weekdays.size(); i++)
+			{
+				stringBuilder.append(", ?");
+			}
+
+			stringBuilder.append(")");
+		}
+
 		hourStart.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) >= ?"));
 		hourEnd.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) <= ?"));
-		lineID.ifPresent(h -> stringBuilder.append(" AND lineID = ?"));
+
+		if (!lineIDs.isEmpty())
+		{
+			stringBuilder.append(" AND lineID IN (?");
+
+			for (int i = 1; i < lineIDs.size(); i++)
+			{
+				stringBuilder.append(", ?");
+			}
+
+			stringBuilder.append(")");
+		}
 
 		return stringBuilder.append(additional).toString();
 	}
@@ -172,5 +202,19 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 	{
 		final String sql = getDelaySQL();
 		return readFromDatabase(sql, this::setValues);
+	}
+
+	@Override
+	public void addLine(Line line)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeLine(Line line)
+	{
+		// TODO Auto-generated method stub
+
 	}
 }
