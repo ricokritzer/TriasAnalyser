@@ -46,6 +46,16 @@ public class Delay implements Comparable<Delay>
 	@Override
 	public String toString()
 	{
+		if (value > 0)
+		{
+			return getPositivString(value);
+		}
+
+		return getNegativeString(value);
+	}
+
+	public static String getPositivString(double value)
+	{
 		double delay = value;
 
 		final int hour = (int) delay / SECONDS_PER_HOUR;
@@ -65,6 +75,11 @@ public class Delay implements Comparable<Delay>
 		}
 
 		return Math.round(delay * 100) / 100d + "s";
+	}
+
+	public static String getNegativeString(double value)
+	{
+		return "-" + getPositivString(Math.abs(value));
 	}
 
 	public static double difference(Delay delay1, Delay delay2)
