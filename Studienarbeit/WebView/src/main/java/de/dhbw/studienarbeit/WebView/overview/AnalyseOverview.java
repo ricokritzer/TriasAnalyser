@@ -23,17 +23,11 @@ import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
-import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
-import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequest;
 import de.dhbw.studienarbeit.data.reader.data.request.InvalidTimeSpanException;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
-import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
-import de.dhbw.studienarbeit.data.reader.data.station.Position;
-import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.web.data.Data;
@@ -66,8 +60,6 @@ public class AnalyseOverview extends Overview
 	{
 		super();
 
-		request = Data.getDelayRequestFor(new StationID("de:08212:1"));
-
 		btnSearch = new Button("Suchen", e -> search());
 
 		lines = new ComboBox<>("Linie");
@@ -92,9 +84,7 @@ public class AnalyseOverview extends Overview
 
 		filters.forEach(e -> e.setEnabled(false));
 
-		stations = new ComboBox<>("Station",
-				new DelayStationData(new DelayMaximum(10), new DelayAverage(5), new StationID("de:08212:1"),
-						new StationName("test"), new OperatorName("test"), new Position(10, 10), 10));
+		stations = new ComboBox<>("Station", Data.getDelaysStation());
 		stations.setItemLabelGenerator(item -> item.getName().toString());
 		stations.addValueChangeListener(e -> createRequest());
 
