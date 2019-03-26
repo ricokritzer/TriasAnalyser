@@ -1,13 +1,9 @@
 package de.dhbw.studienarbeit.WebView.overview;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 import com.syndybat.chartjs.ChartJs;
 import com.vaadin.flow.component.button.Button;
@@ -132,29 +128,10 @@ public class AnalyseOverview extends Overview
 
 	private void showDelays()
 	{
-		Collections.sort(delays);
-
-		Map<DelayCountData, Integer> delayCounts = new HashMap<>();
-
-		for (DelayCountData delay : delays)
-		{
-			if (delayCounts.containsKey(delay))
-			{
-				delayCounts.put(delay, delayCounts.get(delay) + 1);
-			}
-			else
-			{
-				System.out.println(delay.getDelayValue());
-				delayCounts.put(delay, 1);
-			}
-		}
-
-		List<DelayCountData> sortedKeySet = asSortedList(delayCounts.keySet());
-
-		BarDataset dataset = new BarDataset().setData(sortedData(sortedKeySet, delayCounts)).setLabel("Verspätungen")
+		BarDataset dataset = new BarDataset().setData(getData()).setLabel("Verspätungen")
 				.setBackgroundColor(Color.BLUE);
 
-		BarData data = new BarData().addLabels(asSortedArray(delayCounts.keySet())).addDataset(dataset);
+		BarData data = new BarData().addLabels(getLabels()).addDataset(dataset);
 
 		BarOptions options = new BarOptions().setScales(new BarScale().setyAxes(getYAxis()));
 
@@ -166,6 +143,16 @@ public class AnalyseOverview extends Overview
 		div.add(chartJS);
 	}
 
+	private String[] getLabels()
+	{
+		return delays.stream().map(e -> e.getDelay().toString()).toArray(String[]::new);
+	}
+
+	private BigDecimal[] getData()
+	{
+		return delays.stream().map(e -> BigDecimal.valueOf(e.getCountValue())).toArray(BigDecimal[]::new);
+	}
+
 	private List<YAxis<LinearTicks>> getYAxis()
 	{
 		List<YAxis<LinearTicks>> axis = new ArrayList<>();
@@ -173,30 +160,6 @@ public class AnalyseOverview extends Overview
 		ticks.setType("logarithmic");
 		axis.add(ticks);
 		return axis;
-	}
-
-	private int[] sortedData(List<DelayCountData> sortedKeySet, Map<DelayCountData, Integer> delayCounts)
-	{
-		int[] data = new int[sortedKeySet.size()];
-		int i = 0;
-		for (DelayCountData delay : sortedKeySet)
-		{
-			data[i] = delayCounts.get(delay);
-			i++;
-		}
-		return data;
-	}
-
-	private List<DelayCountData> asSortedList(Set<DelayCountData> set)
-	{
-		List<DelayCountData> list = new ArrayList<>(set);
-		Collections.sort(list);
-		return list;
-	}
-
-	private String[] asSortedArray(Set<DelayCountData> set)
-	{
-		return asSortedList(set).stream().map(e -> e.toString()).toArray(String[]::new);
 	}
 
 	private void setHourEnd()
@@ -295,19 +258,24 @@ public class AnalyseOverview extends Overview
 
 	private void setWeekday()
 	{
-		request.setWeekday(weekdays.getOptionalValue());
+		if (weekdays.getOptionalValue().isPresent())
+		{
+			request.addWeekday(weekdays.getValue());
+			return;
+		}
+		
+		request.clearWeekdays();
 	}
 
 	private void setLine()
 	{
 		if (lines.getOptionalValue().isPresent())
 		{
-			request.setLineID(Optional.of(lines.getValue().getID()));
+			request.addLine(lines.getValue());
+			return;
 		}
-		else
-		{
-			request.setLineID(Optional.empty());
-		}
+		
+		request.clearLines();
 	}
 
 	private void createRequest()
