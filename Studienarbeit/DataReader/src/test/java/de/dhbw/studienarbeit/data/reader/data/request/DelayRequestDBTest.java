@@ -110,7 +110,7 @@ public class DelayRequestDBTest
 	}
 
 	@Test(expected = InvalidTimeSpanException.class)
-	public void setEntThanStartAndEndtimeBeforeStarttime() throws Exception
+	public void setEndThanStartAndEndtimeBeforeStarttime() throws Exception
 	{
 		final DelayRequestDB request = createDelayRequest();
 		request.setHourStart(Optional.of(Hour.HOUR10));
@@ -121,7 +121,7 @@ public class DelayRequestDBTest
 	public void setStartAndEndTimeSameValue() throws Exception
 	{
 		final DelayRequestDB request = createDelayRequest();
-		request.setHourEnd(Optional.of(Hour.HOUR10));
+		request.setHourStart(Optional.of(Hour.HOUR10));
 		request.setHourEnd(Optional.of(Hour.HOUR10));
 	}
 
@@ -129,7 +129,7 @@ public class DelayRequestDBTest
 	public void setValidStartAndEndTime() throws Exception
 	{
 		final DelayRequestDB request = createDelayRequest();
-		request.setHourEnd(Optional.of(Hour.HOUR1));
+		request.setHourStart(Optional.of(Hour.HOUR1));
 		request.setHourEnd(Optional.of(Hour.HOUR10));
 	}
 
