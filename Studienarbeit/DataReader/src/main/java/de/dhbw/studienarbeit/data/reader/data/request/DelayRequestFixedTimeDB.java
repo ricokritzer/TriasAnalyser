@@ -128,8 +128,8 @@ public class DelayRequestFixedTimeDB extends DB<DelayCountData> implements Delay
 				.append("count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay")
 				.append(" FROM Stop WHERE stationID = ?");
 
-		timestampStart.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) >= ?"));
-		timestampEnd.ifPresent(h -> stringBuilder.append(" AND HOUR(timetabledTime) <= ?"));
+		timestampStart.ifPresent(h -> stringBuilder.append(" AND timetabledTime >= ?"));
+		timestampEnd.ifPresent(h -> stringBuilder.append(" AND timetabledTime <= ?"));
 
 		if (!lineIDs.isEmpty())
 		{
