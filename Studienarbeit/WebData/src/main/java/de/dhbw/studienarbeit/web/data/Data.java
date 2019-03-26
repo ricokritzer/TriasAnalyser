@@ -11,6 +11,8 @@ import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequest;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestDB;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTime;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTimeDB;
 import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
@@ -673,6 +675,11 @@ public class Data
 	public static DelayRequest getDelayRequestFor(StationID stationID)
 	{
 		return new DelayRequestDB(stationID);
+	}
+
+	public static DelayRequestFixedTime getDelayRequestForFixedTimeFor(StationID stationID)
+	{
+		return new DelayRequestFixedTimeDB(stationID);
 	}
 
 	public static List<Line> getLinesAt(StationID stationID)
