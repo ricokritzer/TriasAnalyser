@@ -46,7 +46,7 @@ public class Delay implements Comparable<Delay>
 	@Override
 	public String toString()
 	{
-		if (value > 0)
+		if (value >= 0)
 		{
 			return getPositivString(value);
 		}
