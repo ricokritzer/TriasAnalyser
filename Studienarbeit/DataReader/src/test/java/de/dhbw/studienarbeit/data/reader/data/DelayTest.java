@@ -36,4 +36,10 @@ public class DelayTest
 	{
 		assertThat(new Delay(60).toString(), is("1m 0s"));
 	}
+	
+	@Test
+	public void NegativSeconds()
+	{
+		assertThat(new Delay(-1).toString(), is("-1.0s"));
+	}
 }
