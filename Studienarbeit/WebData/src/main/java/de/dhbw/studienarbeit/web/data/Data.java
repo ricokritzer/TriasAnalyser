@@ -9,10 +9,10 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespanDB;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTime;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTimeDB;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespanDB;
 import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
@@ -143,15 +143,6 @@ public class Data
 		return INSTANCE;
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayStationWO getDelaysStationWO()
-	{
-		return getInstance().delaysStationWO;
-	}
-
 	public static final List<DelayStationData> getDelaysStation()
 	{
 		return getInstance().delaysStationWO.getData();
@@ -160,15 +151,6 @@ public class Data
 	public static final Date getDelaysStationLastUpdate()
 	{
 		return getInstance().delaysStationWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayLineWO getDelayLineWO()
-	{
-		return getInstance().delayLineWO;
 	}
 
 	public static final List<DelayLineData> getDelaysLine()
@@ -181,15 +163,6 @@ public class Data
 		return getInstance().delayLineWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayVehicleTypeWO getDelaysVehicleTypeWO()
-	{
-		return getInstance().delayVehicleTypeWO;
-	}
-
 	public static final List<DelayVehicleTypeData> getDelaysVehicleType()
 	{
 		return getInstance().delayVehicleTypeWO.getData();
@@ -198,15 +171,6 @@ public class Data
 	public static final Date getDelaysVehicleTypeLastUpdate()
 	{
 		return getInstance().delayVehicleTypeWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayTemperatureWO getDelayTemperatureWO()
-	{
-		return getInstance().delayTemperatureWO;
 	}
 
 	public static final List<DelayTemperatureData> getDelaysTemperature()
@@ -219,15 +183,6 @@ public class Data
 		return getInstance().delayTemperatureWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayTemperatureCorrelationCoefficientWO getDelayTemperatureCorrelationCoefficientWO()
-	{
-		return getInstance().delayTemperatureCorrelationCoefficientWO;
-	}
-
 	public static final DelayTemperatureCorrelationData getDelayTemperatureCorrelationCoefficient()
 	{
 		return getInstance().delayTemperatureCorrelationCoefficientWO.getCorrelation();
@@ -236,15 +191,6 @@ public class Data
 	public static final Date getDelayTemperatureCorrelationCoefficientLastUpdated()
 	{
 		return getInstance().delayTemperatureCorrelationCoefficientWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayCloudsWO getDelayCloudsWO()
-	{
-		return getInstance().delayCloudsWO;
 	}
 
 	public static final List<DelayCloudsData> getDelaysClouds()
@@ -257,15 +203,6 @@ public class Data
 		return getInstance().delayCloudsWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayCloudsCorrelationCoefficientWO getDelayCloudsCorrelationCoefficientWO()
-	{
-		return getInstance().delayCloudsCorrelationCoefficientWO;
-	}
-
 	public static final DelayCloudCorrelationData getDelayCloudsCorrelationCoefficient()
 	{
 		return getInstance().delayCloudsCorrelationCoefficientWO.getCorrelation();
@@ -274,15 +211,6 @@ public class Data
 	public static final Date getDelayCloudsCorrelationCoefficientLastUpdated()
 	{
 		return getInstance().delayCloudsCorrelationCoefficientWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayWeatherTextWO getDelayWeatherTextWO()
-	{
-		return getInstance().delayWeatherTextWO;
 	}
 
 	public static final List<DelayWeatherTextData> getDelaysWeatherText()
@@ -295,15 +223,6 @@ public class Data
 		return getInstance().delayWeatherTextWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayStationNeighbourWO getStationNeighbourWO()
-	{
-		return getInstance().stationNeighbourWO;
-	}
-
 	public static final List<DelayStationNeighbourData> getStationNeighbours()
 	{
 		return getInstance().stationNeighbourWO.getData();
@@ -312,15 +231,6 @@ public class Data
 	public static final Date getStationNeighboursLastUpdated()
 	{
 		return getInstance().stationNeighbourWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayWindWO getDelayWindWO()
-	{
-		return getInstance().delayWindWO;
 	}
 
 	public static final List<DelayWindData> getDelaysWind()
@@ -333,15 +243,6 @@ public class Data
 		return getInstance().delayWindWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayWindCorrelationCoefficientWO getDelayWindCorrelationCoefficientWO()
-	{
-		return getInstance().delayWindCorrelationCoefficientWO;
-	}
-
 	public static final DelayWindCorrelationData getDelayWindCorrelationCoefficient()
 	{
 		return getInstance().delayWindCorrelationCoefficientWO.getCorrelation();
@@ -350,15 +251,6 @@ public class Data
 	public static final Date getDelayWindCorrelationCoefficientLastUpdated()
 	{
 		return getInstance().delayWindCorrelationCoefficientWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayHumidityWO getDelayHumidityWO()
-	{
-		return getInstance().delayHumidityWO;
 	}
 
 	public static final List<DelayHumidityData> getDelaysHumidity()
@@ -371,15 +263,6 @@ public class Data
 		return getInstance().delayHumidityWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayHumidityCorrelationCoefficientWO getDelayHumidityCorrelationCoefficientWO()
-	{
-		return getInstance().delayHumidityCorrelationCoefficientWO;
-	}
-
 	public static final DelayHumidityCorrelationData getDelayHumidityCorrelationCoefficient()
 	{
 		return getInstance().delayHumidityCorrelationCoefficientWO.getCorrelation();
@@ -388,15 +271,6 @@ public class Data
 	public static final Date getDelayHumidityCorrelationCoefficientLastUpdated()
 	{
 		return getInstance().delayHumidityCorrelationCoefficientWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayPressureWO getDelayPressureWO()
-	{
-		return getInstance().delayPressureWO;
 	}
 
 	public static final List<DelayPressureData> getDelaysPressure()
@@ -409,15 +283,6 @@ public class Data
 		return getInstance().delayPressureWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayPressureCorrelationCoefficientWO getDelayPressureCorrelationCoefficientWO()
-	{
-		return getInstance().delayPressureCorrelationCoefficientWO;
-	}
-
 	public static final DelayPressureCorrelationData getDelayPressureCorrelationCoefficient()
 	{
 		return getInstance().delayPressureCorrelationCoefficientWO.getCorrelation();
@@ -426,15 +291,6 @@ public class Data
 	public static final Date getDelayPressureCorrelationCoefficientLastUpdated()
 	{
 		return getInstance().delayPressureCorrelationCoefficientWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayWeekdayWO getDelayWeekdayWO()
-	{
-		return getInstance().delayWeekdayWO;
 	}
 
 	public static final List<DelayWeekdayData> getDelaysWeekday()
@@ -447,15 +303,6 @@ public class Data
 		return getInstance().delayWeekdayWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayTimeSpanWO getDelayTimeSpanWO()
-	{
-		return getInstance().delayTimeSpanWO;
-	}
-
 	public static final List<DelayTimeSpanData> getDelaysTimeSpan()
 	{
 		return getInstance().delayTimeSpanWO.getData();
@@ -466,15 +313,6 @@ public class Data
 		return getInstance().delayTimeSpanWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static final DelayWeatherSymbolWO getDelayWeatherSymbolWO()
-	{
-		return getInstance().delayWeatherSymbolWO;
-	}
-
 	public static final DelayWeatherSymbolWO getDelaysWeatherSymbol()
 	{
 		return getInstance().delayWeatherSymbolWO;
@@ -483,15 +321,6 @@ public class Data
 	public static final DelayWeatherSymbolWO getDelaysWeatherSymbolLastUpdated()
 	{
 		return getInstance().delayWeatherSymbolWO;
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static CountLinesWO getCountLinesWO()
-	{
-		return getInstance().countLinesWO;
 	}
 
 	public static List<CountWO> getCountLines()
@@ -509,15 +338,6 @@ public class Data
 		return getInstance().countLinesWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static CountObservedStationsWO getCountObservedStationsWO()
-	{
-		return getInstance().countObservedStationsWO;
-	}
-
 	public static List<CountWO> getCountObservedStations()
 	{
 		return getInstance().countObservedStationsWO.getValues();
@@ -531,15 +351,6 @@ public class Data
 	public static Date getCountObservedStationsLastUpdated()
 	{
 		return getInstance().countObservedStationsWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static CountObservedOperatorsWO getCountObservedOperatorsWO()
-	{
-		return getInstance().countObservedOperatorsWO;
 	}
 
 	public static List<CountWO> getCountObservedOperators()
@@ -557,15 +368,6 @@ public class Data
 		return getInstance().countObservedOperatorsWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static CountStationsWithRealtimeDataWO getCountStationsWithRealtimeDataWO()
-	{
-		return getInstance().countStationsWithRealtimeDataWO;
-	}
-
 	public static List<CountWO> getCountStationsWithRealtimeData()
 	{
 		return getInstance().countStationsWithRealtimeDataWO.getValues();
@@ -579,15 +381,6 @@ public class Data
 	public static Date getCountStationsWithRealtimeDataLastUpdated()
 	{
 		return getInstance().countStationsWithRealtimeDataWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static CountStationsWO getCountStationsWO()
-	{
-		return getInstance().countStationsWO;
 	}
 
 	public static List<CountWO> getCountStations()
@@ -605,15 +398,6 @@ public class Data
 		return getInstance().countStationsWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static CountStopsWO getCountStopsWO()
-	{
-		return getInstance().countStopsWO;
-	}
-
 	public static List<CountWO> getCountStops()
 	{
 		return getInstance().countStopsWO.getValues();
@@ -629,15 +413,6 @@ public class Data
 		return getInstance().countStopsWO.getLastUpdated();
 	}
 
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static CountWeathersWO getCountWeathersWO()
-	{
-		return getInstance().countWeathersWO;
-	}
-
 	public static List<CountWO> getCountWeathers()
 	{
 		return getInstance().countWeathersWO.getValues();
@@ -651,15 +426,6 @@ public class Data
 	public static Date getCountWeatherLastUpdated()
 	{
 		return getInstance().countWeathersWO.getLastUpdated();
-	}
-
-	/*
-	 * @Deprecated choose the object you want.
-	 */
-	@Deprecated
-	public static DelayVehicleTypeWO getDelayVehicleTypeWO()
-	{
-		return getInstance().delayVehicleTypeWO;
 	}
 
 	public static List<DelaySituationData> getDelaysSituation()
