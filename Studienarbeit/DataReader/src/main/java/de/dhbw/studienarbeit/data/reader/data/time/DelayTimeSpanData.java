@@ -10,10 +10,4 @@ public class DelayTimeSpanData extends DelayData<TimeSpan>
 	{
 		super(delayMaximum, delayAverage, value);
 	}
-
-	@Deprecated
-	public TimeSpan getHour()
-	{
-		return value;
-	}
 }

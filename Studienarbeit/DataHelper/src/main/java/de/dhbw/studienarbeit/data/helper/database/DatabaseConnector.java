@@ -27,7 +27,6 @@ public abstract class DatabaseConnector
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, "Unable to reconnect.", e);
 			throw new IOException("Unable to connect to database.", e);
 		}
 	}
@@ -64,8 +63,7 @@ public abstract class DatabaseConnector
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.FINE, "SQLException occured.", e);
-			throw e;
+			throw new SQLException("Unable to disconnect.", e);
 		}
 	}
 }

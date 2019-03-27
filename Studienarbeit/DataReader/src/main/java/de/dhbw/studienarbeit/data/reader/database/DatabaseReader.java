@@ -16,7 +16,7 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
 public class DatabaseReader extends DatabaseConnector
 {
-	private static final String UNABLE_TO_READ = "Unable to read at table ";
+	private static final String UNABLE_TO_READ = "Unable to read from database.";
 	private static final Logger LOGGER = Logger.getLogger(DatabaseReader.class.getName());
 
 	public void select(Consumer<ResultSet> consumer, PreparedStatement statement) throws SQLException
@@ -30,8 +30,7 @@ public class DatabaseReader extends DatabaseConnector
 		}
 		catch (SQLException e)
 		{
-			LOGGER.log(Level.WARNING, UNABLE_TO_READ, e);
-			throw e;
+			throw new SQLException(UNABLE_TO_READ, e);
 		}
 		finally
 		{

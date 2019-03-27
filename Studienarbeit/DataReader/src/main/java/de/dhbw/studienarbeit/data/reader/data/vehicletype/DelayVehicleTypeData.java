@@ -10,10 +10,4 @@ public class DelayVehicleTypeData extends DelayData<String>
 	{
 		super(delayMaximum, delayAverage, vehicleType);
 	}
-
-	@Deprecated
-	public String getVehicleType()
-	{
-		return value;
-	}
 }
