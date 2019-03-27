@@ -29,11 +29,11 @@ public class DelayWeekdayDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelayCloudsWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysWeekdayLastUpdated()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getWeekday().getName()).setHeader("Uhrzeit")
-				.setComparator((db1, db2) -> db1.getWeekday().compareTo(db2.getWeekday())).setSortable(true);
+		grid.addColumn(db -> db.getValue().getName()).setHeader("Uhrzeit")
+				.setComparator((db1, db2) -> db1.getValue().compareTo(db2.getValue())).setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
@@ -41,7 +41,7 @@ public class DelayWeekdayDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayWeekdayWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysWeekday()));
 
 		layout.add(grid);
 		add(layout);
