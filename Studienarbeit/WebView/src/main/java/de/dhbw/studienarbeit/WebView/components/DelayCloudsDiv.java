@@ -29,11 +29,11 @@ public class DelayCloudsDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelayCloudsWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysCloudsLastUpdated()));
 		layout.add(field);
-		
-		grid.addColumn(db -> db.getClouds()).setHeader("Bewölkung")
-				.setComparator((db1, db2) -> Double.compare(db1.getClouds(), db2.getClouds())).setSortable(true);
+
+		grid.addColumn(db -> db.getValue()).setHeader("Bewölkung")
+				.setComparator((db1, db2) -> Double.compare(db1.getValue(), db2.getValue())).setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
@@ -41,7 +41,7 @@ public class DelayCloudsDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayCloudsWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysClouds()));
 
 		layout.add(grid);
 		add(layout);
