@@ -10,10 +10,4 @@ public class DelayWeatherTextData extends DelayData<WeatherText>
 	{
 		super(delayMaximum, delayAverage, textDE);
 	}
-
-	@Deprecated
-	public String getText()
-	{
-		return value.getValue();
-	}
 }

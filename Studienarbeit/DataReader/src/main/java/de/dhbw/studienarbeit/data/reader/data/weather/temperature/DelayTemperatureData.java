@@ -10,10 +10,4 @@ public class DelayTemperatureData extends DelayData<Double>
 	{
 		super(delayMaximum, delayAverage, temperature);
 	}
-
-	@Deprecated
-	public double getTemperature()
-	{
-		return getValue();
-	}
 }

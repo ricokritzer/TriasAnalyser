@@ -10,10 +10,4 @@ public class DelayHumidityData extends DelayData<Double>
 	{
 		super(delayMaximum, delayAverage, value);
 	}
-
-	@Deprecated
-	public double getHumidity()
-	{
-		return value;
-	}
 }
