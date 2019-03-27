@@ -29,7 +29,7 @@ public class DelayWindDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelayCloudsWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysWindLastUpdated()));
 		layout.add(field);
 
 		grid.addColumn(db -> db.getValue()).setHeader("Windstärke")
@@ -41,7 +41,7 @@ public class DelayWindDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayWindWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysWind()));
 
 		layout.add(grid);
 		add(layout);
