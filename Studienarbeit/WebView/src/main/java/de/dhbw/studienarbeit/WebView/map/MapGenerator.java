@@ -18,12 +18,12 @@ public class MapGenerator
 	{
 		sb = new StringBuilder();
 	}
-	
+
 	public String get()
 	{
 		return sb.toString();
 	}
-	
+
 	public static MapGenerator generate()
 	{
 		MapGenerator generator = new MapGenerator();
@@ -32,14 +32,14 @@ public class MapGenerator
 				.append("L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>', maxZoom: 18, id: 'mapbox.streets', accessToken: 'pk.eyJ1IjoicGF0LXNpZSIsImEiOiJjanNoeG94NGkwYzcxNDRxZXQ0end0ZDZlIn0.3ZOmhgqISDU_mCFZdMbmiQ'}).addTo(mymap);");
 		return generator;
 	}
-	
+
 	public MapGenerator withMarkers()
 	{
 		sb.append(System.lineSeparator());
 		getMarkers();
 		return this;
 	}
-	
+
 	public MapGenerator withTracks()
 	{
 		sb.append(System.lineSeparator());
@@ -50,7 +50,7 @@ public class MapGenerator
 	private void getTracks()
 	{
 		int i = 0;
-		List<Track> tracks = TrackHelper.convertToTrackList(Data.getStationNeighbourWO().getData());
+		List<Track> tracks = TrackHelper.convertToTrackList(Data.getStationNeighbours());
 		for (Track track : tracks)
 		{
 			double lat1 = track.getDelayStationNeighbourData().getPosition1().getLat();
@@ -91,12 +91,13 @@ public class MapGenerator
 	private void getMarkers()
 	{
 		int i = 0;
-		for (DelayStationData station : Data.getDelaysStationWO().getData())
+		for (DelayStationData station : Data.getDelaysStation())
 		{
-			sb.append("var marker_" + i + " = L.marker([" + station.getPosition().getLat() + "," + station.getPosition().getLon()
-					+ "]).addTo(mymap);") //
+			sb.append("var marker_" + i + " = L.marker([" + station.getPosition().getLat() + ","
+					+ station.getPosition().getLon() + "]).addTo(mymap);") //
 					.append(System.lineSeparator()) //
-					.append("marker_" + i + ".bindPopup('<b>" + station.getName().getStationName() + "</b><br>Durchschittliche Verspätung: " + station.getAverage().toString() + "');") //
+					.append("marker_" + i + ".bindPopup('<b>" + station.getName().getStationName()
+							+ "</b><br>Durchschittliche Verspätung: " + station.getAverage().toString() + "');") //
 					.append(System.lineSeparator());
 			i++;
 		}
