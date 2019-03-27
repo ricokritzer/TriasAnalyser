@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.weatherStoplinker;
+package de.dhbw.studienarbeit.data.weatherstoplinker;
 
 import java.util.Timer;
 import java.util.logging.Level;
