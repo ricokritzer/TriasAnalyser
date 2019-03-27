@@ -8,6 +8,8 @@ import de.dhbw.studienarbeit.data.reader.data.line.Line;
 
 public interface DelayRequest
 {
+	public void setLines(List<Line> lines);
+
 	public void addLine(Line line);
 
 	public void removeLine(Line line);

@@ -180,4 +180,11 @@ public class DelayRequestFixedTimeDB extends DB<DelayCountData> implements Delay
 	{
 		lineIDs.clear();
 	}
+
+	@Override
+	public void setLines(List<Line> lines)
+	{
+		clearLines();
+		lines.forEach(this::addLine);
+	}
 }

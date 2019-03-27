@@ -237,4 +237,11 @@ public class DelayRequestTimespanDB extends DB<DelayCountData> implements DelayR
 	{
 		weekdays.clear();
 	}
+
+	@Override
+	public void setLines(List<Line> lines)
+	{
+		clearLines();
+		lines.forEach(this::addLine);
+	}
 }
