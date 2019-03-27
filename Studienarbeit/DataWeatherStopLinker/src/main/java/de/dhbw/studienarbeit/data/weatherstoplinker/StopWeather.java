@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.data.weatherStoplinker;
+package de.dhbw.studienarbeit.data.weatherstoplinker;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

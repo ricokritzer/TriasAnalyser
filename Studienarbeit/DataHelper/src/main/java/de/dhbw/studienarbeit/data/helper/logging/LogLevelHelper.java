@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 
 public class LogLevelHelper
 {
+	private LogLevelHelper()
+	{}
+
 	public static void setLogLevel(Level level)
 	{
 		final Logger rootLogger = LogManager.getLogManager().getLogger("");

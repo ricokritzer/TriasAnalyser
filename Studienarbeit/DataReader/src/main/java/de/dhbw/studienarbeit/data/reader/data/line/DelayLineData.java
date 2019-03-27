@@ -10,22 +10,4 @@ public class DelayLineData extends DelayData<Line>
 	{
 		super(delayMaximum, delayAverage, line);
 	}
-
-	/*
-	 * @Deprecated use getValue()
-	 */
-	@Deprecated
-	public String getLineName()
-	{
-		return value.getName().getValue();
-	}
-
-	/*
-	 * @Deprecated use getValue()
-	 */
-	@Deprecated
-	public String getLineDestination()
-	{
-		return value.getDestination().getValue();
-	}
 }

@@ -10,10 +10,4 @@ public class DelayWeekdayData extends DelayData<Weekday>
 	{
 		super(delayMaximum, delayAverage, value);
 	}
-
-	@Deprecated
-	public Weekday getWeekday()
-	{
-		return value;
-	}
 }
