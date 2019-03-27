@@ -32,7 +32,7 @@ public class DelayRequestTimespanDBTest
 	public void sqlStationNameAndWeekday() throws Exception
 	{
 		final DelayRequestTimespanDB request = new DelayRequestTimespanDB(new StationID("myStation"));
-		request.setWeekday(Optional.of(Weekday.MONDAY));
+		request.addWeekday(Weekday.MONDAY);
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?"
@@ -45,8 +45,8 @@ public class DelayRequestTimespanDBTest
 	public void sqlStationNameAndMultipleWeekdays() throws Exception
 	{
 		final DelayRequestTimespanDB request = new DelayRequestTimespanDB(new StationID("myStation"));
-		request.setWeekday(Optional.of(Weekday.MONDAY));
-		request.setWeekday(Optional.of(Weekday.WEDNESDAY));
+		request.addWeekday(Weekday.MONDAY);
+		request.addWeekday(Weekday.WEDNESDAY);
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ?"

@@ -1,6 +1,7 @@
 package de.dhbw.studienarbeit.data.reader.data.request;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
@@ -8,7 +9,7 @@ import de.dhbw.studienarbeit.data.reader.data.line.Line;
 
 public interface DelayRequest
 {
-	public void setLines(List<Line> lines);
+	public void setLines(Collection<Line> lines);
 
 	public void addLine(Line line);
 

@@ -5,7 +5,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.vaadin.gatanaso.MultiselectComboBox;
+
 import com.syndybat.chartjs.ChartJs;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
@@ -38,8 +42,8 @@ public class AnalyseOverview extends Overview
 	private static final long serialVersionUID = 1L;
 
 	private ComboBox<DelayStationData> stations;
-	private ComboBox<Line> lines;
-	private ComboBox<Weekday> weekdays;
+	private MultiselectComboBox<Line> lines;
+	private MultiselectComboBox<Weekday> weekdays;
 	private ComboBox<Hour> begin;
 	private ComboBox<Hour> end;
 	private Button btnSearch;
@@ -47,8 +51,7 @@ public class AnalyseOverview extends Overview
 	private DelayRequestTimespan request;
 	private List<DelayCountData> delays;
 
-	@SuppressWarnings("rawtypes")
-	private List<ComboBox> filters = new ArrayList<>();
+	private List<Component> filters = new ArrayList<>();
 
 	private boolean updating = false;
 
@@ -62,12 +65,15 @@ public class AnalyseOverview extends Overview
 
 		btnSearch = new Button("Suchen", e -> search());
 
-		lines = new ComboBox<>("Linie");
+		lines = new MultiselectComboBox<>();
+		lines.setLabel("Linien");
 		lines.setItemLabelGenerator(item -> item.getName().getValue() + " " + item.getDestination().getValue());
 		lines.addValueChangeListener(e -> setLine());
 		filters.add(lines);
 
-		weekdays = new ComboBox<>("Wochentag", Weekday.values());
+		weekdays = new MultiselectComboBox<>();
+		weekdays.setItems(Weekday.values());
+		weekdays.setLabel("Wochentage");
 		weekdays.setItemLabelGenerator(Weekday::getName);
 		weekdays.addValueChangeListener(e -> setWeekday());
 		filters.add(weekdays);
@@ -82,7 +88,7 @@ public class AnalyseOverview extends Overview
 		end.addValueChangeListener(e -> setHourEnd());
 		filters.add(end);
 
-		filters.forEach(e -> e.setEnabled(false));
+		filters.forEach(e -> ((HasEnabled) e).setEnabled(false));
 
 		stations = new ComboBox<>("Station", Data.getDelaysStation());
 		stations.setItemLabelGenerator(item -> item.getName().toString());
@@ -248,37 +254,25 @@ public class AnalyseOverview extends Overview
 
 	private void setWeekday()
 	{
-		if (weekdays.getOptionalValue().isPresent())
-		{
-			request.addWeekday(weekdays.getValue());
-			return;
-		}
-		
-		request.clearWeekdays();
+		request.setWeekdays(weekdays.getValue());
 	}
 
 	private void setLine()
 	{
-		if (lines.getOptionalValue().isPresent())
-		{
-			request.addLine(lines.getValue());
-			return;
-		}
-		
-		request.clearLines();
+		request.setLines(lines.getValue());
 	}
 
 	private void createRequest()
 	{
 		if (!stations.getOptionalValue().isPresent())
 		{
-			filters.forEach(e -> e.setEnabled(false));
+			filters.forEach(e -> ((HasEnabled) e).setEnabled(false));
 			return;
 		}
 
 		request = Data.getDelayRequestFor(stations.getValue().getStationID());
 		lines.setItems(Data.getLinesAt(stations.getValue().getStationID()));
 
-		filters.forEach(e -> e.setEnabled(true));
+		filters.forEach(e -> ((HasEnabled) e).setEnabled(true));
 	}
 }

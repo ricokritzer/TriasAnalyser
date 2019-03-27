@@ -129,6 +129,12 @@
 			<version>1.1.9-Beta</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.vaadin.gatanaso</groupId>
+			<artifactId>multiselect-combo-box-flow</artifactId>
+			<version>0.0.6</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

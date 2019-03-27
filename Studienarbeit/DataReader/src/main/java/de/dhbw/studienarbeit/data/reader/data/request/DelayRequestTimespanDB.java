@@ -3,6 +3,7 @@ package de.dhbw.studienarbeit.data.reader.data.request;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,14 +25,10 @@ public class DelayRequestTimespanDB extends DelayRequestDB implements DelayReque
 	}
 
 	@Override
-	public void setWeekday(Optional<Weekday> weekday)
+	public void setWeekdays(Collection<Weekday> weekday)
 	{
-		weekday.ifPresent(this::addWeekday);
-
-		if (!weekday.isPresent())
-		{
-			clearWeekdays();
-		}
+		clearWeekdays();
+		weekday.forEach(weekdays::add);
 	}
 
 	@Override
