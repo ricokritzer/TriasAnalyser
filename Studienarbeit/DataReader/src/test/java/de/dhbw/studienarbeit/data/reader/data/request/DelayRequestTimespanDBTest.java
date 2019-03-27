@@ -7,7 +7,11 @@ import java.util.Optional;
 
 import org.junit.Test;
 
+import de.dhbw.studienarbeit.data.reader.data.line.Line;
+import de.dhbw.studienarbeit.data.reader.data.line.LineData;
+import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
+import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
@@ -55,7 +59,7 @@ public class DelayRequestTimespanDBTest
 	public void sqlLineID() throws Exception
 	{
 		final DelayRequestTimespanDB request = createDelayRequest();
-		request.setLineID(Optional.of(new LineID(9)));
+		request.addLine(createLine());
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NOT NULL GROUP BY delay;";
@@ -67,8 +71,8 @@ public class DelayRequestTimespanDBTest
 	public void sqlMultipleLineIDs() throws Exception
 	{
 		final DelayRequestTimespanDB request = createDelayRequest();
-		request.setLineID(Optional.of(new LineID(9)));
-		request.setLineID(Optional.of(new LineID(1)));
+		request.addLine(createLine());
+		request.addLine(createLine());
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND lineID IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
@@ -80,7 +84,7 @@ public class DelayRequestTimespanDBTest
 	public void sqlCount() throws Exception
 	{
 		final DelayRequestTimespanDB request = createDelayRequest();
-		request.setLineID(Optional.of(new LineID(9)));
+		request.addLine(createLine());
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NULL GROUP BY delay;";
 
@@ -173,5 +177,10 @@ public class DelayRequestTimespanDBTest
 	private DelayRequestTimespanDB createDelayRequest()
 	{
 		return new DelayRequestTimespanDB(new StationID("myStationName"));
+	}
+
+	private Line createLine()
+	{
+		return new LineData(new LineID(1), new LineName("foo"), new LineDestination("bar"));
 	}
 }
