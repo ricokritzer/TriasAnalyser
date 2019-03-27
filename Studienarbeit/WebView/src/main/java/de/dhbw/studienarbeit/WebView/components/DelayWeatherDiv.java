@@ -22,7 +22,7 @@ public class DelayWeatherDiv extends Div
 	public DelayWeatherDiv()
 	{
 		super();
-		
+
 		setSizeFull();
 
 		VerticalLayout layout = new VerticalLayout();
@@ -30,9 +30,9 @@ public class DelayWeatherDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelayWeatherTextWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysWeatherTextLastUpdated()));
 		layout.add(field);
-		
+
 		grid.addColumn(db -> db.getText()).setHeader("Wetter").setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
@@ -41,10 +41,10 @@ public class DelayWeatherDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayWeatherTextWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysWeatherText()));
 
 		layout.add(grid);
-		
+
 		add(layout);
 	}
 }
