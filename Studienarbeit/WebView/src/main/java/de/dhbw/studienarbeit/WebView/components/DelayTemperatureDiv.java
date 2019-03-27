@@ -29,7 +29,7 @@ public class DelayTemperatureDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelayTemperatureWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysTemperatureLastUpdated()));
 		layout.add(field);
 
 		grid.addColumn(db -> db.getValue()).setHeader("Temperatur")
@@ -41,7 +41,7 @@ public class DelayTemperatureDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayTemperatureWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysTemperature()));
 
 		layout.add(grid);
 		add(layout);
