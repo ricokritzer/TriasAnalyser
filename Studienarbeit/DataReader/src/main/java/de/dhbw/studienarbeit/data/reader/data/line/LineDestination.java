@@ -10,7 +10,17 @@ public class LineDestination
 		this.value = value;
 	}
 
+	/*
+	 * @Deprecated use toString instead.
+	 */
+	@Deprecated
 	public final String getValue()
+	{
+		return value;
+	}
+	
+	@Override
+	public String toString()
 	{
 		return value;
 	}

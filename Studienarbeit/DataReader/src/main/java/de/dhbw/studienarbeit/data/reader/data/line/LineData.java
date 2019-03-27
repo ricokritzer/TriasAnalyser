@@ -31,4 +31,10 @@ public class LineData implements Line
 	{
 		return lineDestination;
 	}
+
+	@Override
+	public String toString()
+	{
+		return new StringBuilder(lineName.toString()).append(" -> ").append(lineDestination.toString()).toString();
+	}
 }
