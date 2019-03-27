@@ -31,7 +31,7 @@ public class DelayStationDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationLastUpdate()));
 		layout.add(field);
 
 		grid.addColumn(db -> db.getName().getStationName()).setHeader("Station").setSortable(true);
@@ -45,7 +45,7 @@ public class DelayStationDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysStationWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysStation()));
 
 		layout.add(grid);
 		add(layout);
