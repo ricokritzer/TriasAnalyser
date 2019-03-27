@@ -19,12 +19,12 @@ public class CorrelationCoefficientsDiv extends Div
 		final TextArea txt = new TextArea();
 		txt.setLabel("Korrelationskoeffizienten");
 		txt.setReadOnly(true);
-		txt.setValue("Bewölkung: " + Data.getDelayCloudsCorrelationCoefficientWO().getCorrelation().toString() + System.lineSeparator()
-				+ "Luftfeuchtigkeit: " + Data.getDelayHumidityCorrelationCoefficientWO().getCorrelation().toString() + System.lineSeparator()
-				+ "Luftdruck: " + Data.getDelayPressureCorrelationCoefficientWO().getCorrelation().toString() + System.lineSeparator()
-				+ "Windstärke: " + Data.getDelayWindCorrelationCoefficientWO().getCorrelation().toString() + System.lineSeparator()
-				+ "Temperatur: " + Data.getDelayTemperatureCorrelationCoefficientWO().getCorrelation().toString());
-		
+		txt.setValue("Bewölkung: " + Data.getDelayCloudsCorrelationCoefficient() + System.lineSeparator()
+				+ "Luftfeuchtigkeit: " + Data.getDelayHumidityCorrelationCoefficient() + System.lineSeparator()
+				+ "Luftdruck: " + Data.getDelayPressureCorrelationCoefficient() + System.lineSeparator()
+				+ "Windstärke: " + Data.getDelayWindCorrelationCoefficient() + System.lineSeparator() + "Temperatur: "
+				+ Data.getDelayTemperatureCorrelationCoefficient());
+
 		layout.add(txt);
 		add(layout);
 	}
