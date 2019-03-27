@@ -87,7 +87,6 @@ public class DelayRequestTimespanDB extends DB<DelayCountData> implements DelayR
 		return !e.before(s);
 	}
 
-	@Override
 	public void setLineID(Optional<LineID> lineID)
 	{
 		lineID.ifPresent(lineIDs::add);
