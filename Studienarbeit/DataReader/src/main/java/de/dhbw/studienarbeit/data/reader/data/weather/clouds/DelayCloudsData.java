@@ -10,10 +10,4 @@ public class DelayCloudsData extends DelayData<Double>
 	{
 		super(delayMaximum, delayAverage, clouds);
 	}
-
-	@Deprecated
-	public double getClouds()
-	{
-		return value;
-	}
 }
