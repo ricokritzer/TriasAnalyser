@@ -29,11 +29,11 @@ public class DelayHumidityDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelayCloudsWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysCloudsLastUpdated()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getHumidity()).setHeader("Luftfeuchtigkeit")
-				.setComparator((db1, db2) -> Double.compare(db1.getHumidity(), db2.getHumidity())).setSortable(true);
+		grid.addColumn(db -> db.getValue()).setHeader("Luftfeuchtigkeit")
+				.setComparator((db1, db2) -> Double.compare(db1.getValue(), db2.getValue())).setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
@@ -41,7 +41,7 @@ public class DelayHumidityDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayHumidityWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysHumidity()));
 
 		layout.add(grid);
 		add(layout);
