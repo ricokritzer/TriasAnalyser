@@ -17,7 +17,7 @@ import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
-public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
+public class DelayRequestTimespanDB extends DB<DelayCountData> implements DelayRequestTimespan
 {
 	protected final StationID stationID;
 
@@ -27,7 +27,7 @@ public class DelayRequestDB extends DB<DelayCountData> implements DelayRequest
 	private List<LineID> lineIDs = new ArrayList<>();
 	private List<Weekday> weekdays = new ArrayList<>();
 
-	public DelayRequestDB(StationID stationID)
+	public DelayRequestTimespanDB(StationID stationID)
 	{
 		this.stationID = stationID;
 	}

@@ -12,12 +12,12 @@ import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
-public class DelayRequestDBTest
+public class DelayRequestTimespanDBTest
 {
 	@Test
 	public void sqlStationNameOnly() throws Exception
 	{
-		final DelayRequestDB request = new DelayRequestDB(new StationID("myStation"));
+		final DelayRequestTimespanDB request = new DelayRequestTimespanDB(new StationID("myStation"));
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND realtime IS NOT NULL GROUP BY delay;";
 
@@ -27,7 +27,7 @@ public class DelayRequestDBTest
 	@Test
 	public void sqlStationNameAndWeekday() throws Exception
 	{
-		final DelayRequestDB request = new DelayRequestDB(new StationID("myStation"));
+		final DelayRequestTimespanDB request = new DelayRequestTimespanDB(new StationID("myStation"));
 		request.setWeekday(Optional.of(Weekday.MONDAY));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
@@ -40,7 +40,7 @@ public class DelayRequestDBTest
 	@Test
 	public void sqlStationNameAndMultipleWeekdays() throws Exception
 	{
-		final DelayRequestDB request = new DelayRequestDB(new StationID("myStation"));
+		final DelayRequestTimespanDB request = new DelayRequestTimespanDB(new StationID("myStation"));
 		request.setWeekday(Optional.of(Weekday.MONDAY));
 		request.setWeekday(Optional.of(Weekday.WEDNESDAY));
 
@@ -54,7 +54,7 @@ public class DelayRequestDBTest
 	@Test
 	public void sqlLineID() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setLineID(Optional.of(new LineID(9)));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
@@ -66,7 +66,7 @@ public class DelayRequestDBTest
 	@Test
 	public void sqlMultipleLineIDs() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setLineID(Optional.of(new LineID(9)));
 		request.setLineID(Optional.of(new LineID(1)));
 
@@ -79,7 +79,7 @@ public class DelayRequestDBTest
 	@Test
 	public void sqlCount() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setLineID(Optional.of(new LineID(9)));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NULL GROUP BY delay;";
@@ -90,21 +90,21 @@ public class DelayRequestDBTest
 	@Test
 	public void setStartTimeWithoutEnd() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourStart(Optional.of(Hour.HOUR10));
 	}
 
 	@Test
 	public void setEndTimeWithoutStart() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourEnd(Optional.of(Hour.HOUR10));
 	}
 
 	@Test(expected = InvalidTimeSpanException.class)
 	public void setStartThanEndAndEndtimeBeforeStarttime() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourEnd(Optional.of(Hour.HOUR1));
 		request.setHourStart(Optional.of(Hour.HOUR10));
 	}
@@ -112,7 +112,7 @@ public class DelayRequestDBTest
 	@Test(expected = InvalidTimeSpanException.class)
 	public void setEndThanStartAndEndtimeBeforeStarttime() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourStart(Optional.of(Hour.HOUR10));
 		request.setHourEnd(Optional.of(Hour.HOUR1));
 	}
@@ -120,7 +120,7 @@ public class DelayRequestDBTest
 	@Test
 	public void setStartAndEndTimeSameValue() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourStart(Optional.of(Hour.HOUR10));
 		request.setHourEnd(Optional.of(Hour.HOUR10));
 	}
@@ -128,7 +128,7 @@ public class DelayRequestDBTest
 	@Test
 	public void setValidStartAndEndTime() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourStart(Optional.of(Hour.HOUR1));
 		request.setHourEnd(Optional.of(Hour.HOUR10));
 	}
@@ -136,7 +136,7 @@ public class DelayRequestDBTest
 	@Test
 	public void sqlWithStartTime() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourStart(Optional.of(Hour.HOUR1));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
@@ -148,7 +148,7 @@ public class DelayRequestDBTest
 	@Test
 	public void sqlWithEndTime() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourEnd(Optional.of(Hour.HOUR1));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
@@ -160,7 +160,7 @@ public class DelayRequestDBTest
 	@Test
 	public void sqlWithStartAndEndTime() throws Exception
 	{
-		final DelayRequestDB request = createDelayRequest();
+		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setHourStart(Optional.of(Hour.HOUR1));
 		request.setHourEnd(Optional.of(Hour.HOUR10));
 
@@ -170,8 +170,8 @@ public class DelayRequestDBTest
 		assertThat(request.getDelaySQL(), is(sql));
 	}
 
-	private DelayRequestDB createDelayRequest()
+	private DelayRequestTimespanDB createDelayRequest()
 	{
-		return new DelayRequestDB(new StationID("myStationName"));
+		return new DelayRequestTimespanDB(new StationID("myStationName"));
 	}
 }

@@ -25,7 +25,7 @@ import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequest;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
 import de.dhbw.studienarbeit.data.reader.data.request.InvalidTimeSpanException;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
@@ -44,7 +44,7 @@ public class AnalyseOverview extends Overview
 	private ComboBox<Hour> end;
 	private Button btnSearch;
 
-	private DelayRequest request;
+	private DelayRequestTimespan request;
 	private List<DelayCountData> delays;
 
 	@SuppressWarnings("rawtypes")

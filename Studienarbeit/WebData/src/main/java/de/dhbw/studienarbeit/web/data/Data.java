@@ -9,8 +9,8 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequest;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestDB;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
+import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespanDB;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTime;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTimeDB;
 import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
@@ -672,9 +672,9 @@ public class Data
 		return getInstance().delaySituationWO.getLastUpdated();
 	}
 
-	public static DelayRequest getDelayRequestFor(StationID stationID)
+	public static DelayRequestTimespan getDelayRequestFor(StationID stationID)
 	{
-		return new DelayRequestDB(stationID);
+		return new DelayRequestTimespanDB(stationID);
 	}
 
 	public static DelayRequestFixedTime getDelayRequestForFixedTimeFor(StationID stationID)

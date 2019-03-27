@@ -10,7 +10,7 @@ import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
-public interface DelayRequest
+public interface DelayRequestTimespan
 {
 	@Deprecated
 	public void setWeekday(Optional<Weekday> weekday);
