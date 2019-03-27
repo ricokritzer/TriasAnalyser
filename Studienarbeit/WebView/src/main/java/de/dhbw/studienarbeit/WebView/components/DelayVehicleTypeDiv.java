@@ -29,10 +29,10 @@ public class DelayVehicleTypeDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysVehicleTypeWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysVehicleTypeLastUpdate()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getVehicleType()).setHeader("Fahrzeugtyp").setSortable(true);
+		grid.addColumn(db -> db.getValue()).setHeader("Fahrzeugtyp").setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
@@ -40,7 +40,7 @@ public class DelayVehicleTypeDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysVehicleTypeWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysVehicleType()));
 
 		layout.add(grid);
 		add(layout);
