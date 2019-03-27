@@ -27,11 +27,17 @@ import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
 import de.dhbw.studienarbeit.data.reader.data.request.InvalidTimeSpanException;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
+import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.web.data.Data;
@@ -89,6 +95,10 @@ public class AnalyseOverview extends Overview
 		filters.add(end);
 
 		filters.forEach(e -> ((HasEnabled) e).setEnabled(false));
+
+		DelayStationData test = new DelayStationData(new DelayMaximum(0), new DelayAverage(0),
+				new StationID("de:08212:1"), new StationName("Test Marktplatz"), new OperatorName("kvv"),
+				new Position(0, 0), 0);
 
 		stations = new ComboBox<>("Station", Data.getDelaysStation());
 		stations.setItemLabelGenerator(item -> item.getName().toString());
