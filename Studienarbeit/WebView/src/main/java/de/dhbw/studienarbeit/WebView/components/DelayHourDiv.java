@@ -29,11 +29,11 @@ public class DelayHourDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelayCloudsWO().getLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysCloudsLastUpdated()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getHour().getText()).setHeader("Uhrzeit")
-				.setComparator((db1, db2) -> db1.getHour().compareTo(db2.getHour())).setSortable(true);
+		grid.addColumn(db -> db.getValue().getText()).setHeader("Uhrzeit")
+				.setComparator((db1, db2) -> db1.getValue().compareTo(db2.getValue())).setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
@@ -41,7 +41,7 @@ public class DelayHourDiv extends Div
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);
-		grid.setDataProvider(DataProvider.ofCollection(Data.getDelayTimeSpanWO().getData()));
+		grid.setDataProvider(DataProvider.ofCollection(Data.getDelaysTimeSpan()));
 
 		layout.add(grid);
 		add(layout);
