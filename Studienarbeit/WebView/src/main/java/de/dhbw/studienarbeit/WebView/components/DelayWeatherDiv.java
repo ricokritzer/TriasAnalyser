@@ -33,7 +33,7 @@ public class DelayWeatherDiv extends Div
 		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysWeatherTextLastUpdated()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getText()).setHeader("Wetter").setSortable(true);
+		grid.addColumn(db -> db.getValue().toString()).setHeader("Wetter").setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
