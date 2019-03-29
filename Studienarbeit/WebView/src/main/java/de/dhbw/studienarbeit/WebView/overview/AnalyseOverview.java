@@ -156,6 +156,13 @@ public class AnalyseOverview extends Overview
 
 	private BigDecimal[] getData()
 	{
+		BigDecimal[] data = new BigDecimal[(int) delays.get(delays.size() - 1).getDelayValue()];
+		
+		for (int i = delays.size() - 1; i >= 0; i--)
+		{
+			
+		}
+		
 		return delays.stream().map(e -> BigDecimal.valueOf(e.getCountValue())).toArray(BigDecimal[]::new);
 	}
 

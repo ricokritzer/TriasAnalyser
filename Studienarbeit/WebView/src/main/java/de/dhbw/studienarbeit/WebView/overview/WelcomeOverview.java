@@ -9,6 +9,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.charts.CountLineChart;
+import de.dhbw.studienarbeit.WebView.tiles.CountView;
+import de.dhbw.studienarbeit.WebView.tiles.Tile;
 import de.dhbw.studienarbeit.web.data.Data;
 
 @Route("")
@@ -28,16 +30,14 @@ public class WelcomeOverview extends Overview
 		txtImpressum.setAlignItems(Alignment.CENTER);
 
 		HorizontalLayout row1 = new HorizontalLayout(txtUnsereStudienarbeit,
-				new CountLineChart(Data.getCountStopsLatest(), Data.getCountStops(), "Stops", "gespeichert"),
-				new CountLineChart(Data.getCountWeathersLatest(), Data.getCountWeathers(), "Wettereinträge",
-						"gespeichert"));
+				new Tile(new CountView("Stops", Data.getCountObservedStationsLatest()), new CountLineChart(Data.getCountStopsLatest(), Data.getCountStops(), "Stops")),
+				new Tile(new CountView("Wettereinträge", Data.getCountWeathersLatest()), new CountLineChart(Data.getCountWeathersLatest(), Data.getCountWeathers(), "Wettereinträge")));
 		row1.setSizeFull();
 		row1.setAlignItems(Alignment.CENTER);
 
 		HorizontalLayout row2 = new HorizontalLayout(txtImpressum,
-				new CountLineChart(Data.getCountLinesLatest(), Data.getCountLines(), "Linien", "gespeichert"),
-				new CountLineChart(Data.getCountObservedStationsLatest(), Data.getCountObservedStations(),
-						"Haltestellen", "unter Beobachtung"));
+				new Tile(new CountLineChart(Data.getCountLinesLatest(), Data.getCountLines(), "Linien")),
+				new Tile(new CountLineChart(Data.getCountObservedStationsLatest(), Data.getCountObservedStations(), "Haltestellen")));
 		row2.setSizeFull();
 		row2.setAlignItems(Alignment.CENTER);
 

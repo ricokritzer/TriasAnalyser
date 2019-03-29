@@ -1,22 +1,26 @@
 package de.dhbw.studienarbeit.WebView.tiles;
 
+import java.util.Arrays;
 import java.util.List;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class Tile extends HorizontalLayout
+public class Tile extends VerticalLayout
 {
 	private static final long serialVersionUID = 1L;
 	
 	private int currentView = 0;
-	private List<Component> components;
+	private List<Div> components;
 
-	public Tile(List<Component> components)
+	public Tile(Div... component)
 	{
-		this.components = components;
+		setSizeFull();
+		setAlignItems(Alignment.STRETCH);
+		this.components = Arrays.asList(component);
 		components.forEach(c -> {
+			c.setHeight("90%");
 			add(c);
 			c.setVisible(false);
 		});
@@ -25,6 +29,7 @@ public class Tile extends HorizontalLayout
 
 		Button button = new Button("next");
 		button.addClickListener(e -> next());
+		button.setHeight("10%");
 
 		add(button);
 	}

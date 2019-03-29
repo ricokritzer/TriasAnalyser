@@ -6,11 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.syndybat.chartjs.ChartJs;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import be.ceau.chart.LineChart;
 import be.ceau.chart.color.Color;
@@ -26,27 +22,12 @@ public class CountLineChart extends Div
 	private List<CountWO> countWO;
 	private String name;
 
-	public CountLineChart(CountData current, List<CountWO> countWO, String name, String zusatz)
+	public CountLineChart(CountData current, List<CountWO> countWO, String name)
 	{
 		this.countWO = countWO;
 		this.name = name;
 		ChartJs chart = new ChartJs(getChart());
-		Div divChart = new Div(chart);
-		divChart.setVisible(false);
-		VerticalLayout layoutText = new VerticalLayout(new H1(name), new H1(current.toString()), new Text(zusatz));
-		layoutText.setAlignItems(Alignment.CENTER);
-		Div divText = new Div(layoutText);
-		add(divText, divChart);
-
-		divChart.addClickListener(event -> {
-			divChart.setVisible(false);
-			divText.setVisible(true);
-		});
-		
-		divText.addClickListener(event -> {
-			divText.setVisible(false);
-			divChart.setVisible(true);
-		});
+		add(chart);
 
 		setSizeFull();
 	}
