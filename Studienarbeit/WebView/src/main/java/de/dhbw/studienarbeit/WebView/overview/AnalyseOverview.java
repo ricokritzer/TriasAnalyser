@@ -73,7 +73,7 @@ public class AnalyseOverview extends Overview
 
 		lines = new MultiselectComboBox<>();
 		lines.setLabel("Linien");
-		lines.setItemLabelGenerator(item -> item.getName().getValue() + " " + item.getDestination().getValue());
+		lines.setItemLabelGenerator(item -> item.toString());
 		lines.addValueChangeListener(e -> setLine());
 		filters.add(lines);
 
