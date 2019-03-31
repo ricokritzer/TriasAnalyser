@@ -42,8 +42,6 @@ public class WelcomeOverview extends Overview
 		row2.setAlignItems(Alignment.CENTER);
 
 		VerticalLayout content = new VerticalLayout(row1, row2);
-		content.setMargin(false);
-		content.setPadding(false);
 		content.setSizeFull();
 
 		setContent(content);
