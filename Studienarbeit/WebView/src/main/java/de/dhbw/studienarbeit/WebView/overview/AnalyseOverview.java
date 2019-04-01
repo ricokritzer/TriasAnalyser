@@ -3,7 +3,10 @@ package de.dhbw.studienarbeit.WebView.overview;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.vaadin.gatanaso.MultiselectComboBox;
 
@@ -27,8 +30,10 @@ import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
+import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
@@ -134,10 +139,10 @@ public class AnalyseOverview extends Overview
 
 	private void showDelays()
 	{
-		BarDataset dataset = new BarDataset().setData(getData()).setLabel("Verspätungen")
+		BarDataset dataset = new BarDataset().setData(getDelays(getData())).setLabel("Verspätungen")
 				.setBackgroundColor(Color.BLUE);
 
-		BarData data = new BarData().addLabels(getLabels()).addDataset(dataset);
+		BarData data = new BarData().addLabels(getLabels(getData())).addDataset(dataset);
 
 		BarOptions options = new BarOptions().setScales(new BarScale().setyAxes(getYAxis()));
 
@@ -149,21 +154,36 @@ public class AnalyseOverview extends Overview
 		div.add(chartJS);
 	}
 
-	private String[] getLabels()
+	private BigDecimal[] getDelays(DelayCountData[] data)
 	{
-		return delays.stream().map(e -> e.getDelay().toString()).toArray(String[]::new);
+		return Arrays.asList(data).stream().map(e -> e.getCountValue()).toArray(BigDecimal[]::new);
 	}
 
-	private BigDecimal[] getData()
+	private String[] getLabels(DelayCountData[] data)
 	{
-		BigDecimal[] data = new BigDecimal[(int) delays.get(delays.size() - 1).getDelayValue()];
-		
-		for (int i = delays.size() - 1; i >= 0; i--)
+		return Arrays.asList(data).stream().map(e -> e.toString()).toArray(String[]::new);
+	}
+
+	protected DelayCountData[] getData()
+	{
+		if (delays.isEmpty())
 		{
-			
+			return new DelayCountData[0];
 		}
-		
-		return delays.stream().map(e -> BigDecimal.valueOf(e.getCountValue())).toArray(BigDecimal[]::new);
+
+		int begin = delays.get(0).getDelayInMinutes();
+		int end = delays.get(delays.size() - 1).getDelayInMinutes();
+
+		DelayCountData[] data = new DelayCountData[end - begin];
+
+		for (int i = data.length - 1; i >= 0; i--)
+		{
+			final int idx = i;
+			data[i] = delays.stream().filter(e -> e.getDelayInMinutes() == (idx - begin)).findFirst()
+					.orElse(new DelayCountData(new Delay(i - begin), new CountData(0)));
+		}
+
+		return data;
 	}
 
 	private List<YAxis<LinearTicks>> getYAxis()
