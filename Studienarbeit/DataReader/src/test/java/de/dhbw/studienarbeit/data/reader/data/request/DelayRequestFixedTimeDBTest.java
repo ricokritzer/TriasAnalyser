@@ -149,12 +149,6 @@ public class DelayRequestFixedTimeDBTest
 		assertThat(request.getDelaySQL(), is(sql));
 	}
 
-	@Test
-	public void test() throws Exception
-	{
-		assertTrue(false);
-	}
-
 	private DelayRequestFixedTimeDB createDelayRequest()
 	{
 		return new DelayRequestFixedTimeDB(new StationID("myStationName"));
