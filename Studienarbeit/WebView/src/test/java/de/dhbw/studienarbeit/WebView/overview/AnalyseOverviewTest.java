@@ -138,12 +138,7 @@ public class AnalyseOverviewTest
 
 	private DelayCountData[] convertToData(List<DelayCountData> delays)
 	{
-		return createAnalyseOverview().getData(delays);
-	}
-
-	private AnalyseOverview createAnalyseOverview()
-	{
-		return new AnalyseOverview();
+		return AnalyseOverview.getData(delays);
 	}
 
 	private DelayCountData createDelayCountData()
