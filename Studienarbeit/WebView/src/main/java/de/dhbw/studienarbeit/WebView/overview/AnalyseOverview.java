@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.vaadin.gatanaso.MultiselectComboBox;
 
@@ -26,6 +24,7 @@ import be.ceau.chart.BarChart;
 import be.ceau.chart.color.Color;
 import be.ceau.chart.data.BarData;
 import be.ceau.chart.dataset.BarDataset;
+import be.ceau.chart.enums.BorderSkipped;
 import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
@@ -138,7 +137,7 @@ public class AnalyseOverview extends Overview
 	private void showDelays(List<DelayCountData> delays)
 	{
 		BarDataset dataset = new BarDataset().setData(getDelays(getData(delays))).setLabel("Verspätungen")
-				.setBackgroundColor(Color.BLUE);
+				.setBackgroundColor(Color.BLUE).setBorderColor(Color.BLUE);
 
 		BarData data = new BarData().addLabels(getLabels(getData(delays))).addDataset(dataset);
 
@@ -162,7 +161,7 @@ public class AnalyseOverview extends Overview
 		return Arrays.asList(data).stream().map(e -> e.getDelay().toString()).toArray(String[]::new);
 	}
 
-	protected DelayCountData[] getData(List<DelayCountData> delays)
+	protected static DelayCountData[] getData(List<DelayCountData> delays)
 	{
 		if (delays.isEmpty())
 		{
@@ -172,13 +171,13 @@ public class AnalyseOverview extends Overview
 		int begin = delays.get(0).getDelayInMinutes();
 		int end = delays.get(delays.size() - 1).getDelayInMinutes();
 
-		DelayCountData[] data = new DelayCountData[end - begin];
+		DelayCountData[] data = new DelayCountData[(end - begin) + 1];
 
 		for (int i = data.length - 1; i >= 0; i--)
 		{
 			final int idx = i;
-			data[i] = delays.stream().filter(e -> e.getDelayInMinutes() == (idx - begin)).findFirst()
-					.orElse(new DelayCountData(new Delay(i - begin), new CountData(0)));
+			data[i] = delays.stream().filter(e -> e.getDelayInMinutes() == (idx + begin)).findFirst()
+					.orElse(new DelayCountData(new Delay(i + begin), new CountData(0)));
 		}
 
 		return data;
