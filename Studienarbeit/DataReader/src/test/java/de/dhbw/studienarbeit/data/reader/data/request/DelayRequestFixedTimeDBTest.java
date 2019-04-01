@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.data.reader.data.request;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.Optional;
@@ -146,6 +147,12 @@ public class DelayRequestFixedTimeDBTest
 				+ "FROM Stop WHERE stationID = ? AND timetabledTime >= ? AND timetabledTime <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void test() throws Exception
+	{
+		assertTrue(false);
 	}
 
 	private DelayRequestFixedTimeDB createDelayRequest()
