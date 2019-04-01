@@ -16,6 +16,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.maven.surefire</groupId>
+			<artifactId>surefire-junit47</artifactId>
+			<version>3.0.0-M3</version>
+		</dependency>
+
+		<dependency>
 			<version>1.0.0</version>
 			<groupId>de.dhbw.studienarbeit</groupId>
 			<artifactId>DataReader</artifactId>
