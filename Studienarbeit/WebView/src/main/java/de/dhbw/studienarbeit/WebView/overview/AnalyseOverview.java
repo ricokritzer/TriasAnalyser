@@ -60,7 +60,6 @@ public class AnalyseOverview extends Overview
 	private Button btnSearch;
 
 	private DelayRequestTimespan request;
-	private List<DelayCountData> delays;
 
 	private List<Component> filters = new ArrayList<>();
 
@@ -128,8 +127,7 @@ public class AnalyseOverview extends Overview
 	{
 		try
 		{
-			delays = request.getDelayCounts();
-			showDelays();
+			showDelays(request.getDelayCounts());
 		}
 		catch (IOException e)
 		{
@@ -137,12 +135,12 @@ public class AnalyseOverview extends Overview
 		}
 	}
 
-	private void showDelays()
+	private void showDelays(List<DelayCountData> delays)
 	{
-		BarDataset dataset = new BarDataset().setData(getDelays(getData())).setLabel("Verspätungen")
+		BarDataset dataset = new BarDataset().setData(getDelays(getData(delays))).setLabel("Verspätungen")
 				.setBackgroundColor(Color.BLUE);
 
-		BarData data = new BarData().addLabels(getLabels(getData())).addDataset(dataset);
+		BarData data = new BarData().addLabels(getLabels(getData(delays))).addDataset(dataset);
 
 		BarOptions options = new BarOptions().setScales(new BarScale().setyAxes(getYAxis()));
 
@@ -164,7 +162,7 @@ public class AnalyseOverview extends Overview
 		return Arrays.asList(data).stream().map(e -> e.toString()).toArray(String[]::new);
 	}
 
-	protected DelayCountData[] getData()
+	protected DelayCountData[] getData(List<DelayCountData> delays)
 	{
 		if (delays.isEmpty())
 		{
