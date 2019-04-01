@@ -34,7 +34,7 @@ public class DelayCountData implements Comparable<DelayCountData>
 
 	public int getDelayInMinutes()
 	{
-		return (int) Math.round(delay.getValue());
+		return (int) Math.round(delay.getValue() / 60);
 	}
 
 	public long getCountValue()
