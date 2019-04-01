@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.WebView.tracks;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -74,5 +75,11 @@ public class TrackHelperTest
 	public void slopeHalf() throws Exception
 	{
 		assertThat(TrackHelper.getColorFor(RANDOM_SLOPE / 2, RANDOM_SLOPE), is(TrackHelper.COLOR_MEDIUM));
+	}
+
+	@Test
+	public void failingTest() throws Exception
+	{
+		assertTrue(false);
 	}
 }
