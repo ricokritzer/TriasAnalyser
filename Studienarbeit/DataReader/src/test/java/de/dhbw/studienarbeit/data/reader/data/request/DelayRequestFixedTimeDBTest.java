@@ -149,7 +149,7 @@ public class DelayRequestFixedTimeDBTest
 		assertThat(request.getDelaySQL(), is(sql));
 	}
 
-	@org.junit.jupiter.api.Test
+	@Test
 	public void test() throws Exception
 	{
 		assertTrue(false);
