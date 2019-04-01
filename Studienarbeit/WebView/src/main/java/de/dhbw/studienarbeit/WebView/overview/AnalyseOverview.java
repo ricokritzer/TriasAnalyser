@@ -24,7 +24,6 @@ import be.ceau.chart.BarChart;
 import be.ceau.chart.color.Color;
 import be.ceau.chart.data.BarData;
 import be.ceau.chart.dataset.BarDataset;
-import be.ceau.chart.enums.BorderSkipped;
 import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
@@ -153,7 +152,15 @@ public class AnalyseOverview extends Overview
 
 	private BigDecimal[] getDelays(DelayCountData[] data)
 	{
-		return Arrays.asList(data).stream().map(e -> BigDecimal.valueOf(e.getCountValue())).toArray(BigDecimal[]::new);
+		BigDecimal[] delayArray = new BigDecimal[data.length];
+		delayArray[delayArray.length - 1] = BigDecimal.valueOf(data[data.length - 1].getCountValue());
+		
+		for (int i = delayArray.length - 2; i >= 0; i--)
+		{
+			delayArray[i] = BigDecimal.valueOf(data[i].getCountValue()).add(delayArray[i + 1]);
+		}
+		
+		return delayArray;
 	}
 
 	private String[] getLabels(DelayCountData[] data)
@@ -177,7 +184,7 @@ public class AnalyseOverview extends Overview
 		{
 			final int idx = i;
 			data[i] = delays.stream().filter(e -> e.getDelayInMinutes() == (idx + begin)).findFirst()
-					.orElse(new DelayCountData(new Delay(i + begin), new CountData(0)));
+					.orElse(new DelayCountData(new Delay((i + begin) * 60), new CountData(0)));
 		}
 
 		return data;
@@ -188,6 +195,7 @@ public class AnalyseOverview extends Overview
 		List<YAxis<LinearTicks>> axis = new ArrayList<>();
 		YAxis<LinearTicks> ticks = new YAxis<>();
 		ticks.setType("logarithmic");
+		ticks.setStacked(true);
 		axis.add(ticks);
 		return axis;
 	}
