@@ -104,7 +104,7 @@ public class AnalyseOverview extends Overview
 				new StationID("de:08212:1"), new StationName("Test Marktplatz"), new OperatorName("kvv"),
 				new Position(0, 0), 0);
 
-		stations = new ComboBox<>("Station", Data.getDelaysStation());
+		stations = new ComboBox<>("Station", test);
 		stations.setItemLabelGenerator(item -> item.getName().toString());
 		stations.addValueChangeListener(e -> createRequest());
 
@@ -154,12 +154,12 @@ public class AnalyseOverview extends Overview
 
 	private BigDecimal[] getDelays(DelayCountData[] data)
 	{
-		return Arrays.asList(data).stream().map(e -> e.getCountValue()).toArray(BigDecimal[]::new);
+		return Arrays.asList(data).stream().map(e -> BigDecimal.valueOf(e.getCountValue())).toArray(BigDecimal[]::new);
 	}
 
 	private String[] getLabels(DelayCountData[] data)
 	{
-		return Arrays.asList(data).stream().map(e -> e.toString()).toArray(String[]::new);
+		return Arrays.asList(data).stream().map(e -> e.getDelay().toString()).toArray(String[]::new);
 	}
 
 	protected DelayCountData[] getData(List<DelayCountData> delays)

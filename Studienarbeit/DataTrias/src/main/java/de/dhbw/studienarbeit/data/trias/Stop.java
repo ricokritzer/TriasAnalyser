@@ -96,14 +96,14 @@ public class Stop implements Saveable, Comparable<Stop>
 
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(timeTabledTime);
-		cal.add(Calendar.HOUR_OF_DAY, 1);
+		cal.add(Calendar.HOUR_OF_DAY, 3);
 		preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
 
 		if (realTime.isPresent())
 		{
 			Date real = realTime.get();
 			cal.setTime(real);
-			cal.add(Calendar.HOUR_OF_DAY, 1);
+			cal.add(Calendar.HOUR_OF_DAY, 3);
 			preparedStatement.setTimestamp(5, new Timestamp(cal.getTimeInMillis()));
 		}
 		else
