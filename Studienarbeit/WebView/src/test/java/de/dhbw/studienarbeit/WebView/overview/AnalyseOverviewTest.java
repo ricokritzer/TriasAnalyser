@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.dhbw.studienarbeit.data.reader.data.Delay;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
 
 public class AnalyseOverviewTest
@@ -17,6 +19,16 @@ public class AnalyseOverviewTest
 	{
 		DelayCountData[] data = convertToData(new ArrayList<>());
 		assertThat(data.length, is(0));
+	}
+
+	@Test
+	public void arrayWith1Element() throws Exception
+	{
+		final List<DelayCountData> delays = new ArrayList<>();
+		delays.add(new DelayCountData(new Delay(1), new CountData(1)));
+
+		DelayCountData[] data = convertToData(delays);
+		assertThat(data.length, is(1));
 	}
 
 	private DelayCountData[] convertToData(List<DelayCountData> delays)
