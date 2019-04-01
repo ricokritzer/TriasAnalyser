@@ -76,10 +76,4 @@ public class TrackHelperTest
 	{
 		assertThat(TrackHelper.getColorFor(RANDOM_SLOPE / 2, RANDOM_SLOPE), is(TrackHelper.COLOR_MEDIUM));
 	}
-
-	@Test
-	public void failingTest() throws Exception
-	{
-		assertTrue(true);
-	}
 }
