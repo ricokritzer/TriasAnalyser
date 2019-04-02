@@ -29,12 +29,18 @@ import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
 import de.dhbw.studienarbeit.data.reader.data.Delay;
+import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
 import de.dhbw.studienarbeit.data.reader.data.request.InvalidTimeSpanException;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
+import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.web.data.Data;
@@ -96,11 +102,11 @@ public class AnalyseOverview extends Overview
 
 		filters.forEach(e -> ((HasValueAndElement) e).setReadOnly(true));
 
-//		DelayStationData test = new DelayStationData(new DelayMaximum(0), new DelayAverage(0),
-//				new StationID("de:08212:1"), new StationName("Test Marktplatz"), new OperatorName("kvv"),
-//				new Position(0, 0), 0);
+		DelayStationData test = new DelayStationData(new DelayMaximum(0), new DelayAverage(0),
+				new StationID("de:08212:1"), new StationName("Test Marktplatz"), new OperatorName("kvv"),
+				new Position(0, 0), 0);
 
-		stations = new ComboBox<>("Station", Data.getDelaysStation());
+		stations = new ComboBox<>("Station", test);
 		stations.setItemLabelGenerator(item -> item.getName().toString());
 		stations.addValueChangeListener(e -> createRequest());
 		
@@ -169,7 +175,7 @@ public class AnalyseOverview extends Overview
 
 	private String[] getLabels(DelayCountData[] data)
 	{
-		return Arrays.asList(data).stream().map(e -> e.getDelay().toString()).toArray(String[]::new);
+		return Arrays.asList(data).stream().map(e -> "> " + e.getDelayInMinutes() + " min").toArray(String[]::new);
 	}
 
 	protected static DelayCountData[] getData(List<DelayCountData> delays)
