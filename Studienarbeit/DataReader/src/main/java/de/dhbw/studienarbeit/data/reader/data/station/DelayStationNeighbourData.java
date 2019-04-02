@@ -59,8 +59,8 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 
 	public double getSlope()
 	{
-		final double distance = Position.getDistance(position1, position2);
-		final double delayDifference = Math.abs(Delay.difference(delayAverage1, delayAverage2));
+		final double distance = Math.abs(Position.getDistance(position2, position1));
+		final double delayDifference = Delay.difference(delayAverage2, delayAverage1);
 
 		return delayDifference / distance;
 	}

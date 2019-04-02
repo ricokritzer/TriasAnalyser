@@ -27,13 +27,13 @@ public class TrackHelperTest
 		final Position pos0 = new Position(0, 0);
 		final Position pos1 = new Position(1, 1);
 		final Position pos2 = new Position(2, 2);
-		final Position pos4 = new Position(4, 4);
+		final Position pos4 = new Position(3, 3);
 
 		final DelayAverage delayZero = new DelayAverage(0.0);
 
-		final DelayAverage delayAverage1 = new DelayAverage(2);
-		final DelayAverage delayAverage2 = new DelayAverage(4);
-		final DelayAverage delayAverage3 = new DelayAverage(1);
+		final DelayAverage delayAverage1 = new DelayAverage(1);
+		final DelayAverage delayAverage2 = new DelayAverage(2);
+		final DelayAverage delayAverage3 = new DelayAverage(3);
 
 		final List<DelayStationNeighbourData> stationNeighbours = new ArrayList<>();
 		stationNeighbours.add(new DelayStationNeighbourData(name, pos0, delayZero, name, pos2, delayAverage1));

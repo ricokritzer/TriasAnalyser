@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourDB;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -17,12 +16,6 @@ public class TrackHelper
 
 	private TrackHelper()
 	{}
-
-	@Deprecated
-	public static List<Track> convertToTracks(List<DelayStationNeighbourDB> neighbours)
-	{
-		return convertToTracks(new ArrayList<>(neighbours));
-	}
 
 	public static List<Track> convertToTrackList(List<DelayStationNeighbourData> stationNeighbours)
 	{
