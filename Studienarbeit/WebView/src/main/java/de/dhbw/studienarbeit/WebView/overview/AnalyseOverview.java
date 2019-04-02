@@ -48,6 +48,8 @@ import de.dhbw.studienarbeit.web.data.Data;
 @Route("analyse")
 public class AnalyseOverview extends Overview
 {
+	private static final int maxItems = 100;
+
 	private static final long serialVersionUID = 1L;
 
 	private ComboBox<DelayStationData> stations;
@@ -187,7 +189,7 @@ public class AnalyseOverview extends Overview
 					.orElse(new DelayCountData(new Delay((i + begin) * 60), new CountData(0)));
 		}
 		
-		int max = data.length > 100 ? 100 : data.length;
+		int max = data.length > maxItems ? maxItems : data.length;
 		DelayCountData[] shorterArray = Arrays.copyOfRange(data, 0, max);
 
 		return shorterArray;
