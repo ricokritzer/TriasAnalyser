@@ -24,4 +24,9 @@ public class WeatherSymbol
 	{
 		return new URL(getURLString());
 	}
+	
+	public String getName()
+	{
+		return name;
+	}
 }
