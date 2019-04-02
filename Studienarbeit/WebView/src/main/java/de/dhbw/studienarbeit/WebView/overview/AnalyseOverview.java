@@ -186,8 +186,11 @@ public class AnalyseOverview extends Overview
 			data[i] = delays.stream().filter(e -> e.getDelayInMinutes() == (idx + begin)).findFirst()
 					.orElse(new DelayCountData(new Delay((i + begin) * 60), new CountData(0)));
 		}
+		
+		int max = data.length > 100 ? 100 : data.length;
+		DelayCountData[] shorterArray = Arrays.copyOfRange(data, 0, max);
 
-		return data;
+		return shorterArray;
 	}
 
 	private List<YAxis<LinearTicks>> getYAxis()
