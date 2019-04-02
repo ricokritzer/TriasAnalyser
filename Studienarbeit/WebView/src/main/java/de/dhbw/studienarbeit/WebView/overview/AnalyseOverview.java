@@ -10,7 +10,7 @@ import org.vaadin.gatanaso.MultiselectComboBox;
 
 import com.syndybat.chartjs.ChartJs;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasEnabled;
+import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
@@ -29,18 +29,12 @@ import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
 import de.dhbw.studienarbeit.data.reader.data.Delay;
-import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
-import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
 import de.dhbw.studienarbeit.data.reader.data.request.InvalidTimeSpanException;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
-import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
-import de.dhbw.studienarbeit.data.reader.data.station.Position;
-import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.web.data.Data;
@@ -67,13 +61,15 @@ public class AnalyseOverview extends Overview
 
 	private VerticalLayout layout;
 
-	private Div div = new Div();
+	private Div divChart = new Div();
 
+	@SuppressWarnings("rawtypes")
 	public AnalyseOverview()
 	{
 		super();
 
 		btnSearch = new Button("Suchen", e -> search());
+		btnSearch.setEnabled(false);
 
 		lines = new MultiselectComboBox<>();
 		lines.setLabel("Linien");
@@ -98,27 +94,33 @@ public class AnalyseOverview extends Overview
 		end.addValueChangeListener(e -> setHourEnd());
 		filters.add(end);
 
-		filters.forEach(e -> ((HasEnabled) e).setEnabled(false));
+		filters.forEach(e -> ((HasValueAndElement) e).setReadOnly(true));
 
-		DelayStationData test = new DelayStationData(new DelayMaximum(0), new DelayAverage(0),
-				new StationID("de:08212:1"), new StationName("Test Marktplatz"), new OperatorName("kvv"),
-				new Position(0, 0), 0);
+//		DelayStationData test = new DelayStationData(new DelayMaximum(0), new DelayAverage(0),
+//				new StationID("de:08212:1"), new StationName("Test Marktplatz"), new OperatorName("kvv"),
+//				new Position(0, 0), 0);
 
-		stations = new ComboBox<>("Station", test);
+		stations = new ComboBox<>("Station", Data.getDelaysStation());
 		stations.setItemLabelGenerator(item -> item.getName().toString());
 		stations.addValueChangeListener(e -> createRequest());
-
+		
 		HorizontalLayout filter = new HorizontalLayout(stations);
 		filter.setHeight("100px");
-		filter.setAlignItems(Alignment.STRETCH);
-		filters.forEach(filter::add);
-		filter.add(btnSearch);
+		filter.setAlignItems(Alignment.CENTER);
+		
+		Div divLines = new Div(lines);
+		divLines.setWidth("25%");
+		
+		Div divWeekdays = new Div(weekdays);
+		divWeekdays.setWidth("25%");
+		
+		filter.add(divLines, divWeekdays, begin, end, btnSearch);
 
 		layout = new VerticalLayout(filter);
 		layout.setSizeFull();
 		layout.setAlignItems(Alignment.STRETCH);
-		div.setWidth("80%");
-		layout.add(div);
+		divChart.setWidth("80%");
+		layout.add(divChart);
 
 		setContent(layout);
 	}
@@ -148,8 +150,8 @@ public class AnalyseOverview extends Overview
 
 		ChartJs chartJS = new ChartJs(chart.toJson());
 
-		div.removeAll();
-		div.add(chartJS);
+		divChart.removeAll();
+		divChart.add(chartJS);
 	}
 
 	private BigDecimal[] getDelays(DelayCountData[] data)
@@ -309,17 +311,20 @@ public class AnalyseOverview extends Overview
 		request.setLines(lines.getValue());
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void createRequest()
 	{
 		if (!stations.getOptionalValue().isPresent())
 		{
-			filters.forEach(e -> ((HasEnabled) e).setEnabled(false));
+			filters.forEach(e -> ((HasValueAndElement) e).setReadOnly(true));
+			btnSearch.setEnabled(false);
 			return;
 		}
 
 		request = Data.getDelayRequestFor(stations.getValue().getStationID());
 		lines.setItems(Data.getLinesAt(stations.getValue().getStationID()));
 
-		filters.forEach(e -> ((HasEnabled) e).setEnabled(true));
+		filters.forEach(e -> ((HasValueAndElement) e).setReadOnly(false));
+		btnSearch.setEnabled(true);
 	}
 }
