@@ -2,7 +2,6 @@ package de.dhbw.studienarbeit.WebView.tracks;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 import java.util.ArrayList;
