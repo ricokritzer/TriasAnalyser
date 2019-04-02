@@ -57,6 +57,6 @@ public class WeatherLineChart extends Div
 
 	private String[] getLabels()
 	{
-		return delayWO.stream().map(DelayData::getValue).toArray(String[]::new);
+		return delayWO.stream().map(e -> e.getValue().toString()).toArray(String[]::new);
 	}
 }
