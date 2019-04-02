@@ -48,6 +48,8 @@ import de.dhbw.studienarbeit.web.data.Data;
 @Route("analyse")
 public class AnalyseOverview extends Overview
 {
+	private static final int exponential = 500;
+
 	private static final int maxItems = 100;
 
 	private static final long serialVersionUID = 1L;
@@ -145,19 +147,37 @@ public class AnalyseOverview extends Overview
 
 	private void showDelays(List<DelayCountData> delays)
 	{
-		BarDataset dataset = new BarDataset().setData(getDelays(getData(delays))).setLabel("Verspätungen")
+		DelayCountData[] data = getData(delays);
+		
+		if (data.length == 0)
+		{
+			Notification.show("Ihre Suche ergibt keine Ergebnisse");
+			return;
+		}
+		
+		BigDecimal[] delaysAdded = getDelays(data);
+		BarDataset dataset = new BarDataset().setData(delaysAdded).setLabel("Verspätungen")
 				.setBackgroundColor(Color.BLUE).setBorderColor(Color.BLUE);
 
-		BarData data = new BarData().addLabels(getLabels(getData(delays))).addDataset(dataset);
+		BarData barData = new BarData().addLabels(getLabels(data)).addDataset(dataset);
 
-		BarOptions options = new BarOptions().setScales(new BarScale().setyAxes(getYAxis()));
-
-		BarChart chart = new BarChart().setData(data).setOptions(options);
-
+		BarChart chart = new BarChart().setData(barData);
+		
+		if (greatestValueIsMoreThan(exponential, delaysAdded))
+		{
+			BarOptions options = new BarOptions().setScales(new BarScale().setyAxes(getYAxis()));
+			chart.setOptions(options);
+		}
+		
 		ChartJs chartJS = new ChartJs(chart.toJson());
 
 		divChart.removeAll();
 		divChart.add(chartJS);
+	}
+
+	private boolean greatestValueIsMoreThan(int max, BigDecimal[] delaysAdded)
+	{
+		return delaysAdded[0].compareTo(BigDecimal.valueOf(max)) > 0;
 	}
 
 	private BigDecimal[] getDelays(DelayCountData[] data)
