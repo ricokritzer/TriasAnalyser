@@ -30,14 +30,14 @@ public class WelcomeOverview extends Overview
 		txtImpressum.setAlignItems(Alignment.CENTER);
 
 		HorizontalLayout row1 = new HorizontalLayout(txtUnsereStudienarbeit,
-				new Tile(new CountView("Stops", Data.getCountStopsLatest()), new CountLineChart(Data.getCountStopsLatest(), Data.getCountStops(), "Stops")),
-				new Tile(new CountView("Wettereinträge", Data.getCountWeathersLatest()), new CountLineChart(Data.getCountWeathersLatest(), Data.getCountWeathers(), "Wettereinträge")));
+				new Tile(new CountView("Stops", Data.getCountStopsLatest()), new CountLineChart(Data.getCountStops(), "Stops")),
+				new Tile(new CountView("Wettereinträge", Data.getCountWeathersLatest()), new CountLineChart(Data.getCountWeathers(), "Wettereinträge")));
 		row1.setSizeFull();
 		row1.setAlignItems(Alignment.CENTER);
 
 		HorizontalLayout row2 = new HorizontalLayout(txtImpressum,
-				new Tile(new CountView("Linien", Data.getCountLinesLatest()), new CountLineChart(Data.getCountLinesLatest(), Data.getCountLines(), "Linien")),
-				new Tile(new CountView("Haltestellen", Data.getCountObservedStationsLatest()), new CountLineChart(Data.getCountObservedStationsLatest(), Data.getCountObservedStations(), "Haltestellen")));
+				new Tile(new CountView("Linien", Data.getCountLinesLatest()), new CountLineChart(Data.getCountLines(), "Linien")),
+				new Tile(new CountView("Haltestellen", Data.getCountObservedStationsLatest()), new CountLineChart(Data.getCountObservedStations(), "Haltestellen")));
 		row2.setSizeFull();
 		row2.setAlignItems(Alignment.CENTER);
 

@@ -13,7 +13,6 @@ import be.ceau.chart.color.Color;
 import be.ceau.chart.data.LineData;
 import be.ceau.chart.dataset.LineDataset;
 import be.ceau.chart.options.LineOptions;
-import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.web.data.counts.CountWO;
 
 public class CountLineChart extends Div
@@ -22,7 +21,7 @@ public class CountLineChart extends Div
 	private List<CountWO> countWO;
 	private String name;
 
-	public CountLineChart(CountData current, List<CountWO> countWO, String name)
+	public CountLineChart(List<CountWO> countWO, String name)
 	{
 		this.countWO = countWO;
 		this.name = name;
