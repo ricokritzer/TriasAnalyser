@@ -18,7 +18,7 @@ public class DelayWeatherSymbolDB extends DB<DelayWeatherSymbolData> implements 
 				+ "max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, "
 				+ "icon FROM StopWeather, Stop, Weather, WeatherInformation "
 				+ "WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id "
-				+ "AND WeatherInformation.id = Weather.weatherInformationID GROUP BY icon;";
+				+ "AND WeatherInformation.id = Weather.weatherInformationID GROUP BY icon ORDER BY delay_avg;";
 	}
 
 	public final List<DelayWeatherSymbolData> getDelays() throws IOException
