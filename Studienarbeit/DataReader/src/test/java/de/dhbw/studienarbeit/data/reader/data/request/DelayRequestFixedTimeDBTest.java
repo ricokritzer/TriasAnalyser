@@ -2,7 +2,6 @@ package de.dhbw.studienarbeit.data.reader.data.request;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.Optional;
