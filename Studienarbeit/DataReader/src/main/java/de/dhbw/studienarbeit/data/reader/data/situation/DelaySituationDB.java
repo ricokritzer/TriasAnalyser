@@ -108,11 +108,4 @@ public class DelaySituationDB implements DelaySituation
 			return Optional.empty();
 		}
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new DelaySituationDB().getDelayParts(new SituationID("110003651_KVV_ICSKVV"))
-				.forEach(s -> System.out.println(s.getCount()));
-
-	}
 }
