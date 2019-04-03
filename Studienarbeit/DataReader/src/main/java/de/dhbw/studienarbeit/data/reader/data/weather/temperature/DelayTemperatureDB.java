@@ -27,7 +27,7 @@ public class DelayTemperatureDB extends DB<DelayTemperatureData> implements Dela
 	{
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
-		final double temperature = result.getDouble(NAME);
+		final int temperature = result.getInt(NAME);
 
 		return Optional.of(new DelayTemperatureData(delayMaximum, delayAverage, temperature));
 	}

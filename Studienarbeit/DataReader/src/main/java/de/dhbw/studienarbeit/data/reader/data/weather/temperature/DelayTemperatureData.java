@@ -4,9 +4,9 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayTemperatureData extends DelayData<Double>
+public class DelayTemperatureData extends DelayData<Integer>
 {
-	public DelayTemperatureData(DelayMaximum delayMaximum, DelayAverage delayAverage, double temperature)
+	public DelayTemperatureData(DelayMaximum delayMaximum, DelayAverage delayAverage, int temperature)
 	{
 		super(delayMaximum, delayAverage, temperature);
 	}
@@ -14,6 +14,6 @@ public class DelayTemperatureData extends DelayData<Double>
 	@Override
 	public String getValueString()
 	{
-		return "" + Math.round(value) + "°C";
+		return value.toString() + "°C";
 	}
 }
