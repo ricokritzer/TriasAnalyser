@@ -15,6 +15,7 @@ public class DelayWeatherSymbolDB extends DB<DelayWeatherSymbolData> implements 
 	public static String getSQL()
 	{
 		return "SELECT avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
+				+ "count(*) AS total, "
 				+ "max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, "
 				+ "icon FROM StopWeather, Stop, Weather, WeatherInformation "
 				+ "WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id "
