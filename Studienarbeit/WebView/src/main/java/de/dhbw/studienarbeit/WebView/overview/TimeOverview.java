@@ -4,7 +4,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 
-import de.dhbw.studienarbeit.WebView.components.DelayHourDiv;
+import de.dhbw.studienarbeit.WebView.components.DelayTimeSpanDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayWeekdayDiv;
 
 @Route("time")
@@ -16,7 +16,7 @@ public class TimeOverview extends Overview
 	{
 		super();
 
-		Component content = new Div(new DelayHourDiv(), new DelayWeekdayDiv());
+		Component content = new Div(new DelayTimeSpanDiv(), new DelayWeekdayDiv());
 		setContent(content);
 	}
 }

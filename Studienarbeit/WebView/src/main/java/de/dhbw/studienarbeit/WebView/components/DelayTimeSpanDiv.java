@@ -12,14 +12,14 @@ import com.vaadin.flow.data.provider.DataProvider;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanData;
 import de.dhbw.studienarbeit.web.data.Data;
 
-public class DelayHourDiv extends Div
+public class DelayTimeSpanDiv extends Div
 {
 	private static final long serialVersionUID = 16L;
 
 	private final Grid<DelayTimeSpanData> grid = new Grid<>();
 	private final TextField field = new TextField();
 
-	public DelayHourDiv()
+	public DelayTimeSpanDiv()
 	{
 		super();
 		setSizeFull();
@@ -29,7 +29,7 @@ public class DelayHourDiv extends Div
 
 		field.setLabel("Stand");
 		field.setReadOnly(true);
-		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysCloudsLastUpdated()));
+		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysTimeSpanLastUpdated()));
 		layout.add(field);
 
 		grid.addColumn(db -> db.getValue().getText()).setHeader("Uhrzeit")
