@@ -10,13 +10,13 @@ public class DelayTest
 	@Test
 	public void sekundenWerdenRichtigKonvertiert()
 	{
-		assertThat(new Delay(11.111).toString(), is("11.11s"));
+		assertThat(new Delay(11.111).toString(), is("11,11s"));
 	}
 
 	@Test
 	public void sekundenWerdenRichtigAufgerundet()
 	{
-		assertThat(new Delay(11.115).toString(), is("11.12s"));
+		assertThat(new Delay(11.115).toString(), is("11,12s"));
 	}
 
 	@Test
@@ -40,13 +40,13 @@ public class DelayTest
 	@Test
 	public void NegativNull()
 	{
-		assertThat(new Delay(0).toString(), is("0.0s"));
+		assertThat(new Delay(0).toString(), is("0,00s"));
 	}
 	
 	@Test
 	public void NegativSeconds()
 	{
-		assertThat(new Delay(-1).toString(), is("-1.0s"));
+		assertThat(new Delay(-1).toString(), is("-1,00s"));
 	}
 	
 	@Test

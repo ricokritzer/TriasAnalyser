@@ -1,5 +1,7 @@
 package de.dhbw.studienarbeit.data.reader.data;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Objects;
 
 public class Delay implements Comparable<Delay>
@@ -74,7 +76,8 @@ public class Delay implements Comparable<Delay>
 			return min + "m " + Math.round(delay) + "s";
 		}
 
-		return Math.round(delay * 100) / 100d + "s";
+		final NumberFormat formatter = new DecimalFormat("#0.00");
+		return formatter.format(Math.round(value * 100) / 100d) + "s";
 	}
 
 	public static String getNegativeString(double value)
