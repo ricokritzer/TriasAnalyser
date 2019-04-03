@@ -6,15 +6,15 @@ import com.vaadin.flow.dom.ElementFactory;
 
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherCorrelationData;
 
-public class CorrelationCoefficientView<T extends DelayWeatherCorrelationData> extends Div
+public class CorrelationCoefficientView extends Div
 {
 	private static final long serialVersionUID = 1L;
 
-	public CorrelationCoefficientView(String what, T correlation)
+	public CorrelationCoefficientView(String what, DelayWeatherCorrelationData correlation)
 	{
 		setSizeFull();
 		H1 text = new H1();
-		text.add("Korrelationskoeffizient für");
+		text.add("Korrelationskoeffizient für ");
 		text.add(what);
 		text.add(":");
 		text.getElement().appendChild(ElementFactory.createBr());

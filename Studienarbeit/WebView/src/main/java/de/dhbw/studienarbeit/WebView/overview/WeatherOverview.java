@@ -10,6 +10,7 @@ import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.charts.DelayLineChart;
+import de.dhbw.studienarbeit.WebView.tiles.CorrelationCoefficientView;
 import de.dhbw.studienarbeit.WebView.tiles.Tile;
 import de.dhbw.studienarbeit.data.reader.data.weather.symbol.DelayWeatherSymbolData;
 import de.dhbw.studienarbeit.web.data.Data;
@@ -35,14 +36,21 @@ public class WeatherOverview extends Overview
 		txtWeather.setSizeFull();
 
 		HorizontalLayout row1 = new HorizontalLayout(txtWeather,
-				new Tile(getTemperatureChart().withAvgData().create(), getTemperatureChart().withMaxData().create()),
-				new Tile(getPressureChart().withAvgData().create(), getPressureChart().withMaxData().create()));
+				new Tile(getTemperatureChart().withAvgData().create(), getTemperatureChart().withMaxData().create(),
+						new CorrelationCoefficientView("Temperatur", Data.getDelayTemperatureCorrelationCoefficient())),
+				new Tile(getPressureChart().withAvgData().create(), getPressureChart().withMaxData().create(),
+						new CorrelationCoefficientView("Luftdruck", Data.getDelayPressureCorrelationCoefficient())));
 		row1.setSizeFull();
 		row1.setAlignItems(Alignment.CENTER);
 
-		HorizontalLayout row2 = new HorizontalLayout(new Tile(getCloudsChart().withAvgData().create(), getCloudsChart().withMaxData().create()),
-				new Tile(getHumidityChart().withAvgData().create(), getHumidityChart().withMaxData().create()),
-				new Tile(getWindChart().withAvgData().create(), getWindChart().withMaxData().create()));
+		HorizontalLayout row2 = new HorizontalLayout(
+				new Tile(getCloudsChart().withAvgData().create(), getCloudsChart().withMaxData().create(),
+						new CorrelationCoefficientView("Bewölkung", Data.getDelayCloudsCorrelationCoefficient())),
+				new Tile(getHumidityChart().withAvgData().create(), getHumidityChart().withMaxData().create(),
+						new CorrelationCoefficientView("Luftfeuchtigkeit",
+								Data.getDelayHumidityCorrelationCoefficient())),
+				new Tile(getWindChart().withAvgData().create(), getWindChart().withMaxData().create(),
+						new CorrelationCoefficientView("Wind", Data.getDelayWindCorrelationCoefficient())));
 		row2.setSizeFull();
 		row2.setAlignItems(Alignment.CENTER);
 
