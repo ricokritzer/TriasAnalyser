@@ -21,8 +21,9 @@ public class MapDiv extends Overview
 	public MapDiv()
 	{
 		super();
-		mapDiv.setId("map");
+		mapDiv.setId("mapComplete");
 		mapDiv.setSizeFull();
+		
 		setContent(mapDiv);
 		initMap();
 	}
@@ -35,7 +36,7 @@ public class MapDiv extends Overview
 		}
 		
 		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript(
-				"initMap()" + System.lineSeparator() + "function initMap() {" + MapGenerator.generate().withMarkers().withTracks().get() + "}");
+				"initMap()" + System.lineSeparator() + "function initMap() {" + MapGenerator.generate("mapComplete").withMarkers().withTracks().get() + "}");
 		init = true;
 	}
 }

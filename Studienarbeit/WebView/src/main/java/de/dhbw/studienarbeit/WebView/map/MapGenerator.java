@@ -21,15 +21,20 @@ public class MapGenerator
 
 	public String get()
 	{
+		sb.append("var markersLayer = L.layerGroup(markers);");
+		sb.append("var linesLayer = L.layerGroup(lines);");
+		sb.append("var overlayMaps = {'Stationen': markersLayer, 'Linien': linesLayer};");
+		sb.append("markersLayer.addTo(mymap); linesLayer.addTo(mymap);");
+		sb.append("L.control.layers(null, overlayMaps).addTo(mymap);");
 		return sb.toString();
 	}
 
-	public static MapGenerator generate()
+	public static MapGenerator generate(String id)
 	{
 		MapGenerator generator = new MapGenerator();
-		generator.sb.append("var mymap = L.map('map').setView([49.0095795577620000, 8.4045749173222800], 13);")
-				.append(System.lineSeparator()) //
+		generator.sb.append("var mymap = L.map('" + id + "').setView([49.0095795577620000, 8.4045749173222800], 13);")
 				.append("L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>', maxZoom: 18, id: 'mapbox.streets', accessToken: 'pk.eyJ1IjoicGF0LXNpZSIsImEiOiJjanNoeG94NGkwYzcxNDRxZXQ0end0ZDZlIn0.3ZOmhgqISDU_mCFZdMbmiQ'}).addTo(mymap);");
+		generator.sb.append("markers = [];").append("lines = [];");
 		return generator;
 	}
 
@@ -82,8 +87,8 @@ public class MapGenerator
 
 			sb.append("var polyline_" + i + " = L.polyline([[" + lat1 + ", " + lon1 + "],[" + lat2 + ", " + lon2
 					+ "]], {color: 'rgb(" + track.getColor().getRed() + "," + track.getColor().getGreen() + ","
-					+ track.getColor().getBlue() + ")'}).addTo(mymap);");
-			sb.append(System.lineSeparator());
+					+ track.getColor().getBlue() + ")'});");
+			sb.append("lines.push(polyline_" + i + ");");
 			i++;
 		}
 	}
@@ -99,6 +104,7 @@ public class MapGenerator
 					.append("marker_" + i + ".bindPopup('<b>" + station.getName().getStationName()
 							+ "</b><br>Durchschittliche Verspätung: " + station.getAverage().toString() + "');") //
 					.append(System.lineSeparator());
+			sb.append("lines.push(polyline_" + i + ");");
 			i++;
 		}
 	}
