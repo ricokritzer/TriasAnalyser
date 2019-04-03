@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.database.DatabaseReader;
 
 public class DelaySituationDB implements DelaySituation
@@ -34,8 +35,9 @@ public class DelaySituationDB implements DelaySituation
 		{
 			final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 			final boolean value = result.getBoolean("withSituation");
+			final CountData count = new CountData(result.getInt("total"));
 
-			return Optional.of(new DelaySituationDataPart(delayAverage, value));
+			return Optional.of(new DelaySituationDataPart(delayAverage, value, count));
 		}
 		catch (SQLException e)
 		{
@@ -46,7 +48,7 @@ public class DelaySituationDB implements DelaySituation
 
 	public final List<DelaySituationDataPart> getDelayParts(SituationID situationID) throws IOException
 	{
-		final String sql = "SELECT avg(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay_avg, (stopID IN (SELECT stopID FROM StopSituation WHERE situationID = ?)) AS withSituation "
+		final String sql = "SELECT avg(UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay_avg, count(*) AS total, (stopID IN (SELECT stopID FROM StopSituation WHERE situationID = ?)) AS withSituation "
 				+ "FROM Stop WHERE lineID IN (SELECT DISTINCT lineID FROM StopSituation, Stop WHERE Stop.stopID = StopSituation.stopID AND StopSituation.situationID = ?) "
 				+ "GROUP BY withSituation;";
 		final DatabaseReader database = new DatabaseReader();
@@ -79,23 +81,38 @@ public class DelaySituationDB implements DelaySituation
 			DelayAverage withSituations;
 			DelayAverage withoutSituations;
 
+			CountData countWithSituation;
+			CountData countWithoutSituation;
+
 			if (parts.get(0).isWithSituation())
 			{
 				withSituations = parts.get(0).getDelay();
 				withoutSituations = parts.get(1).getDelay();
+				countWithSituation = parts.get(0).getCount();
+				countWithoutSituation = parts.get(1).getCount();
 			}
 			else
 			{
 				withSituations = parts.get(1).getDelay();
 				withoutSituations = parts.get(0).getDelay();
+				countWithSituation = parts.get(1).getCount();
+				countWithoutSituation = parts.get(0).getCount();
 			}
 
-			return Optional.of(new DelaySituationData(data.getSituationName(), withSituations, withoutSituations));
+			return Optional.of(new DelaySituationData(data.getSituationName(), withSituations, withoutSituations,
+					countWithSituation, countWithoutSituation));
 		}
 		catch (IOException e)
 		{
 			LOGGER.log(Level.WARNING, "Unable to get DelaySituationParts.", e);
 			return Optional.empty();
 		}
+	}
+
+	public static void main(String[] args) throws IOException
+	{
+		new DelaySituationDB().getDelayParts(new SituationID("110003651_KVV_ICSKVV"))
+				.forEach(s -> System.out.println(s.getCount()));
+
 	}
 }
