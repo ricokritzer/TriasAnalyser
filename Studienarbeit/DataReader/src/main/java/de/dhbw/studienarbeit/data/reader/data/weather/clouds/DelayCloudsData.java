@@ -10,4 +10,10 @@ public class DelayCloudsData extends DelayData<Double>
 	{
 		super(delayMaximum, delayAverage, clouds);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return "" + Math.round(value) + "%";
+	}
 }

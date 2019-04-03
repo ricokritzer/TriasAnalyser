@@ -29,8 +29,5 @@ public abstract class DelayData<T>
 		return value;
 	}
 
-	public String getValueString()
-	{
-		return value.toString();
-	}
+	public abstract String getValueString();
 }

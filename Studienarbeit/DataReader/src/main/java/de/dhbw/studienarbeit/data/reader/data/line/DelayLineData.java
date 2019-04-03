@@ -10,4 +10,10 @@ public class DelayLineData extends DelayData<Line>
 	{
 		super(delayMaximum, delayAverage, line);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return value.toString();
+	}
 }

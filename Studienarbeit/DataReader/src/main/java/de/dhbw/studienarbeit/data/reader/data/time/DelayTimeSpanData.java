@@ -10,4 +10,10 @@ public class DelayTimeSpanData extends DelayData<TimeSpan>
 	{
 		super(delayMaximum, delayAverage, value);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return value.getText();
+	}
 }

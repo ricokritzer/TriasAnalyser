@@ -39,4 +39,10 @@ public class DelayStationData extends DelayData<StationData>
 	{
 		return value.getOperator();
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return value.toString();
+	}
 }

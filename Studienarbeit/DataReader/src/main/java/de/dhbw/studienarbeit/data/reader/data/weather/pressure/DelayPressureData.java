@@ -10,4 +10,10 @@ public class DelayPressureData extends DelayData<Double>
 	{
 		super(delayMaximum, delayAverage, pressure);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return "" + Math.round(value) + "hPa";
+	}
 }

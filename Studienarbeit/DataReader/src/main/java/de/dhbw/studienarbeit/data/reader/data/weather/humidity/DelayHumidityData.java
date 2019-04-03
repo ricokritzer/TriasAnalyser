@@ -10,4 +10,10 @@ public class DelayHumidityData extends DelayData<Double>
 	{
 		super(delayMaximum, delayAverage, value);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return "" + Math.round(value) + "%";
+	}
 }

@@ -10,4 +10,10 @@ public class DelayWindData extends DelayData<Double>
 	{
 		super(delayMaximum, delayAverage, value);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return "" + Math.round(value) + "km/h";
+	}
 }

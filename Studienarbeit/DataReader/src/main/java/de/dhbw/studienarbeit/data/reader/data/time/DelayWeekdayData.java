@@ -10,4 +10,10 @@ public class DelayWeekdayData extends DelayData<Weekday>
 	{
 		super(delayMaximum, delayAverage, value);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return value.getName();
+	}
 }

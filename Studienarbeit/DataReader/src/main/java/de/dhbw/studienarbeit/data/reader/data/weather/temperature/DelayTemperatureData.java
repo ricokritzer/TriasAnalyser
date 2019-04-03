@@ -10,4 +10,10 @@ public class DelayTemperatureData extends DelayData<Double>
 	{
 		super(delayMaximum, delayAverage, temperature);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return "" + Math.round(value) + "°C";
+	}
 }

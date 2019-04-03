@@ -10,4 +10,10 @@ public class DelayWeatherSymbolData extends DelayData<WeatherSymbol>
 	{
 		super(delayMaximum, delayAverage, symbol);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return value.getName();
+	}
 }

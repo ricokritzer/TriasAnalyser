@@ -10,4 +10,10 @@ public class DelayVehicleTypeData extends DelayData<String>
 	{
 		super(delayMaximum, delayAverage, vehicleType);
 	}
+
+	@Override
+	public String getValueString()
+	{
+		return value;
+	}
 }
