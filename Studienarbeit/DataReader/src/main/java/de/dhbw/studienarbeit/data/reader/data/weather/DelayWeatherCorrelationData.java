@@ -1,5 +1,8 @@
 package de.dhbw.studienarbeit.data.reader.data.weather;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public abstract class DelayWeatherCorrelationData
 {
 	private final double value;
@@ -14,10 +17,11 @@ public abstract class DelayWeatherCorrelationData
 	{
 		return value;
 	}
-	
+
 	@Override
 	public String toString()
 	{
-		return String.valueOf(Math.round(value * 100) / 100d);
+		final NumberFormat formatter = new DecimalFormat("#0.00");
+		return formatter.format(Math.round(value * 100) / 100d);
 	}
 }
