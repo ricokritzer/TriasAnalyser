@@ -14,35 +14,49 @@ import be.ceau.chart.dataset.LineDataset;
 import be.ceau.chart.options.LineOptions;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 
-public class WeatherLineChart extends Div
+public class DelayLineChart extends Div
 {
 	private static final long serialVersionUID = 1L;
 	private List<? extends DelayData<Double>> delayWO;
 	private String name;
+	private LineData data;
 
-	public WeatherLineChart(List<? extends DelayData<Double>> delayWO, String name)
+	public DelayLineChart(List<? extends DelayData<Double>> delayWO, String name)
 	{
 		this.delayWO = delayWO;
 		this.name = name;
-		ChartJs chart = new ChartJs(getChart());
-		add(chart);
-
+		data = new LineData().addLabels(getLabels());
+	}
+	
+	public DelayLineChart create()
+	{
+		add(new ChartJs(getChart()));
 		setSizeFull();
+		return this;
 	}
 
-	protected String getChart()
+	private String getChart()
 	{
-		LineDataset datasetAvg = new LineDataset().setData(getAvgData()).setLabel(name + " Durchschnitt")
-				.setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
-
-		LineDataset datasetMax = new LineDataset().setData(getMaxData()).setLabel(name + " Maximum")
-				.setBorderColor(Color.RED).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
-
-		LineData data = new LineData().addDataset(datasetAvg).addDataset(datasetMax).addLabels(getLabels());
 
 		LineOptions options = new LineOptions().setResponsive(true);
 
 		return new LineChart(data, options).toJson();
+	}
+	
+	public DelayLineChart withAvgData()
+	{
+		LineDataset datasetAvg = new LineDataset().setData(getAvgData()).setLabel(name + " Durchschnitt")
+				.setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
+		data.addDataset(datasetAvg);
+		return this;
+	}
+	
+	public DelayLineChart withMaxData()
+	{
+		LineDataset datasetMax = new LineDataset().setData(getMaxData()).setLabel(name + " Maximum")
+				.setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
+		data.addDataset(datasetMax);
+		return this;
 	}
 
 	private List<BigDecimal> getAvgData()

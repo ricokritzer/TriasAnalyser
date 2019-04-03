@@ -9,7 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.Route;
 
-import de.dhbw.studienarbeit.WebView.charts.WeatherLineChart;
+import de.dhbw.studienarbeit.WebView.charts.DelayLineChart;
 import de.dhbw.studienarbeit.WebView.tiles.Tile;
 import de.dhbw.studienarbeit.data.reader.data.weather.symbol.DelayWeatherSymbolData;
 import de.dhbw.studienarbeit.web.data.Data;
@@ -29,21 +29,20 @@ public class WeatherOverview extends Overview
 			text.add(symbol.getAverage().toString());
 			text.getElement().appendChild(ElementFactory.createBr());
 		}
-		
+
 		text.getStyle().set("text-align", "center");
 		Div txtWeather = new Div(text);
 		txtWeather.setSizeFull();
 
 		HorizontalLayout row1 = new HorizontalLayout(txtWeather,
-				new Tile(new WeatherLineChart(Data.getDelaysTemperature(), "Temperatur")),
-				new Tile(new WeatherLineChart(Data.getDelaysPressure(), "Luftdruck")));
+				new Tile(getTemperatureChart().withAvgData().create(), getTemperatureChart().withMaxData().create()),
+				new Tile(getPressureChart().withAvgData().create(), getPressureChart().withMaxData().create()));
 		row1.setSizeFull();
 		row1.setAlignItems(Alignment.CENTER);
 
-		HorizontalLayout row2 = new HorizontalLayout(
-				new Tile(new WeatherLineChart(Data.getDelaysClouds(), "Bewölkung")),
-				new Tile(new WeatherLineChart(Data.getDelaysHumidity(), "Luftfeuchtigkeit")),
-				new Tile(new WeatherLineChart(Data.getDelaysWind(), "Windstärke")));
+		HorizontalLayout row2 = new HorizontalLayout(new Tile(getCloudsChart().withAvgData().create(), getCloudsChart().withMaxData().create()),
+				new Tile(getHumidityChart().withAvgData().create(), getHumidityChart().withMaxData().create()),
+				new Tile(getWindChart().withAvgData().create(), getWindChart().withMaxData().create()));
 		row2.setSizeFull();
 		row2.setAlignItems(Alignment.CENTER);
 
@@ -51,5 +50,30 @@ public class WeatherOverview extends Overview
 		content.setSizeFull();
 
 		setContent(content);
+	}
+
+	private DelayLineChart getWindChart()
+	{
+		return new DelayLineChart(Data.getDelaysWind(), "Windstärke");
+	}
+
+	private DelayLineChart getHumidityChart()
+	{
+		return new DelayLineChart(Data.getDelaysHumidity(), "Luftfeuchtigkeit");
+	}
+
+	private DelayLineChart getCloudsChart()
+	{
+		return new DelayLineChart(Data.getDelaysClouds(), "Bewölkung");
+	}
+
+	private DelayLineChart getPressureChart()
+	{
+		return new DelayLineChart(Data.getDelaysPressure(), "Luftdruck");
+	}
+
+	private DelayLineChart getTemperatureChart()
+	{
+		return new DelayLineChart(Data.getDelaysTemperature(), "Temperatur");
 	}
 }
