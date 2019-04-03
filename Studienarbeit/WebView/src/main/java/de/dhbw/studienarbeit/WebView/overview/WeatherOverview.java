@@ -1,7 +1,9 @@
 package de.dhbw.studienarbeit.WebView.overview;
 
+import java.util.Iterator;
+
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -22,14 +24,9 @@ public class WeatherOverview extends Overview
 
 	public WeatherOverview()
 	{
-		H1 text = new H1();
-		for (DelayWeatherSymbolData symbol : Data.getDelaysWeatherSymbol().getData())
-		{
-			Image image = new Image(symbol.getValue().getURLString(), symbol.getValue().getName());
-			text.add(image);
-			text.add(symbol.getAverage().toString());
-			text.getElement().appendChild(ElementFactory.createBr());
-		}
+		H4 text = new H4();
+
+		showWeatherSymbolDelays(text);
 
 		text.getStyle().set("text-align", "center");
 		Div txtWeather = new Div(text);
@@ -58,6 +55,42 @@ public class WeatherOverview extends Overview
 		content.setSizeFull();
 
 		setContent(content);
+	}
+
+	private void showWeatherSymbolDelays(H4 text)
+	{
+		Iterator<DelayWeatherSymbolData> iterator = Data.getDelaysWeatherSymbol().getData().iterator();
+		while (iterator.hasNext())
+		{
+			addLeftColumn(text, iterator);
+
+			if (iterator.hasNext())
+			{
+				addRightColumn(text, iterator);
+
+				if (iterator.hasNext())
+				{
+					text.getElement().appendChild(ElementFactory.createBr());
+				}
+			}
+		}
+	}
+
+	private void addRightColumn(H4 text, Iterator<DelayWeatherSymbolData> iterator)
+	{
+		DelayWeatherSymbolData symbolRight = iterator.next();
+		Image imageRight = new Image(symbolRight.getValue().getURLString(), symbolRight.getValue().getName());
+		text.add(" ");
+		text.add(imageRight);
+		text.add(symbolRight.getAverage().toString());
+	}
+
+	private void addLeftColumn(H4 text, Iterator<DelayWeatherSymbolData> iterator)
+	{
+		DelayWeatherSymbolData symbol = iterator.next();
+		Image imageLeft = new Image(symbol.getValue().getURLString(), symbol.getValue().getName());
+		text.add(imageLeft);
+		text.add(symbol.getAverage().toString());
 	}
 
 	private DelayLineChart getWindChart()
