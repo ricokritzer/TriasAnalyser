@@ -2,6 +2,8 @@ package de.dhbw.studienarbeit.data.reader.data.weather;
 
 public class DelayWeatherDBHelper
 {
+	private static final int MINIMAL_COUNT = 100;
+
 	private DelayWeatherDBHelper()
 	{}
 
@@ -10,8 +12,10 @@ public class DelayWeatherDBHelper
 		return new StringBuilder().append("SELECT ")
 				.append("avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, ")
 				.append("max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, ")
-				.append(what).append(" AS ").append(name).append(" FROM StopWeather, Stop, Weather ")
+				.append("count(*) AS total, ").append(what).append(" AS ").append(name)
+				.append(" FROM StopWeather, Stop, Weather ")
 				.append("WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id ")
-				.append("GROUP BY ").append(name).append(" ORDER BY ").append(name).append(";").toString();
+				.append("GROUP BY ").append(name).append(" HAVING total > ").append(MINIMAL_COUNT).append(" ORDER BY ")
+				.append(name).append(";").toString();
 	}
 }
