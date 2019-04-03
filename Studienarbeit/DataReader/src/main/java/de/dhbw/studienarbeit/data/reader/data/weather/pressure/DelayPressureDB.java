@@ -27,7 +27,7 @@ public class DelayPressureDB extends DB<DelayPressureData> implements DelayPress
 	{
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
-		final double pressure = result.getDouble(NAME);
+		final int pressure = result.getInt(NAME);
 
 		return Optional.of(new DelayPressureData(delayMaximum, delayAverage, pressure));
 	}

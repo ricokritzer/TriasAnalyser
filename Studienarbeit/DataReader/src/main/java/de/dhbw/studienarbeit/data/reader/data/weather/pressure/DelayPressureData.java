@@ -4,9 +4,9 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayPressureData extends DelayData<Double>
+public class DelayPressureData extends DelayData<Integer>
 {
-	public DelayPressureData(DelayMaximum delayMaximum, DelayAverage delayAverage, double pressure)
+	public DelayPressureData(DelayMaximum delayMaximum, DelayAverage delayAverage, int pressure)
 	{
 		super(delayMaximum, delayAverage, pressure);
 	}
@@ -14,6 +14,6 @@ public class DelayPressureData extends DelayData<Double>
 	@Override
 	public String getValueString()
 	{
-		return "" + Math.round(value) + "hPa";
+		return value.toString() + "hPa";
 	}
 }
