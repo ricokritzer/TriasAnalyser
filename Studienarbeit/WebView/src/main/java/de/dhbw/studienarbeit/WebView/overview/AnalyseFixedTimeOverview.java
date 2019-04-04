@@ -2,30 +2,23 @@ package de.dhbw.studienarbeit.WebView.overview;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.vaadin.gatanaso.MultiselectComboBox;
 
-import com.mysql.cj.result.LocalTimeValueFactory;
 import com.syndybat.chartjs.ChartJs;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValueAndElement;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.Route;
 
 import be.ceau.chart.BarChart;
@@ -36,6 +29,7 @@ import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
+import de.dhbw.studienarbeit.WebView.components.DateTimePicker;
 import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
@@ -59,15 +53,11 @@ public class AnalyseFixedTimeOverview extends Overview
 	private static final int maxItems = 100;
 
 	private static final long serialVersionUID = 1L;
-	
-	private boolean searchCorrect = false;
 
 	private ComboBox<DelayStationData> stations;
 	private MultiselectComboBox<Line> lines;
-	private DatePicker dateBegin;
-	private TimePicker timeBegin;
-	private DatePicker dateEnd;
-	private TimePicker timeEnd;
+	private DateTimePicker begin;
+	private DateTimePicker end;
 	private Button btnSearch;
 
 	private DelayRequestFixedTime request;
@@ -83,6 +73,11 @@ public class AnalyseFixedTimeOverview extends Overview
 	{
 		super();
 
+		begin = new DateTimePicker(LocalTime.of(0, 0));
+		begin.setLabel("von");
+		end = new DateTimePicker(LocalTime.of(23, 59));
+		end.setLabel("bis");
+
 		btnSearch = new Button("Suchen", e -> search());
 		btnSearch.setEnabled(false);
 
@@ -91,37 +86,29 @@ public class AnalyseFixedTimeOverview extends Overview
 		lines.setItemLabelGenerator(item -> item.toString());
 		filters.add(lines);
 
-		dateBegin = new DatePicker();
-		timeBegin = new TimePicker(new LocalTimeValueFactory().createFromTime(0, 0, 0, 0));
-		
-		dateEnd = new DatePicker();
-		timeEnd = new TimePicker(new LocalTimeValueFactory().createFromTime(23, 59, 0, 0));
-		
-		filters.add(dateBegin);
-		filters.add(timeBegin);
-		filters.add(dateEnd);
-		filters.add(timeEnd);
+		filters.add(begin);
+		filters.add(end);
 
 		filters.forEach(e -> ((HasValueAndElement) e).setReadOnly(true));
 
-//		Zum Testen:
+		// Zum Testen:
 		DelayStationData test = new DelayStationData(new DelayMaximum(0), new DelayAverage(0),
 				new StationID("de:08212:1"), new StationName("Test Marktplatz"), new OperatorName("kvv"),
 				new Position(0, 0), 0);
 		stations = new ComboBox<>("Station", test);
 
-//		stations = new ComboBox<>("Station", Data.getDelaysStation());
+		// stations = new ComboBox<>("Station", Data.getDelaysStation());
 		stations.setItemLabelGenerator(item -> item.getName().toString());
 		stations.addValueChangeListener(e -> createRequest());
-		
+
 		HorizontalLayout filter = new HorizontalLayout(stations);
 		filter.setHeight("100px");
 		filter.setAlignItems(Alignment.CENTER);
-		
+
 		Div divLines = new Div(lines);
 		divLines.setWidth("25%");
-		
-		filter.add(divLines, dateBegin, timeBegin, dateEnd, timeEnd, btnSearch);
+
+		filter.add(divLines, begin, end, btnSearch);
 
 		layout = new VerticalLayout(filter);
 		layout.setSizeFull();
@@ -134,23 +121,19 @@ public class AnalyseFixedTimeOverview extends Overview
 
 	private void search()
 	{
-		searchCorrect = true;
-		dateEnd.setInvalid(false);
+		end.setInvalid(false);
 		try
 		{
 			request.setLines(lines.getValue());
-			request.setTimestampStart(getDateFromLocal(dateBegin.getOptionalValue(), timeBegin.getOptionalValue()));
-			request.setTimestampEnd(getDateFromLocal(dateEnd.getOptionalValue(), timeEnd.getOptionalValue()));
-			
-			if (searchCorrect)
-			{
-				showDelays(request.getDelayCounts());
-			}
+			request.setTimestampStart(begin.getOptionalValue());
+			request.setTimestampEnd(end.getOptionalValue());
+
+			showDelays(request.getDelayCounts());
 		}
 		catch (InvalidTimeSpanException itse)
 		{
-			dateEnd.setErrorMessage("Ende darf nicht vor Beginn liegen");
-			dateEnd.setInvalid(true);
+			end.setErrorMessage("Ende darf nicht vor Beginn liegen");
+			end.setInvalid(true);
 		}
 		catch (IOException e)
 		{
@@ -161,13 +144,13 @@ public class AnalyseFixedTimeOverview extends Overview
 	private void showDelays(List<DelayCountData> delays)
 	{
 		DelayCountData[] data = getData(delays);
-		
+
 		if (data.length == 0)
 		{
 			Notification.show("Ihre Suche ergibt keine Ergebnisse");
 			return;
 		}
-		
+
 		BigDecimal[] delaysAdded = getDelays(data);
 		BarDataset dataset = new BarDataset().setData(delaysAdded).setLabel("Verspätungen")
 				.setBackgroundColor(Color.BLUE).setBorderColor(Color.BLUE);
@@ -175,13 +158,13 @@ public class AnalyseFixedTimeOverview extends Overview
 		BarData barData = new BarData().addLabels(getLabels(data)).addDataset(dataset);
 
 		BarChart chart = new BarChart().setData(barData);
-		
+
 		if (greatestValueIsMoreThan(exponential, delaysAdded))
 		{
 			BarOptions options = new BarOptions().setScales(new BarScale().setyAxes(getYAxis()));
 			chart.setOptions(options);
 		}
-		
+
 		ChartJs chartJS = new ChartJs(chart.toJson());
 
 		divChart.removeAll();
@@ -197,12 +180,12 @@ public class AnalyseFixedTimeOverview extends Overview
 	{
 		BigDecimal[] delayArray = new BigDecimal[data.length];
 		delayArray[delayArray.length - 1] = BigDecimal.valueOf(data[data.length - 1].getCountValue());
-		
+
 		for (int i = delayArray.length - 2; i >= 0; i--)
 		{
 			delayArray[i] = BigDecimal.valueOf(data[i].getCountValue()).add(delayArray[i + 1]);
 		}
-		
+
 		return delayArray;
 	}
 
@@ -229,7 +212,7 @@ public class AnalyseFixedTimeOverview extends Overview
 			data[i] = delays.stream().filter(e -> e.getDelayInMinutes() == (idx + begin)).findFirst()
 					.orElse(new DelayCountData(new Delay((i + begin) * 60), new CountData(0)));
 		}
-		
+
 		int max = data.length > maxItems ? maxItems : data.length;
 		DelayCountData[] shorterArray = Arrays.copyOfRange(data, 0, max);
 
@@ -244,33 +227,6 @@ public class AnalyseFixedTimeOverview extends Overview
 		ticks.setStacked(true);
 		axis.add(ticks);
 		return axis;
-	}
-
-	private Optional<Date> getDateFromLocal(Optional<LocalDate> dateOptional, Optional<LocalTime> timeOptional)
-	{
-		if (!dateOptional.isPresent())
-		{
-			return Optional.empty();
-		}
-		
-		if (!timeOptional.isPresent())
-		{
-			searchCorrect = false;
-			return Optional.empty();
-		}
-		
-		LocalDate date = dateOptional.get();
-		LocalTime time = timeOptional.get();
-		Calendar cal = Calendar.getInstance();
-		
-		cal.set(Calendar.SECOND, time.getSecond());
-		cal.set(Calendar.MINUTE, time.getMinute());
-		cal.set(Calendar.HOUR_OF_DAY, time.getHour());
-		cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
-		cal.set(Calendar.MONTH, date.getMonthValue() - 1);
-		cal.set(Calendar.YEAR, date.getYear());
-		
-		return Optional.of(cal.getTime());
 	}
 
 	@SuppressWarnings("rawtypes")
