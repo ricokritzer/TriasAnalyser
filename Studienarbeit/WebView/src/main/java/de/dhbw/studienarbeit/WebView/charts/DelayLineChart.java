@@ -71,6 +71,6 @@ public class DelayLineChart extends Div
 
 	private String[] getLabels()
 	{
-		return delayWO.stream().map(e -> e.getValue().toString()).toArray(String[]::new);
+		return delayWO.stream().map(e -> e.getValueString()).toArray(String[]::new);
 	}
 }
