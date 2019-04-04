@@ -85,9 +85,15 @@ public class MapGenerator
 				lat2 = lat2 + distanceNorthSouth;
 			}
 
+			double delayChange = track.getDelayStationNeighbourData().getDelayAverage2().getValue()
+					- track.getDelayStationNeighbourData().getDelayAverage1().getValue();
 			sb.append("var polyline_" + i + " = L.polyline([[" + lat1 + ", " + lon1 + "],[" + lat2 + ", " + lon2
 					+ "]], {color: 'rgb(" + track.getColor().getRed() + "," + track.getColor().getGreen() + ","
-					+ track.getColor().getBlue() + ")'});");
+					+ track.getColor().getBlue() + ")'}).bindPopup('von: "
+					+ track.getDelayStationNeighbourData().getName1().toString() + "<br>nach: "
+					+ track.getDelayStationNeighbourData().getName2().toString() + "<br>Verspätung: "
+					+ String.valueOf(delayChange)
+					+ "');");
 			sb.append("lines.push(polyline_" + i + ");");
 			i++;
 		}
