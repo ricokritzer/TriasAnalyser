@@ -19,9 +19,10 @@ public abstract class Overview extends AppLayout
 		AppLayoutMenuItem itemTime = new AppLayoutMenuItem(VaadinIcon.CLOCK.create(), "Zeit", "time");
 		AppLayoutMenuItem itemDelay = new AppLayoutMenuItem(VaadinIcon.CLOCK.create(), "Verspätung", "delay");
 		AppLayoutMenuItem itemAnalyse = new AppLayoutMenuItem(VaadinIcon.CLOCK.create(), "Eigene Analysen", "analyse");
+		AppLayoutMenuItem itemAnalyseFixedTime = new AppLayoutMenuItem(VaadinIcon.CLOCK.create(), "Eigene Analysen (fester Zeitraum)", "analyseFixedTime");
 		
 		AppLayoutMenu menu = new AppLayoutMenu();
-		menu.addMenuItems(itemWelcome, itemMap, itemWeather, itemTime, itemDelay, itemAnalyse);
+		menu.addMenuItems(itemWelcome, itemMap, itemWeather, itemTime, itemDelay, itemAnalyse, itemAnalyseFixedTime);
 		
 		setMenu(menu);
 	}
