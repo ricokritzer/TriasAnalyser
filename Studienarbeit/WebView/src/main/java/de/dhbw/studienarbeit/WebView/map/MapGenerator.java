@@ -110,7 +110,7 @@ public class MapGenerator
 					.append("marker_" + i + ".bindPopup('<b>" + station.getName().getStationName()
 							+ "</b><br>Durchschittliche Verspätung: " + station.getAverage().toString() + "');") //
 					.append(System.lineSeparator());
-			sb.append("lines.push(polyline_" + i + ");");
+			sb.append("markers.push(marker_" + i + ");");
 			i++;
 		}
 	}
