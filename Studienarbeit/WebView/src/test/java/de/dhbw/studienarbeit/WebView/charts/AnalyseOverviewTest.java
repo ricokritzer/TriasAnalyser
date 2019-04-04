@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.WebView.overview;
+package de.dhbw.studienarbeit.WebView.charts;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.dhbw.studienarbeit.WebView.charts.AnalyseChart;
 import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
@@ -138,7 +139,7 @@ public class AnalyseOverviewTest
 
 	private DelayCountData[] convertToData(List<DelayCountData> delays)
 	{
-		return AnalyseOverview.getData(delays);
+		return AnalyseChart.getData(delays);
 	}
 
 	private DelayCountData createDelayCountData()
