@@ -65,6 +65,11 @@ public class DelayStationNeighbourData implements Comparable<DelayStationNeighbo
 		return delayDifference / distance;
 	}
 
+	public Delay getDelayDifference()
+	{
+		return new Delay(Delay.difference(delayAverage2, delayAverage1));
+	}
+
 	@Override
 	public int compareTo(DelayStationNeighbourData o)
 	{
