@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class Tile extends VerticalLayout
@@ -27,7 +28,7 @@ public class Tile extends VerticalLayout
 		
 		components.get(0).setVisible(true);
 
-		Button button = new Button("next");
+		Button button = new Button(VaadinIcon.ARROW_RIGHT.create());
 		button.addClickListener(e -> next());
 		button.setHeight("10%");
 
