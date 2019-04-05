@@ -3,6 +3,8 @@ package de.dhbw.studienarbeit.data.reader.data.request;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -59,10 +61,10 @@ public class DelayRequestTimespanDBTest
 	public void sqlLineID() throws Exception
 	{
 		final DelayRequestTimespanDB request = createDelayRequest();
-		request.addLine(createLine());
+		request.setLineNames(createLineNameList(1));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop WHERE stationID = ? AND name IN (?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -71,11 +73,10 @@ public class DelayRequestTimespanDBTest
 	public void sqlMultipleLineIDs() throws Exception
 	{
 		final DelayRequestTimespanDB request = createDelayRequest();
-		request.addLine(createLine());
-		request.addLine(createLine());
+		request.setLineNames(createLineNameList(2));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND lineID IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop WHERE stationID = ? AND name IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -84,9 +85,9 @@ public class DelayRequestTimespanDBTest
 	public void sqlCount() throws Exception
 	{
 		final DelayRequestTimespanDB request = createDelayRequest();
-		request.addLine(createLine());
+		request.setLineNames(createLineNameList(1));
 
-		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay FROM Stop WHERE stationID = ? AND lineID IN (?) AND realtime IS NULL GROUP BY delay;";
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay FROM Stop WHERE stationID = ? AND name IN (?) AND realtime IS NULL GROUP BY delay;";
 
 		assertThat(request.getCancelledSQL(), is(sql));
 	}
@@ -182,5 +183,25 @@ public class DelayRequestTimespanDBTest
 	private Line createLine()
 	{
 		return new LineData(new LineID(1), new LineName("foo"), new LineDestination("bar"));
+	}
+
+	private List<LineName> createLineNameList(int count)
+	{
+		final List<LineName> names = new ArrayList<>();
+		for (int i = 0; i < count; i++)
+		{
+			names.add(new LineName("foo"));
+		}
+		return names;
+	}
+
+	private List<LineDestination> createLineDestinationList(int count)
+	{
+		final List<LineDestination> destinations = new ArrayList<>();
+		for (int i = 0; i < count; i++)
+		{
+			destinations.add(new LineDestination("foo"));
+		}
+		return destinations;
 	}
 }

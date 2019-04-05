@@ -2,7 +2,6 @@ package de.dhbw.studienarbeit.data.reader.data.request;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
@@ -80,11 +79,17 @@ public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequ
 			idx++;
 		}
 
-		// for (LineID lineID : lineIDs)
-		// {
-		// preparedStatement.setInt(idx, lineID.getValue());
-		// idx++;
-		// }
+		for (LineName lineName : lineNames)
+		{
+			preparedStatement.setString(idx, lineName.toString());
+			idx++;
+		}
+
+		for (LineDestination lineDestination : lineDestinations)
+		{
+			preparedStatement.setString(idx, lineDestination.toString());''
+			idx++;
+		}
 	}
 
 	@Override
@@ -97,17 +102,29 @@ public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequ
 		timestampStart.ifPresent(h -> stringBuilder.append(" AND timetabledTime >= ?"));
 		timestampEnd.ifPresent(h -> stringBuilder.append(" AND timetabledTime <= ?"));
 
-//		if (!lineIDs.isEmpty())
-//		{
-//			stringBuilder.append(" AND lineID IN (?");
-//
-//			for (int i = 1; i < lineIDs.size(); i++)
-//			{
-//				stringBuilder.append(", ?");
-//			}
-//
-//			stringBuilder.append(")");
-//		}
+		if (!lineNames.isEmpty())
+		{
+			stringBuilder.append(" AND name IN (?");
+
+			for (int i = 1; i < lineNames.size(); i++)
+			{
+				stringBuilder.append(", ?");
+			}
+
+			stringBuilder.append(")");
+		}
+
+		if (!lineDestinations.isEmpty())
+		{
+			stringBuilder.append(" AND destination IN (?");
+
+			for (int i = 1; i < lineDestinations.size(); i++)
+			{
+				stringBuilder.append(", ?");
+			}
+
+			stringBuilder.append(")");
+		}
 
 		return stringBuilder.append(realtimeNull ? " AND realtime IS NULL" : " AND realtime IS NOT NULL")
 				.append(" GROUP BY delay;").toString();
