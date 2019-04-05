@@ -6,16 +6,17 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
+import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
+import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 
 public interface DelayRequest
 {
+	@Deprecated
 	public void setLines(Collection<Line> lines);
 
-	public void addLine(Line line);
+	public void setLineNames(Collection<LineName> names);
 
-	public void removeLine(Line line);
-
-	public void clearLines();
+	public void setLineDestinations(Collection<LineDestination> destination);
 
 	public CountData getCancelledStops() throws IOException;
 

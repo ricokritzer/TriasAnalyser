@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
-import de.dhbw.studienarbeit.data.reader.data.line.LineID;
+import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
+import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
@@ -20,7 +22,8 @@ public abstract class DelayRequestDB extends DB<DelayCountData> implements Delay
 {
 	protected final StationID stationID;
 
-	protected List<LineID> lineIDs = new ArrayList<>();
+	protected List<LineName> lineNames = new ArrayList<>();
+	protected List<LineDestination> lineDestinations = new ArrayList<>();
 
 	public DelayRequestDB(StationID stationID)
 	{
@@ -70,27 +73,21 @@ public abstract class DelayRequestDB extends DB<DelayCountData> implements Delay
 	}
 
 	@Override
-	public void addLine(Line line)
-	{
-		lineIDs.add(line.getID());
-	}
-
-	@Override
-	public void removeLine(Line line)
-	{
-		lineIDs.remove(line.getID());
-	}
-
-	@Override
-	public void clearLines()
-	{
-		lineIDs.clear();
-	}
-
-	@Override
 	public void setLines(Collection<Line> lines)
 	{
-		clearLines();
-		lines.forEach(this::addLine);
+		setLineNames(lines.stream().map(e -> e.getName()).collect(Collectors.toList()));
+		setLineDestinations(lines.stream().map(e -> e.getDestination()).collect(Collectors.toList()));
+	}
+
+	public void setLineNames(Collection<LineName> names)
+	{
+		this.lineNames.clear();
+		this.lineNames.addAll(names);
+	}
+
+	public void setLineDestinations(Collection<LineDestination> destinations)
+	{
+		this.lineDestinations.clear();
+		this.lineDestinations.addAll(destinations);
 	}
 }

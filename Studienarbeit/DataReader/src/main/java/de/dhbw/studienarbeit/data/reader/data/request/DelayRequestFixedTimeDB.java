@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 
 public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequestFixedTime
@@ -81,11 +80,11 @@ public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequ
 			idx++;
 		}
 
-		for (LineID lineID : lineIDs)
-		{
-			preparedStatement.setInt(idx, lineID.getValue());
-			idx++;
-		}
+		// for (LineID lineID : lineIDs)
+		// {
+		// preparedStatement.setInt(idx, lineID.getValue());
+		// idx++;
+		// }
 	}
 
 	@Override
@@ -98,17 +97,17 @@ public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequ
 		timestampStart.ifPresent(h -> stringBuilder.append(" AND timetabledTime >= ?"));
 		timestampEnd.ifPresent(h -> stringBuilder.append(" AND timetabledTime <= ?"));
 
-		if (!lineIDs.isEmpty())
-		{
-			stringBuilder.append(" AND lineID IN (?");
-
-			for (int i = 1; i < lineIDs.size(); i++)
-			{
-				stringBuilder.append(", ?");
-			}
-
-			stringBuilder.append(")");
-		}
+//		if (!lineIDs.isEmpty())
+//		{
+//			stringBuilder.append(" AND lineID IN (?");
+//
+//			for (int i = 1; i < lineIDs.size(); i++)
+//			{
+//				stringBuilder.append(", ?");
+//			}
+//
+//			stringBuilder.append(")");
+//		}
 
 		return stringBuilder.append(realtimeNull ? " AND realtime IS NULL" : " AND realtime IS NOT NULL")
 				.append(" GROUP BY delay;").toString();
