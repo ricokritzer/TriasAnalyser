@@ -20,6 +20,8 @@ import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespanDB;
 import de.dhbw.studienarbeit.data.reader.data.request.LineDestinationsAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.request.LineNamesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
+import de.dhbw.studienarbeit.data.reader.data.request.Request;
+import de.dhbw.studienarbeit.data.reader.data.request.RequestDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
@@ -446,11 +448,13 @@ public class Data
 		return getInstance().delaySituationWO.getLastUpdated();
 	}
 
+	@Deprecated
 	public static DelayRequestTimespan getDelayRequestFor(StationID stationID)
 	{
 		return new DelayRequestTimespanDB(stationID);
 	}
 
+	@Deprecated
 	public static DelayRequestFixedTime getDelayRequestForFixedTimeFor(StationID stationID)
 	{
 		return new DelayRequestFixedTimeDB(stationID);
@@ -469,6 +473,7 @@ public class Data
 		}
 	}
 
+	@Deprecated
 	public static List<LineName> getLineNamesFor(StationID stationID, List<LineDestination> lineDestinations)
 	{
 		try
@@ -482,6 +487,7 @@ public class Data
 		}
 	}
 
+	@Deprecated
 	public static List<LineDestination> getLineDestinationFor(StationID stationID, List<LineName> lineNames)
 	{
 		try
@@ -493,5 +499,10 @@ public class Data
 			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
 			return new ArrayList<>();
 		}
+	}
+
+	public static Request createRequestFor(StationID stationID)
+	{
+		return new RequestDB(stationID);
 	}
 }
