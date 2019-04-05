@@ -9,6 +9,8 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
+import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
+import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTime;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTimeDB;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
@@ -448,11 +450,36 @@ public class Data
 		return new DelayRequestFixedTimeDB(stationID);
 	}
 
+	@Deprecated
 	public static List<Line> getLinesAt(StationID stationID)
 	{
 		try
 		{
 			return new LinesAtStationDB().getLinesAt(stationID);
+		}
+		catch (IOException e)
+		{
+			return new ArrayList<>();
+		}
+	}
+
+	public static List<LineName> getLineNamesFor(StationID stationID, List<LineDestination> lineDestinations)
+	{
+		try
+		{
+			return new LinesAtStationDB().getLineNamesFor(stationID, lineDestinations);
+		}
+		catch (IOException e)
+		{
+			return new ArrayList<>();
+		}
+	}
+
+	public static List<LineDestination> getLineDestinationFor(StationID stationID, List<LineName> lineNames)
+	{
+		try
+		{
+			return new LinesAtStationDB().getLineDestinationFor(stationID, lineNames);
 		}
 		catch (IOException e)
 		{
