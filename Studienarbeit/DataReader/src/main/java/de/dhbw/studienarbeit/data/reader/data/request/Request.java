@@ -17,9 +17,9 @@ public interface Request
 
 	public List<DelayCountData> getDelays() throws IOException;
 
-	public List<LineName> getPossibleLineNames();
+	public List<LineName> getPossibleLineNames() throws IOException;
 
-	public List<LineDestination> getPossibleLineDestinations();
+	public List<LineDestination> getPossibleLineDestinations() throws IOException;
 
 	public Request filterLineNames(Collection<LineName> lineNames);
 
