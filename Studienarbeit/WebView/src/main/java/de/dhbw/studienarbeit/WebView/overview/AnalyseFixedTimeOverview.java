@@ -76,12 +76,14 @@ public class AnalyseFixedTimeOverview extends Overview
 		filters.forEach(e -> ((HasValueAndElement) e).setReadOnly(true));
 
 		// Zum Testen:
-		DelayStationData test = new DelayStationData(new DelayMaximum(0), new DelayAverage(0),
-				new StationID("de:08212:1"), new StationName("Test Marktplatz"), new OperatorName("kvv"),
-				new Position(0, 0), 0);
-		stations = new ComboBox<>("Station", test);
+		// DelayStationData test = new DelayStationData(new DelayMaximum(0), new
+		// DelayAverage(0),
+		// new StationID("de:08212:1"), new StationName("Test Marktplatz"), new
+		// OperatorName("kvv"),
+		// new Position(0, 0), 0);
+		// stations = new ComboBox<>("Station", test);
 
-		// stations = new ComboBox<>("Station", Data.getDelaysStation());
+		stations = new ComboBox<>("Station", Data.getDelaysStation());
 		stations.setItemLabelGenerator(item -> item.getName().toString());
 		stations.addValueChangeListener(e -> createRequest());
 
