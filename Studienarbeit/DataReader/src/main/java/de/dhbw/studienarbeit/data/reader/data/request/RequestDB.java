@@ -97,17 +97,35 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	}
 
 	@Override
-	public Request filterStartDate(Date start)
+	public Request filterStartDate(Date start) throws InvalidTimeSpanException
 	{
-		this.startDate = Optional.ofNullable(start);
-		return this;
+		final Optional<Date> setted = Optional.ofNullable(start);
+
+		if (possibleDate(setted, endDate))
+		{
+			this.startDate = Optional.ofNullable(start);
+			return this;
+		}
+		else
+		{
+			throw new InvalidTimeSpanException();
+		}
 	}
 
 	@Override
-	public Request filterEndDate(Date end)
+	public Request filterEndDate(Date end) throws InvalidTimeSpanException
 	{
-		this.endDate = Optional.ofNullable(end);
-		return this;
+		final Optional<Date> setted = Optional.ofNullable(end);
+
+		if (possibleDate(startDate, setted))
+		{
+			this.endDate = setted;
+			return this;
+		}
+		else
+		{
+			throw new InvalidTimeSpanException();
+		}
 	}
 
 	@Override
