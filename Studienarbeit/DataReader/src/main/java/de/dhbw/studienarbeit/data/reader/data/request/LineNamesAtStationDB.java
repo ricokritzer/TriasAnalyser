@@ -11,6 +11,7 @@ import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.database.DB;
+import de.dhbw.studienarbeit.data.reader.database.SQLListHelper;
 
 public class LineNamesAtStationDB extends DB<LineName> implements LineNamesAtStation
 {
@@ -20,18 +21,7 @@ public class LineNamesAtStationDB extends DB<LineName> implements LineNamesAtSta
 		final StringBuilder sb = new StringBuilder()
 				.append("SELECT DISTINCT name FROM Stop, Line WHERE Stop.lineID = Line.lineID AND Stop.stationID = ?");
 
-		if (!lineDestinations.isEmpty())
-		{
-			sb.append(" AND destination IN (?");
-
-			for (int i = 1; i < lineDestinations.size(); i++)
-			{
-				sb.append(", ?");
-			}
-
-			sb.append(")");
-		}
-
+		sb.append(SQLListHelper.createSQLFor(" AND destination", lineDestinations));
 		sb.append(";");
 
 		return readFromDatabase(sb.toString(), e -> setValues(e, stationID, lineDestinations));
@@ -42,7 +32,7 @@ public class LineNamesAtStationDB extends DB<LineName> implements LineNamesAtSta
 	{
 		preparedStatement.setString(1, stationID.getValue());
 
-		int i = 1;
+		int i = 2;
 		for (LineDestination destination : destinations)
 		{
 			preparedStatement.setString(i, destination.toString());
