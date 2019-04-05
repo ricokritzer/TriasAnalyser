@@ -58,7 +58,7 @@ public class DelayRequestTimespanDBTest
 	}
 
 	@Test
-	public void sqlLineID() throws Exception
+	public void sqlLineNames() throws Exception
 	{
 		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setLineNames(createLineNameList(1));
@@ -70,13 +70,26 @@ public class DelayRequestTimespanDBTest
 	}
 
 	@Test
-	public void sqlMultipleLineIDs() throws Exception
+	public void sqlMultipleLineNames() throws Exception
 	{
 		final DelayRequestTimespanDB request = createDelayRequest();
 		request.setLineNames(createLineNameList(2));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND name IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void sqlLineNamesAndDestinations() throws Exception
+	{
+		final DelayRequestTimespanDB request = createDelayRequest();
+		request.setLineNames(createLineNameList(2));
+		request.setLineDestinations(createLineDestinationList(2));
+
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND name IN (?, ?) AND destination IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}

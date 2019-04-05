@@ -51,6 +51,19 @@ public class DelayRequestFixedTimeDBTest
 	}
 
 	@Test
+	public void sqlLineNameAndDestination() throws Exception
+	{
+		final DelayRequestFixedTimeDB request = createDelayRequest();
+		request.setLineNames(createLineNameList(1));
+		request.setLineDestinations(createLineDestinationList(1));
+
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND name IN (?) AND destination IN (?) AND realtime IS NOT NULL GROUP BY delay;";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
 	public void sqlMultipleLineNames() throws Exception
 	{
 		final DelayRequestFixedTimeDB request = createDelayRequest();
@@ -70,6 +83,19 @@ public class DelayRequestFixedTimeDBTest
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND destination IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+	
+	@Test
+	public void sqlLineNamesAndDestinations() throws Exception
+	{
+		final DelayRequestFixedTimeDB request = createDelayRequest();
+		request.setLineNames(createLineNameList(2));
+		request.setLineDestinations(createLineDestinationList(2));
+
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND name IN (?, ?) AND destination IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
