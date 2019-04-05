@@ -9,6 +9,7 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.database.SQLListHelper;
 
 public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequestFixedTime
 {
@@ -105,29 +106,8 @@ public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequ
 		timestampStart.ifPresent(h -> stringBuilder.append(" AND timetabledTime >= ?"));
 		timestampEnd.ifPresent(h -> stringBuilder.append(" AND timetabledTime <= ?"));
 
-		if (!lineNames.isEmpty())
-		{
-			stringBuilder.append(" AND name IN (?");
-
-			for (int i = 1; i < lineNames.size(); i++)
-			{
-				stringBuilder.append(", ?");
-			}
-
-			stringBuilder.append(")");
-		}
-
-		if (!lineDestinations.isEmpty())
-		{
-			stringBuilder.append(" AND destination IN (?");
-
-			for (int i = 1; i < lineDestinations.size(); i++)
-			{
-				stringBuilder.append(", ?");
-			}
-
-			stringBuilder.append(")");
-		}
+		stringBuilder.append(SQLListHelper.createSQLFor(" AND name", lineNames));
+		stringBuilder.append(SQLListHelper.createSQLFor(" AND destination", lineDestinations));
 
 		return stringBuilder.append(realtimeNull ? " AND realtime IS NULL" : " AND realtime IS NOT NULL")
 				.append(" GROUP BY delay;").toString();
