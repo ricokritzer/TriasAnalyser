@@ -2,9 +2,12 @@ package de.dhbw.studienarbeit.data.reader.data.request;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
+import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 
 public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequestFixedTime
@@ -87,7 +90,7 @@ public class DelayRequestFixedTimeDB extends DelayRequestDB implements DelayRequ
 
 		for (LineDestination lineDestination : lineDestinations)
 		{
-			preparedStatement.setString(idx, lineDestination.toString());''
+			preparedStatement.setString(idx, lineDestination.toString());
 			idx++;
 		}
 	}
