@@ -15,6 +15,8 @@ import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTime;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTimeDB;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespanDB;
+import de.dhbw.studienarbeit.data.reader.data.request.LineDestinationsAtStationDB;
+import de.dhbw.studienarbeit.data.reader.data.request.LineNamesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
@@ -467,7 +469,7 @@ public class Data
 	{
 		try
 		{
-			return new LinesAtStationDB().getLineNamesFor(stationID, lineDestinations);
+			return new LineNamesAtStationDB().getLineNamesAt(stationID, lineDestinations);
 		}
 		catch (IOException e)
 		{
@@ -479,7 +481,7 @@ public class Data
 	{
 		try
 		{
-			return new LinesAtStationDB().getLineDestinationFor(stationID, lineNames);
+			return new LineDestinationsAtStationDB().getLineDestinationsAt(stationID, lineNames);
 		}
 		catch (IOException e)
 		{
