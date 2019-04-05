@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
@@ -67,6 +69,8 @@ import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindWO;
 
 public class Data
 {
+	private final static Logger LOGGER = Logger.getLogger(Data.class.getName());
+
 	private final CountLinesWO countLinesWO;
 	private final CountObservedStationsWO countObservedStationsWO;
 	private final CountObservedOperatorsWO countObservedOperatorsWO;
@@ -473,6 +477,7 @@ public class Data
 		}
 		catch (IOException e)
 		{
+			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
 			return new ArrayList<>();
 		}
 	}
@@ -485,6 +490,7 @@ public class Data
 		}
 		catch (IOException e)
 		{
+			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
 			return new ArrayList<>();
 		}
 	}
