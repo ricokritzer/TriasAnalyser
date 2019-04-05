@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.data.reader.data.request;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -12,9 +13,9 @@ import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
 public interface Request
 {
-	public CountData getCancelledStops();
+	public CountData getCancelledStops() throws IOException;
 
-	public List<DelayCountData> getDelays();
+	public List<DelayCountData> getDelays() throws IOException;
 
 	public List<LineName> getPossibleLineNames();
 
@@ -26,11 +27,11 @@ public interface Request
 
 	public Request filterWeekdays(Collection<Weekday> weekdays);
 
-	public Request filterStartDate(Date start);
+	public Request filterStartDate(Date start) throws InvalidTimeSpanException;
 
-	public Request filterEndDate(Date end);
+	public Request filterEndDate(Date end) throws InvalidTimeSpanException;
 
-	public Request filterStartHour(Hour hour);
+	public Request filterStartHour(Hour hour) throws InvalidTimeSpanException;
 
-	public Request filterEndHour(Hour hour);
+	public Request filterEndHour(Hour hour) throws InvalidTimeSpanException;
 }
