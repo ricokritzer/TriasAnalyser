@@ -20,17 +20,11 @@ import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.charts.AnalyseChart;
 import de.dhbw.studienarbeit.WebView.components.DateTimePicker;
-import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
-import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTime;
 import de.dhbw.studienarbeit.data.reader.data.request.InvalidTimeSpanException;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
-import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
-import de.dhbw.studienarbeit.data.reader.data.station.Position;
-import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.web.data.Data;
 
 @Route("analyseFixedTime")
@@ -110,7 +104,6 @@ public class AnalyseFixedTimeOverview extends Overview
 		end.setInvalid(false);
 		try
 		{
-			request.setLines(lines.getValue());
 			request.setTimestampStart(begin.getOptionalValue());
 			request.setTimestampEnd(end.getOptionalValue());
 

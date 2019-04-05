@@ -237,7 +237,7 @@ public class AnalyseOverview extends Overview
 
 	private void setLine()
 	{
-		request.setLines(lines.getValue());
+		
 	}
 
 	@SuppressWarnings("rawtypes")
