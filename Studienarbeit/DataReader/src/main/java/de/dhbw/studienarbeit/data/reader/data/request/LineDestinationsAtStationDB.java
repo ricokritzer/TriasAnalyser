@@ -42,7 +42,7 @@ public class LineDestinationsAtStationDB extends DB<LineDestination> implements 
 	{
 		preparedStatement.setString(1, stationID.getValue());
 
-		int i = 1;
+		int i = 2;
 		for (LineName name : names)
 		{
 			preparedStatement.setString(i, name.toString());
