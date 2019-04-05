@@ -9,10 +9,7 @@ import java.util.Optional;
 
 import org.junit.Test;
 
-import de.dhbw.studienarbeit.data.reader.data.line.Line;
-import de.dhbw.studienarbeit.data.reader.data.line.LineData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
-import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
@@ -191,11 +188,6 @@ public class DelayRequestTimespanDBTest
 	private DelayRequestTimespanDB createDelayRequest()
 	{
 		return new DelayRequestTimespanDB(new StationID("myStationName"));
-	}
-
-	private Line createLine()
-	{
-		return new LineData(new LineID(1), new LineName("foo"), new LineDestination("bar"));
 	}
 
 	private List<LineName> createLineNameList(int count)
