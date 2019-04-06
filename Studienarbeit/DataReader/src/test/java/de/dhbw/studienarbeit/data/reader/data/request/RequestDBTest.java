@@ -4,6 +4,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,15 @@ public class RequestDBTest
 	}
 
 	@Test
+	public void sqlStationNameOnlyString() throws Exception
+	{
+		final String stationName = "stationName";
+		final RequestDB request = createDelayRequest(stationName);
+
+		assertThat(request.toString(), is(stationName));
+	}
+
+	@Test
 	public void sqlStationNameAndWeekday() throws Exception
 	{
 		final RequestDB request = createDelayRequest();
@@ -43,6 +53,17 @@ public class RequestDBTest
 				+ " AND WEEKDAY(timetabledTime) IN (?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void sqlStationNameAndWeekdayString() throws Exception
+	{
+		final RequestDB request = createDelayRequest("Main Station");
+		request.filterWeekdays(Arrays.asList(Weekday.MONDAY));
+
+		final String string = "Main Station (Montag)";
+
+		assertThat(request.toString(), is(string));
 	}
 
 	@Test
@@ -276,9 +297,14 @@ public class RequestDBTest
 
 	private RequestDB createDelayRequest()
 	{
-		final StationData station = new StationData(new StationID("id"), new StationName("myStationName"),
-				new Position(0, 0), new OperatorName("foo"));
-		return new RequestDB(station);
+		return new RequestDB(new StationData(new StationID("id"), new StationName("myStationName"), new Position(0, 0),
+				new OperatorName("foo")));
+	}
+
+	private RequestDB createDelayRequest(String stationName)
+	{
+		return new RequestDB(new StationData(new StationID("id"), new StationName(stationName), new Position(0, 0),
+				new OperatorName("foo")));
 	}
 
 	private List<LineName> createLineNameList(int count)
@@ -286,7 +312,7 @@ public class RequestDBTest
 		final List<LineName> names = new ArrayList<>();
 		for (int i = 0; i < count; i++)
 		{
-			names.add(new LineName("foo"));
+			names.add(new LineName("myLineName"));
 		}
 		return names;
 	}

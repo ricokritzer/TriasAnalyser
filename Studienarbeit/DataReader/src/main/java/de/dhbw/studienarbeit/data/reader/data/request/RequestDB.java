@@ -296,6 +296,16 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	@Override
 	public String toString()
 	{
-		return new StringBuilder().append(station).toString();
+		final StringBuilder sb = new StringBuilder();
+		sb.append(station.getName());
+
+		if (!weekdays.isEmpty())
+		{
+			sb.append(" (");
+			weekdays.forEach(w -> sb.append(w.getName()));
+			sb.append(")");
+		}
+
+		return sb.toString();
 	}
 }
