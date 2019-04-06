@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -184,6 +185,91 @@ public class RequestDBTest
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
 				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) >= ? AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void setStartTimeWithoutEndDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		request.filterStartDate(new Date());
+	}
+
+	@Test
+	public void setEndTimeWithoutStartDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		request.filterEndDate(new Date());
+	}
+
+	@Test(expected = InvalidTimeSpanException.class)
+	public void setStartThanEndAndEndtimeBeforeStarttimeDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		request.filterStartDate(new Date());
+		request.filterEndDate(new Date(0));
+	}
+
+	@Test(expected = InvalidTimeSpanException.class)
+	public void setEndThanStartAndEndtimeBeforeStarttimeDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		request.filterEndDate(new Date(0));
+		request.filterStartDate(new Date());
+	}
+
+	@Test
+	public void setStartAndEndTimeSameValueDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		final Date date = new Date();
+
+		request.filterStartDate(date);
+		request.filterEndDate(date);
+	}
+
+	@Test
+	public void setValidStartAndEndTimeDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		request.filterStartDate(new Date());
+		request.filterEndDate(new Date());
+	}
+
+	@Test
+	public void sqlWithStartTimeDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		request.filterStartDate(new Date());
+
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND timetabledTime >= ? AND realtime IS NOT NULL GROUP BY delay;";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void sqlWithEndTimeDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		request.filterEndDate(new Date());
+
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND timetabledTime <= ? AND realtime IS NOT NULL GROUP BY delay;";
+
+		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void sqlWithStartAndEndTimeDate() throws Exception
+	{
+		final RequestDB request = createDelayRequest();
+		request.filterStartDate(new Date());
+		request.filterEndDate(new Date());
+
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
+				+ "FROM Stop WHERE stationID = ? AND timetabledTime >= ? AND timetabledTime <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
