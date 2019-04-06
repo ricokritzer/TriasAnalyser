@@ -293,18 +293,33 @@ public class RequestDB extends DB<DelayCountData> implements Request
 		return !e.before(s);
 	}
 
+	private String getString(List<? extends Object> objects)
+	{
+		if (objects.isEmpty())
+		{
+			return "";
+		}
+
+		final StringBuilder sb = new StringBuilder();
+		sb.append(" (" + objects.get(0));
+
+		for (int i = 1; i < objects.size(); i++)
+		{
+			sb.append(", ");
+			sb.append(objects.get(i));
+		}
+
+		sb.append(")");
+		return sb.toString();
+	}
+
 	@Override
 	public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append(station.getName());
 
-		if (!weekdays.isEmpty())
-		{
-			sb.append(" (");
-			weekdays.forEach(w -> sb.append(w.getName()));
-			sb.append(")");
-		}
+		sb.append(getString(weekdays));
 
 		return sb.toString();
 	}

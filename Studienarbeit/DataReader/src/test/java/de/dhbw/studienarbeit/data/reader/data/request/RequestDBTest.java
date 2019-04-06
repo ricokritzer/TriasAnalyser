@@ -80,6 +80,17 @@ public class RequestDBTest
 	}
 
 	@Test
+	public void sqlStationNameAndMultipleWeekdayString() throws Exception
+	{
+		final RequestDB request = createDelayRequest("Main Station");
+		request.filterWeekdays(Arrays.asList(Weekday.MONDAY, Weekday.SATURDAY));
+
+		final String string = "Main Station (Montag, Samstag)";
+
+		assertThat(request.toString(), is(string));
+	}
+
+	@Test
 	public void sqlLineNames() throws Exception
 	{
 		final RequestDB request = createDelayRequest();
