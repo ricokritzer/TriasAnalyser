@@ -231,6 +231,17 @@ public class RequestDBTest
 	}
 
 	@Test
+	public void stringWithStartTime() throws Exception
+	{
+		final RequestDB request = createDelayRequest("Station");
+		request.filterStartHour(Hour.HOUR1);
+
+		final String string = "Station ab: 1:00 Uhr";
+
+		assertThat(request.toString(), is(string));
+	}
+
+	@Test
 	public void sqlWithEndTime() throws Exception
 	{
 		final RequestDB request = createDelayRequest();
@@ -240,6 +251,17 @@ public class RequestDBTest
 				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void stringWithEndTime() throws Exception
+	{
+		final RequestDB request = createDelayRequest("Station");
+		request.filterEndHour(Hour.HOUR1);
+
+		final String string = "Station bis: 1:00 Uhr";
+
+		assertThat(request.toString(), is(string));
 	}
 
 	@Test
@@ -253,6 +275,18 @@ public class RequestDBTest
 				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) >= ? AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void stringWithStartAndEndTime() throws Exception
+	{
+		final RequestDB request = createDelayRequest("Station");
+		request.filterStartHour(Hour.HOUR1);
+		request.filterEndHour(Hour.HOUR10);
+
+		final String string = "Station ab: 1:00 Uhr bis: 10:00 Uhr";
+
+		assertThat(request.toString(), is(string));
 	}
 
 	@Test

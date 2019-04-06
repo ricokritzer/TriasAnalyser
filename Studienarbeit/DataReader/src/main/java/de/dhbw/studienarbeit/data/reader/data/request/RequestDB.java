@@ -318,11 +318,11 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append(station.getName());
-
 		sb.append(getString(weekdays));
 		sb.append(getString(lineNames));
-
 		sb.append(lineDestinations.isEmpty() ? "" : " ->" + getString(lineDestinations));
+		hourStart.ifPresent(start -> sb.append(" ab: " + start));
+		hourEnd.ifPresent(end -> sb.append(" bis: " + end));
 
 		return sb.toString();
 	}
