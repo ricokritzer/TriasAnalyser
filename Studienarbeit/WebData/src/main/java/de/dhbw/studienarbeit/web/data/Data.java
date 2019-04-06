@@ -25,6 +25,7 @@ import de.dhbw.studienarbeit.data.reader.data.request.RequestDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanData;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
@@ -501,8 +502,14 @@ public class Data
 		}
 	}
 
+	@Deprecated
 	public static Request createRequestFor(StationID stationID)
 	{
 		return new RequestDB(stationID);
+	}
+
+	public static Request createRequestFor(StationData station)
+	{
+		return new RequestDB(station);
 	}
 }
