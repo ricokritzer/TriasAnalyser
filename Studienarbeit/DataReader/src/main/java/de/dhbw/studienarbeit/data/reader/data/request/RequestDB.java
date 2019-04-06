@@ -322,6 +322,8 @@ public class RequestDB extends DB<DelayCountData> implements Request
 		sb.append(getString(weekdays));
 		sb.append(getString(lineNames));
 
+		sb.append(lineDestinations.isEmpty() ? "" : " ->" + getString(lineDestinations));
+
 		return sb.toString();
 	}
 }

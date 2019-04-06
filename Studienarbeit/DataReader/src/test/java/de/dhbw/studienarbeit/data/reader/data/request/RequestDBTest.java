@@ -150,6 +150,18 @@ public class RequestDBTest
 	}
 
 	@Test
+	public void stringLineNamesAndDestinations() throws Exception
+	{
+		final RequestDB request = createDelayRequest("Main Station");
+		request.filterLineNames(Arrays.asList(new LineName("Bus 100"), new LineName("S-Bahn S1")));
+		request.filterLineDestination(Arrays.asList(new LineDestination("Bahnhof"), new LineDestination("Ziel2")));
+
+		final String string = "Main Station (Bus 100, S-Bahn S1) -> (Bahnhof, Ziel2)";
+
+		assertThat(request.toString(), is(string));
+	}
+
+	@Test
 	public void sqlCount() throws Exception
 	{
 		final RequestDB request = createDelayRequest();
