@@ -11,7 +11,11 @@ import org.junit.Test;
 
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
+import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
@@ -186,7 +190,9 @@ public class RequestDBTest
 
 	private RequestDB createDelayRequest()
 	{
-		return new RequestDB(new StationID("myStationName"));
+		final StationData station = new StationData(new StationID("id"), new StationName("myStationName"),
+				new Position(0, 0), new OperatorName("foo"));
+		return new RequestDB(station);
 	}
 
 	private List<LineName> createLineNameList(int count)
