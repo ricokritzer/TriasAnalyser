@@ -28,4 +28,10 @@ public enum Weekday
 	{
 		return Arrays.asList(Weekday.values()).indexOf(this);
 	}
+
+	@Override
+	public String toString()
+	{
+		return name;
+	}
 }
