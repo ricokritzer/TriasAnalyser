@@ -15,7 +15,11 @@ import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
+import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
+import de.dhbw.studienarbeit.data.reader.data.station.StationData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.database.DB;
@@ -23,7 +27,7 @@ import de.dhbw.studienarbeit.data.reader.database.SQLListHelper;
 
 public class RequestDB extends DB<DelayCountData> implements Request
 {
-	private final StationID stationID;
+	private final StationData station;
 
 	private List<LineName> lineNames = new ArrayList<>();
 	private List<LineDestination> lineDestinations = new ArrayList<>();
@@ -36,9 +40,16 @@ public class RequestDB extends DB<DelayCountData> implements Request
 
 	private List<Weekday> weekdays = new ArrayList<>();
 
+	@Deprecated
 	public RequestDB(StationID stationID)
 	{
-		this.stationID = stationID;
+		this.station = new StationData(stationID, new StationName("Name nicht gesetzt"), new Position(0, 0),
+				new OperatorName(""));
+	}
+
+	public RequestDB(StationData station)
+	{
+		this.station = station;
 	}
 
 	@Override
@@ -63,13 +74,13 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	@Override
 	public List<LineName> getPossibleLineNames() throws IOException
 	{
-		return new LineNamesAtStationDB().getLineNamesAt(stationID, lineDestinations);
+		return new LineNamesAtStationDB().getLineNamesAt(station.getStationID(), lineDestinations);
 	}
 
 	@Override
 	public List<LineDestination> getPossibleLineDestinations() throws IOException
 	{
-		return new LineDestinationsAtStationDB().getLineDestinationsAt(stationID, lineNames);
+		return new LineDestinationsAtStationDB().getLineDestinationsAt(station.getStationID(), lineNames);
 	}
 
 	@Override
@@ -193,7 +204,7 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	private void setValues(PreparedStatement preparedStatement) throws SQLException
 	{
 		int idx = 1;
-		preparedStatement.setString(idx++, stationID.getValue());
+		preparedStatement.setString(idx++, station.getStationID().getValue());
 
 		if (startDate.isPresent())
 		{
@@ -280,5 +291,11 @@ public class RequestDB extends DB<DelayCountData> implements Request
 		final Hour e = end.get();
 
 		return !e.before(s);
+	}
+
+	@Override
+	public String toString()
+	{
+		return new StringBuilder().append(station).toString();
 	}
 }
