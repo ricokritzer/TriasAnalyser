@@ -320,6 +320,7 @@ public class RequestDB extends DB<DelayCountData> implements Request
 		sb.append(station.getName());
 
 		sb.append(getString(weekdays));
+		sb.append(getString(lineNames));
 
 		return sb.toString();
 	}

@@ -34,7 +34,7 @@ public class RequestDBTest
 	}
 
 	@Test
-	public void sqlStationNameOnlyString() throws Exception
+	public void stringStationNameOnly() throws Exception
 	{
 		final String stationName = "stationName";
 		final RequestDB request = createDelayRequest(stationName);
@@ -56,7 +56,7 @@ public class RequestDBTest
 	}
 
 	@Test
-	public void sqlStationNameAndWeekdayString() throws Exception
+	public void stringStationNameAndWeekday() throws Exception
 	{
 		final RequestDB request = createDelayRequest("Main Station");
 		request.filterWeekdays(Arrays.asList(Weekday.MONDAY));
@@ -80,7 +80,7 @@ public class RequestDBTest
 	}
 
 	@Test
-	public void sqlStationNameAndMultipleWeekdayString() throws Exception
+	public void stringStationNameAndMultipleWeekday() throws Exception
 	{
 		final RequestDB request = createDelayRequest("Main Station");
 		request.filterWeekdays(Arrays.asList(Weekday.MONDAY, Weekday.SATURDAY));
@@ -103,6 +103,17 @@ public class RequestDBTest
 	}
 
 	@Test
+	public void stringLineNames() throws Exception
+	{
+		final RequestDB request = createDelayRequest("Main Station");
+		request.filterLineNames(Arrays.asList(new LineName("Bus 100")));
+
+		final String string = "Main Station (Bus 100)";
+
+		assertThat(request.toString(), is(string));
+	}
+
+	@Test
 	public void sqlMultipleLineNames() throws Exception
 	{
 		final RequestDB request = createDelayRequest();
@@ -112,6 +123,17 @@ public class RequestDBTest
 				+ "FROM Stop WHERE stationID = ? AND name IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void stringMultipleLineNames() throws Exception
+	{
+		final RequestDB request = createDelayRequest("Main Station");
+		request.filterLineNames(Arrays.asList(new LineName("Bus 100"), new LineName("S-Bahn S1")));
+
+		final String string = "Main Station (Bus 100, S-Bahn S1)";
+
+		assertThat(request.toString(), is(string));
 	}
 
 	@Test
