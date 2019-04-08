@@ -225,7 +225,7 @@ public class Weather implements Manageable, Saveable
 
 		final Calendar c = Calendar.getInstance();
 		c.setTime(date);
-		c.add(Calendar.HOUR, 1);
+		c.add(Calendar.HOUR, 2);
 		preparedStatement.setTimestamp(3, new Timestamp(c.getTimeInMillis()));
 		preparedStatement.setDouble(4, temp);
 		preparedStatement.setDouble(5, humidity);
