@@ -15,6 +15,8 @@ import de.dhbw.studienarbeit.data.helper.database.saver.Saveable;
 
 public class Stop implements Saveable, Comparable<Stop>
 {
+	private static final int HOURS_BETWEEN_TRIAS_AND_SERVER_TIME = 4;
+
 	private String stationID;
 	private Date timeTabledTime;
 	private Optional<Date> realTime = Optional.empty();
@@ -96,14 +98,14 @@ public class Stop implements Saveable, Comparable<Stop>
 
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(timeTabledTime);
-		cal.add(Calendar.HOUR_OF_DAY, 3);
+		cal.add(Calendar.HOUR_OF_DAY, HOURS_BETWEEN_TRIAS_AND_SERVER_TIME);
 		preparedStatement.setTimestamp(4, new Timestamp(cal.getTimeInMillis()));
 
 		if (realTime.isPresent())
 		{
 			Date real = realTime.get();
 			cal.setTime(real);
-			cal.add(Calendar.HOUR_OF_DAY, 3);
+			cal.add(Calendar.HOUR_OF_DAY, HOURS_BETWEEN_TRIAS_AND_SERVER_TIME);
 			preparedStatement.setTimestamp(5, new Timestamp(cal.getTimeInMillis()));
 		}
 		else
