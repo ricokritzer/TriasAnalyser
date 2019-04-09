@@ -36,7 +36,7 @@ import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelati
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.Humidity;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureData;
+import de.dhbw.studienarbeit.data.reader.data.weather.pressure.Pressure;
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureData;
 import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherTextData;
@@ -285,7 +285,7 @@ public class Data
 		return getInstance().delayHumidityCorrelationCoefficientWO.getLastUpdated();
 	}
 
-	public static final List<DelayPressureData> getDelaysPressure()
+	public static final List<DelayData<Pressure>> getDelaysPressure()
 	{
 		return getInstance().delayPressureWO.getData();
 	}
