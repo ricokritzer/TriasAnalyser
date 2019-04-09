@@ -31,9 +31,4 @@ public class CancelledStopsWindDB extends DB<CancelledStopsData<Wind>> implement
 
 		return Optional.of(new CancelledStopsData<Wind>(wind, count));
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new CancelledStopsWindDB().getCancelledStops().forEach(e -> System.out.println(e));
-	}
 }
