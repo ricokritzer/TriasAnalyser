@@ -41,7 +41,7 @@ import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatu
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.Temperature;
 import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherTextData;
 import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindData;
+import de.dhbw.studienarbeit.data.reader.data.weather.wind.Wind;
 import de.dhbw.studienarbeit.web.data.counts.CountLinesWO;
 import de.dhbw.studienarbeit.web.data.counts.CountObservedOperatorsWO;
 import de.dhbw.studienarbeit.web.data.counts.CountObservedStationsWO;
@@ -245,7 +245,7 @@ public class Data
 		return getInstance().stationNeighbourWO.getLastUpdated();
 	}
 
-	public static final List<DelayWindData> getDelaysWind()
+	public static final List<DelayData<Wind>> getDelaysWind()
 	{
 		return getInstance().delayWindWO.getData();
 	}
