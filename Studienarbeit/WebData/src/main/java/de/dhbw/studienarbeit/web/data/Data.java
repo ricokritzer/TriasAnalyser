@@ -60,9 +60,7 @@ import de.dhbw.studienarbeit.web.data.time.DelayWeekdayWO;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.vehicletype.DelayVehicleTypeWO;
 import de.dhbw.studienarbeit.web.data.weather.clouds.CloudsWO;
-import de.dhbw.studienarbeit.web.data.weather.humidity.CancelledStopsHumidityWO;
-import de.dhbw.studienarbeit.web.data.weather.humidity.DelayHumidityCorrelationCoefficientWO;
-import de.dhbw.studienarbeit.web.data.weather.humidity.DelayHumidityWO;
+import de.dhbw.studienarbeit.web.data.weather.humidity.HumidityWO;
 import de.dhbw.studienarbeit.web.data.weather.pressure.CancelledStopsPressureWO;
 import de.dhbw.studienarbeit.web.data.weather.pressure.DelayPressureCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.pressure.DelayPressureWO;
@@ -77,7 +75,7 @@ import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindWO;
 
 public class Data
 {
-	private final static Logger LOGGER = Logger.getLogger(Data.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
 
 	private final CountLinesWO countLinesWO;
 	private final CountObservedStationsWO countObservedStationsWO;
@@ -101,14 +99,11 @@ public class Data
 	private final CancelledStopsTemperatureWO cancelledStopsTemperatureWO;
 
 	private final CloudsWO cloudsWO;
+	private final HumidityWO humidityWO;
 
 	private final DelayWindWO delayWindWO;
 	private final DelayWindCorrelationCoefficientWO delayWindCorrelationCoefficientWO;
 	private final CancelledStopsWindWO cancelledStopsWindWO;
-
-	private final DelayHumidityWO delayHumidityWO;
-	private final DelayHumidityCorrelationCoefficientWO delayHumidityCorrelationCoefficientWO;
-	private final CancelledStopsHumidityWO cancelledStopsHumidityWO;
 
 	private final DelayPressureWO delayPressureWO;
 	private final DelayPressureCorrelationCoefficientWO delayPressureCorrelationCoefficientWO;
@@ -143,14 +138,11 @@ public class Data
 		cancelledStopsTemperatureWO = new CancelledStopsTemperatureWO(updater);
 
 		cloudsWO = new CloudsWO(updater);
+		humidityWO = new HumidityWO(updater);
 
 		delayWindWO = new DelayWindWO(updater);
 		delayWindCorrelationCoefficientWO = new DelayWindCorrelationCoefficientWO(updater);
 		cancelledStopsWindWO = new CancelledStopsWindWO(updater);
-
-		delayHumidityWO = new DelayHumidityWO(updater);
-		delayHumidityCorrelationCoefficientWO = new DelayHumidityCorrelationCoefficientWO(updater);
-		cancelledStopsHumidityWO = new CancelledStopsHumidityWO(updater);
 
 		delayPressureWO = new DelayPressureWO(updater);
 		delayPressureCorrelationCoefficientWO = new DelayPressureCorrelationCoefficientWO(updater);
@@ -319,32 +311,40 @@ public class Data
 
 	public static final List<DelayData<Humidity>> getDelaysHumidity()
 	{
-		return getInstance().delayHumidityWO.getData();
+		return getInstance().humidityWO.getDelays();
 	}
 
+	/*
+	 * @Deprecated use getHumidityLastUpdated() instead
+	 */
+	@Deprecated
 	public static final Date getDelaysHumidityLastUpdated()
 	{
-		return getInstance().delayHumidityWO.getLastUpdated();
+		return getInstance().humidityWO.getLastUpdated();
 	}
 
 	public static final DelayHumidityCorrelationData getDelayHumidityCorrelationCoefficient()
 	{
-		return getInstance().delayHumidityCorrelationCoefficientWO.getCorrelation();
+		return getInstance().humidityWO.getCorrelation();
 	}
 
+	/*
+	 * @Deprecated use getHumidityLastUpdated() instead
+	 */
+	@Deprecated
 	public static final Date getDelayHumidityCorrelationCoefficientLastUpdated()
 	{
-		return getInstance().delayHumidityCorrelationCoefficientWO.getLastUpdated();
+		return getInstance().humidityWO.getLastUpdated();
 	}
 
 	public static final List<CancelledStopsData<Humidity>> getCancelledStopsHumidity()
 	{
-		return getInstance().cancelledStopsHumidityWO.getData();
+		return getInstance().humidityWO.getCancelledStops();
 	}
 
-	public static final Date getCancelledStopsHumidityLastUpdated()
+	public static final Date getHumidityLastUpdated()
 	{
-		return getInstance().cancelledStopsHumidityWO.getLastUpdated();
+		return getInstance().humidityWO.getLastUpdated();
 	}
 
 	public static final List<DelayData<Pressure>> getDelaysPressure()
