@@ -2,15 +2,15 @@ package de.dhbw.studienarbeit.data.reader.data.weather.clouds;
 
 public class Clouds
 {
-	private final int value;
+	private final long value;
 
-	public Clouds(int clouds)
+	public Clouds(long clouds)
 	{
 		super();
 		this.value = clouds;
 	}
 
-	public int getValue()
+	public long getValue()
 	{
 		return value;
 	}

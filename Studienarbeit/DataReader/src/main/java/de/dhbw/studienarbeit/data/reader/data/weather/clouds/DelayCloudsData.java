@@ -4,9 +4,9 @@ import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 
-public class DelayCloudsData extends DelayData<Clouds>
+public class DelayCloudsData extends DelayData<Double>
 {
-	public DelayCloudsData(DelayMaximum delayMaximum, DelayAverage delayAverage, Clouds clouds)
+	public DelayCloudsData(DelayMaximum delayMaximum, DelayAverage delayAverage, double clouds)
 	{
 		super(delayMaximum, delayAverage, clouds);
 	}
@@ -14,6 +14,6 @@ public class DelayCloudsData extends DelayData<Clouds>
 	@Override
 	public String getValueString()
 	{
-		return value.toString();
+		return new Clouds(Math.round(value)).toString();
 	}
 }

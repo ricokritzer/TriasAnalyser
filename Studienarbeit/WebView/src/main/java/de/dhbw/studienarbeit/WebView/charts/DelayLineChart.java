@@ -27,7 +27,7 @@ public class DelayLineChart extends Div
 		this.name = name;
 		data = new LineData().addLabels(getLabels());
 	}
-	
+
 	public DelayLineChart create()
 	{
 		add(new ChartJs(getChart()));
@@ -42,7 +42,7 @@ public class DelayLineChart extends Div
 
 		return new LineChart(data, options).toJson();
 	}
-	
+
 	public DelayLineChart withAvgData()
 	{
 		LineDataset datasetAvg = new LineDataset().setData(getAvgData()).setLabel(name + " Durchschnitt")
@@ -50,7 +50,7 @@ public class DelayLineChart extends Div
 		data.addDataset(datasetAvg);
 		return this;
 	}
-	
+
 	public DelayLineChart withMaxData()
 	{
 		LineDataset datasetMax = new LineDataset().setData(getMaxData()).setLabel(name + " Maximum")
