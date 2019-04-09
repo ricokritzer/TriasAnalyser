@@ -45,4 +45,10 @@ public enum TimeSpan
 	{
 		return Arrays.asList(TimeSpan.values()).indexOf(this);
 	}
+
+	@Override
+	public String toString()
+	{
+		return text;
+	}
 }
