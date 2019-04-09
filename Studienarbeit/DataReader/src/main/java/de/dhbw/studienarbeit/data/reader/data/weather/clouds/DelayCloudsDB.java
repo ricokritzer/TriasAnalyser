@@ -29,6 +29,6 @@ public class DelayCloudsDB extends DB<DelayCloudsData> implements DelayClouds
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 		final Clouds clouds = new Clouds(result.getInt(NAME));
 
-		return Optional.of(new DelayCloudsData(delayMaximum, delayAverage, clouds.getValue()));
+		return Optional.of(new DelayCloudsData(delayMaximum, delayAverage, clouds));
 	}
 }
