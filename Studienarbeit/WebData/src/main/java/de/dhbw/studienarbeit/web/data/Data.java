@@ -172,19 +172,9 @@ public class Data
 		return getInstance().temperatureWO.getDelays();
 	}
 
-	public static final Date getDelaysTemperatureLastUpdated()
-	{
-		return getInstance().temperatureWO.getLastUpdated();
-	}
-
 	public static final DelayTemperatureCorrelationData getDelayTemperatureCorrelationCoefficient()
 	{
 		return getInstance().temperatureWO.getCorrelation();
-	}
-
-	public static final Date getDelayTemperatureCorrelationCoefficientLastUpdated()
-	{
-		return getInstance().temperatureWO.getLastUpdated();
 	}
 
 	public static final List<CancelledStopsData<Temperature>> getCancelledStopsTemperature()
@@ -202,27 +192,9 @@ public class Data
 		return getInstance().cloudsWO.getDelays();
 	}
 
-	/*
-	 * @Deprecated use getCloudsLastUpdated();
-	 */
-	@Deprecated
-	public static final Date getDelaysCloudsLastUpdated()
-	{
-		return getInstance().cloudsWO.getLastUpdated();
-	}
-
 	public static final DelayCloudCorrelationData getDelayCloudsCorrelationCoefficient()
 	{
 		return getInstance().cloudsWO.getCorrelation();
-	}
-
-	/*
-	 * @Deprecated use getCloudsLastUpdated();
-	 */
-	@Deprecated
-	public static final Date getDelayCloudsCorrelationCoefficientLastUpdated()
-	{
-		return getInstance().cloudsWO.getLastUpdated();
 	}
 
 	public static final List<CancelledStopsData<Clouds>> getCancelledStopsClouds()
@@ -260,19 +232,9 @@ public class Data
 		return getInstance().windWO.getDelays();
 	}
 
-	public static final Date getDelaysWindLastUpdated()
-	{
-		return getInstance().windWO.getLastUpdated();
-	}
-
 	public static final DelayWindCorrelationData getDelayWindCorrelationCoefficient()
 	{
 		return getInstance().windWO.getCorrelation();
-	}
-
-	public static final Date getDelayWindCorrelationCoefficientLastUpdated()
-	{
-		return getInstance().windWO.getLastUpdated();
 	}
 
 	public static final List<CancelledStopsData<Wind>> getCancelledStopsWind()
@@ -290,27 +252,9 @@ public class Data
 		return getInstance().humidityWO.getDelays();
 	}
 
-	/*
-	 * @Deprecated use getHumidityLastUpdated() instead
-	 */
-	@Deprecated
-	public static final Date getDelaysHumidityLastUpdated()
-	{
-		return getInstance().humidityWO.getLastUpdated();
-	}
-
 	public static final DelayHumidityCorrelationData getDelayHumidityCorrelationCoefficient()
 	{
 		return getInstance().humidityWO.getCorrelation();
-	}
-
-	/*
-	 * @Deprecated use getHumidityLastUpdated() instead
-	 */
-	@Deprecated
-	public static final Date getDelayHumidityCorrelationCoefficientLastUpdated()
-	{
-		return getInstance().humidityWO.getLastUpdated();
 	}
 
 	public static final List<CancelledStopsData<Humidity>> getCancelledStopsHumidity()
@@ -328,19 +272,9 @@ public class Data
 		return getInstance().pressureWO.getDelays();
 	}
 
-	public static final Date getDelaysPressureLastUpdated()
-	{
-		return getInstance().pressureWO.getLastUpdated();
-	}
-
 	public static final DelayPressureCorrelationData getDelayPressureCorrelationCoefficient()
 	{
 		return getInstance().pressureWO.getCorrelation();
-	}
-
-	public static final Date getDelayPressureCorrelationCoefficientLastUpdated()
-	{
-		return getInstance().pressureWO.getLastUpdated();
 	}
 
 	public static final List<CancelledStopsData<Pressure>> getCancelledStopsPressure()
