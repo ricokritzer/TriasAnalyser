@@ -65,9 +65,7 @@ import de.dhbw.studienarbeit.web.data.weather.pressure.PressureWO;
 import de.dhbw.studienarbeit.web.data.weather.symbol.DelayWeatherSymbolWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.TemperatureWO;
 import de.dhbw.studienarbeit.web.data.weather.text.DelayWeatherTextWO;
-import de.dhbw.studienarbeit.web.data.weather.wind.CancelledStopsWindWO;
-import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindCorrelationCoefficientWO;
-import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindWO;
+import de.dhbw.studienarbeit.web.data.weather.wind.WindWO;
 
 public class Data
 {
@@ -94,10 +92,7 @@ public class Data
 	private final HumidityWO humidityWO;
 	private final PressureWO pressureWO;
 	private final TemperatureWO temperatureWO;
-
-	private final DelayWindWO delayWindWO;
-	private final DelayWindCorrelationCoefficientWO delayWindCorrelationCoefficientWO;
-	private final CancelledStopsWindWO cancelledStopsWindWO;
+	private final WindWO windWO;
 
 	private final DelayStationNeighbourWO stationNeighbourWO;
 
@@ -127,10 +122,7 @@ public class Data
 		humidityWO = new HumidityWO(updater);
 		pressureWO = new PressureWO(updater);
 		temperatureWO = new TemperatureWO(updater);
-
-		delayWindWO = new DelayWindWO(updater);
-		delayWindCorrelationCoefficientWO = new DelayWindCorrelationCoefficientWO(updater);
-		cancelledStopsWindWO = new CancelledStopsWindWO(updater);
+		windWO = new WindWO(updater);
 
 		delayWeatherTextWO = new DelayWeatherTextWO(updater);
 		delayWeatherSymbolWO = new DelayWeatherSymbolWO(updater);
@@ -265,32 +257,32 @@ public class Data
 
 	public static final List<DelayData<Wind>> getDelaysWind()
 	{
-		return getInstance().delayWindWO.getData();
+		return getInstance().windWO.getDelays();
 	}
 
 	public static final Date getDelaysWindLastUpdated()
 	{
-		return getInstance().delayWindWO.getLastUpdated();
+		return getInstance().windWO.getLastUpdated();
 	}
 
 	public static final DelayWindCorrelationData getDelayWindCorrelationCoefficient()
 	{
-		return getInstance().delayWindCorrelationCoefficientWO.getCorrelation();
+		return getInstance().windWO.getCorrelation();
 	}
 
 	public static final Date getDelayWindCorrelationCoefficientLastUpdated()
 	{
-		return getInstance().delayWindCorrelationCoefficientWO.getLastUpdated();
+		return getInstance().windWO.getLastUpdated();
 	}
 
 	public static final List<CancelledStopsData<Wind>> getCancelledStopsWind()
 	{
-		return getInstance().cancelledStopsWindWO.getData();
+		return getInstance().windWO.getCancelledStops();
 	}
 
-	public static final Date getCancelledStopsWindLastUpdated()
+	public static final Date getWindLastUpdated()
 	{
-		return getInstance().cancelledStopsWindWO.getLastUpdated();
+		return getInstance().windWO.getLastUpdated();
 	}
 
 	public static final List<DelayData<Humidity>> getDelaysHumidity()
