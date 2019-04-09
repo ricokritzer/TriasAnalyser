@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
@@ -58,16 +59,21 @@ import de.dhbw.studienarbeit.web.data.time.DelayTimeSpanWO;
 import de.dhbw.studienarbeit.web.data.time.DelayWeekdayWO;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.vehicletype.DelayVehicleTypeWO;
+import de.dhbw.studienarbeit.web.data.weather.clouds.CancelledStopsCloudsWO;
 import de.dhbw.studienarbeit.web.data.weather.clouds.DelayCloudsCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.clouds.DelayCloudsWO;
+import de.dhbw.studienarbeit.web.data.weather.humidity.CancelledStopsHumidityWO;
 import de.dhbw.studienarbeit.web.data.weather.humidity.DelayHumidityCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.humidity.DelayHumidityWO;
+import de.dhbw.studienarbeit.web.data.weather.pressure.CancelledStopsPressureWO;
 import de.dhbw.studienarbeit.web.data.weather.pressure.DelayPressureCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.pressure.DelayPressureWO;
 import de.dhbw.studienarbeit.web.data.weather.symbol.DelayWeatherSymbolWO;
+import de.dhbw.studienarbeit.web.data.weather.temperature.CancelledStopsTemperatureWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.temperature.DelayTemperatureWO;
 import de.dhbw.studienarbeit.web.data.weather.text.DelayWeatherTextWO;
+import de.dhbw.studienarbeit.web.data.weather.wind.CancelledStopsWindWO;
 import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindCorrelationCoefficientWO;
 import de.dhbw.studienarbeit.web.data.weather.wind.DelayWindWO;
 
@@ -94,14 +100,23 @@ public class Data
 
 	private final DelayTemperatureWO delayTemperatureWO;
 	private final DelayTemperatureCorrelationCoefficientWO delayTemperatureCorrelationCoefficientWO;
+	private final CancelledStopsTemperatureWO cancelledStopsTemperatureWO;
+
 	private final DelayCloudsWO delayCloudsWO;
 	private final DelayCloudsCorrelationCoefficientWO delayCloudsCorrelationCoefficientWO;
+	private final CancelledStopsCloudsWO cancelledStopsCloudsWO;
+
 	private final DelayWindWO delayWindWO;
 	private final DelayWindCorrelationCoefficientWO delayWindCorrelationCoefficientWO;
+	private final CancelledStopsWindWO cancelledStopsWindWO;
+
 	private final DelayHumidityWO delayHumidityWO;
 	private final DelayHumidityCorrelationCoefficientWO delayHumidityCorrelationCoefficientWO;
+	private final CancelledStopsHumidityWO cancelledStopsHumidityWO;
+
 	private final DelayPressureWO delayPressureWO;
 	private final DelayPressureCorrelationCoefficientWO delayPressureCorrelationCoefficientWO;
+	private final CancelledStopsPressureWO cancelledStopsPressureWO;
 
 	private final DelayStationNeighbourWO stationNeighbourWO;
 
@@ -129,18 +144,23 @@ public class Data
 
 		delayTemperatureWO = new DelayTemperatureWO(updater);
 		delayTemperatureCorrelationCoefficientWO = new DelayTemperatureCorrelationCoefficientWO(updater);
+		cancelledStopsTemperatureWO = new CancelledStopsTemperatureWO(updater);
 
 		delayCloudsWO = new DelayCloudsWO(updater);
 		delayCloudsCorrelationCoefficientWO = new DelayCloudsCorrelationCoefficientWO(updater);
+		cancelledStopsCloudsWO = new CancelledStopsCloudsWO(updater);
 
 		delayWindWO = new DelayWindWO(updater);
 		delayWindCorrelationCoefficientWO = new DelayWindCorrelationCoefficientWO(updater);
+		cancelledStopsWindWO = new CancelledStopsWindWO(updater);
 
 		delayHumidityWO = new DelayHumidityWO(updater);
 		delayHumidityCorrelationCoefficientWO = new DelayHumidityCorrelationCoefficientWO(updater);
+		cancelledStopsHumidityWO = new CancelledStopsHumidityWO(updater);
 
 		delayPressureWO = new DelayPressureWO(updater);
 		delayPressureCorrelationCoefficientWO = new DelayPressureCorrelationCoefficientWO(updater);
+		cancelledStopsPressureWO = new CancelledStopsPressureWO(updater);
 
 		delayWeatherTextWO = new DelayWeatherTextWO(updater);
 		delayWeatherSymbolWO = new DelayWeatherSymbolWO(updater);
@@ -205,6 +225,16 @@ public class Data
 		return getInstance().delayTemperatureCorrelationCoefficientWO.getLastUpdated();
 	}
 
+	public static final List<CancelledStopsData<Temperature>> getCancelledStopsTemperature()
+	{
+		return getInstance().cancelledStopsTemperatureWO.getData();
+	}
+
+	public static final Date getCancelledStopsTemperatureLastUpdated()
+	{
+		return getInstance().cancelledStopsTemperatureWO.getLastUpdated();
+	}
+
 	public static final List<DelayData<Clouds>> getDelaysClouds()
 	{
 		return getInstance().delayCloudsWO.getData();
@@ -223,6 +253,16 @@ public class Data
 	public static final Date getDelayCloudsCorrelationCoefficientLastUpdated()
 	{
 		return getInstance().delayCloudsCorrelationCoefficientWO.getLastUpdated();
+	}
+
+	public static final List<CancelledStopsData<Clouds>> getCancelledStopsClouds()
+	{
+		return getInstance().cancelledStopsCloudsWO.getData();
+	}
+
+	public static final Date getCancelledStopsCloudsLastUpdated()
+	{
+		return getInstance().cancelledStopsCloudsWO.getLastUpdated();
 	}
 
 	public static final List<DelayWeatherTextData> getDelaysWeatherText()
@@ -265,6 +305,16 @@ public class Data
 		return getInstance().delayWindCorrelationCoefficientWO.getLastUpdated();
 	}
 
+	public static final List<CancelledStopsData<Wind>> getCancelledStopsWind()
+	{
+		return getInstance().cancelledStopsWindWO.getData();
+	}
+
+	public static final Date getCancelledStopsWindLastUpdated()
+	{
+		return getInstance().cancelledStopsWindWO.getLastUpdated();
+	}
+
 	public static final List<DelayData<Humidity>> getDelaysHumidity()
 	{
 		return getInstance().delayHumidityWO.getData();
@@ -285,6 +335,16 @@ public class Data
 		return getInstance().delayHumidityCorrelationCoefficientWO.getLastUpdated();
 	}
 
+	public static final List<CancelledStopsData<Humidity>> getCancelledStopsHumidity()
+	{
+		return getInstance().cancelledStopsHumidityWO.getData();
+	}
+
+	public static final Date getCancelledStopsHumidityLastUpdated()
+	{
+		return getInstance().cancelledStopsHumidityWO.getLastUpdated();
+	}
+
 	public static final List<DelayData<Pressure>> getDelaysPressure()
 	{
 		return getInstance().delayPressureWO.getData();
@@ -303,6 +363,16 @@ public class Data
 	public static final Date getDelayPressureCorrelationCoefficientLastUpdated()
 	{
 		return getInstance().delayPressureCorrelationCoefficientWO.getLastUpdated();
+	}
+
+	public static final List<CancelledStopsData<Pressure>> getCancelledStopsPressure()
+	{
+		return getInstance().cancelledStopsPressureWO.getData();
+	}
+
+	public static final Date getCancelledStopsPressureLastUpdated()
+	{
+		return getInstance().cancelledStopsPressureWO.getLastUpdated();
 	}
 
 	public static final List<DelayWeekdayData> getDelaysWeekday()
