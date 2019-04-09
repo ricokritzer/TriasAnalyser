@@ -7,5 +7,5 @@ import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 
 public interface CancelledStopsClouds
 {
-	List<CancelledStopsData<Double>> getCancelledStops() throws IOException;
+	List<CancelledStopsData<Clouds>> getCancelledStops() throws IOException;
 }

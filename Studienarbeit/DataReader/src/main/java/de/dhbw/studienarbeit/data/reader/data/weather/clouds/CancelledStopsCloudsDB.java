@@ -11,24 +11,24 @@ import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
-public class CancelledStopsCloudsDB extends DB<CancelledStopsData<Double>> implements CancelledStopsClouds
+public class CancelledStopsCloudsDB extends DB<CancelledStopsData<Clouds>> implements CancelledStopsClouds
 {
 	private static final String FIELD = "ROUND(clouds, 0)";
 	private static final String NAME = "rounded";
 
 	@Override
-	public List<CancelledStopsData<Double>> getCancelledStops() throws IOException
+	public List<CancelledStopsData<Clouds>> getCancelledStops() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQLCancelledStops(FIELD, NAME);
 		return readFromDatabase(sql);
 	}
 
 	@Override
-	protected Optional<CancelledStopsData<Double>> getValue(ResultSet result) throws SQLException
+	protected Optional<CancelledStopsData<Clouds>> getValue(ResultSet result) throws SQLException
 	{
 		final CountData count = new CountData(result.getLong("total"));
-		final double clouds = result.getDouble(NAME);
+		final Clouds clouds = new Clouds(result.getInt(NAME));
 
-		return Optional.of(new CancelledStopsData<Double>(clouds, count));
+		return Optional.of(new CancelledStopsData<Clouds>(clouds, count));
 	}
 }
