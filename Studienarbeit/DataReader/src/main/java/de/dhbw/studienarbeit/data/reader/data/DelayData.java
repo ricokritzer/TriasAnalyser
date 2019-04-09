@@ -1,6 +1,6 @@
 package de.dhbw.studienarbeit.data.reader.data;
 
-public abstract class DelayData<T>
+public class DelayData<T>
 {
 	private final DelayMaximum delayMaximum;
 	private final DelayAverage delayAverage;

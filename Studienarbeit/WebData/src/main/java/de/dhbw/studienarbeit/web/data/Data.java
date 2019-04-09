@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
@@ -30,8 +31,8 @@ import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanData;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
+import de.dhbw.studienarbeit.data.reader.data.weather.clouds.Clouds;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudsData;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityData;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelationData;
@@ -204,7 +205,7 @@ public class Data
 		return getInstance().delayTemperatureCorrelationCoefficientWO.getLastUpdated();
 	}
 
-	public static final List<DelayCloudsData> getDelaysClouds()
+	public static final List<DelayData<Clouds>> getDelaysClouds()
 	{
 		return getInstance().delayCloudsWO.getData();
 	}
