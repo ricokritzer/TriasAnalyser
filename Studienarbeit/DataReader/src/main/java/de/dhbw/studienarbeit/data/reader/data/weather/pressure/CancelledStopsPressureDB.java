@@ -9,29 +9,27 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
-import de.dhbw.studienarbeit.data.reader.data.weather.humidity.CancelledStopsHumidity;
-import de.dhbw.studienarbeit.data.reader.data.weather.humidity.Humidity;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
-public class CancelledStopsPressureDB extends DB<CancelledStopsData<Humidity>> implements CancelledStopsHumidity
+public class CancelledStopsPressureDB extends DB<CancelledStopsData<Pressure>> implements CancelledStopsPressure
 {
-	private static final String FIELD = "ROUND(humidity, 0)";
+	private static final String FIELD = "ROUND(pressure, 0)";
 	private static final String NAME = "rounded";
 
 	@Override
-	public List<CancelledStopsData<Humidity>> getCancelledStops() throws IOException
+	public List<CancelledStopsData<Pressure>> getCancelledStops() throws IOException
 	{
 		final String sql = DelayWeatherDBHelper.buildSQLCancelledStops(FIELD, NAME);
 		return readFromDatabase(sql);
 	}
 
 	@Override
-	protected Optional<CancelledStopsData<Humidity>> getValue(ResultSet result) throws SQLException
+	protected Optional<CancelledStopsData<Pressure>> getValue(ResultSet result) throws SQLException
 	{
 		final CountData count = new CountData(result.getLong("total"));
-		final Humidity humidity = new Humidity(result.getInt(NAME));
+		final Pressure humidity = new Pressure(result.getInt(NAME));
 
-		return Optional.of(new CancelledStopsData<Humidity>(humidity, count));
+		return Optional.of(new CancelledStopsData<Pressure>(humidity, count));
 	}
 
 	public static void main(String[] args) throws IOException
