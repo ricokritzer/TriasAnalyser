@@ -20,7 +20,7 @@ public class CancelledStopsTemperatureDB extends DB<CancelledStopsData<Temperatu
 	@Override
 	public List<CancelledStopsData<Temperature>> getCancelledStops() throws IOException
 	{
-		final String sql = DelayWeatherDBHelper.buildSQLCancelledStops(FIELD, NAME);
+		final String sql = DelayWeatherDBHelper.buildSQLCountCancelledStops(FIELD, NAME);
 		return readFromDatabase(sql);
 	}
 

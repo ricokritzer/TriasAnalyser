@@ -19,7 +19,7 @@ public class CancelledStopsWindDB extends DB<CancelledStopsData<Wind>> implement
 	@Override
 	public List<CancelledStopsData<Wind>> getCancelledStops() throws IOException
 	{
-		final String sql = DelayWeatherDBHelper.buildSQLCancelledStops(FIELD, NAME);
+		final String sql = DelayWeatherDBHelper.buildSQLCountCancelledStops(FIELD, NAME);
 		return readFromDatabase(sql);
 	}
 
