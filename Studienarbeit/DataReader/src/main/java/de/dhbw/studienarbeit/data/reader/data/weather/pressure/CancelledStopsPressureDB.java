@@ -31,9 +31,4 @@ public class CancelledStopsPressureDB extends DB<CancelledStopsData<Pressure>> i
 
 		return Optional.of(new CancelledStopsData<Pressure>(humidity, count));
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new CancelledStopsPressureDB().getCancelledStops().forEach(e -> System.out.println(e));
-	}
 }
