@@ -14,4 +14,10 @@ public class Temperature
 	{
 		return value;
 	}
+
+	@Override
+	public String toString()
+	{
+		return new StringBuilder().append(value).append("°C").toString();
+	}
 }
