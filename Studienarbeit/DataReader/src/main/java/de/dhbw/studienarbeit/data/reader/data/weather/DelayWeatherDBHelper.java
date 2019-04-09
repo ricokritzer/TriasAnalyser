@@ -7,7 +7,7 @@ public class DelayWeatherDBHelper
 
 	public static String buildSQL(final String what, final String name)
 	{
-		return new StringBuilder().append("SELECT ")
+		return new StringBuilder().append("SELECT ").append("count(*) AS total, ")
 				.append("avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, ")
 				.append("max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, ")
 				.append(what).append(" AS ").append(name).append(" FROM StopWeather, Stop, Weather ")

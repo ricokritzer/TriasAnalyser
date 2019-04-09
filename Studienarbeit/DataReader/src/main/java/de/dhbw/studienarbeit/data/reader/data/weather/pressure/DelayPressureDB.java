@@ -9,6 +9,7 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
@@ -28,8 +29,9 @@ public class DelayPressureDB extends DB<DelayData<Pressure>> implements DelayPre
 	{
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
+		final CountData count = new CountData(result.getInt("total"));
 		final Pressure pressure = new Pressure(result.getInt(NAME));
 
-		return Optional.of(new DelayData<Pressure>(delayMaximum, delayAverage, pressure));
+		return Optional.of(new DelayData<Pressure>(delayMaximum, delayAverage, count, pressure));
 	}
 }

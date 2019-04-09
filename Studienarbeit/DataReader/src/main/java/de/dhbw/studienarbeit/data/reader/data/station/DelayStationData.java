@@ -3,21 +3,23 @@ package de.dhbw.studienarbeit.data.reader.data.station;
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
 public class DelayStationData extends DelayData<StationData>
 {
-	private final int count;
-
 	public DelayStationData(DelayMaximum maximum, DelayAverage average, StationID stationID, StationName stationName,
-			OperatorName operator, Position position, int count)
+			OperatorName operator, Position position, CountData count)
 	{
-		super(maximum, average, new StationData(stationID, stationName, position, operator));
-		this.count = count;
+		super(maximum, average, count, new StationData(stationID, stationName, position, operator));
 	}
 
-	public int getCount()
+	/*
+	 * @Deprecated use getCount instead.
+	 */
+	@Deprecated
+	public int getCountValue()
 	{
-		return count;
+		return (int) super.getCount().getValue();
 	}
 
 	public StationID getStationID()

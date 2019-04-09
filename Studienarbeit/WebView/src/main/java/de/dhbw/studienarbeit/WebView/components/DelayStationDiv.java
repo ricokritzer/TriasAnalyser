@@ -40,8 +40,9 @@ public class DelayStationDiv extends Div
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
 				.setComparator((db1, db2) -> db1.getMaximum().compareTo(db2.getMaximum())).setSortable(true);
-		grid.addColumn(db -> convertToRating(db.getCount())).setHeader("Datengrundlage")
-				.setComparator((db1, db2) -> Integer.compare(db1.getCount(), db2.getCount())).setSortable(true);
+		grid.addColumn(db -> convertToRating(db.getCountValue())).setHeader("Datengrundlage")
+				.setComparator((db1, db2) -> Integer.compare(db1.getCountValue(), db2.getCountValue()))
+				.setSortable(true);
 
 		grid.setHeight("70vh");
 		grid.setSelectionMode(SelectionMode.NONE);

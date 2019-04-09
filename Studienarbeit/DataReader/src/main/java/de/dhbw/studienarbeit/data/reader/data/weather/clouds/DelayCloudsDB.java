@@ -9,6 +9,7 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
@@ -28,8 +29,9 @@ public class DelayCloudsDB extends DB<DelayData<Clouds>> implements DelayClouds
 	{
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
+		final CountData count = new CountData(result.getInt("total"));
 		final Clouds clouds = new Clouds(result.getInt(NAME));
 
-		return Optional.of(new DelayData<Clouds>(delayMaximum, delayAverage, clouds));
+		return Optional.of(new DelayData<Clouds>(delayMaximum, delayAverage, count, clouds));
 	}
 }

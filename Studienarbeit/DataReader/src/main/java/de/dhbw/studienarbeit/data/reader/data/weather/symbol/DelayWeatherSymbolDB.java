@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
 public class DelayWeatherSymbolDB extends DB<DelayWeatherSymbolData> implements DelayWeatherSymbol
@@ -33,8 +34,9 @@ public class DelayWeatherSymbolDB extends DB<DelayWeatherSymbolData> implements 
 	{
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
+		final CountData count = new CountData(result.getInt("total"));
 		final WeatherSymbol symbol = new WeatherSymbol(result.getString("icon"));
 
-		return Optional.of(new DelayWeatherSymbolData(delayMaximum, delayAverage, symbol));
+		return Optional.of(new DelayWeatherSymbolData(delayMaximum, delayAverage, count, symbol));
 	}
 }

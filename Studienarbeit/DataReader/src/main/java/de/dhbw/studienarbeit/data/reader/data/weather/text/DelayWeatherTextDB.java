@@ -8,13 +8,14 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
 public class DelayWeatherTextDB extends DB<DelayWeatherTextData> implements DelayWeatherText
 {
 	public static String getSQL()
 	{
-		return "SELECT avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
+		return "SELECT count(*) AS total, avg(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(Stop.realTime) - UNIX_TIMESTAMP(Stop.timeTabledTime)) AS delay_max, "
 				+ "textDE FROM StopWeather, Stop, Weather, WeatherInformation "
 				+ "WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id "
@@ -32,8 +33,14 @@ public class DelayWeatherTextDB extends DB<DelayWeatherTextData> implements Dela
 	{
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
+		final CountData count = new CountData(result.getInt("total"));
 		final WeatherText textDE = new WeatherText(result.getString("textDE"));
 
-		return Optional.of(new DelayWeatherTextData(delayMaximum, delayAverage, textDE));
+		return Optional.of(new DelayWeatherTextData(delayMaximum, delayAverage, count, textDE));
+	}
+
+	public static void main(String[] args) throws IOException
+	{
+		new DelayWeatherTextDB().getDelays().forEach(e -> System.out.println(e));
 	}
 }

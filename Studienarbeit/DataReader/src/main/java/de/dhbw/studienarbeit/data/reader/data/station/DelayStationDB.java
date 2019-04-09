@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
+import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
 public class DelayStationDB extends DB<DelayStationData> implements DelayStation
@@ -30,7 +31,7 @@ public class DelayStationDB extends DB<DelayStationData> implements DelayStation
 		final StationName name = new StationName(result.getString("name"));
 		final OperatorName operator = new OperatorName(result.getString("displayName"));
 		final Position position = new Position(result.getDouble("lat"), result.getDouble("lon"));
-		final int count = result.getInt("count");
+		final CountData count = new CountData(result.getInt("count"));
 
 		return Optional.of(new DelayStationData(maximum, average, stationID, name, operator, position, count));
 	}
