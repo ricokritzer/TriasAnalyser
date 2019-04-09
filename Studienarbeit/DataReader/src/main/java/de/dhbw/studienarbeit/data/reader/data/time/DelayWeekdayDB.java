@@ -29,9 +29,4 @@ public class DelayWeekdayDB extends DB<DelayWeekdayData> implements DelayWeekday
 
 		return Optional.of(new DelayWeekdayData(delayMaximum, delayAverage, count, value));
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new DelayWeekdayDB().getDelays().forEach(e -> System.out.println(e));
-	}
 }

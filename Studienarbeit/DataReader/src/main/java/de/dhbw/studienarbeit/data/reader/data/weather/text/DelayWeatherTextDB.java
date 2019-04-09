@@ -38,9 +38,4 @@ public class DelayWeatherTextDB extends DB<DelayWeatherTextData> implements Dela
 
 		return Optional.of(new DelayWeatherTextData(delayMaximum, delayAverage, count, textDE));
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new DelayWeatherTextDB().getDelays().forEach(e -> System.out.println(e));
-	}
 }

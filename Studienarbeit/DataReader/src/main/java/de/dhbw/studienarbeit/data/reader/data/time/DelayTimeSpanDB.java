@@ -29,9 +29,4 @@ public class DelayTimeSpanDB extends DB<DelayTimeSpanData> implements DelayTimeS
 
 		return Optional.of(new DelayTimeSpanData(delayMaximum, delayAverage, count, value));
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new DelayTimeSpanDB().getDelays().forEach(e -> System.out.println(e));
-	}
 }

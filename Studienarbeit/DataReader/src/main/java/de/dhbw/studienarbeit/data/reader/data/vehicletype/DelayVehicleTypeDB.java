@@ -32,9 +32,4 @@ public class DelayVehicleTypeDB extends DB<DelayVehicleTypeData> implements Dela
 
 		return Optional.of(new DelayVehicleTypeData(delayMaximum, delayAverage, count, type));
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new DelayVehicleTypeDB().getDelays().forEach(e -> System.out.println(e));
-	}
 }

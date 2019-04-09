@@ -36,9 +36,4 @@ public class DelayLineDB extends DB<DelayLineData> implements DelayLine
 
 		return Optional.of(new DelayLineData(delayMaximum, delayAverage, count, line));
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new DelayLineDB().getDelays().forEach(e -> System.out.println(e));
-	}
 }
