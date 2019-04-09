@@ -17,13 +17,13 @@ import de.dhbw.studienarbeit.data.reader.data.DelayData;
 public class DelayLineChart extends Div
 {
 	private static final long serialVersionUID = 1L;
-	private List<? extends DelayData<Double>> delayWO;
+	private List<? extends DelayData<? extends Object>> delayWO;
 	private String name;
 	private LineData data;
 
-	public DelayLineChart(List<? extends DelayData<Double>> delayWO, String name)
+	public DelayLineChart(List<? extends DelayData<? extends Object>> delayList, String name)
 	{
-		this.delayWO = delayWO;
+		this.delayWO = delayList;
 		this.name = name;
 		data = new LineData().addLabels(getLabels());
 	}
