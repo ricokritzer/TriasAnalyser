@@ -3,9 +3,9 @@ package de.dhbw.studienarbeit.data.reader.data.weather.text;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDB;
 
-public class DelayWeatherTextDB extends DelayDB<WeatherText>
+public class DelayWeatherTextDB extends DelayWeatherDB<WeatherText>
 {
 	@Override
 	protected WeatherText getElement(ResultSet result) throws SQLException

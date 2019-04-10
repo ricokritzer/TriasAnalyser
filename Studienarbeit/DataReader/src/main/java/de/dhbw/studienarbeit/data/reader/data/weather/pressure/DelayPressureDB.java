@@ -3,9 +3,9 @@ package de.dhbw.studienarbeit.data.reader.data.weather.pressure;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayDB;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDB;
 
-public class DelayPressureDB extends DelayDB<Pressure>
+public class DelayPressureDB extends DelayWeatherDB<Pressure>
 {
 	private static final String FIELD = "Round(pressure,0)";
 	private static final String NAME = "rounded";
