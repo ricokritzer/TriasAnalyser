@@ -1,12 +1,7 @@
 package de.dhbw.studienarbeit.web.data.weather.temperature;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
-import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
@@ -16,58 +11,36 @@ import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatu
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.Temperature;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
-import de.dhbw.studienarbeit.web.data.update.Updateable;
+import de.dhbw.studienarbeit.web.data.weather.WeatherWO;
 
-public class TemperatureWO extends Updateable
+public class TemperatureWO extends WeatherWO<Temperature>
 {
-	private CancelledStops<Temperature> updaterCancelledStops = new CancelledStopsTemperatureDB();
-	private DelayCorrelation<Temperature> updaterCorrelation = new DelayTemperatureCorrelationDB();
-	private Delays<Temperature> updaterDelays = new DelayTemperatureDB();
-
-	private List<CancelledStopsData<Temperature>> cancelledStops = new ArrayList<>();
-	private DelayCorrelationData<Temperature> correlation = new DelayCorrelationData<>(0.0, Temperature.class);
-	private List<DelayData<Temperature>> delays = new ArrayList<>();
-
 	public TemperatureWO(Optional<DataUpdater> updater)
 	{
-		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
+		super(updater);
 	}
 
 	@Override
-	protected void updateData() throws IOException
+	protected Delays<Temperature> getDefaultUpdaterDelays()
 	{
-		cancelledStops = updaterCancelledStops.getCancelledStops();
-		correlation = updaterCorrelation.getDelayCorrelation();
-		delays = updaterDelays.getDelays();
+		return new DelayTemperatureDB();
 	}
 
-	public List<CancelledStopsData<Temperature>> getCancelledStops()
+	@Override
+	protected DelayCorrelation<Temperature> getDefaultUpdaterCorrelation()
 	{
-		return cancelledStops;
+		return new DelayTemperatureCorrelationDB();
 	}
 
-	public DelayCorrelationData<Temperature> getCorrelation()
+	@Override
+	protected CancelledStops<Temperature> getDefaultUpdaterCancelledStops()
 	{
-		return correlation;
+		return new CancelledStopsTemperatureDB();
 	}
 
-	public List<DelayData<Temperature>> getDelays()
+	@Override
+	protected DelayCorrelationData<Temperature> getDefaultCorrelation()
 	{
-		return delays;
-	}
-
-	public void setUpdaterCancelledStops(CancelledStops<Temperature> updaterCancelledStops)
-	{
-		this.updaterCancelledStops = updaterCancelledStops;
-	}
-
-	public void setUpdaterCorrelation(DelayCorrelation<Temperature> updaterCorrelation)
-	{
-		this.updaterCorrelation = updaterCorrelation;
-	}
-
-	public void setUpdaterDelays(Delays<Temperature> updaterDelays)
-	{
-		this.updaterDelays = updaterDelays;
+		return new DelayCorrelationData<>(0.0, Temperature.class);
 	}
 }
