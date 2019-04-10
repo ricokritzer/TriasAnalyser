@@ -34,4 +34,7 @@ public interface Request
 	public Request filterStartHour(Hour hour) throws InvalidTimeSpanException;
 
 	public Request filterEndHour(Hour hour) throws InvalidTimeSpanException;
+
+	@Override
+	public String toString();
 }
