@@ -4,16 +4,11 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.DelayAverage;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
-import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
-import de.dhbw.studienarbeit.data.reader.data.count.CountData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
-import de.dhbw.studienarbeit.data.reader.database.DB;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayDB;
 
-public class DelayWeatherTextDB extends DB<DelayData<WeatherText>> implements Delays<WeatherText>
+public class DelayWeatherTextDB extends DelayDB<WeatherText>
 {
 	public static String getSQL()
 	{
@@ -32,14 +27,9 @@ public class DelayWeatherTextDB extends DB<DelayData<WeatherText>> implements De
 	}
 
 	@Override
-	protected Optional<DelayData<WeatherText>> getValue(ResultSet result) throws SQLException
+	protected WeatherText getElement(ResultSet result) throws SQLException
 	{
-		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
-		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
-		final CountData count = new CountData(result.getInt("total"));
-		final WeatherText textDE = new WeatherText(result.getString("textDE"));
-
-		return Optional.of(new DelayData<WeatherText>(delayMaximum, delayAverage, count, textDE));
+		return new WeatherText(result.getString("textDE"));
 	}
 
 }
