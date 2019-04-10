@@ -7,12 +7,12 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
-import de.dhbw.studienarbeit.data.reader.data.weather.wind.CancelledStopsWind;
+import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
 import de.dhbw.studienarbeit.data.reader.data.weather.wind.CancelledStopsWindDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWind;
-import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindCorrelationDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.wind.Wind;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -20,12 +20,12 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class WindWO extends Updateable
 {
-	private CancelledStopsWind updaterCancelledStops = new CancelledStopsWindDB();
-	private DelayWindCorrelation updaterCorrelation = new DelayWindCorrelationDB();
-	private DelayWind updaterDelays = new DelayWindDB();
+	private CancelledStops<Wind> updaterCancelledStops = new CancelledStopsWindDB();
+	private DelayCorrelation<Wind> updaterCorrelation = new DelayWindCorrelationDB();
+	private Delays<Wind> updaterDelays = new DelayWindDB();
 
 	private List<CancelledStopsData<Wind>> cancelledStops = new ArrayList<>();
-	private DelayWindCorrelationData correlation = new DelayWindCorrelationData(0.0);
+	private DelayCorrelationData<Wind> correlation = new DelayCorrelationData<>(0.0, Wind.class);
 	private List<DelayData<Wind>> delays = new ArrayList<>();
 
 	public WindWO(Optional<DataUpdater> updater)
@@ -37,7 +37,7 @@ public class WindWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		cancelledStops = updaterCancelledStops.getCancelledStops();
-		correlation = updaterCorrelation.getDelayWindCorrelation();
+		correlation = updaterCorrelation.getDelayCorrelation();
 		delays = updaterDelays.getDelays();
 	}
 
@@ -46,7 +46,7 @@ public class WindWO extends Updateable
 		return cancelledStops;
 	}
 
-	public DelayWindCorrelationData getCorrelation()
+	public DelayCorrelationData<Wind> getCorrelation()
 	{
 		return correlation;
 	}
@@ -56,17 +56,17 @@ public class WindWO extends Updateable
 		return delays;
 	}
 
-	public void setUpdaterCancelledStops(CancelledStopsWind updaterCancelledStops)
+	public void setUpdaterCancelledStops(CancelledStops<Wind> updaterCancelledStops)
 	{
 		this.updaterCancelledStops = updaterCancelledStops;
 	}
 
-	public void setUpdaterCorrelation(DelayWindCorrelation updaterCorrelation)
+	public void setUpdaterCorrelation(DelayCorrelation<Wind> updaterCorrelation)
 	{
 		this.updaterCorrelation = updaterCorrelation;
 	}
 
-	public void setUpdaterDelays(DelayWind updaterDelays)
+	public void setUpdaterDelays(Delays<Wind> updaterDelays)
 	{
 		this.updaterDelays = updaterDelays;
 	}

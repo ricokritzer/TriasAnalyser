@@ -7,12 +7,12 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
-import de.dhbw.studienarbeit.data.reader.data.weather.pressure.CancelledStopsPressure;
+import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.CancelledStopsPressureDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressure;
-import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelationDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.Pressure;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -20,12 +20,12 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class PressureWO extends Updateable
 {
-	private CancelledStopsPressure updaterCancelledStops = new CancelledStopsPressureDB();
-	private DelayPressureCorrelation updaterCorrelation = new DelayPressureCorrelationDB();
-	private DelayPressure updaterDelays = new DelayPressureDB();
+	private CancelledStops<Pressure> updaterCancelledStops = new CancelledStopsPressureDB();
+	private DelayCorrelation<Pressure> updaterCorrelation = new DelayPressureCorrelationDB();
+	private Delays<Pressure> updaterDelays = new DelayPressureDB();
 
 	private List<CancelledStopsData<Pressure>> cancelledStops = new ArrayList<>();
-	private DelayPressureCorrelationData correlation = new DelayPressureCorrelationData(0.0);
+	private DelayCorrelationData<Pressure> correlation = new DelayCorrelationData<>(0.0, Pressure.class);
 	private List<DelayData<Pressure>> delays = new ArrayList<>();
 
 	public PressureWO(Optional<DataUpdater> updater)
@@ -37,7 +37,7 @@ public class PressureWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		cancelledStops = updaterCancelledStops.getCancelledStops();
-		correlation = updaterCorrelation.getDelayPressureCorrelation();
+		correlation = updaterCorrelation.getDelayCorrelation();
 		delays = updaterDelays.getDelays();
 	}
 
@@ -46,7 +46,7 @@ public class PressureWO extends Updateable
 		return cancelledStops;
 	}
 
-	public DelayPressureCorrelationData getCorrelation()
+	public DelayCorrelationData<Pressure> getCorrelation()
 	{
 		return correlation;
 	}
@@ -56,17 +56,17 @@ public class PressureWO extends Updateable
 		return delays;
 	}
 
-	public void setUpdaterCancelledStops(CancelledStopsPressure updaterCancelledStops)
+	public void setUpdaterCancelledStops(CancelledStops<Pressure> updaterCancelledStops)
 	{
 		this.updaterCancelledStops = updaterCancelledStops;
 	}
 
-	public void setUpdaterCorrelation(DelayPressureCorrelation updaterCorrelation)
+	public void setUpdaterCorrelation(DelayCorrelation<Pressure> updaterCorrelation)
 	{
 		this.updaterCorrelation = updaterCorrelation;
 	}
 
-	public void setUpdaterDelays(DelayPressure updaterDelays)
+	public void setUpdaterDelays(Delays<Pressure> updaterDelays)
 	{
 		this.updaterDelays = updaterDelays;
 	}

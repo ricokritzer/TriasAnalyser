@@ -32,16 +32,12 @@ import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanData;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.Clouds;
-import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.Humidity;
-import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.Pressure;
-import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.Temperature;
 import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherTextData;
-import de.dhbw.studienarbeit.data.reader.data.weather.wind.DelayWindCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.wind.Wind;
 import de.dhbw.studienarbeit.web.data.counts.CountLinesWO;
 import de.dhbw.studienarbeit.web.data.counts.CountObservedOperatorsWO;
@@ -172,7 +168,7 @@ public class Data
 		return getInstance().temperatureWO.getDelays();
 	}
 
-	public static final DelayTemperatureCorrelationData getDelayTemperatureCorrelationCoefficient()
+	public static final DelayCorrelationData<Temperature> getDelayTemperatureCorrelationCoefficient()
 	{
 		return getInstance().temperatureWO.getCorrelation();
 	}
@@ -192,7 +188,7 @@ public class Data
 		return getInstance().cloudsWO.getDelays();
 	}
 
-	public static final DelayCloudCorrelationData getDelayCloudsCorrelationCoefficient()
+	public static final DelayCorrelationData<Clouds> getDelayCloudsCorrelationCoefficient()
 	{
 		return getInstance().cloudsWO.getCorrelation();
 	}
@@ -232,7 +228,7 @@ public class Data
 		return getInstance().windWO.getDelays();
 	}
 
-	public static final DelayWindCorrelationData getDelayWindCorrelationCoefficient()
+	public static final DelayCorrelationData<Wind> getDelayWindCorrelationCoefficient()
 	{
 		return getInstance().windWO.getCorrelation();
 	}
@@ -252,7 +248,7 @@ public class Data
 		return getInstance().humidityWO.getDelays();
 	}
 
-	public static final DelayHumidityCorrelationData getDelayHumidityCorrelationCoefficient()
+	public static final DelayCorrelationData<Humidity> getDelayHumidityCorrelationCoefficient()
 	{
 		return getInstance().humidityWO.getCorrelation();
 	}
@@ -272,7 +268,7 @@ public class Data
 		return getInstance().pressureWO.getDelays();
 	}
 
-	public static final DelayPressureCorrelationData getDelayPressureCorrelationCoefficient()
+	public static final DelayCorrelationData<Pressure> getDelayPressureCorrelationCoefficient()
 	{
 		return getInstance().pressureWO.getCorrelation();
 	}

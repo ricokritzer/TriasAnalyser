@@ -11,9 +11,11 @@ import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
-public class DelayHumidityDB extends DB<DelayData<Humidity>> implements DelayHumidity
+public class DelayHumidityDB extends DB<DelayData<Humidity>> implements Delays<Humidity>
 {
 	private static final String FIELD = "ROUND(humidity, 0)";
 	private static final String NAME = "rounded";

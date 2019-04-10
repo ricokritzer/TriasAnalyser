@@ -7,12 +7,12 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
-import de.dhbw.studienarbeit.data.reader.data.weather.humidity.CancelledStopsHumidity;
+import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.CancelledStopsHumidityDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidity;
-import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelationDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.Humidity;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -20,12 +20,12 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class HumidityWO extends Updateable
 {
-	private CancelledStopsHumidity updaterCancelledStops = new CancelledStopsHumidityDB();
-	private DelayHumidityCorrelation updaterCorrelation = new DelayHumidityCorrelationDB();
-	private DelayHumidity updaterDelays = new DelayHumidityDB();
+	private CancelledStops<Humidity> updaterCancelledStops = new CancelledStopsHumidityDB();
+	private DelayCorrelation<Humidity> updaterCorrelation = new DelayHumidityCorrelationDB();
+	private Delays<Humidity> updaterDelays = new DelayHumidityDB();
 
 	private List<CancelledStopsData<Humidity>> cancelledStops = new ArrayList<>();
-	private DelayHumidityCorrelationData correlation = new DelayHumidityCorrelationData(0.0);
+	private DelayCorrelationData<Humidity> correlation = new DelayCorrelationData<Humidity>(0.0, Humidity.class);
 	private List<DelayData<Humidity>> delays = new ArrayList<>();
 
 	public HumidityWO(Optional<DataUpdater> updater)
@@ -37,7 +37,7 @@ public class HumidityWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		cancelledStops = updaterCancelledStops.getCancelledStops();
-		correlation = updaterCorrelation.getDelayHumidityCorrelation();
+		correlation = updaterCorrelation.getDelayCorrelation();
 		delays = updaterDelays.getDelays();
 	}
 
@@ -46,7 +46,7 @@ public class HumidityWO extends Updateable
 		return cancelledStops;
 	}
 
-	public DelayHumidityCorrelationData getCorrelation()
+	public DelayCorrelationData<Humidity> getCorrelation()
 	{
 		return correlation;
 	}
@@ -56,17 +56,17 @@ public class HumidityWO extends Updateable
 		return delays;
 	}
 
-	public void setUpdaterCancelledStops(CancelledStopsHumidity updaterCancelledStops)
+	public void setUpdaterCancelledStops(CancelledStops<Humidity> updaterCancelledStops)
 	{
 		this.updaterCancelledStops = updaterCancelledStops;
 	}
 
-	public void setUpdaterCorrelation(DelayHumidityCorrelation updaterCorrelation)
+	public void setUpdaterCorrelation(DelayCorrelation<Humidity> updaterCorrelation)
 	{
 		this.updaterCorrelation = updaterCorrelation;
 	}
 
-	public void setUpdaterDelays(DelayHumidity updaterDelays)
+	public void setUpdaterDelays(Delays<Humidity> updaterDelays)
 	{
 		this.updaterDelays = updaterDelays;
 	}

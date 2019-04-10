@@ -2,15 +2,17 @@ package de.dhbw.studienarbeit.data.reader.data.weather.wind;
 
 import java.io.IOException;
 
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherCorrelationDB;
 
-public class DelayWindCorrelationDB extends DelayWeatherCorrelationDB implements DelayWindCorrelation
+public class DelayWindCorrelationDB extends DelayWeatherCorrelationDB implements DelayCorrelation<Wind>
 {
 	private static final String WHAT = "wind";
 
 	@Override
-	public DelayWindCorrelationData getDelayWindCorrelation() throws IOException
+	public DelayCorrelationData<Wind> getDelayCorrelation() throws IOException
 	{
-		return new DelayWindCorrelationData(getCorrelationData(WHAT));
+		return new DelayCorrelationData<>(getCorrelationData(WHAT), Wind.class);
 	}
 }

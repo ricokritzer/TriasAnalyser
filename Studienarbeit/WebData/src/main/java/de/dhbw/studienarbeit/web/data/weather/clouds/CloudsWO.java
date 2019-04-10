@@ -7,25 +7,25 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
-import de.dhbw.studienarbeit.data.reader.data.weather.clouds.CancelledStopsClouds;
+import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
+import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.CancelledStopsCloudsDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.Clouds;
-import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelationDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayClouds;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudsDB;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class CloudsWO extends Updateable
 {
-	private CancelledStopsClouds updaterCancelledStops = new CancelledStopsCloudsDB();
-	private DelayCloudCorrelation updaterCorrelation = new DelayCloudCorrelationDB();
-	private DelayClouds updaterDelays = new DelayCloudsDB();
+	private CancelledStops<Clouds> updaterCancelledStops = new CancelledStopsCloudsDB();
+	private DelayCorrelation<Clouds> updaterCorrelation = new DelayCloudCorrelationDB();
+	private Delays<Clouds> updaterDelays = new DelayCloudsDB();
 
 	private List<CancelledStopsData<Clouds>> cancelledStops = new ArrayList<>();
-	private DelayCloudCorrelationData correlation = new DelayCloudCorrelationData(0.0);
+	private DelayCorrelationData<Clouds> correlation = new DelayCorrelationData<>(0.0, Clouds.class);
 	private List<DelayData<Clouds>> delays = new ArrayList<>();
 
 	public CloudsWO(Optional<DataUpdater> updater)
@@ -37,7 +37,7 @@ public class CloudsWO extends Updateable
 	protected void updateData() throws IOException
 	{
 		cancelledStops = updaterCancelledStops.getCancelledStops();
-		correlation = updaterCorrelation.getDelayCloudCorrelation();
+		correlation = updaterCorrelation.getDelayCorrelation();
 		delays = updaterDelays.getDelays();
 	}
 
@@ -46,7 +46,7 @@ public class CloudsWO extends Updateable
 		return cancelledStops;
 	}
 
-	public DelayCloudCorrelationData getCorrelation()
+	public DelayCorrelationData<Clouds> getCorrelation()
 	{
 		return correlation;
 	}
@@ -56,17 +56,17 @@ public class CloudsWO extends Updateable
 		return delays;
 	}
 
-	public void setUpdaterCancelledStops(CancelledStopsClouds updaterCancelledStops)
+	public void setUpdaterCancelledStops(CancelledStops<Clouds> updaterCancelledStops)
 	{
 		this.updaterCancelledStops = updaterCancelledStops;
 	}
 
-	public void setUpdaterCorrelation(DelayCloudCorrelation updaterCorrelation)
+	public void setUpdaterCorrelation(DelayCorrelation<Clouds> updaterCorrelation)
 	{
 		this.updaterCorrelation = updaterCorrelation;
 	}
 
-	public void setUpdaterDelays(DelayClouds updaterDelays)
+	public void setUpdaterDelays(Delays<Clouds> updaterDelays)
 	{
 		this.updaterDelays = updaterDelays;
 	}

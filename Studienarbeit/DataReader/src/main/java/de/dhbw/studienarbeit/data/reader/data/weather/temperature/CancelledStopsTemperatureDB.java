@@ -8,11 +8,12 @@ import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
+import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
 public class CancelledStopsTemperatureDB extends DB<CancelledStopsData<Temperature>>
-		implements CancelledStopsTemperature
+		implements CancelledStops<Temperature>
 {
 	private static final String FIELD = "ROUND(temp, 0)";
 	private static final String NAME = "rounded";
