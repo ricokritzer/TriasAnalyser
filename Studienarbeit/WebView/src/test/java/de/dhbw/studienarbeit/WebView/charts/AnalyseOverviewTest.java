@@ -139,7 +139,7 @@ public class AnalyseOverviewTest
 
 	private DelayCountData[] convertToData(List<DelayCountData> delays)
 	{
-		return AnalyseChart.getData(delays);
+		return new AnalyseChart().getData(delays);
 	}
 
 	private DelayCountData createDelayCountData()

@@ -23,39 +23,61 @@ public class AnalyseChart
 {
 	private static final int exponential = 500;
 	private static final int maxItems = 100;
-	
-	public static ChartJs getChartFor(List<DelayCountData> delays)
+
+	private BarData barData = new BarData();
+	private BarOptions barOptions = new BarOptions();
+
+	private int countDatasets = 1;
+	private Color[] colors = { Color.BLUE, Color.RED };
+
+	public void addDataset(List<DelayCountData> delays)
 	{
 		DelayCountData[] data = getData(delays);
-
-		if (data.length == 0)
-		{
-			return new ChartJs("");
-		}
-
 		BigDecimal[] delaysAdded = getDelays(data);
-		BarDataset dataset = new BarDataset().setData(delaysAdded).setLabel("Verspätungen")
-				.setBackgroundColor(Color.BLUE).setBorderColor(Color.BLUE);
 
-		BarData barData = new BarData().addLabels(getLabels(data)).addDataset(dataset);
+		barData.setLabels(getLabels(data));
 
-		BarChart chart = new BarChart().setData(barData);
+		BarDataset dataset = new BarDataset().setData(delaysAdded).setLabel(String.valueOf(countDatasets))
+				.setBackgroundColor(getUniqueColor()).setBorderColor(getUniqueColor());
+
+		barData.addDataset(dataset);
 
 		if (greatestValueIsMoreThan(exponential, delaysAdded))
 		{
-			BarOptions options = new BarOptions().setScales(new BarScale().setyAxes(getYAxis()));
-			chart.setOptions(options);
+			barOptions.setScales(new BarScale().setyAxes(getYAxis()));
 		}
 		
+		countDatasets++;
+	}
+
+	private Color getUniqueColor()
+	{
+		if (countDatasets > colors.length)
+		{
+			return Color.BLUE;
+		}
+		return colors[countDatasets - 1];
+	}
+
+	public ChartJs getChart()
+	{
+		BarDataset zeroData = new BarDataset().setBackgroundColor(Color.BLACK).setBorderColor(Color.BLACK);
+		for (int i = 0; i < 100; i++)
+		{
+			zeroData.addData(0);
+		}
+		barData.addDataset(zeroData);
+		
+		BarChart chart = new BarChart(barData, barOptions);
 		return new ChartJs(chart.toJson());
 	}
-	
-	private static boolean greatestValueIsMoreThan(int max, BigDecimal[] delaysAdded)
+
+	private boolean greatestValueIsMoreThan(int max, BigDecimal[] delaysAdded)
 	{
 		return delaysAdded[0].compareTo(BigDecimal.valueOf(max)) > 0;
 	}
 
-	private static BigDecimal[] getDelays(DelayCountData[] data)
+	private BigDecimal[] getDelays(DelayCountData[] data)
 	{
 		BigDecimal[] delayArray = new BigDecimal[data.length];
 		delayArray[delayArray.length - 1] = BigDecimal.valueOf(data[data.length - 1].getCountValue());
@@ -68,12 +90,12 @@ public class AnalyseChart
 		return delayArray;
 	}
 
-	private static String[] getLabels(DelayCountData[] data)
+	private String[] getLabels(DelayCountData[] data)
 	{
 		return Arrays.asList(data).stream().map(e -> "> " + e.getDelayInMinutes() + " min").toArray(String[]::new);
 	}
-	
-	private static List<YAxis<LinearTicks>> getYAxis()
+
+	private List<YAxis<LinearTicks>> getYAxis()
 	{
 		List<YAxis<LinearTicks>> axis = new ArrayList<>();
 		YAxis<LinearTicks> ticks = new YAxis<>();
@@ -82,8 +104,8 @@ public class AnalyseChart
 		axis.add(ticks);
 		return axis;
 	}
-	
-	protected static DelayCountData[] getData(List<DelayCountData> delays)
+
+	protected DelayCountData[] getData(List<DelayCountData> delays)
 	{
 		if (delays.isEmpty())
 		{
