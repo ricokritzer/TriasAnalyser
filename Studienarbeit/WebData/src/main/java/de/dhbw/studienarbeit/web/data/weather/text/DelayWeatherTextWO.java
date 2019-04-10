@@ -5,24 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherText;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
 import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherTextDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherTextData;
+import de.dhbw.studienarbeit.data.reader.data.weather.text.WeatherText;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeatherTextWO extends Updateable
 {
-	private DelayWeatherText delayWeatherText = new DelayWeatherTextDB();
+	private Delays<WeatherText> delayWeatherText = new DelayWeatherTextDB();
 
-	private List<DelayWeatherTextData> data = new ArrayList<>();
+	private List<DelayData<WeatherText>> data = new ArrayList<>();
 
 	public DelayWeatherTextWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
-	public List<DelayWeatherTextData> getData()
+	public List<DelayData<WeatherText>> getData()
 	{
 		return data;
 	}
@@ -33,7 +34,7 @@ public class DelayWeatherTextWO extends Updateable
 		data = delayWeatherText.getDelays();
 	}
 
-	public void setDelayWeatherText(DelayWeatherText delayWeatherText)
+	public void setDelayWeatherText(Delays<WeatherText> delayWeatherText)
 	{
 		this.delayWeatherText = delayWeatherText;
 		update();

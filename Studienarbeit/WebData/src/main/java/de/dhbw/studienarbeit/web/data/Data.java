@@ -37,7 +37,7 @@ import de.dhbw.studienarbeit.data.reader.data.weather.clouds.Clouds;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.Humidity;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.Pressure;
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.Temperature;
-import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherTextData;
+import de.dhbw.studienarbeit.data.reader.data.weather.text.WeatherText;
 import de.dhbw.studienarbeit.data.reader.data.weather.wind.Wind;
 import de.dhbw.studienarbeit.web.data.counts.CountLinesWO;
 import de.dhbw.studienarbeit.web.data.counts.CountObservedOperatorsWO;
@@ -203,7 +203,7 @@ public class Data
 		return getInstance().cloudsWO.getLastUpdated();
 	}
 
-	public static final List<DelayWeatherTextData> getDelaysWeatherText()
+	public static final List<DelayData<WeatherText>> getDelaysWeatherText()
 	{
 		return getInstance().delayWeatherTextWO.getData();
 	}
