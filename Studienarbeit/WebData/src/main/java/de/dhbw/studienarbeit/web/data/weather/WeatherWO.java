@@ -8,9 +8,9 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
@@ -26,12 +26,6 @@ public abstract class WeatherWO<T> extends Updateable
 
 	public WeatherWO(Optional<DataUpdater> updater)
 	{
-		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
-	}
-
-	@Override
-	protected void updateData() throws IOException
-	{
 		updaterCancelledStops = getDefaultUpdaterCancelledStops();
 		updaterCorrelation = getDefaultUpdaterCorrelation();
 		updaterDelays = getDefaultUpdaterDelays();
@@ -40,6 +34,12 @@ public abstract class WeatherWO<T> extends Updateable
 		correlation = getDefaultCorrelation();
 		delays = getDefaultDelays();
 
+		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
+	}
+
+	@Override
+	protected void updateData() throws IOException
+	{
 		cancelledStops = updaterCancelledStops.getCancelledStops();
 		correlation = updaterCorrelation.getDelayCorrelation();
 		delays = updaterDelays.getDelays();
