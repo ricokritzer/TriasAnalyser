@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 
-public interface Delays<T>
+public interface Delay<T>
 {
 	List<DelayData<T>> getDelays() throws IOException;
 }

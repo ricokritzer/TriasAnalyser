@@ -12,7 +12,7 @@ import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
-public abstract class DelayDB<T> extends DB<DelayData<T>> implements Delays<T>
+public abstract class DelayDB<T> extends DB<DelayData<T>> implements Delay<T>
 {
 	public final List<DelayData<T>> getDelays() throws IOException
 	{

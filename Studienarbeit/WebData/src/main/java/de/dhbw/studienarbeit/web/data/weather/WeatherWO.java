@@ -10,7 +10,7 @@ import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
@@ -18,7 +18,7 @@ public abstract class WeatherWO<T> extends Updateable
 {
 	protected CancelledStops<T> updaterCancelledStops;
 	protected DelayCorrelation<T> updaterCorrelation;
-	protected Delays<T> updaterDelays;
+	protected Delay<T> updaterDelays;
 
 	private List<CancelledStopsData<T>> cancelledStops = new ArrayList<>();
 	private DelayCorrelationData<T> correlation;
@@ -70,7 +70,7 @@ public abstract class WeatherWO<T> extends Updateable
 		this.updaterCorrelation = updaterCorrelation;
 	}
 
-	public void setUpdaterDelays(Delays<T> updaterDelays)
+	public void setUpdaterDelays(Delay<T> updaterDelays)
 	{
 		this.updaterDelays = updaterDelays;
 	}
@@ -85,7 +85,7 @@ public abstract class WeatherWO<T> extends Updateable
 		return new ArrayList<>();
 	}
 
-	protected abstract Delays<T> getDefaultUpdaterDelays();
+	protected abstract Delay<T> getDefaultUpdaterDelays();
 
 	protected abstract DelayCorrelation<T> getDefaultUpdaterCorrelation();
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.text.DelayWeatherTextDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.text.WeatherText;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
@@ -14,7 +14,7 @@ import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeatherTextWO extends Updateable
 {
-	private Delays<WeatherText> delayWeatherText = new DelayWeatherTextDB();
+	private Delay<WeatherText> delayWeatherText = new DelayWeatherTextDB();
 
 	private List<DelayData<WeatherText>> data = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class DelayWeatherTextWO extends Updateable
 		data = delayWeatherText.getDelays();
 	}
 
-	public void setDelayWeatherText(Delays<WeatherText> delayWeatherText)
+	public void setDelayWeatherText(Delay<WeatherText> delayWeatherText)
 	{
 		this.delayWeatherText = delayWeatherText;
 		update();

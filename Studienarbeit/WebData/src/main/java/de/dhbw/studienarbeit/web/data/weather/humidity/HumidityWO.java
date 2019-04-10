@@ -5,7 +5,7 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.CancelledStopsHumidityDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelationDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityDB;
@@ -21,7 +21,7 @@ public class HumidityWO extends WeatherWO<Humidity>
 	}
 
 	@Override
-	protected Delays<Humidity> getDefaultUpdaterDelays()
+	protected Delay<Humidity> getDefaultUpdaterDelays()
 	{
 		return new DelayHumidityDB();
 	}

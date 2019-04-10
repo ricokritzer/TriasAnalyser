@@ -5,7 +5,7 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delays;
+import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.CancelledStopsPressureDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureCorrelationDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.pressure.DelayPressureDB;
@@ -21,7 +21,7 @@ public class PressureWO extends WeatherWO<Pressure>
 	}
 
 	@Override
-	protected Delays<Pressure> getDefaultUpdaterDelays()
+	protected Delay<Pressure> getDefaultUpdaterDelays()
 	{
 		return new DelayPressureDB();
 	}
