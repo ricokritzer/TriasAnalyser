@@ -31,5 +31,4 @@ public class DelayWeatherTextDB extends DelayDB<WeatherText>
 	{
 		return new WeatherText(result.getString("textDE"));
 	}
-
 }

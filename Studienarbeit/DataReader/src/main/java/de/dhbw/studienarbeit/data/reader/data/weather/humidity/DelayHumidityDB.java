@@ -7,7 +7,6 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.DelayWeatherDBHelper;
 
 public class DelayHumidityDB extends DelayDB<Humidity>
 {
@@ -16,7 +15,7 @@ public class DelayHumidityDB extends DelayDB<Humidity>
 
 	public final List<DelayData<Humidity>> getDelays() throws IOException
 	{
-		final String sql = DelayWeatherDBHelper.buildSQL(FIELD, NAME);
+		final String sql = buildSQL(FIELD, NAME);
 		return readFromDatabase(sql);
 	}
 
