@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.WebView.charts;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +14,7 @@ import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
 import be.ceau.chart.options.ticks.LinearTicks;
+import de.dhbw.studienarbeit.WebView.requests.RequestGridData;
 import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
@@ -24,35 +24,43 @@ public class AnalyseChart
 	private static final int exponential = 500;
 	private static final int maxItems = 100;
 
-	private BarData barData = new BarData();
 	private BarOptions barOptions = new BarOptions();
+	
+	private List<RequestGridData> requests = new ArrayList<>();
+	
+	private int highestDelay = 0;
+	private int lowestDelay = 0;
 
 	private int countDatasets = 1;
 	private Color[] colors = { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.CYAN };
 
-	public void addDataset(List<DelayCountData> delays)
+	public void addDataset(RequestGridData data)
 	{
-		DelayCountData[] data = getData(delays);
-		BigDecimal[] delaysAdded = getDelays(data);
-
-		barData.setLabels(getLabels(data));
-
-		BarDataset dataset = new BarDataset().setData(delaysAdded).setLabel(String.valueOf(countDatasets))
-				.setBackgroundColor(getUniqueColor()).setBorderColor(getUniqueColor());
-
-		barData.addDataset(dataset);
-
-		if (greatestValueIsMoreThan(exponential, delaysAdded))
+		if (data.getHighestCount() > exponential)
 		{
 			barOptions.setScales(new BarScale().setyAxes(getYAxis()));
 		}
 		
-		countDatasets++;
+		checkHighestAndLowestDelay(data);
+		requests.add(data);
 	}
 
-	private Color getUniqueColor()
+	private void checkHighestAndLowestDelay(RequestGridData data)
 	{
-		if (countDatasets > colors.length)
+		if (data.getHighestDelay() > highestDelay)
+		{
+			highestDelay = data.getHighestDelay();
+		}
+		if (data.getLowestDelay() < lowestDelay)
+		{
+			lowestDelay = data.getLowestDelay();
+		}
+	}
+
+	private Color getUniqueColor(int num)
+	{
+		System.out.println(num);
+		if (num > colors.length)
 		{
 			return Color.BLUE;
 		}
@@ -61,38 +69,37 @@ public class AnalyseChart
 
 	public ChartJs getChart()
 	{
-		BarDataset zeroData = new BarDataset().setBackgroundColor(Color.BLACK).setBorderColor(Color.BLACK);
-		for (int i = 0; i < 100; i++)
+		List<Integer> delays = new ArrayList<>();
+		for (int i = lowestDelay; i <= highestDelay + 1; i++)
 		{
-			zeroData.addData(0);
+			delays.add(i);
 		}
-		barData.addDataset(zeroData);
+		
+		BarData barData = new BarData();
+		barData.setLabels(getLabels(delays));
+
+		for (RequestGridData data : requests)
+		{
+			BarDataset dataset = new BarDataset();
+			dataset.setBorderColor(getUniqueColor(data.getNumber()));
+			dataset.setBackgroundColor(getUniqueColor(data.getNumber()));
+			dataset.setLabel(String.valueOf(data.getNumber()));
+			
+			for (int i : delays)
+			{
+				dataset.addData(data.getAddedCountAt(i));
+			}
+			
+			barData.addDataset(dataset);
+		}
 		
 		BarChart chart = new BarChart(barData, barOptions);
 		return new ChartJs(chart.toJson());
 	}
 
-	private boolean greatestValueIsMoreThan(int max, BigDecimal[] delaysAdded)
+	private String[] getLabels(List<Integer> delays)
 	{
-		return delaysAdded[0].compareTo(BigDecimal.valueOf(max)) > 0;
-	}
-
-	private BigDecimal[] getDelays(DelayCountData[] data)
-	{
-		BigDecimal[] delayArray = new BigDecimal[data.length];
-		delayArray[delayArray.length - 1] = BigDecimal.valueOf(data[data.length - 1].getCountValue());
-
-		for (int i = delayArray.length - 2; i >= 0; i--)
-		{
-			delayArray[i] = BigDecimal.valueOf(data[i].getCountValue()).add(delayArray[i + 1]);
-		}
-
-		return delayArray;
-	}
-
-	private String[] getLabels(DelayCountData[] data)
-	{
-		return Arrays.asList(data).stream().map(e -> "> " + e.getDelayInMinutes() + " min").toArray(String[]::new);
+		return  delays.stream().map(e -> "> " + e + " min").toArray(String[]::new);
 	}
 
 	private List<YAxis<LinearTicks>> getYAxis()

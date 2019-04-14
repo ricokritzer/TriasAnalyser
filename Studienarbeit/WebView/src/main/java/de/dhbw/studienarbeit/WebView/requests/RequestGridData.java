@@ -24,6 +24,16 @@ public class RequestGridData
 		this.canceled = Optional.ofNullable(request.getCancelledStops()).orElse(new CountData(0));
 	}
 	
+	public int getLowestDelay()
+	{
+		return (int) delays.get(0).getDelayInMinutes();
+	}
+	
+	public int getHighestDelay()
+	{
+		return (int) delays.get(delays.size() - 1).getDelayInMinutes();
+	}
+	
 	public int getNumber()
 	{
 		return number;
@@ -62,5 +72,41 @@ public class RequestGridData
 	public String toString()
 	{
 		return request.toString();
+	}
+
+	public long getHighestCount()
+	{
+		long highest = 0;
+		for (DelayCountData data : delays)
+		{
+			if (data.getCountValue() > highest)
+			{
+				highest = data.getCountValue();
+			}
+		}
+		return highest;
+	}
+
+	public int getAddedCountAt(int delay)
+	{
+		int added = 0;
+		while (delay <= getHighestDelay())
+		{
+			added += getCountAt(delay);
+			delay++;
+		}
+		return added;
+	}
+
+	private long getCountAt(int delay)
+	{
+		for (DelayCountData data : delays)
+		{
+			if (data.getDelayInMinutes() == delay)
+			{
+				return data.getCountValue();
+			}
+		}
+		return 0;
 	}
 }
