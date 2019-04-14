@@ -28,7 +28,7 @@ public class AnalyseChart
 	private BarOptions barOptions = new BarOptions();
 
 	private int countDatasets = 1;
-	private Color[] colors = { Color.BLUE, Color.RED };
+	private Color[] colors = { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.CYAN };
 
 	public void addDataset(List<DelayCountData> delays)
 	{
@@ -100,7 +100,7 @@ public class AnalyseChart
 		List<YAxis<LinearTicks>> axis = new ArrayList<>();
 		YAxis<LinearTicks> ticks = new YAxis<>();
 		ticks.setType("logarithmic");
-		ticks.setStacked(true);
+		ticks.setStacked(false);
 		axis.add(ticks);
 		return axis;
 	}

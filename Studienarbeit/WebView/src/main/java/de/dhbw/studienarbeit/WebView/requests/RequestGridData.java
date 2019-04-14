@@ -1,8 +1,8 @@
 package de.dhbw.studienarbeit.WebView.requests;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
@@ -13,39 +13,46 @@ public class RequestGridData
 	private List<DelayCountData> delays;
 	
 	private Request request;
-	private Color color;
+	private int number;
 	private CountData canceled;
 	
-	public RequestGridData(Request request, Color color) throws IOException
+	public RequestGridData(Request request, int number) throws IOException
 	{
 		this.request = request;
-		this.color = color;
+		this.number = number;
 		this.delays = request.getDelays();
-		this.canceled = request.getCancelledStops();
+		this.canceled = Optional.ofNullable(request.getCancelledStops()).orElse(new CountData(0));
 	}
 	
-	public Color getColor()
+	public int getNumber()
 	{
-		return color;
+		return number;
 	}
 	
 	public int getCount()
 	{
-		return delays.size();
+		int i = 0;
+		for (DelayCountData delay : delays)
+		{
+			i += delay.getCountValue();
+		}
+		return i;
 	}
 	
-	public int getCanceledPercentage()
+	public double getCanceledPercentage()
 	{
-		return Math.round((canceled.getValue() / getCount()) * 100);
+		long value = Math.round((Double.valueOf(canceled.getValue()) / Double.valueOf(getCount())) * 10000d);
+		return value / 100d;
 	}
 	
-	public int getOnTimePercentage()
+	public double getOnTimePercentage()
 	{
 		for (DelayCountData data : delays)
 		{
 			if (data.getDelayValue() == 0)
 			{
-				return Math.round((data.getCountValue() / getCount()) * 100);
+				long value = Math.round((Double.valueOf(data.getCountValue()) / Double.valueOf(getCount())) * 10000d);
+				return value / 100d;
 			}
 		}
 		return 0;

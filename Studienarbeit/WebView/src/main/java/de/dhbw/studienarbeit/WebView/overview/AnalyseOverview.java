@@ -27,6 +27,8 @@ public class AnalyseOverview extends Overview
 
 	private Div divChart;
 
+	private Grid<RequestGridData> requestGrid;
+
 	public AnalyseOverview()
 	{
 		super();
@@ -40,18 +42,18 @@ public class AnalyseOverview extends Overview
 		HorizontalLayout buttons = new HorizontalLayout(btnEmpty, btnAddData);
 		buttons.setAlignItems(Alignment.STRETCH);
 
-		Grid<RequestGridData> requestGrid = new Grid<>();
-		requestGrid.addColumn(e -> requests.indexOf(e)).setHeader("Nummer").setSortable(false);
+		requestGrid = new Grid<>();
+		requestGrid.addColumn(e -> e.getNumber()).setHeader("Nummer").setSortable(false);
 		requestGrid.addColumn(e -> e.toString()).setHeader("Request").setSortable(false);
 		requestGrid.addColumn(e -> e.getCount()).setHeader("Anzahl").setSortable(false);
 		requestGrid.addColumn(e -> e.getCanceledPercentage() + "%").setHeader("Ausfälle").setSortable(false);
 		requestGrid.addColumn(e -> e.getOnTimePercentage() + "%").setHeader("Pünktlich").setSortable(false);
 		
-		requestGrid.setSizeFull();
+		requestGrid.setHeight("20vh");
 		
 		divChart = new Div();
 		
-		VerticalLayout layout = new VerticalLayout(buttons, requestGrid, divChart);
+		VerticalLayout layout = new VerticalLayout(buttons, new Div(requestGrid), divChart);
 		layout.setAlignItems(Alignment.STRETCH);
 		layout.setSizeFull();
 		
@@ -63,8 +65,11 @@ public class AnalyseOverview extends Overview
 		divChart.removeAll();
 		try
 		{
-			chart.addDataset(new RequestDB(new StationID("de:08212:1")).getDelays());
-			chart.addDataset(new RequestDB(new StationID("de:08212:2")).getDelays());
+			RequestDB requestDB = new RequestDB(new StationID("de:08212:1"));
+			chart.addDataset(requestDB.getDelays());
+			
+			RequestGridData data = new RequestGridData(requestDB, 1);
+			requestGrid.setItems(data);
 		}
 		catch (IOException e)
 		{
@@ -72,7 +77,7 @@ public class AnalyseOverview extends Overview
 		}
 		divChart.add(chart.getChart());
 	}
-
+	
 	private void emptyDiagram()
 	{
 		divChart.removeAll();
