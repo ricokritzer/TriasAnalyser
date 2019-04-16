@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.dhbw.studienarbeit.WebView.charts.AnalyseChart;
 import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.request.DelayCountData;
