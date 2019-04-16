@@ -5,24 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekday;
+import de.dhbw.studienarbeit.data.reader.Delay;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayDB;
-import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
+import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeekdayWO extends Updateable
 {
-	private DelayWeekday delayWeekday = new DelayWeekdayDB();
+	private Delay<Weekday> delayWeekday = new DelayWeekdayDB();
 
-	private List<DelayWeekdayData> data = new ArrayList<>();
+	private List<DelayData<Weekday>> data = new ArrayList<>();
 
 	public DelayWeekdayWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
-	public List<DelayWeekdayData> getData()
+	public List<DelayData<Weekday>> getData()
 	{
 		return data;
 	}
@@ -33,7 +34,7 @@ public class DelayWeekdayWO extends Updateable
 		data = delayWeekday.getDelays();
 	}
 
-	public void setDelayWeekday(DelayWeekday delayWeekday)
+	public void setDelayWeekday(Delay<Weekday> delayWeekday)
 	{
 		this.delayWeekday = delayWeekday;
 		update();

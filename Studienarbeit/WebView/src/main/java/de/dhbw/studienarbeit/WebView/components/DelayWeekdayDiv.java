@@ -9,14 +9,15 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class DelayWeekdayDiv extends Div
 {
 	private static final long serialVersionUID = 17L;
 
-	private final Grid<DelayWeekdayData> grid = new Grid<>();
+	private final Grid<DelayData<Weekday>> grid = new Grid<>();
 	private final TextField field = new TextField();
 
 	public DelayWeekdayDiv()

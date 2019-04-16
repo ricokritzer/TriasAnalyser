@@ -29,8 +29,8 @@ import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.time.DelayWeekdayData;
 import de.dhbw.studienarbeit.data.reader.data.time.TimeSpan;
+import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.VehicleType;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.Clouds;
@@ -284,7 +284,7 @@ public class Data
 		return getInstance().pressureWO.getLastUpdated();
 	}
 
-	public static final List<DelayWeekdayData> getDelaysWeekday()
+	public static final List<DelayData<Weekday>> getDelaysWeekday()
 	{
 		return getInstance().delayWeekdayWO.getData();
 	}
