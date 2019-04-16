@@ -11,7 +11,6 @@ import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
 import de.dhbw.studienarbeit.data.reader.data.request.Request;
 import de.dhbw.studienarbeit.data.reader.data.request.RequestDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
-import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationData;
 import de.dhbw.studienarbeit.data.reader.data.time.TimeSpan;
@@ -117,7 +116,7 @@ public class Data
 		return INSTANCE;
 	}
 
-	public static final List<DelayStationData> getDelaysStation()
+	public static final List<DelayData<StationData>> getDelaysStation()
 	{
 		return getInstance().delaysStationWO.getData();
 	}

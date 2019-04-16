@@ -4,7 +4,8 @@ import java.util.List;
 
 import de.dhbw.studienarbeit.WebView.tracks.Track;
 import de.dhbw.studienarbeit.WebView.tracks.TrackHelper;
-import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationData;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class MapGenerator
@@ -90,8 +91,7 @@ public class MapGenerator
 					+ "]], {color: 'rgb(" + track.getColor().getRed() + "," + track.getColor().getGreen() + ","
 					+ track.getColor().getBlue() + ")'}).bindPopup('von: "
 					+ track.getDelayStationNeighbourData().getName1().toString() + "<br>nach: "
-					+ track.getDelayStationNeighbourData().getName2().toString() + "<br>Verspätung: "
-					+ delayChange
+					+ track.getDelayStationNeighbourData().getName2().toString() + "<br>Verspätung: " + delayChange
 					+ "');");
 			sb.append("lines.push(polyline_" + i + ");");
 			i++;
@@ -101,12 +101,12 @@ public class MapGenerator
 	private void getMarkers()
 	{
 		int i = 0;
-		for (DelayStationData station : Data.getDelaysStation())
+		for (DelayData<StationData> station : Data.getDelaysStation())
 		{
-			sb.append("var marker_" + i + " = L.marker([" + station.getPosition().getLat() + ","
-					+ station.getPosition().getLon() + "]).addTo(mymap);") //
+			sb.append("var marker_" + i + " = L.marker([" + station.getValue().getPosition().getLat() + ","
+					+ station.getValue().getPosition().getLon() + "]).addTo(mymap);") //
 					.append(System.lineSeparator()) //
-					.append("marker_" + i + ".bindPopup('<b>" + station.getName().getStationName()
+					.append("marker_" + i + ".bindPopup('<b>" + station.getValue().getName().getStationName()
 							+ "</b><br>Durchschittliche Verspätung: " + station.getAverage().toString() + "');") //
 					.append(System.lineSeparator());
 			sb.append("markers.push(marker_" + i + ");");

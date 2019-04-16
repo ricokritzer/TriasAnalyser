@@ -10,7 +10,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 
-import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationData;
 import de.dhbw.studienarbeit.web.data.Data;
 
 @PageTitle("Verspätungen")
@@ -18,7 +19,7 @@ public class DelayStationDiv extends Div
 {
 	private static final long serialVersionUID = 7L;
 
-	private final Grid<DelayStationData> grid = new Grid<>();
+	private final Grid<DelayData<StationData>> grid = new Grid<>();
 	private final TextField field = new TextField();
 
 	public DelayStationDiv()
@@ -34,8 +35,8 @@ public class DelayStationDiv extends Div
 		field.setValue(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Data.getDelaysStationLastUpdate()));
 		layout.add(field);
 
-		grid.addColumn(db -> db.getName().getStationName()).setHeader("Station").setSortable(true);
-		grid.addColumn(db -> db.getOperator()).setHeader("Verkehrsverbund").setSortable(true);
+		grid.addColumn(db -> db.getValue().getName().getStationName()).setHeader("Station").setSortable(true);
+		grid.addColumn(db -> db.getValue().getOperator()).setHeader("Verkehrsverbund").setSortable(true);
 		grid.addColumn(db -> db.getAverage().toString()).setHeader("Durchschnitt")
 				.setComparator((db1, db2) -> db1.getAverage().compareTo(db2.getAverage())).setSortable(true);
 		grid.addColumn(db -> db.getMaximum().toString()).setHeader("Maximal")
