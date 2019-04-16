@@ -3,10 +3,9 @@ package de.dhbw.studienarbeit.data.reader.data.time;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import de.dhbw.studienarbeit.data.reader.Delay;
 import de.dhbw.studienarbeit.data.reader.data.DelayDB;
 
-public class DelayTimeSpanDB extends DelayDB<TimeSpan> implements Delay<TimeSpan>
+public class DelayTimeSpanDB extends DelayDB<TimeSpan>
 {
 	@Override
 	protected TimeSpan getElement(ResultSet result) throws SQLException

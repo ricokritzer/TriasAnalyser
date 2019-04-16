@@ -14,7 +14,8 @@ import com.vaadin.flow.router.Route;
 import de.dhbw.studienarbeit.WebView.charts.DelayLineChart;
 import de.dhbw.studienarbeit.WebView.tiles.CorrelationCoefficientView;
 import de.dhbw.studienarbeit.WebView.tiles.Tile;
-import de.dhbw.studienarbeit.data.reader.data.weather.symbol.DelayWeatherSymbolData;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.weather.symbol.WeatherSymbol;
 import de.dhbw.studienarbeit.web.data.Data;
 
 @Route("weather")
@@ -59,7 +60,7 @@ public class WeatherOverview extends Overview
 
 	private void showWeatherSymbolDelays(H4 text)
 	{
-		Iterator<DelayWeatherSymbolData> iterator = Data.getDelaysWeatherSymbol().getData().iterator();
+		Iterator<DelayData<WeatherSymbol>> iterator = Data.getDelaysWeatherSymbols().iterator();
 		while (iterator.hasNext())
 		{
 			addLeftColumn(text, iterator);
@@ -76,18 +77,18 @@ public class WeatherOverview extends Overview
 		}
 	}
 
-	private void addRightColumn(H4 text, Iterator<DelayWeatherSymbolData> iterator)
+	private void addRightColumn(H4 text, Iterator<DelayData<WeatherSymbol>> iterator)
 	{
-		DelayWeatherSymbolData symbolRight = iterator.next();
+		DelayData<WeatherSymbol> symbolRight = iterator.next();
 		Image imageRight = new Image(symbolRight.getValue().getURLString(), symbolRight.getValue().getName());
 		text.add(" ");
 		text.add(imageRight);
 		text.add(symbolRight.getAverage().toString());
 	}
 
-	private void addLeftColumn(H4 text, Iterator<DelayWeatherSymbolData> iterator)
+	private void addLeftColumn(H4 text, Iterator<DelayData<WeatherSymbol>> iterator)
 	{
-		DelayWeatherSymbolData symbol = iterator.next();
+		DelayData<WeatherSymbol> symbol = iterator.next();
 		Image imageLeft = new Image(symbol.getValue().getURLString(), symbol.getValue().getName());
 		text.add(imageLeft);
 		text.add(symbol.getAverage().toString());

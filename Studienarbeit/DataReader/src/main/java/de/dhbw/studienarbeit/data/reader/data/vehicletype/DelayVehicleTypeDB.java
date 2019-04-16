@@ -3,10 +3,9 @@ package de.dhbw.studienarbeit.data.reader.data.vehicletype;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import de.dhbw.studienarbeit.data.reader.Delay;
 import de.dhbw.studienarbeit.data.reader.data.DelayDB;
 
-public class DelayVehicleTypeDB extends DelayDB<VehicleType> implements Delay<VehicleType>
+public class DelayVehicleTypeDB extends DelayDB<VehicleType>
 {
 	@Override
 	protected VehicleType getElement(ResultSet result) throws SQLException

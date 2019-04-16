@@ -5,24 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.weather.symbol.DelayWeatherSymbol;
+import de.dhbw.studienarbeit.data.reader.Delay;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.weather.symbol.DelayWeatherSymbolDB;
-import de.dhbw.studienarbeit.data.reader.data.weather.symbol.DelayWeatherSymbolData;
+import de.dhbw.studienarbeit.data.reader.data.weather.symbol.WeatherSymbol;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayWeatherSymbolWO extends Updateable
 {
-	private DelayWeatherSymbol delayWeatherSymbol = new DelayWeatherSymbolDB();
+	private Delay<WeatherSymbol> delayWeatherSymbol = new DelayWeatherSymbolDB();
 
-	private List<DelayWeatherSymbolData> data = new ArrayList<>();
+	private List<DelayData<WeatherSymbol>> data = new ArrayList<>();
 
 	public DelayWeatherSymbolWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
-	public List<DelayWeatherSymbolData> getData()
+	public List<DelayData<WeatherSymbol>> getData()
 	{
 		return data;
 	}
@@ -33,7 +34,7 @@ public class DelayWeatherSymbolWO extends Updateable
 		data = delayWeatherSymbol.getDelays();
 	}
 
-	public void setDelayWeatherSymbol(DelayWeatherSymbol delayWeatherSymbol)
+	public void setDelayWeatherSymbol(Delay<WeatherSymbol> delayWeatherSymbol)
 	{
 		this.delayWeatherSymbol = delayWeatherSymbol;
 		update();
