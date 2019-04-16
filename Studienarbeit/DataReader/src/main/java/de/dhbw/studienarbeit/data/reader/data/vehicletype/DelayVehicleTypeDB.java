@@ -28,7 +28,7 @@ public class DelayVehicleTypeDB extends DB<DelayVehicleTypeData> implements Dela
 		final DelayMaximum delayMaximum = new DelayMaximum(result.getDouble("delay_max"));
 		final DelayAverage delayAverage = new DelayAverage(result.getDouble("delay_avg"));
 		final CountData count = new CountData(result.getInt("total"));
-		final String type = result.getString("type");
+		final VehicleType type = new VehicleType(result.getString("type"));
 
 		return Optional.of(new DelayVehicleTypeData(delayMaximum, delayAverage, count, type));
 	}

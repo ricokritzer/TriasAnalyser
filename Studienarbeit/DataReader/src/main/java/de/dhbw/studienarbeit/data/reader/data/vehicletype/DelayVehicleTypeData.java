@@ -5,10 +5,10 @@ import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.DelayMaximum;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 
-public class DelayVehicleTypeData extends DelayData<String>
+public class DelayVehicleTypeData extends DelayData<VehicleType>
 {
 	public DelayVehicleTypeData(DelayMaximum delayMaximum, DelayAverage delayAverage, CountData count,
-			String vehicleType)
+			VehicleType vehicleType)
 	{
 		super(delayMaximum, delayAverage, count, vehicleType);
 	}
@@ -16,6 +16,6 @@ public class DelayVehicleTypeData extends DelayData<String>
 	@Override
 	public String getValueString()
 	{
-		return value;
+		return value.toString();
 	}
 }
