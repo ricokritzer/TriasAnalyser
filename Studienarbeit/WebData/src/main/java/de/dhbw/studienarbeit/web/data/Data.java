@@ -1,34 +1,19 @@
 package de.dhbw.studienarbeit.web.data;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
-import de.dhbw.studienarbeit.data.reader.data.line.Line;
-import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
-import de.dhbw.studienarbeit.data.reader.data.line.LineName;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTime;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestFixedTimeDB;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespan;
-import de.dhbw.studienarbeit.data.reader.data.request.DelayRequestTimespanDB;
-import de.dhbw.studienarbeit.data.reader.data.request.LineDestinationsAtStationDB;
-import de.dhbw.studienarbeit.data.reader.data.request.LineNamesAtStationDB;
-import de.dhbw.studienarbeit.data.reader.data.request.LinesAtStationDB;
 import de.dhbw.studienarbeit.data.reader.data.request.Request;
 import de.dhbw.studienarbeit.data.reader.data.request.RequestDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationData;
 import de.dhbw.studienarbeit.data.reader.data.station.DelayStationNeighbourData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationData;
-import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.time.TimeSpan;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.VehicleType;
@@ -66,8 +51,6 @@ import de.dhbw.studienarbeit.web.data.weather.wind.WindWO;
 
 public class Data
 {
-	private static final Logger LOGGER = Logger.getLogger(Data.class.getName());
-
 	private final CountLinesWO countLinesWO;
 	private final CountObservedStationsWO countObservedStationsWO;
 	private final CountObservedOperatorsWO countObservedOperatorsWO;
