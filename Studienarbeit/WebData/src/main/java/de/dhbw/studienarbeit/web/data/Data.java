@@ -314,18 +314,6 @@ public class Data
 		return getInstance().delayWeatherSymbolWO.getLastUpdated();
 	}
 
-	@Deprecated
-	public static final DelayWeatherSymbolWO getDelaysWeatherSymbol()
-	{
-		return getInstance().delayWeatherSymbolWO;
-	}
-
-	@Deprecated
-	public static final DelayWeatherSymbolWO getDelaysWeatherSymbolLastUpdated()
-	{
-		return getInstance().delayWeatherSymbolWO;
-	}
-
 	public static List<CountWO> getCountLines()
 	{
 		return getInstance().countLinesWO.getValues();
@@ -439,65 +427,6 @@ public class Data
 	public static Date getDelaysSituationLastUpdated()
 	{
 		return getInstance().delaySituationWO.getLastUpdated();
-	}
-
-	@Deprecated
-	public static DelayRequestTimespan getDelayRequestFor(StationID stationID)
-	{
-		return new DelayRequestTimespanDB(stationID);
-	}
-
-	@Deprecated
-	public static DelayRequestFixedTime getDelayRequestForFixedTimeFor(StationID stationID)
-	{
-		return new DelayRequestFixedTimeDB(stationID);
-	}
-
-	@Deprecated
-	public static List<Line> getLinesAt(StationID stationID)
-	{
-		try
-		{
-			return new LinesAtStationDB().getLinesAt(stationID);
-		}
-		catch (IOException e)
-		{
-			return new ArrayList<>();
-		}
-	}
-
-	@Deprecated
-	public static List<LineName> getLineNamesFor(StationID stationID, List<LineDestination> lineDestinations)
-	{
-		try
-		{
-			return new LineNamesAtStationDB().getLineNamesAt(stationID, lineDestinations);
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
-			return new ArrayList<>();
-		}
-	}
-
-	@Deprecated
-	public static List<LineDestination> getLineDestinationFor(StationID stationID, List<LineName> lineNames)
-	{
-		try
-		{
-			return new LineDestinationsAtStationDB().getLineDestinationsAt(stationID, lineNames);
-		}
-		catch (IOException e)
-		{
-			LOGGER.log(Level.WARNING, "Selecting does not succeed.", e);
-			return new ArrayList<>();
-		}
-	}
-
-	@Deprecated
-	public static Request createRequestFor(StationID stationID)
-	{
-		return new RequestDB(stationID);
 	}
 
 	public static Request createRequestFor(StationData station)
