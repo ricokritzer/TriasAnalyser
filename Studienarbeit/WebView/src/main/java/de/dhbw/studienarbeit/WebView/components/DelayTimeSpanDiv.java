@@ -9,14 +9,15 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanData;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.time.TimeSpan;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class DelayTimeSpanDiv extends Div
 {
 	private static final long serialVersionUID = 16L;
 
-	private final Grid<DelayTimeSpanData> grid = new Grid<>();
+	private final Grid<DelayData<TimeSpan>> grid = new Grid<>();
 	private final TextField field = new TextField();
 
 	public DelayTimeSpanDiv()

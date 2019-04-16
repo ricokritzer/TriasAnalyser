@@ -5,24 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpan;
+import de.dhbw.studienarbeit.data.reader.Delay;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanDB;
-import de.dhbw.studienarbeit.data.reader.data.time.DelayTimeSpanData;
+import de.dhbw.studienarbeit.data.reader.data.time.TimeSpan;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayTimeSpanWO extends Updateable
 {
-	private DelayTimeSpan delayHour = new DelayTimeSpanDB();
+	private Delay<TimeSpan> delayHour = new DelayTimeSpanDB();
 
-	private List<DelayTimeSpanData> data = new ArrayList<>();
+	private List<DelayData<TimeSpan>> data = new ArrayList<>();
 
 	public DelayTimeSpanWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
-	public List<DelayTimeSpanData> getData()
+	public List<DelayData<TimeSpan>> getData()
 	{
 		return data;
 	}
@@ -33,7 +34,7 @@ public class DelayTimeSpanWO extends Updateable
 		data = delayHour.getDelays();
 	}
 
-	public void setDelayHour(DelayTimeSpan delayHour)
+	public void setDelayHour(Delay<TimeSpan> delayHour)
 	{
 		this.delayHour = delayHour;
 		update();
