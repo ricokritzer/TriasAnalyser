@@ -15,11 +15,7 @@ import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
-import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
-import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationData;
-import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.database.DB;
@@ -39,13 +35,6 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	private Optional<Hour> hourEnd = Optional.empty();
 
 	private List<Weekday> weekdays = new ArrayList<>();
-
-	@Deprecated
-	public RequestDB(StationID stationID)
-	{
-		this.station = new StationData(stationID, new StationName("Name nicht gesetzt"), new Position(0, 0),
-				new OperatorName(""));
-	}
 
 	public RequestDB(StationData station)
 	{
