@@ -8,22 +8,22 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.Delay;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.line.DelayLineDB;
-import de.dhbw.studienarbeit.data.reader.data.line.LineData;
+import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayLineWO extends Updateable
 {
-	protected Delay<LineData> delayLine = new DelayLineDB();
+	protected Delay<Line> delayLine = new DelayLineDB();
 
-	private List<DelayData<LineData>> data = new ArrayList<>();
+	private List<DelayData<Line>> data = new ArrayList<>();
 
 	public DelayLineWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
-	public List<DelayData<LineData>> getData()
+	public List<DelayData<Line>> getData()
 	{
 		return data;
 	}
@@ -34,7 +34,7 @@ public class DelayLineWO extends Updateable
 		data = delayLine.getDelays();
 	}
 
-	public void setDelayLine(Delay<LineData> delayLine)
+	public void setDelayLine(Delay<Line> delayLine)
 	{
 		this.delayLine = delayLine;
 		update();

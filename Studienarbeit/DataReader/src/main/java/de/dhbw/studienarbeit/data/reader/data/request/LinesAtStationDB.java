@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.dhbw.studienarbeit.data.reader.data.line.Line;
-import de.dhbw.studienarbeit.data.reader.data.line.LineData;
+import de.dhbw.studienarbeit.data.reader.data.line.Line;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineID;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
@@ -37,6 +37,6 @@ public class LinesAtStationDB extends DB<Line> implements LinesAtStation
 		final LineName name = new LineName(result.getString("name"));
 		final LineDestination destination = new LineDestination(result.getString("destination"));
 
-		return Optional.of(new LineData(lineID, name, destination));
+		return Optional.of(new Line(lineID, name, destination));
 	}
 }

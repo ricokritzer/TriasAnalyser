@@ -5,16 +5,16 @@ import java.sql.SQLException;
 
 import de.dhbw.studienarbeit.data.reader.data.DelayDB;
 
-public class DelayLineDB extends DelayDB<LineData>
+public class DelayLineDB extends DelayDB<Line>
 {
 	@Override
-	protected LineData getElement(ResultSet result) throws SQLException
+	protected Line getElement(ResultSet result) throws SQLException
 	{
 		final LineID lineID = new LineID(result.getInt("lineID"));
 		final LineName name = new LineName(result.getString("name"));
 		final LineDestination destination = new LineDestination(result.getString("destination"));
 
-		return new LineData(lineID, name, destination);
+		return new Line(lineID, name, destination);
 	}
 
 	@Override
