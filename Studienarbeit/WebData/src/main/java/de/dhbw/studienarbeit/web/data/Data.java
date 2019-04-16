@@ -7,7 +7,7 @@ import java.util.Optional;
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
-import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
+import de.dhbw.studienarbeit.data.reader.data.line.LineData;
 import de.dhbw.studienarbeit.data.reader.data.request.Request;
 import de.dhbw.studienarbeit.data.reader.data.request.RequestDB;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
@@ -126,7 +126,7 @@ public class Data
 		return getInstance().delaysStationWO.getLastUpdated();
 	}
 
-	public static final List<DelayLineData> getDelaysLine()
+	public static final List<DelayData<LineData>> getDelaysLine()
 	{
 		return getInstance().delayLineWO.getData();
 	}

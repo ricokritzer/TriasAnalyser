@@ -10,7 +10,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 
-import de.dhbw.studienarbeit.data.reader.data.line.DelayLineData;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.line.LineData;
 import de.dhbw.studienarbeit.web.data.Data;
 
 @PageTitle("Verspätungen")
@@ -18,7 +19,7 @@ public class DelayLineDiv extends Div
 {
 	private static final long serialVersionUID = 8L;
 
-	private final Grid<DelayLineData> grid = new Grid<>();
+	private final Grid<DelayData<LineData>> grid = new Grid<>();
 	private final TextField field = new TextField();
 
 	public DelayLineDiv()
