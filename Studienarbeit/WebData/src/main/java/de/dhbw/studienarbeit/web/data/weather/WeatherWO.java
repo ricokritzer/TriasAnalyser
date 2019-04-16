@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.Delay;
 import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;

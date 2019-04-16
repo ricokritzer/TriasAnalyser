@@ -2,10 +2,10 @@ package de.dhbw.studienarbeit.web.data.weather.temperature;
 
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.CancelledStopsTemperatureDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureCorrelationDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.temperature.DelayTemperatureDB;

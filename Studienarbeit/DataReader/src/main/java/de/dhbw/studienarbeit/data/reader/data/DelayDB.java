@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.database.DB;
 
 public abstract class DelayDB<T> extends DB<DelayData<T>> implements Delay<T>

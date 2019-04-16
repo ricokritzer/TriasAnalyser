@@ -9,14 +9,15 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.vehicletype.VehicleType;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class DelayVehicleTypeDiv extends Div
 {
 	private static final long serialVersionUID = 5L;
 
-	private final Grid<DelayVehicleTypeData> grid = new Grid<>();
+	private final Grid<DelayData<VehicleType>> grid = new Grid<>();
 	private final TextField field = new TextField();
 
 	public DelayVehicleTypeDiv()

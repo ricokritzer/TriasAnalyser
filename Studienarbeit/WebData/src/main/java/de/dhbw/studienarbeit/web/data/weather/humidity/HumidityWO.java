@@ -2,10 +2,10 @@ package de.dhbw.studienarbeit.web.data.weather.humidity;
 
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.CancelledStopsHumidityDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityCorrelationDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.humidity.DelayHumidityDB;

@@ -5,24 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleType;
+import de.dhbw.studienarbeit.data.reader.Delay;
+import de.dhbw.studienarbeit.data.reader.data.DelayData;
 import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeDB;
-import de.dhbw.studienarbeit.data.reader.data.vehicletype.DelayVehicleTypeData;
+import de.dhbw.studienarbeit.data.reader.data.vehicletype.VehicleType;
 import de.dhbw.studienarbeit.web.data.update.DataUpdater;
 import de.dhbw.studienarbeit.web.data.update.Updateable;
 
 public class DelayVehicleTypeWO extends Updateable
 {
-	private DelayVehicleType delayVehicleType = new DelayVehicleTypeDB();
+	private Delay<VehicleType> delayVehicleType = new DelayVehicleTypeDB();
 
-	private List<DelayVehicleTypeData> data = new ArrayList<>();
+	private List<DelayData<VehicleType>> data = new ArrayList<>();
 
 	public DelayVehicleTypeWO(Optional<DataUpdater> updater)
 	{
 		updater.ifPresent(u -> u.updateEvery(3, HOURS, this));
 	}
 
-	public List<DelayVehicleTypeData> getData()
+	public List<DelayData<VehicleType>> getData()
 	{
 		return data;
 	}
@@ -33,7 +34,7 @@ public class DelayVehicleTypeWO extends Updateable
 		data = delayVehicleType.getDelays();
 	}
 
-	public void setDelayVehicleType(DelayVehicleType delayVehicleType)
+	public void setDelayVehicleType(Delay<VehicleType> delayVehicleType)
 	{
 		this.delayVehicleType = delayVehicleType;
 		update();

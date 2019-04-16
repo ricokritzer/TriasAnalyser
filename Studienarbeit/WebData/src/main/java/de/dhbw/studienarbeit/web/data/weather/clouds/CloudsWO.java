@@ -2,10 +2,10 @@ package de.dhbw.studienarbeit.web.data.weather.clouds;
 
 import java.util.Optional;
 
+import de.dhbw.studienarbeit.data.reader.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.CancelledStops;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelation;
 import de.dhbw.studienarbeit.data.reader.data.weather.DelayCorrelationData;
-import de.dhbw.studienarbeit.data.reader.data.weather.Delay;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.CancelledStopsCloudsDB;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.Clouds;
 import de.dhbw.studienarbeit.data.reader.data.weather.clouds.DelayCloudCorrelationDB;
