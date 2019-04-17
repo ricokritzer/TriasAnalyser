@@ -6,7 +6,3 @@ CREATE TABLE Operator(
         
         PRIMARY KEY(operator)
 );
-
-INSERT INTO Operator VALUES ('kvv', 'Maximilian.Obenaus@kvv.karlsruhe.de', 'Karlsruher Verkehrsverbund');
-INSERT INTO Operator VALUES ('bbb', 'manfred.brandl@verbundlinie.at', 'Veröffentlichung nicht gestattet.');
-INSERT INTO Operator VALUES ('test', 'test', 'Testdaten.');
