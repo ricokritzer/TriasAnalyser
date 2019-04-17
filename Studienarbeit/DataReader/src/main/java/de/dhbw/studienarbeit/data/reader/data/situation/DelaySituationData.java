@@ -52,4 +52,13 @@ public class DelaySituationData
 	{
 		return new Delay(Delay.difference(delayWithSituation, delayWithoutSituation));
 	}
+
+	@Override
+	public String toString()
+	{
+		return new StringBuilder().append(situationName) //
+				.append(": with situation: ").append(delayWithSituation) //
+				.append("; without situation: ").append(delayWithoutSituation) //
+				.toString();
+	}
 }
