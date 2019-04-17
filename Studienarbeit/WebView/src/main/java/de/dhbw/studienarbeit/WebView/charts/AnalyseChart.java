@@ -31,7 +31,6 @@ public class AnalyseChart
 	private int highestDelay = 0;
 	private int lowestDelay = 0;
 
-	private int countDatasets = 1;
 	private Color[] colors = { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.CYAN };
 
 	public void addDataset(RequestGridData data)
@@ -59,12 +58,11 @@ public class AnalyseChart
 
 	private Color getUniqueColor(int num)
 	{
-		System.out.println(num);
 		if (num > colors.length)
 		{
 			return Color.BLUE;
 		}
-		return colors[countDatasets - 1];
+		return colors[num - 1];
 	}
 
 	public ChartJs getChart()

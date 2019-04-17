@@ -19,7 +19,7 @@ public class RequestGridData
 	public RequestGridData(Request request, int number) throws IOException
 	{
 		this.request = request;
-		this.number = number;
+		this.number = number + 1;
 		this.delays = request.getDelays();
 		this.canceled = Optional.ofNullable(request.getCancelledStops()).orElse(new CountData(0));
 	}

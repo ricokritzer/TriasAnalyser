@@ -14,20 +14,22 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.charts.AnalyseChart;
-import de.dhbw.studienarbeit.WebView.charts.AnalyseChartDialog;
+import de.dhbw.studienarbeit.WebView.components.AnalyseChartDialog;
 import de.dhbw.studienarbeit.WebView.requests.RequestGridData;
 
 @Route("analyse")
 public class AnalyseOverview extends Overview
 {
 	private static final long serialVersionUID = 1L;
+	public static int numDataset = 0;
 
-	List<RequestGridData> requests = new ArrayList<>();
-	AnalyseChart chart = new AnalyseChart();
+	public static AnalyseChart chart = new AnalyseChart();
 
-	private Div divChart;
+	public static Div divChart = new Div();
 
-	private Grid<RequestGridData> requestGrid;
+	public static Grid<RequestGridData> requestGrid;
+	
+	private static List<RequestGridData> requests = new ArrayList<>();
 
 	public AnalyseOverview()
 	{
@@ -51,8 +53,6 @@ public class AnalyseOverview extends Overview
 
 		requestGrid.setHeight("20vh");
 
-		divChart = new Div();
-
 		VerticalLayout layout = new VerticalLayout(buttons, new Div(requestGrid), divChart);
 		layout.setAlignItems(Alignment.STRETCH);
 		layout.setSizeFull();
@@ -64,13 +64,23 @@ public class AnalyseOverview extends Overview
 	{
 		Dialog dialog = new AnalyseChartDialog();
 		dialog.open();
-
-		divChart.removeAll();
-		divChart.add(chart.getChart());
 	}
 
 	private void emptyDiagram()
 	{
+		numDataset = 0;
 		divChart.removeAll();
+		requests.clear();
+		requestGrid.setItems(requests);
+	}
+
+	public static void addDataToGrid(RequestGridData data)
+	{
+		divChart.removeAll();
+		chart.addDataset(data);
+		divChart.add(chart.getChart());
+		requests.add(data);
+		requestGrid.setItems(requests);
+		AnalyseOverview.numDataset++;
 	}
 }
