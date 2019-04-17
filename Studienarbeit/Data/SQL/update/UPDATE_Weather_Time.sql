@@ -1,0 +1,1 @@
+UPDATE Weather SET timestamp = DATE_ADD(timestamp, INTERVAL 1 HOUR) WHERE timestamp > '2019-03-31 02:00:00';

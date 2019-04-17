@@ -1,0 +1,1 @@
+SELECT * FROM Weather WHERE stationID = "de:08212:1";

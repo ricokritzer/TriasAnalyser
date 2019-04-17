@@ -1,0 +1,1 @@
+SELECT count(*) AS Dauer_In_Minuten, FLOOR(number/400)+1 AS Max_Abweichung FROM Monitor WHERE name='kvv' GROUP BY Max_Abweichung ORDER BY Max_Abweichung DESC;

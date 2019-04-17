@@ -1,0 +1,1 @@
+UPDATE Station SET observe = false WHERE stationID NOT IN (SELECT DISTINCT stationID FROM Stop);
