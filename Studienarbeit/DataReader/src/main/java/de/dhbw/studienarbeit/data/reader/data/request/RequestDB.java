@@ -319,15 +319,4 @@ public class RequestDB extends DB<DelayCountData> implements Request
 
 		return sb.toString();
 	}
-
-	public static void main(String[] args) throws IOException
-	{
-		final Request request = new RequestDB(new StationData(new StationID("de:08212:1"), new StationName(""),
-				new Position(0, 0), new OperatorName("")));
-		final LineName ln = new LineName("S-Bahn S5");
-		final List<LineName> lns = new ArrayList<>();
-		lns.add(ln);
-		request.filterLineNames(lns);
-		request.getDelays().forEach(e -> System.out.println(e));
-	}
 }
