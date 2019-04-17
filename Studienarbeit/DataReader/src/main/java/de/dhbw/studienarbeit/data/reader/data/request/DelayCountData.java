@@ -59,4 +59,10 @@ public class DelayCountData implements Comparable<DelayCountData>
 	{
 		return Objects.hash(delay, count);
 	}
+
+	@Override
+	public String toString()
+	{
+		return delay.toString() + ": " + count.toString();
+	}
 }
