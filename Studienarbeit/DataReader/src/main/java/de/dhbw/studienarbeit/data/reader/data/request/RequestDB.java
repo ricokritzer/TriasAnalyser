@@ -15,7 +15,11 @@ import de.dhbw.studienarbeit.data.reader.data.Delay;
 import de.dhbw.studienarbeit.data.reader.data.count.CountData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
+import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationData;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 import de.dhbw.studienarbeit.data.reader.data.time.Hour;
 import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 import de.dhbw.studienarbeit.data.reader.database.DB;
@@ -174,7 +178,7 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	{
 		final StringBuilder stringBuilder = new StringBuilder().append("SELECT ")
 				.append("count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay")
-				.append(" FROM Stop WHERE stationID = ?");
+				.append(" FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID");
 
 		startDate.ifPresent(h -> stringBuilder.append(" AND timetabledTime >= ?"));
 		endDate.ifPresent(h -> stringBuilder.append(" AND timetabledTime <= ?"));
@@ -314,5 +318,16 @@ public class RequestDB extends DB<DelayCountData> implements Request
 		hourEnd.ifPresent(end -> sb.append(" bis: " + end));
 
 		return sb.toString();
+	}
+
+	public static void main(String[] args) throws IOException
+	{
+		final Request request = new RequestDB(new StationData(new StationID("de:08212:1"), new StationName(""),
+				new Position(0, 0), new OperatorName("")));
+		final LineName ln = new LineName("S-Bahn S5");
+		final List<LineName> lns = new ArrayList<>();
+		lns.add(ln);
+		request.filterLineNames(lns);
+		request.getDelays().forEach(e -> System.out.println(e));
 	}
 }
