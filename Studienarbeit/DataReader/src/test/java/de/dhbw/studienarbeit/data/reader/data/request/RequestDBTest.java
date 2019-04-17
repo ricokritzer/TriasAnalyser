@@ -28,7 +28,7 @@ public class RequestDBTest
 	{
 		final RequestDB request = createDelayRequest();
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -49,7 +49,7 @@ public class RequestDBTest
 		request.filterWeekdays(createWeekdayList(1));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ?"
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID"
 				+ " AND WEEKDAY(timetabledTime) IN (?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
@@ -73,7 +73,7 @@ public class RequestDBTest
 		request.filterWeekdays(createWeekdayList(2));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ?"
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID"
 				+ " AND WEEKDAY(timetabledTime) IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
@@ -97,7 +97,7 @@ public class RequestDBTest
 		request.filterLineNames(createLineNameList(1));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND name IN (?) AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND name IN (?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -120,7 +120,7 @@ public class RequestDBTest
 		request.filterLineNames(createLineNameList(2));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND name IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND name IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -144,7 +144,7 @@ public class RequestDBTest
 		request.filterLineDestination(createLineDestinationList(2));
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND name IN (?, ?) AND destination IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND name IN (?, ?) AND destination IN (?, ?) AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -167,7 +167,7 @@ public class RequestDBTest
 		final RequestDB request = createDelayRequest();
 		request.filterLineNames(createLineNameList(1));
 
-		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay FROM Stop WHERE stationID = ? AND name IN (?) AND realtime IS NULL GROUP BY delay;";
+		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND name IN (?) AND realtime IS NULL GROUP BY delay;";
 
 		assertThat(request.getCountCancelledSQL(), is(sql));
 	}
@@ -225,7 +225,7 @@ public class RequestDBTest
 		request.filterStartHour(Hour.HOUR1);
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) >= ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND HOUR(timetabledTime) >= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -248,7 +248,7 @@ public class RequestDBTest
 		request.filterEndHour(Hour.HOUR1);
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -272,7 +272,7 @@ public class RequestDBTest
 		request.filterEndHour(Hour.HOUR10);
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND HOUR(timetabledTime) >= ? AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND HOUR(timetabledTime) >= ? AND HOUR(timetabledTime) <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -344,7 +344,7 @@ public class RequestDBTest
 		request.filterStartDate(new Date());
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND timetabledTime >= ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND timetabledTime >= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -356,7 +356,7 @@ public class RequestDBTest
 		request.filterEndDate(new Date());
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND timetabledTime <= ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND timetabledTime <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
@@ -369,7 +369,7 @@ public class RequestDBTest
 		request.filterEndDate(new Date());
 
 		final String sql = "SELECT count(*) AS total, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay "
-				+ "FROM Stop WHERE stationID = ? AND timetabledTime >= ? AND timetabledTime <= ? AND realtime IS NOT NULL GROUP BY delay;";
+				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND timetabledTime >= ? AND timetabledTime <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
 	}
