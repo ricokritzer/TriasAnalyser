@@ -6,7 +6,9 @@ import java.util.Set;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -15,17 +17,23 @@ import de.dhbw.studienarbeit.WebView.requests.RequestGridData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.request.Request;
+import de.dhbw.studienarbeit.data.reader.data.time.Hour;
+import de.dhbw.studienarbeit.data.reader.data.time.Weekday;
 
 public class AnalyseChartDialogAllStops extends Dialog
 {
 	private static final long serialVersionUID = 1L;
 
-	private Request request;
+	protected Request request;
 
-	private VerticalLayout layout = new VerticalLayout();
+	protected VerticalLayout layout = new VerticalLayout();
 
-	private MultiselectComboBox<LineName> cmbLines = new MultiselectComboBox<>();
-	private MultiselectComboBox<LineDestination> cmbLineDestinations = new MultiselectComboBox<>();
+	protected MultiselectComboBox<LineName> cmbLines = new MultiselectComboBox<>();
+	protected MultiselectComboBox<LineDestination> cmbLineDestinations = new MultiselectComboBox<>();
+	protected MultiselectComboBox<Weekday> weekdays = new MultiselectComboBox<>();
+	protected ComboBox<Hour> startHour = new ComboBox<>("von");
+	protected ComboBox<Hour> endHour = new ComboBox<>("bis");
+	protected Label lblError = new Label();
 	private Button btnOk = new Button("OK");
 
 	public AnalyseChartDialogAllStops(Request request)
@@ -59,7 +67,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 		layout.add(div);
 	}
 
-	private void addData()
+	protected void addData()
 	{
 		RequestGridData data;
 		try
@@ -75,7 +83,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 		AnalyseOverview.addDataToGrid(data);
 	}
 
-	private void createFilters()
+	protected void createFilters()
 	{
 		// no further filters
 	}
@@ -148,7 +156,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 		}
 	}
 
-	private void handleIOException()
+	protected void handleIOException()
 	{
 		this.close();
 		Dialog error = new Dialog();

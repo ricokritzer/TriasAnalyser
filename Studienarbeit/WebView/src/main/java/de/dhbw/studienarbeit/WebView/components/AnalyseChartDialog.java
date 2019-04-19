@@ -91,7 +91,19 @@ public class AnalyseChartDialog extends Dialog
 			return;
 		}
 
-		Dialog dialog = new AnalyseChartDialogAllStops(request);
+		Dialog dialog = null;
+		if (rbgOptions.getValue().equals(ALL_STOPS))
+		{
+			dialog = new AnalyseChartDialogAllStops(request);
+		}
+		else if (rbgOptions.getValue().equals(OVERVIEW))
+		{
+			dialog = new AnalyseChartDialogOverview(request);
+		}
+		else if (rbgOptions.getValue().equals(FIXED_TIME))
+		{
+//			dialog = new AnalyseChartDialogFixedTime(request);
+		}
 		this.close();
 		dialog.open();
 	}
