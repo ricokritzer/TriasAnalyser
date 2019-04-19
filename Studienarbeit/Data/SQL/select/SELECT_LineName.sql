@@ -1,0 +1,1 @@
+SELECT DISTINCT name FROM Stop, Line WHERE stationID = "de:08215:31002" AND Stop.lineID = Line.lineID AND destination IN("Weiher Hardtsee");

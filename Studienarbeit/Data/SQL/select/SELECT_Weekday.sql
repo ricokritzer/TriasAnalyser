@@ -1,0 +1,1 @@
+SELECT count(*) FROM Stop WHERE realtime is null;

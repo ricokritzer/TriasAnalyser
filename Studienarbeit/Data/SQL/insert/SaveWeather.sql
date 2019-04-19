@@ -1,0 +1,1 @@
+INSERT INTO Weather (lat, lon, timeStamp, temp, humidity, pressure, wind, clouds, weatherInformationID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, (SELECT id FROM WeatherInformation WHERE text = ?));

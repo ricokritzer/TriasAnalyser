@@ -1,0 +1,1 @@
+SELECT count(*) as count, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timetabledTime)) AS delay FROM Stop WHERE stationID = 'de:08212:1' AND WEEKDAY(timetabledTime) = 0 AND realtime IS NOT NULL GROUP BY delay;

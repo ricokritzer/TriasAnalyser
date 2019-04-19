@@ -1,0 +1,1 @@
+SELECT COUNT(stationID) FROM Weather WHERE timeStamp > '2018-10-26 13:00:00';
