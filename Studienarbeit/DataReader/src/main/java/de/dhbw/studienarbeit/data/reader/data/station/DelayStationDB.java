@@ -1,5 +1,6 @@
 package de.dhbw.studienarbeit.data.reader.data.station;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -21,9 +22,14 @@ public class DelayStationDB extends DelayDB<StationData>
 	@Override
 	protected String getSQL()
 	{
-		return "SELECT Stop.stationID, name, displayName, lat, lon, count(*) AS count, "
+		return "SELECT Stop.stationID, name, displayName, lat, lon, count(*) AS total, "
 				+ "avg(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_avg, "
 				+ "max(UNIX_TIMESTAMP(realTime) - UNIX_TIMESTAMP(timeTabledTime)) AS delay_max "
 				+ "FROM Stop, Station, Operator WHERE realTime IS NOT NULL AND Station.operator = Operator.operator AND Stop.stationID = Station.stationID GROUP BY Station.stationID ORDER BY delay_avg DESC;";
+	}
+
+	public static void main(String[] args) throws IOException
+	{
+		new DelayStationDB().getDelays().forEach(e -> System.out.println(e));
 	}
 }
