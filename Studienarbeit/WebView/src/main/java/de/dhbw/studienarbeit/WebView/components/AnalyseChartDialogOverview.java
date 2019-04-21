@@ -40,6 +40,10 @@ public class AnalyseChartDialogOverview extends AnalyseChartDialogAllStops
 		}
 		try
 		{
+			if (request.getDelays().isEmpty())
+			{
+				handleEmptyList();
+			}
 			data = new RequestGridData(request, analyseOverview.getNumDataset());
 		}
 		catch (IOException e)

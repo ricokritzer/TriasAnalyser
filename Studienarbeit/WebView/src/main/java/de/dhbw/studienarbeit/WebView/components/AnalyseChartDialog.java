@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -19,11 +20,8 @@ import de.dhbw.studienarbeit.WebView.overview.AnalyseOverview;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.request.Request;
 import de.dhbw.studienarbeit.data.reader.data.request.RequestDB;
-import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
-import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationData;
-import de.dhbw.studienarbeit.data.reader.data.station.StationID;
-import de.dhbw.studienarbeit.data.reader.data.station.StationName;
+import de.dhbw.studienarbeit.web.data.Data;
 
 public class AnalyseChartDialog extends Dialog
 {
@@ -33,7 +31,7 @@ public class AnalyseChartDialog extends Dialog
 	private static final String FIXED_TIME = "fester Zeitpunkt";
 	private static final String OVERVIEW = "Zeitraum";
 	private static String[] choices = { ALL_STOPS, FIXED_TIME, OVERVIEW };
-	
+
 	private AnalyseOverview analyseOverview;
 
 	private ComboBox<StationData> cmbStations = new ComboBox<>("Station");
@@ -48,7 +46,7 @@ public class AnalyseChartDialog extends Dialog
 		super();
 
 		this.analyseOverview = analyseOverview;
-		
+
 		createStationsComboBox();
 		createOptionsRadioButtons();
 		createErrorLabel();
@@ -107,7 +105,7 @@ public class AnalyseChartDialog extends Dialog
 		}
 		else if (rbgOptions.getValue().equals(FIXED_TIME))
 		{
-//			dialog = new AnalyseChartDialogFixedTime(request);
+			dialog = new AnalyseChartDialogFixedTime(analyseOverview, request);
 		}
 		this.close();
 		dialog.open();
@@ -137,10 +135,12 @@ public class AnalyseChartDialog extends Dialog
 	private void createStationsComboBox()
 	{
 		cmbStations.setItemLabelGenerator(e -> e.getName().toString());
-		// stations.setItems(Data.getDelaysStation().stream().map(e ->
-		// e.getValue()).collect(Collectors.toList()));
-		cmbStations.setItems(new StationData(new StationID("de:08212:1"), new StationName("Marktplatz-Test"),
-				new Position(0, 0), new OperatorName("KVV")));
+		cmbStations.setItems(Data.getDelaysStation().stream().map(e -> e.getValue()).collect(Collectors.toList()));
+
+		// zum Testen:
+		// cmbStations.setItems(new StationData(new StationID("de:08212:1"), new
+		// StationName("Marktplatz-Test"),
+		// new Position(0, 0), new OperatorName("KVV")));
 
 		cmbStations.addValueChangeListener(e -> lblError.setText(""));
 

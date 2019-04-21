@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Optional;
 
 import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -16,9 +15,11 @@ public class DateTimePicker extends CustomField<Date>
 
 	private DatePicker date;
 	private TimePicker time;
+	private LocalTime defaultTime;
 
 	public DateTimePicker(LocalTime defaultTime)
 	{
+		this.defaultTime = defaultTime;
 		date = new DatePicker(LocalDate.now());
 		time = new TimePicker(defaultTime);
 		add(date, time);
@@ -30,17 +31,26 @@ public class DateTimePicker extends CustomField<Date>
 		date.setReadOnly(readOnly);
 		time.setReadOnly(readOnly);
 	}
-	
+
 	@Override
-	public Optional<Date> getOptionalValue()
+	public Date getValue()
 	{
-		if (!date.getOptionalValue().isPresent() || !time.getOptionalValue().isPresent())
+		if (!date.getOptionalValue().isPresent())
 		{
-			return Optional.empty();
+			return null;
+		}
+
+		LocalTime localTime = null;
+		if (time.getOptionalValue().isPresent())
+		{
+			localTime = time.getValue();
+		}
+		else
+		{
+			localTime = defaultTime;
 		}
 
 		LocalDate localDate = date.getValue();
-		LocalTime localTime = time.getValue();
 		Calendar cal = Calendar.getInstance();
 
 		cal.set(Calendar.SECOND, localTime.getSecond());
@@ -50,7 +60,7 @@ public class DateTimePicker extends CustomField<Date>
 		cal.set(Calendar.MONTH, localDate.getMonthValue() - 1);
 		cal.set(Calendar.YEAR, localDate.getYear());
 
-		return Optional.of(cal.getTime());
+		return cal.getTime();
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.vaadin.gatanaso.MultiselectComboBox;
 
+import com.mysql.cj.result.LocalTimeValueFactory;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -13,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import de.dhbw.studienarbeit.WebView.components.DateTimePicker;
 import de.dhbw.studienarbeit.WebView.requests.RequestGridData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
@@ -34,6 +36,8 @@ public class AnalyseChartDialogAllStops extends Dialog
 	protected MultiselectComboBox<Weekday> weekdays = new MultiselectComboBox<>();
 	protected ComboBox<Hour> startHour = new ComboBox<>("von");
 	protected ComboBox<Hour> endHour = new ComboBox<>("bis");
+	protected DateTimePicker startDateTime = new DateTimePicker(new LocalTimeValueFactory().createFromTime(0, 0, 0, 0));
+	protected DateTimePicker endDateTime = new DateTimePicker(new LocalTimeValueFactory().createFromTime(23, 59, 0, 0));
 	protected Label lblError = new Label();
 	private Button btnOk = new Button("OK");
 
@@ -74,6 +78,10 @@ public class AnalyseChartDialogAllStops extends Dialog
 		RequestGridData data;
 		try
 		{
+			if (request.getDelays().isEmpty())
+			{
+				handleEmptyList();
+			}
 			data = new RequestGridData(request, analyseOverview.getNumDataset());
 		}
 		catch (IOException e)
@@ -83,6 +91,14 @@ public class AnalyseChartDialogAllStops extends Dialog
 		}
 		this.close();
 		analyseOverview.addDataToGrid(data);
+	}
+
+	protected void handleEmptyList()
+	{
+		this.close();
+		Dialog error = new Dialog();
+		error.add("Die Suche ergab keine Ergebnisse");
+		error.open();
 	}
 
 	protected void createFilters()
