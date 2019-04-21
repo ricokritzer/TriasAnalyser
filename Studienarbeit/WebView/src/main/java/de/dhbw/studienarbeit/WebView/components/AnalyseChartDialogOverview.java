@@ -18,9 +18,9 @@ public class AnalyseChartDialogOverview extends AnalyseChartDialogAllStops
 {
 	private static final long serialVersionUID = 1L;
 
-	public AnalyseChartDialogOverview(Request request)
+	public AnalyseChartDialogOverview(AnalyseOverview analyseOverview, Request request)
 	{
-		super(request);
+		super(analyseOverview, request);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class AnalyseChartDialogOverview extends AnalyseChartDialogAllStops
 		}
 		try
 		{
-			data = new RequestGridData(request, AnalyseOverview.numDataset);
+			data = new RequestGridData(request, analyseOverview.getNumDataset());
 		}
 		catch (IOException e)
 		{
@@ -48,7 +48,7 @@ public class AnalyseChartDialogOverview extends AnalyseChartDialogAllStops
 			return;
 		}
 		this.close();
-		AnalyseOverview.addDataToGrid(data);
+		analyseOverview.addDataToGrid(data);
 	}
 
 	@Override

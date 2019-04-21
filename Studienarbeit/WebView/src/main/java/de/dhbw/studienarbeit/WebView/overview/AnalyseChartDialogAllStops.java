@@ -25,6 +25,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 	private static final long serialVersionUID = 1L;
 
 	protected Request request;
+	protected AnalyseOverview analyseOverview;
 
 	protected VerticalLayout layout = new VerticalLayout();
 
@@ -36,9 +37,10 @@ public class AnalyseChartDialogAllStops extends Dialog
 	protected Label lblError = new Label();
 	private Button btnOk = new Button("OK");
 
-	public AnalyseChartDialogAllStops(Request request)
+	public AnalyseChartDialogAllStops(AnalyseOverview analyseOverview, Request request)
 	{
 		this.request = request;
+		this.analyseOverview = analyseOverview;
 
 		try
 		{
@@ -72,7 +74,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 		RequestGridData data;
 		try
 		{
-			data = new RequestGridData(request, AnalyseOverview.numDataset);
+			data = new RequestGridData(request, analyseOverview.getNumDataset());
 		}
 		catch (IOException e)
 		{
@@ -80,7 +82,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 			return;
 		}
 		this.close();
-		AnalyseOverview.addDataToGrid(data);
+		analyseOverview.addDataToGrid(data);
 	}
 
 	protected void createFilters()

@@ -21,15 +21,15 @@ import de.dhbw.studienarbeit.WebView.requests.RequestGridData;
 public class AnalyseOverview extends Overview
 {
 	private static final long serialVersionUID = 1L;
-	public static int numDataset = 0;
+	private int numDataset = 0;
 
-	public static AnalyseChart chart = new AnalyseChart();
+	private AnalyseChart chart = new AnalyseChart();
 
-	public static Div divChart = new Div();
+	private Div divChart = new Div();
 
-	public static Grid<RequestGridData> requestGrid;
+	private Grid<RequestGridData> requestGrid;
 	
-	private static List<RequestGridData> requests = new ArrayList<>();
+	private List<RequestGridData> requests = new ArrayList<>();
 
 	public AnalyseOverview()
 	{
@@ -62,7 +62,7 @@ public class AnalyseOverview extends Overview
 
 	private void addData()
 	{
-		Dialog dialog = new AnalyseChartDialog();
+		Dialog dialog = new AnalyseChartDialog(this);
 		dialog.open();
 	}
 
@@ -74,13 +74,18 @@ public class AnalyseOverview extends Overview
 		requestGrid.setItems(requests);
 	}
 
-	public static void addDataToGrid(RequestGridData data)
+	public void addDataToGrid(RequestGridData data)
 	{
 		divChart.removeAll();
 		chart.addDataset(data);
 		divChart.add(chart.getChart());
 		requests.add(data);
 		requestGrid.setItems(requests);
-		AnalyseOverview.numDataset++;
+		numDataset++;
+	}
+	
+	public int getNumDataset()
+	{
+		return numDataset;
 	}
 }

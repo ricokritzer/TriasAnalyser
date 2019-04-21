@@ -15,6 +15,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 
 import de.dhbw.studienarbeit.WebView.overview.AnalyseChartDialogAllStops;
+import de.dhbw.studienarbeit.WebView.overview.AnalyseOverview;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.request.Request;
 import de.dhbw.studienarbeit.data.reader.data.request.RequestDB;
@@ -31,7 +32,9 @@ public class AnalyseChartDialog extends Dialog
 	private static final String ALL_STOPS = "alle Stops";
 	private static final String FIXED_TIME = "fester Zeitpunkt";
 	private static final String OVERVIEW = "Zeitraum";
-	private String[] choices = { ALL_STOPS, FIXED_TIME, OVERVIEW };
+	private static String[] choices = { ALL_STOPS, FIXED_TIME, OVERVIEW };
+	
+	private AnalyseOverview analyseOverview;
 
 	private ComboBox<StationData> cmbStations = new ComboBox<>("Station");
 	private RadioButtonGroup<String> rbgOptions = new RadioButtonGroup<>();
@@ -40,10 +43,12 @@ public class AnalyseChartDialog extends Dialog
 
 	private VerticalLayout layout = new VerticalLayout();
 
-	public AnalyseChartDialog()
+	public AnalyseChartDialog(AnalyseOverview analyseOverview)
 	{
 		super();
 
+		this.analyseOverview = analyseOverview;
+		
 		createStationsComboBox();
 		createOptionsRadioButtons();
 		createErrorLabel();
@@ -94,11 +99,11 @@ public class AnalyseChartDialog extends Dialog
 		Dialog dialog = null;
 		if (rbgOptions.getValue().equals(ALL_STOPS))
 		{
-			dialog = new AnalyseChartDialogAllStops(request);
+			dialog = new AnalyseChartDialogAllStops(analyseOverview, request);
 		}
 		else if (rbgOptions.getValue().equals(OVERVIEW))
 		{
-			dialog = new AnalyseChartDialogOverview(request);
+			dialog = new AnalyseChartDialogOverview(analyseOverview, request);
 		}
 		else if (rbgOptions.getValue().equals(FIXED_TIME))
 		{
