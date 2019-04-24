@@ -43,6 +43,11 @@ public class AnalyseChart
 		checkHighestAndLowestDelay(data);
 		requests.add(data);
 	}
+	
+	public void removeDataset(RequestGridData data)
+	{
+		requests.remove(data);
+	}
 
 	private void checkHighestAndLowestDelay(RequestGridData data)
 	{

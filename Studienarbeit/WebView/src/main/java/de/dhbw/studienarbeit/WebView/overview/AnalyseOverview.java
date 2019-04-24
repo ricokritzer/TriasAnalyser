@@ -70,6 +70,7 @@ public class AnalyseOverview extends Overview
 	{
 		numDataset = 0;
 		divChart.removeAll();
+		requests.forEach(chart::removeDataset);
 		requests.clear();
 		requestGrid.setItems(requests);
 	}
