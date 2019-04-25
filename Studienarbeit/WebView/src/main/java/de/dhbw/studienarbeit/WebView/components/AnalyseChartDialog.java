@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -15,13 +14,15 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 
-import de.dhbw.studienarbeit.WebView.overview.AnalyseChartDialogAllStops;
 import de.dhbw.studienarbeit.WebView.overview.AnalyseOverview;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;
 import de.dhbw.studienarbeit.data.reader.data.request.Request;
 import de.dhbw.studienarbeit.data.reader.data.request.RequestDB;
+import de.dhbw.studienarbeit.data.reader.data.station.OperatorName;
+import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationData;
-import de.dhbw.studienarbeit.web.data.Data;
+import de.dhbw.studienarbeit.data.reader.data.station.StationID;
+import de.dhbw.studienarbeit.data.reader.data.station.StationName;
 
 public class AnalyseChartDialog extends Dialog
 {
@@ -135,12 +136,13 @@ public class AnalyseChartDialog extends Dialog
 	private void createStationsComboBox()
 	{
 		cmbStations.setItemLabelGenerator(e -> e.getName().toString());
-		cmbStations.setItems(Data.getDelaysStation().stream().map(e -> e.getValue()).collect(Collectors.toList()));
+		
+//		cmbStations.setItems(Data.getDelaysStation().stream().map(e -> e.getValue()).collect(Collectors.toList()));
 
 		// zum Testen:
-		// cmbStations.setItems(new StationData(new StationID("de:08212:1"), new
-		// StationName("Marktplatz-Test"),
-		// new Position(0, 0), new OperatorName("KVV")));
+		 cmbStations.setItems(new StationData(new StationID("de:08212:1"), new
+		 StationName("Marktplatz-Test"),
+		 new Position(0, 0), new OperatorName("KVV")));
 
 		cmbStations.addValueChangeListener(e -> lblError.setText(""));
 

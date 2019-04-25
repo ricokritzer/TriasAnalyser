@@ -1,4 +1,4 @@
-package de.dhbw.studienarbeit.WebView.overview;
+package de.dhbw.studienarbeit.WebView.components;
 
 import java.io.IOException;
 import java.util.Set;
@@ -14,7 +14,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-import de.dhbw.studienarbeit.WebView.components.DateTimePicker;
+import de.dhbw.studienarbeit.WebView.overview.AnalyseOverview;
 import de.dhbw.studienarbeit.WebView.requests.RequestGridData;
 import de.dhbw.studienarbeit.data.reader.data.line.LineDestination;
 import de.dhbw.studienarbeit.data.reader.data.line.LineName;

@@ -6,11 +6,14 @@ import java.util.List;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.NativeButtonRenderer;
+import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.charts.AnalyseChart;
@@ -45,12 +48,17 @@ public class AnalyseOverview extends Overview
 		buttons.setAlignItems(Alignment.STRETCH);
 
 		requestGrid = new Grid<>();
+		requestGrid.setSelectionMode(SelectionMode.SINGLE);
 		requestGrid.addColumn(e -> e.getNumber()).setHeader("Nummer").setSortable(false);
-		requestGrid.addColumn(e -> e.toString()).setHeader("Request").setSortable(false);
+		requestGrid.addColumn(e -> e.toString()).setHeader("Analyse").setSortable(false);
 		requestGrid.addColumn(e -> e.getCount()).setHeader("Anzahl").setSortable(false);
 		requestGrid.addColumn(e -> e.getCanceledPercentage() + "%").setHeader("Ausfälle").setSortable(false);
 		requestGrid.addColumn(e -> e.getOnTimePercentage() + "%").setHeader("Pünktlich").setSortable(false);
+		requestGrid.addColumn(new NativeButtonRenderer<RequestGridData>("löschen", item -> delete(item)));
 
+		requestGrid.setDetailsVisibleOnClick(true);
+		requestGrid.setItemDetailsRenderer(new TextRenderer<>(e -> e.toString()));
+		
 		requestGrid.setHeight("20vh");
 
 		VerticalLayout layout = new VerticalLayout(buttons, new Div(requestGrid), divChart);
@@ -58,6 +66,15 @@ public class AnalyseOverview extends Overview
 		layout.setSizeFull();
 
 		setContent(layout);
+	}
+
+	private void delete(RequestGridData item)
+	{
+		requests.remove(item);
+		chart.removeDataset(item);
+		divChart.removeAll();
+		divChart.add(chart.getChart());
+		requestGrid.setItems(requests);
 	}
 
 	private void addData()

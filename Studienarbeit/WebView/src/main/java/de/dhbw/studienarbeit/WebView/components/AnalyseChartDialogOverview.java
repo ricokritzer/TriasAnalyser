@@ -6,7 +6,6 @@ import java.util.Set;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-import de.dhbw.studienarbeit.WebView.overview.AnalyseChartDialogAllStops;
 import de.dhbw.studienarbeit.WebView.overview.AnalyseOverview;
 import de.dhbw.studienarbeit.WebView.requests.RequestGridData;
 import de.dhbw.studienarbeit.data.reader.data.request.InvalidTimeSpanException;
