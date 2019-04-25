@@ -40,6 +40,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 	protected DateTimePicker endDateTime = new DateTimePicker(new LocalTimeValueFactory().createFromTime(23, 59, 0, 0));
 	protected Label lblError = new Label();
 	private Button btnOk = new Button("OK");
+	private Button btnCancel = new Button("Abbrechen");
 
 	public AnalyseChartDialogAllStops(AnalyseOverview analyseOverview, Request request)
 	{
@@ -65,8 +66,9 @@ public class AnalyseChartDialogAllStops extends Dialog
 	private void createOkButton()
 	{
 		btnOk.addClickListener(e -> addData());
+		btnCancel.addClickListener(e -> this.close());
 
-		HorizontalLayout div = new HorizontalLayout(btnOk);
+		HorizontalLayout div = new HorizontalLayout(btnOk, btnCancel);
 		div.setSizeFull();
 		div.setAlignItems(Alignment.STRETCH);
 
