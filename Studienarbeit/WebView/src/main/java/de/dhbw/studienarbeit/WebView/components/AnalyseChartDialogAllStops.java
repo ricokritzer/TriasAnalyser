@@ -113,6 +113,15 @@ public class AnalyseChartDialogAllStops extends Dialog
 		cmbLineDestinations.addValueChangeListener(e -> lineDestinationsChanged());
 		cmbLineDestinations.setItemLabelGenerator(e -> e.toString());
 		cmbLineDestinations.setSizeFull();
+		
+		try
+		{
+			cmbLineDestinations.setItems(request.getPossibleLineDestinations());
+		}
+		catch (IOException e1)
+		{
+			handleIOException();
+		}
 
 		HorizontalLayout div = new HorizontalLayout(cmbLineDestinations);
 		div.setSizeFull();
