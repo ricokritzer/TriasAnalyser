@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -23,6 +24,7 @@ import de.dhbw.studienarbeit.data.reader.data.station.Position;
 import de.dhbw.studienarbeit.data.reader.data.station.StationData;
 import de.dhbw.studienarbeit.data.reader.data.station.StationID;
 import de.dhbw.studienarbeit.data.reader.data.station.StationName;
+import de.dhbw.studienarbeit.web.data.Data;
 
 public class AnalyseChartDialog extends Dialog
 {
@@ -136,14 +138,18 @@ public class AnalyseChartDialog extends Dialog
 	private void createStationsComboBox()
 	{
 		cmbStations.setItemLabelGenerator(e -> e.getName().toString());
-		
-//		cmbStations.setItems(Data.getDelaysStation().stream().map(e -> e.getValue()).collect(Collectors.toList()));
+
+		List<StationData> stations = Data.getDelaysStation().stream().map(e -> e.getValue())
+				.collect(Collectors.toList());
 
 		// zum Testen:
-		 cmbStations.setItems(new StationData(new StationID("de:08212:1"), new
-		 StationName("Marktplatz-Test"),
-		 new Position(0, 0), new OperatorName("KVV")));
+		if (stations.isEmpty())
+		{
+			stations.add(new StationData(new StationID("de:08212:1"), new StationName("Marktplatz-Test"),
+					new Position(0, 0), new OperatorName("KVV")));
+		}
 
+		cmbStations.setItems(stations);
 		cmbStations.addValueChangeListener(e -> lblError.setText(""));
 
 		HorizontalLayout div = new HorizontalLayout(cmbStations);
