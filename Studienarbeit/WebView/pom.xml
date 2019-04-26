@@ -150,6 +150,12 @@
 			<version>0.0.5</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.vaadin.pekkam</groupId>
+			<artifactId>canvas-java</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

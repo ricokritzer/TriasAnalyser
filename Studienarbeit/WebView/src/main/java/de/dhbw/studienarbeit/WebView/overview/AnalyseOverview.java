@@ -3,7 +3,11 @@ package de.dhbw.studienarbeit.WebView.overview;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.vaadin.pekkam.Canvas;
+
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
@@ -12,6 +16,8 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayout.Orientation;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.Route;
@@ -21,6 +27,7 @@ import de.dhbw.studienarbeit.WebView.components.AnalyseChartDialog;
 import de.dhbw.studienarbeit.WebView.requests.RequestGridData;
 
 @Route("analyse")
+@JavaScript("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js")
 public class AnalyseOverview extends Overview
 {
 	private static final long serialVersionUID = 1L;
@@ -31,8 +38,9 @@ public class AnalyseOverview extends Overview
 	private Div divChart = new Div();
 
 	private Grid<RequestGridData> requestGrid;
-	
+
 	private List<RequestGridData> requests = new ArrayList<>();
+	private Canvas canvas = new Canvas(100, 100);
 
 	public AnalyseOverview()
 	{
@@ -58,22 +66,35 @@ public class AnalyseOverview extends Overview
 
 		requestGrid.setDetailsVisibleOnClick(true);
 		requestGrid.setItemDetailsRenderer(new TextRenderer<>(e -> e.toString()));
-		
-		requestGrid.setHeight("20vh");
 
-		VerticalLayout layout = new VerticalLayout(buttons, new Div(requestGrid), divChart);
-		layout.setAlignItems(Alignment.STRETCH);
+		requestGrid.setSizeFull();
+
+		canvas.setId("chart-canvas");
+		canvas.setSizeFull();
+
+		divChart.add(canvas);
+		divChart.getStyle().set("position", "relative");
+
+		VerticalLayout upperHalf = new VerticalLayout(buttons, requestGrid);
+		upperHalf.setAlignItems(Alignment.STRETCH);
+		upperHalf.setSizeFull();
+
+		SplitLayout layout = new SplitLayout(upperHalf, divChart);
+		layout.setOrientation(Orientation.VERTICAL);
 		layout.setSizeFull();
-
+		layout.setSplitterPosition(30);
+		
 		setContent(layout);
+		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript(
+				"var ctx = document.getElementById('chart-canvas').getContext('2d'); var myChart = new Chart(ctx, "
+						+ new AnalyseChart().getChart() + ");");
 	}
 
 	private void delete(RequestGridData item)
 	{
 		requests.remove(item);
 		chart.removeDataset(item);
-		divChart.removeAll();
-		divChart.add(chart.getChart());
+		drawNewChart(chart);
 		requestGrid.setItems(requests);
 	}
 
@@ -86,7 +107,7 @@ public class AnalyseOverview extends Overview
 	private void emptyDiagram()
 	{
 		numDataset = 0;
-		divChart.removeAll();
+		drawNewChart(new AnalyseChart());
 		requests.forEach(chart::removeDataset);
 		requests.clear();
 		requestGrid.setItems(requests);
@@ -94,14 +115,24 @@ public class AnalyseOverview extends Overview
 
 	public void addDataToGrid(RequestGridData data)
 	{
-		divChart.removeAll();
 		chart.addDataset(data);
-		divChart.add(chart.getChart());
+		drawNewChart(chart);
 		requests.add(data);
 		requestGrid.setItems(requests);
 		numDataset++;
 	}
-	
+
+	private void drawNewChart(AnalyseChart analyseChart)
+	{
+		divChart.removeAll();
+		canvas.setId("chart-canvas");
+		canvas.setSizeFull();
+		divChart.add(canvas);
+		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript(
+				"var ctx = document.getElementById('chart-canvas').getContext('2d'); var myChart = new Chart(ctx, "
+						+ analyseChart.getChart() + ");");
+	}
+
 	public int getNumDataset()
 	{
 		return numDataset;

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.syndybat.chartjs.ChartJs;
-
 import be.ceau.chart.BarChart;
 import be.ceau.chart.color.Color;
 import be.ceau.chart.data.BarData;
@@ -31,7 +29,7 @@ public class AnalyseChart
 	private int highestDelay = 0;
 	private int lowestDelay = 0;
 
-	private Color[] colors = { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.CYAN };
+	private Color[] colors = { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.CYAN, Color.BROWN, Color.VIOLET, Color.DARK_GREEN};
 
 	public void addDataset(RequestGridData data)
 	{
@@ -70,7 +68,7 @@ public class AnalyseChart
 		return colors[num - 1];
 	}
 
-	public ChartJs getChart()
+	public String getChart()
 	{
 		List<Integer> delays = new ArrayList<>();
 		for (int i = lowestDelay; i <= highestDelay + 1; i++)
@@ -96,8 +94,10 @@ public class AnalyseChart
 			barData.addDataset(dataset);
 		}
 		
+		barOptions.setResponsive(true);
+		barOptions.setMaintainAspectRatio(false);
 		BarChart chart = new BarChart(barData, barOptions);
-		return new ChartJs(chart.toJson());
+		return chart.toJson();
 	}
 
 	private String[] getLabels(List<Integer> delays)
