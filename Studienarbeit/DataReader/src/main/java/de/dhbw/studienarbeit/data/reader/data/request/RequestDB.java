@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -280,7 +279,7 @@ public class RequestDB extends DB<DelayCountData> implements Request
 		final Hour s = start.get();
 		final Hour e = end.get();
 
-		return !e.before(s);
+		return s.before(e);
 	}
 
 	private String getString(List<? extends Object> objects)
@@ -320,15 +319,13 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	@Override
 	public List<Hour> getPossibleEndHours()
 	{
-		if (!hourStart.isPresent())
-		{
-			return Arrays.asList(Hour.values());
-		}
-
 		final List<Hour> hours = new ArrayList<>();
 		for (Hour hour : Hour.values())
 		{
-			hours.add(hour);
+			if (possibleHour(hourStart, Optional.of(hour)))
+			{
+				hours.add(hour);
+			}
 		}
 		return hours;
 	}
@@ -336,15 +333,13 @@ public class RequestDB extends DB<DelayCountData> implements Request
 	@Override
 	public List<Hour> getPossibleStartHours()
 	{
-		if (!hourEnd.isPresent())
-		{
-			return Arrays.asList(Hour.values());
-		}
-
 		final List<Hour> hours = new ArrayList<>();
 		for (Hour hour : Hour.values())
 		{
-			hours.add(hour);
+			if (possibleHour(Optional.of(hour), hourEnd))
+			{
+				hours.add(hour);
+			}
 		}
 		return hours;
 	}

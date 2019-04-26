@@ -2,6 +2,7 @@ package de.dhbw.studienarbeit.data.reader.data.request;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -203,14 +204,6 @@ public class RequestDBTest
 	}
 
 	@Test
-	public void setStartAndEndTimeSameValue() throws Exception
-	{
-		final RequestDB request = createDelayRequest();
-		request.filterStartHour(Hour.HOUR10);
-		request.filterEndHour(Hour.HOUR10);
-	}
-
-	@Test
 	public void setValidStartAndEndTime() throws Exception
 	{
 		final RequestDB request = createDelayRequest();
@@ -372,6 +365,54 @@ public class RequestDBTest
 				+ "FROM Stop, Line WHERE stationID = ? AND Stop.lineID = Line.lineID AND timetabledTime >= ? AND timetabledTime <= ? AND realtime IS NOT NULL GROUP BY delay;";
 
 		assertThat(request.getDelaySQL(), is(sql));
+	}
+
+	@Test
+	public void possibleEndHoursWithNoStartHour() throws Exception
+	{
+		final Request request = createDelayRequest();
+
+		final List<Hour> hours = request.getPossibleEndHours();
+
+		assertThat(hours.size(), is(Hour.values().length));
+	}
+
+	@Test
+	public void possibleStartHoursWithNoEndHour() throws Exception
+	{
+		final Request request = createDelayRequest();
+
+		final List<Hour> hours = request.getPossibleStartHours();
+
+		assertThat(hours.size(), is(Hour.values().length));
+	}
+
+	@Test
+	public void possibleStartHoursWithEndHour() throws Exception
+	{
+		final Request request = createDelayRequest();
+		request.filterEndHour(Hour.HOUR3);
+
+		final List<Hour> hours = request.getPossibleStartHours();
+
+		assertThat(hours.size(), is(2));
+		assertTrue(hours.contains(Hour.HOUR1));
+		assertTrue(hours.contains(Hour.HOUR2));
+	}
+
+	@Test
+	public void possibleEndHoursWithStartHour() throws Exception
+	{
+		final Request request = createDelayRequest();
+		request.filterStartHour(Hour.HOUR20);
+
+		final List<Hour> hours = request.getPossibleEndHours();
+
+		assertThat(hours.size(), is(4));
+		assertTrue(hours.contains(Hour.HOUR21));
+		assertTrue(hours.contains(Hour.HOUR22));
+		assertTrue(hours.contains(Hour.HOUR23));
+		assertTrue(hours.contains(Hour.HOUR24));
 	}
 
 	private RequestDB createDelayRequest()
