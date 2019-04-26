@@ -8,6 +8,6 @@ public class InvalidTimeSpanException extends IOException
 
 	public InvalidTimeSpanException()
 	{
-		super("Endtime has to be before starttime");
+		super("Die Startzeit muss vor dem Ende liegen.");
 	}
 }
