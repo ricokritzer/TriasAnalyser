@@ -41,6 +41,7 @@ public class AnalyseChartDialog extends Dialog
 	private RadioButtonGroup<String> rbgOptions = new RadioButtonGroup<>();
 	private Label lblError = new Label();
 	private Button btnOk = new Button("Weiter");
+	private Button btnCancel = new Button("Abbrechen");
 
 	private VerticalLayout layout = new VerticalLayout();
 
@@ -62,8 +63,9 @@ public class AnalyseChartDialog extends Dialog
 	private void createOkButton()
 	{
 		btnOk.addClickListener(e -> nextDialog());
+		btnCancel.addClickListener(e -> this.close());
 
-		HorizontalLayout div = new HorizontalLayout(btnOk);
+		HorizontalLayout div = new HorizontalLayout(btnOk, btnCancel);
 		div.setSizeFull();
 		div.setAlignItems(Alignment.STRETCH);
 

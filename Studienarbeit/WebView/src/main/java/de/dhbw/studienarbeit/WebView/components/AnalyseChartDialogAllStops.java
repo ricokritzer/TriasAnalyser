@@ -40,7 +40,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 	protected DateTimePicker endDateTime = new DateTimePicker(new LocalTimeValueFactory().createFromTime(23, 59, 0, 0));
 	protected Label lblError = new Label();
 	private Button btnOk = new Button("OK");
-	private Button btnCancel = new Button("Abbrechen");
+	private Button btnCancel = new Button("Zurück");
 
 	public AnalyseChartDialogAllStops(AnalyseOverview analyseOverview, Request request)
 	{
@@ -66,7 +66,11 @@ public class AnalyseChartDialogAllStops extends Dialog
 	private void createOkButton()
 	{
 		btnOk.addClickListener(e -> addData());
-		btnCancel.addClickListener(e -> this.close());
+		btnCancel.addClickListener(e -> {
+			Dialog dialog = new AnalyseChartDialog(analyseOverview);
+			this.close();
+			dialog.open();
+		});
 
 		HorizontalLayout div = new HorizontalLayout(btnOk, btnCancel);
 		div.setSizeFull();
@@ -115,7 +119,7 @@ public class AnalyseChartDialogAllStops extends Dialog
 		cmbLineDestinations.addValueChangeListener(e -> lineDestinationsChanged());
 		cmbLineDestinations.setItemLabelGenerator(e -> e.toString());
 		cmbLineDestinations.setSizeFull();
-		
+
 		try
 		{
 			cmbLineDestinations.setItems(request.getPossibleLineDestinations());
