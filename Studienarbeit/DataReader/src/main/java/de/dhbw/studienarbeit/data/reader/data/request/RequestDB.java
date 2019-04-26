@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -314,5 +315,37 @@ public class RequestDB extends DB<DelayCountData> implements Request
 		hourEnd.ifPresent(end -> sb.append(" bis: " + end));
 
 		return sb.toString();
+	}
+
+	@Override
+	public List<Hour> getPossibleEndHours()
+	{
+		if (!hourStart.isPresent())
+		{
+			return Arrays.asList(Hour.values());
+		}
+
+		final List<Hour> hours = new ArrayList<>();
+		for (Hour hour : Hour.values())
+		{
+			hours.add(hour);
+		}
+		return hours;
+	}
+
+	@Override
+	public List<Hour> getPossibleStartHours()
+	{
+		if (!hourEnd.isPresent())
+		{
+			return Arrays.asList(Hour.values());
+		}
+
+		final List<Hour> hours = new ArrayList<>();
+		for (Hour hour : Hour.values())
+		{
+			hours.add(hour);
+		}
+		return hours;
 	}
 }

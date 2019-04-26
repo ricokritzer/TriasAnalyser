@@ -29,7 +29,11 @@ public interface Request
 
 	public Request filterStartDate(Date start) throws InvalidTimeSpanException;
 
+	public List<Hour> getPossibleEndHours();
+
 	public Request filterEndDate(Date end) throws InvalidTimeSpanException;
+
+	public List<Hour> getPossibleStartHours();
 
 	public Request filterStartHour(Hour hour) throws InvalidTimeSpanException;
 
