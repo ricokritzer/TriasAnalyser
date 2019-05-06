@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.vaadin.pekkam.Canvas;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JavaScript;
@@ -40,7 +41,6 @@ public class AnalyseOverview extends Overview
 	private Grid<RequestGridData> requestGrid;
 
 	private List<RequestGridData> requests = new ArrayList<>();
-	private Canvas canvas = new Canvas(100, 100);
 
 	public AnalyseOverview()
 	{
@@ -69,10 +69,7 @@ public class AnalyseOverview extends Overview
 
 		requestGrid.setSizeFull();
 
-		canvas.setId("chart-canvas");
-		canvas.setSizeFull();
-
-		divChart.add(canvas);
+		divChart.add(getNewCanvas());
 		divChart.getStyle().set("position", "relative");
 
 		VerticalLayout upperHalf = new VerticalLayout(buttons, requestGrid);
@@ -125,12 +122,18 @@ public class AnalyseOverview extends Overview
 	private void drawNewChart(AnalyseChart analyseChart)
 	{
 		divChart.removeAll();
-		canvas.setId("chart-canvas");
-		canvas.setSizeFull();
-		divChart.add(canvas);
+		divChart.add(getNewCanvas());
 		getUI().orElse(UI.getCurrent()).getPage().executeJavaScript(
 				"var ctx = document.getElementById('chart-canvas').getContext('2d'); var myChart = new Chart(ctx, "
 						+ analyseChart.getChart() + ");");
+	}
+
+	private Component getNewCanvas()
+	{
+		Canvas canvas = new Canvas(100, 100);
+		canvas.setId("chart-canvas");
+		canvas.setSizeFull();
+		return canvas;
 	}
 
 	public int getNumDataset()

@@ -9,12 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.DataProvider;
 
-import de.dhbw.studienarbeit.data.reader.data.DelayData;
-import de.dhbw.studienarbeit.data.reader.data.line.Line;
-import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituation;
 import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationData;
-import de.dhbw.studienarbeit.data.reader.data.situation.DelaySituationDataPart;
-import de.dhbw.studienarbeit.data.trias.Situation;
 import de.dhbw.studienarbeit.web.data.Data;
 
 public class DelaySituationDiv extends Div
