@@ -5,6 +5,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 
 import de.dhbw.studienarbeit.WebView.components.DelayLineDiv;
+import de.dhbw.studienarbeit.WebView.components.DelaySituationDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayStationDiv;
 import de.dhbw.studienarbeit.WebView.components.DelayVehicleTypeDiv;
 
@@ -17,7 +18,7 @@ public class DelayOverview extends Overview
 	{
 		super();
 		
-		Component content = new Div(new DelayStationDiv(), new DelayLineDiv(), new DelayVehicleTypeDiv());
+		Component content = new Div(new DelayStationDiv(), new DelayLineDiv(), new DelayVehicleTypeDiv(), new DelaySituationDiv());
 		setContent(content);
 	}
 }
