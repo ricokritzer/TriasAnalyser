@@ -1,9 +1,9 @@
 CREATE TABLE Correlation (
         id int AUTO_INCREMENT PRIMARY KEY,
-        value1 double,
-        value2 int,
-        rank1 double,
-        rank2 double,
+        value1 decimal(6,2),
+        value2 decimal(8),
+        rank1 decimal(8,2),
+        rank2 decimal(8,2),
         differenceSquare double);
         
 INSERT INTO Correlation (value1, value2) SELECT temp, (UNIX_TIMESTAMP(realtime) - UNIX_TIMESTAMP(timeTabledTime))
@@ -11,38 +11,34 @@ INSERT INTO Correlation (value1, value2) SELECT temp, (UNIX_TIMESTAMP(realtime) 
         WHERE StopWeather.weatherID = Weather.id AND StopWeather.stopID = Stop.stopID AND realtime IS NOT NULL;
 
 CREATE TABLE V1(
-        value1 double PRIMARY KEY,
-        total int,
-        startrank int,
-        rank double 
+        value1 decimal(6,2) PRIMARY KEY,
+        total decimal(8),
+        startrank decimal(8),
+        rank decimal(8,2) 
         );
-CREATE INDEX idxV1 ON V1(value1);
 CREATE TABLE V1Copy LIKE V1;
-CREATE INDEX idxV1Copy ON V1Copy(value1);
         
 CREATE TABLE V2(
-        value2 int PRIMARY KEY,
-        total int,
-        startrank int,
-        rank double
+        value2 decimal(8) PRIMARY KEY,
+        total decimal(8),
+        startrank decimal(8),
+        rank decimal(8,2)
         );
-CREATE INDEX idxV2 ON V2(value2);
 CREATE TABLE V2Copy LIKE V2;
-CREATE INDEX idxV2Copy ON V2Copy(value2);
     
 INSERT INTO V1 (value1, total) SELECT Correlation.value1, count(*) FROM Correlation GROUP BY Correlation.value1 ORDER BY Correlation.value1;
-INSERT INTO V1 (value1, total, startrank, rank) VALUES (-9999999,0, 0, 0);
+UPDATE V1 SET startrank = 1 ORDER BY value1 LIMIT 1;
 INSERT INTO V1Copy SELECT * FROM V1;
 
-UPDATE V1 SET startRank = (SELECT 1+sum(V1Copy.total) FROM V1Copy WHERE V1Copy.value1 < V1.value1) WHERE rank IS NULL;
+UPDATE V1 SET startRank = (SELECT 1+sum(V1Copy.total) FROM V1Copy WHERE V1Copy.value1 < V1.value1) WHERE startrank IS NULL;
 UPDATE V1 SET rank = startRank + (total -1)/2;
 UPDATE Correlation SET rank1 = (SELECT rank FROM V1 WHERE V1.value1 = Correlation.value1);
 
 INSERT INTO V2 (value2, total) SELECT Correlation.value2, count(*) FROM Correlation GROUP BY Correlation.value2 ORDER BY Correlation.value2;
-INSERT INTO V2 (value2, total, startrank, rank) VALUES (-9999999,0, 0, 0);
+UPDATE V2 SET startrank = 1 ORDER BY value2 LIMIT 1;
 INSERT INTO V2Copy SELECT * FROM V2;
 
-UPDATE V2 SET startRank = (SELECT 1+sum(V2Copy.total) FROM V2Copy WHERE V2Copy.value2 < V2.value2) WHERE rank IS NULL;
+UPDATE V2 SET startRank = (SELECT 1+sum(V2Copy.total) FROM V2Copy WHERE V2Copy.value2 < V2.value2) WHERE startrank IS NULL;
 UPDATE V2 SET rank = startRank + (total -1)/2;
 UPDATE Correlation SET rank2 = (SELECT rank FROM V2 WHERE V2.value2 = Correlation.value2);
 
