@@ -8,15 +8,15 @@ CREATE TABLE Correlation (
         rank2 decimal(10,2),
         differenceSquare double);
         
-INSERT INTO Correlation (value1) SELECT DISTINCT wind FROM Weather;
+INSERT INTO Correlation (value1) SELECT DISTINCT clouds FROM Weather;
 
 UPDATE Correlation SET sum = (SELECT count(*) FROM StopWeather, Stop, Weather
-        WHERE StopWeather.weatherID = Weather.id AND StopWeather.stopID = Stop.stopID AND value1 = wind);
+        WHERE StopWeather.weatherID = Weather.id AND StopWeather.stopID = Stop.stopID AND value1 = clouds);
 
 DELETE FROM Correlation WHERE sum = 0;
 
 UPDATE Correlation SET cancelled = (SELECT count(*) FROM StopWeather, Stop, Weather
-        WHERE StopWeather.weatherID = Weather.id AND StopWeather.stopID = Stop.stopID AND realtime IS NULL AND value1 = wind);
+        WHERE StopWeather.weatherID = Weather.id AND StopWeather.stopID = Stop.stopID AND realtime IS NULL AND value1 = clouds);
 UPDATE Correlation SET cancelled = 0 WHERE cancelled IS NULL;
 
 UPDATE Correlation SET value2 = cancelled/sum * 1000;
@@ -53,8 +53,6 @@ DROP TABLE V1Copy;
 UPDATE V1 SET rank = startRank + (total -1)/2;
 UPDATE Correlation SET rank1 = (SELECT rank FROM V1 WHERE V1.value1 = Correlation.value1);
 DROP TABLE V1;
-
-SELECT * FROM Correlation;
 
 INSERT INTO V2 (value2, total) SELECT Correlation.value2, count(*) FROM Correlation GROUP BY Correlation.value2 ORDER BY Correlation.value2;
 UPDATE V2 SET startrank = 1 ORDER BY value2 LIMIT 1;
