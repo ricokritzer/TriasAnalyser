@@ -3,12 +3,12 @@ package de.dhbw.studienarbeit.WebView.charts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import be.ceau.chart.BarChart;
 import be.ceau.chart.color.Color;
 import be.ceau.chart.data.BarData;
 import be.ceau.chart.dataset.BarDataset;
-import be.ceau.chart.javascript.JavaScriptFunction;
 import be.ceau.chart.options.BarOptions;
 import be.ceau.chart.options.scales.BarScale;
 import be.ceau.chart.options.scales.YAxis;
@@ -29,8 +29,6 @@ public class AnalyseChart
 	
 	private int highestDelay = 0;
 	private int lowestDelay = 0;
-
-	private Color[] colors = { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.CYAN, Color.BROWN, Color.VIOLET, Color.DARK_GREEN};
 
 	public void addDataset(RequestGridData data)
 	{
@@ -60,13 +58,10 @@ public class AnalyseChart
 		}
 	}
 
-	private Color getUniqueColor(int num)
+	private Color getUniqueColor()
 	{
-		if (num > colors.length)
-		{
-			return Color.BLUE;
-		}
-		return colors[num - 1];
+		Random r = new Random();
+		return new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
 	}
 
 	public String getChart()
@@ -83,8 +78,9 @@ public class AnalyseChart
 		for (RequestGridData data : requests)
 		{
 			BarDataset dataset = new BarDataset();
-			dataset.setBorderColor(getUniqueColor(data.getNumber()));
-			dataset.setBackgroundColor(getUniqueColor(data.getNumber()));
+			Color color = getUniqueColor();
+			dataset.setBorderColor(color);
+			dataset.setBackgroundColor(color);
 			dataset.setLabel(String.valueOf(data.getNumber()));
 			
 			for (int i : delays)
