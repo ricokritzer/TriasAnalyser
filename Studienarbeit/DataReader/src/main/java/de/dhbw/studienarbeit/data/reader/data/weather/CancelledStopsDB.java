@@ -14,11 +14,11 @@ public abstract class CancelledStopsDB<T> extends DB<CancelledStopsData<T>> impl
 {
 	public static String buildSQLCountCancelledStops(final String what, final String name)
 	{
-		return new StringBuilder().append("SELECT ").append("count(*) AS total, ").append(what).append(" AS ")
-				.append(name).append(" FROM StopWeather, Stop, Weather ")
-				.append("WHERE Stop.stopID = StopWeather.stopID AND StopWeather.weatherId = Weather.id ")
-				.append("AND realTime IS NULL ").append("GROUP BY ").append(name).append(" ORDER BY ").append(name)
-				.append(";").toString();
+		return "SELECT total, cancelled, t.v AS " + name + " FROM " + "(SELECT count(*) AS total, " + what
+				+ " AS v FROM Stop, StopWeather, Weather WHERE Stop.stopID = StopWeather.stopID AND Weather.id = StopWeather.weatherID GROUP BY v) t, "
+				+ "(SELECT count(*) AS cancelled, " + what
+				+ " AS v FROM Stop, StopWeather, Weather WHERE Stop.stopID = StopWeather.stopID AND Weather.id = StopWeather.weatherID AND realtime IS NULL GROUP BY v) c "
+				+ "WHERE t.v = c.v;";
 	}
 
 	@Override
@@ -30,11 +30,11 @@ public abstract class CancelledStopsDB<T> extends DB<CancelledStopsData<T>> impl
 	@Override
 	protected Optional<CancelledStopsData<T>> getValue(ResultSet result) throws SQLException
 	{
-		final CountData count = new CountData(result.getLong("total"));
+		final CountData total = new CountData(result.getLong("total"));
+		final CountData cancelled = new CountData(result.getLong("cancelled"));
 		final T element = getElement(result);
 
-		// TODO: count total and cancelled stops
-		return Optional.of(new CancelledStopsData<T>(element, count, count));
+		return Optional.of(new CancelledStopsData<T>(element, total, cancelled));
 	}
 
 	protected abstract String getSQL();
