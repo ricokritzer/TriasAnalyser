@@ -29,14 +29,24 @@ public class CancelledStopsData<T>
 		return total;
 	}
 
+	public Percentage getPercentage()
+	{
+		return percentage;
+	}
+
+	public CountData getTotal()
+	{
+		return total;
+	}
+
+	public CountData getCancelled()
+	{
+		return cancelled;
+	}
+
 	@Override
 	public String toString()
 	{
 		return value.toString() + ": " + total.toString();
-	}
-
-	public Percentage getPercentage()
-	{
-		return percentage;
 	}
 }
