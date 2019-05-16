@@ -45,7 +45,7 @@ public class DelayLineChart extends Div
 
 	public DelayLineChart withAvgData()
 	{
-		LineDataset datasetAvg = new LineDataset().setData(getAvgData()).setLabel(name + " Durchschnitt")
+		LineDataset datasetAvg = new LineDataset().setData(getAvgData()).setLabel(name + " - Durchschnitt (in Sek.)")
 				.setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
 		data.addDataset(datasetAvg);
 		return this;
@@ -53,7 +53,7 @@ public class DelayLineChart extends Div
 	
 	public DelayLineChart withMaxData()
 	{
-		LineDataset datasetMax = new LineDataset().setData(getMaxData()).setLabel(name + " Maximum")
+		LineDataset datasetMax = new LineDataset().setData(getMaxData()).setLabel(name + " - Maximum (in Sek.)")
 				.setBorderColor(Color.BLUE).setBorderWidth(2).setBackgroundColor(Color.TRANSPARENT);
 		data.addDataset(datasetMax);
 		return this;
