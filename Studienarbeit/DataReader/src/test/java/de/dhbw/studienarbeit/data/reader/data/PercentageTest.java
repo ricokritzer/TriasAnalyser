@@ -17,6 +17,7 @@ public class PercentageTest
 		final Percentage percentage = new Percentage(data, data);
 
 		assertThat(percentage.getValue(), is(100.0));
+		assertThat(percentage.toString(), is("100.0%"));
 	}
 
 	@Test
@@ -28,10 +29,11 @@ public class PercentageTest
 		final Percentage percentage = new Percentage(total, data);
 
 		assertThat(percentage.getValue(), is(50.0));
+		assertThat(percentage.toString(), is("50.0%"));
 	}
-	
+
 	@Test
-	public void TwentyFivePercent() throws Exception
+	public void TwentyPercent() throws Exception
 	{
 		final CountData total = new CountData(4);
 		final CountData data = new CountData(1);
@@ -39,8 +41,9 @@ public class PercentageTest
 		final Percentage percentage = new Percentage(total, data);
 
 		assertThat(percentage.getValue(), is(25.0));
+		assertThat(percentage.toString(), is("25.0%"));
 	}
-	
+
 	@Test
 	public void TenFivePercent() throws Exception
 	{
@@ -50,8 +53,9 @@ public class PercentageTest
 		final Percentage percentage = new Percentage(total, data);
 
 		assertThat(percentage.getValue(), is(10.0));
+		assertThat(percentage.toString(), is("10.0%"));
 	}
-	
+
 	@Test
 	public void DevideByZeroWithoutError() throws Exception
 	{

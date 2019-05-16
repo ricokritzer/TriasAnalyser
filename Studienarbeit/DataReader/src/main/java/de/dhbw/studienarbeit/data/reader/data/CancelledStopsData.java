@@ -47,6 +47,6 @@ public class CancelledStopsData<T>
 	@Override
 	public String toString()
 	{
-		return value.toString() + ": " + total.toString();
+		return value.toString() + ": " + percentage.toString();
 	}
 }

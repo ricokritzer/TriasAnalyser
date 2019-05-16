@@ -1,6 +1,5 @@
 package de.dhbw.studienarbeit.data.reader.data.weather.temperature;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,18 +13,12 @@ public class CancelledStopsTemperatureDB extends CancelledStopsDB<Temperature>
 	@Override
 	protected String getSQL()
 	{
-		final String sql = buildSQLCountCancelledStops(FIELD, NAME);
-		return sql;
+		return buildSQLCountCancelledStops(FIELD, NAME);
 	}
 
 	@Override
 	protected Temperature getElement(ResultSet result) throws SQLException
 	{
 		return new Temperature(result.getInt(NAME));
-	}
-
-	public static void main(String[] args) throws IOException
-	{
-		new CancelledStopsTemperatureDB().getCancelledStops().forEach(e -> System.out.println(e));
 	}
 }
