@@ -33,7 +33,8 @@ public abstract class CancelledStopsDB<T> extends DB<CancelledStopsData<T>> impl
 		final CountData count = new CountData(result.getLong("total"));
 		final T element = getElement(result);
 
-		return Optional.of(new CancelledStopsData<T>(element, count));
+		// TODO: count total and cancelled stops
+		return Optional.of(new CancelledStopsData<T>(element, count, count));
 	}
 
 	protected abstract String getSQL();
