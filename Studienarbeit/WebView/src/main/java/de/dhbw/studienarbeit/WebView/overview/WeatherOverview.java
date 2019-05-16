@@ -11,11 +11,17 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.Route;
 
+import de.dhbw.studienarbeit.WebView.charts.CountDataLineChart;
 import de.dhbw.studienarbeit.WebView.charts.DelayLineChart;
 import de.dhbw.studienarbeit.WebView.tiles.CorrelationCoefficientView;
 import de.dhbw.studienarbeit.WebView.tiles.Tile;
 import de.dhbw.studienarbeit.data.reader.data.DelayData;
+import de.dhbw.studienarbeit.data.reader.data.weather.clouds.Clouds;
+import de.dhbw.studienarbeit.data.reader.data.weather.humidity.Humidity;
+import de.dhbw.studienarbeit.data.reader.data.weather.pressure.Pressure;
 import de.dhbw.studienarbeit.data.reader.data.weather.symbol.WeatherSymbol;
+import de.dhbw.studienarbeit.data.reader.data.weather.temperature.Temperature;
+import de.dhbw.studienarbeit.data.reader.data.weather.wind.Wind;
 import de.dhbw.studienarbeit.web.data.Data;
 
 @Route("weather")
@@ -35,19 +41,24 @@ public class WeatherOverview extends Overview
 
 		HorizontalLayout row1 = new HorizontalLayout(txtWeather,
 				new Tile(getTemperatureChart().withAvgData().create(), getTemperatureChart().withMaxData().create(),
+						new CountDataLineChart<Temperature>(Data.getCancelledStopsTemperature(), "Temperatur Ausfälle"),
 						new CorrelationCoefficientView("Temperatur", Data.getDelayTemperatureCorrelationCoefficient())),
 				new Tile(getPressureChart().withAvgData().create(), getPressureChart().withMaxData().create(),
+						new CountDataLineChart<Pressure>(Data.getCancelledStopsPressure(), "Luftdruck Ausfälle"),
 						new CorrelationCoefficientView("Luftdruck", Data.getDelayPressureCorrelationCoefficient())));
 		row1.setSizeFull();
 		row1.setAlignItems(Alignment.CENTER);
 
 		HorizontalLayout row2 = new HorizontalLayout(
 				new Tile(getCloudsChart().withAvgData().create(), getCloudsChart().withMaxData().create(),
+						new CountDataLineChart<Clouds>(Data.getCancelledStopsClouds(), "Bewölkung Ausfälle"),
 						new CorrelationCoefficientView("Bewölkung", Data.getDelayCloudsCorrelationCoefficient())),
 				new Tile(getHumidityChart().withAvgData().create(), getHumidityChart().withMaxData().create(),
+						new CountDataLineChart<Humidity>(Data.getCancelledStopsHumidity(), "Luftfeuchtigkeit Ausfälle"),
 						new CorrelationCoefficientView("Luftfeuchtigkeit",
 								Data.getDelayHumidityCorrelationCoefficient())),
 				new Tile(getWindChart().withAvgData().create(), getWindChart().withMaxData().create(),
+						new CountDataLineChart<Wind>(Data.getCancelledStopsWind(), "Windstärke Ausfälle"),
 						new CorrelationCoefficientView("Wind", Data.getDelayWindCorrelationCoefficient())));
 		row2.setSizeFull();
 		row2.setAlignItems(Alignment.CENTER);
@@ -96,26 +107,26 @@ public class WeatherOverview extends Overview
 
 	private DelayLineChart getWindChart()
 	{
-		return new DelayLineChart(Data.getDelaysWind(), "Windstärke in Sekunden");
+		return new DelayLineChart(Data.getDelaysWind(), "Verspätung nach Windstärke in Sekunden");
 	}
 
 	private DelayLineChart getHumidityChart()
 	{
-		return new DelayLineChart(Data.getDelaysHumidity(), "Luftfeuchtigkeit in Sekunden");
+		return new DelayLineChart(Data.getDelaysHumidity(), "Verspätung nach Luftfeuchtigkeit in Sekunden");
 	}
 
 	private DelayLineChart getCloudsChart()
 	{
-		return new DelayLineChart(Data.getDelaysClouds(), "Bewölkung in Sekunden");
+		return new DelayLineChart(Data.getDelaysClouds(), "Verspätung nach Bewölkung in Sekunden");
 	}
 
 	private DelayLineChart getPressureChart()
 	{
-		return new DelayLineChart(Data.getDelaysPressure(), "Luftdruck  in Sekunden");
+		return new DelayLineChart(Data.getDelaysPressure(), "Verspätung nach Luftdruck in Sekunden");
 	}
 
 	private DelayLineChart getTemperatureChart()
 	{
-		return new DelayLineChart(Data.getDelaysTemperature(), "Temperatur in Sekunden");
+		return new DelayLineChart(Data.getDelaysTemperature(), "Verspätung nach Temperatur in Sekunden");
 	}
 }

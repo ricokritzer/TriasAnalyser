@@ -1,7 +1,6 @@
 package de.dhbw.studienarbeit.WebView.charts;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,24 +12,24 @@ import be.ceau.chart.color.Color;
 import be.ceau.chart.data.LineData;
 import be.ceau.chart.dataset.LineDataset;
 import be.ceau.chart.options.LineOptions;
-import de.dhbw.studienarbeit.web.data.counts.CountWO;
+import de.dhbw.studienarbeit.data.reader.data.CancelledStopsData;
 
-public class CountLineChart extends Div
+public class CountDataLineChart<T> extends Div
 {
 	private static final long serialVersionUID = 1L;
-	private List<CountWO> countWO;
+	private List<CancelledStopsData<T>> countData;
 	private String name;
 
-	public CountLineChart(List<CountWO> countWO, String name)
+	public CountDataLineChart(List<CancelledStopsData<T>> countData, String name)
 	{
-		this.countWO = countWO;
+		this.countData = countData;
 		this.name = name;
 		ChartJs chart = new ChartJs(getChart());
 		add(chart);
 
 		setSizeFull();
 	}
-	
+
 	protected String getChart()
 	{
 		LineDataset dataset = new LineDataset().setData(getData()).setLabel(name).setBorderColor(Color.BLUE)
@@ -45,12 +44,11 @@ public class CountLineChart extends Div
 
 	private List<BigDecimal> getData()
 	{
-		return countWO.stream().map(e -> BigDecimal.valueOf(e.getValue().getValue())).collect(Collectors.toList());
+		return countData.stream().map(e -> BigDecimal.valueOf(e.getCount().getValue())).collect(Collectors.toList());
 	}
 
 	private String[] getLabels()
 	{
-		return countWO.stream().map(e -> new SimpleDateFormat("HH:mm").format(e.getLastUpdate()))
-				.toArray(String[]::new);
+		return countData.stream().map(e -> e.getValue().toString()).toArray(String[]::new);
 	}
 }

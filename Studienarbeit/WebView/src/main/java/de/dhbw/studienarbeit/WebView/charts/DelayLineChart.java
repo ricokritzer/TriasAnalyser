@@ -50,7 +50,7 @@ public class DelayLineChart extends Div
 		data.addDataset(datasetAvg);
 		return this;
 	}
-
+	
 	public DelayLineChart withMaxData()
 	{
 		LineDataset datasetMax = new LineDataset().setData(getMaxData()).setLabel(name + " Maximum")
@@ -63,7 +63,7 @@ public class DelayLineChart extends Div
 	{
 		return delayWO.stream().map(e -> BigDecimal.valueOf(e.getAverage().getValue())).collect(Collectors.toList());
 	}
-
+	
 	private List<BigDecimal> getMaxData()
 	{
 		return delayWO.stream().map(e -> BigDecimal.valueOf(e.getMaximum().getValue())).collect(Collectors.toList());
