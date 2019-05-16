@@ -96,26 +96,26 @@ public class WeatherOverview extends Overview
 
 	private DelayLineChart getWindChart()
 	{
-		return new DelayLineChart(Data.getDelaysWind(), "Windstärke");
+		return new DelayLineChart(Data.getDelaysWind(), "Windstärke in Sekunden");
 	}
 
 	private DelayLineChart getHumidityChart()
 	{
-		return new DelayLineChart(Data.getDelaysHumidity(), "Luftfeuchtigkeit");
+		return new DelayLineChart(Data.getDelaysHumidity(), "Luftfeuchtigkeit in Sekunden");
 	}
 
 	private DelayLineChart getCloudsChart()
 	{
-		return new DelayLineChart(Data.getDelaysClouds(), "Bewölkung");
+		return new DelayLineChart(Data.getDelaysClouds(), "Bewölkung in Sekunden");
 	}
 
 	private DelayLineChart getPressureChart()
 	{
-		return new DelayLineChart(Data.getDelaysPressure(), "Luftdruck");
+		return new DelayLineChart(Data.getDelaysPressure(), "Luftdruck  in Sekunden");
 	}
 
 	private DelayLineChart getTemperatureChart()
 	{
-		return new DelayLineChart(Data.getDelaysTemperature(), "Temperatur");
+		return new DelayLineChart(Data.getDelaysTemperature(), "Temperatur in Sekunden");
 	}
 }
