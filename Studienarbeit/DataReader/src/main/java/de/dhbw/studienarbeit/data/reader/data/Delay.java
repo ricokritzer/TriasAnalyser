@@ -68,16 +68,16 @@ public class Delay implements Comparable<Delay>
 
 		if (hour > 0)
 		{
-			return hour + "h " + min + "m " + Math.round(delay) + "s";
+			return hour + "h " + min + "min " + Math.round(delay) + "sek";
 		}
 
 		if (min > 0)
 		{
-			return min + "m " + Math.round(delay) + "s";
+			return min + "min " + Math.round(delay) + "sek";
 		}
 
 		final NumberFormat formatter = new DecimalFormat("#0.00");
-		return formatter.format(Math.round(value * 100) / 100d) + "s";
+		return formatter.format(Math.round(value * 100) / 100d) + "sek";
 	}
 
 	public static String getNegativeString(double value)
