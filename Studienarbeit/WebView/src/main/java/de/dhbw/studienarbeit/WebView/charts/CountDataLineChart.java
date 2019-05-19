@@ -44,7 +44,7 @@ public class CountDataLineChart<T> extends Div
 
 	private List<BigDecimal> getData()
 	{
-		return countData.stream().map(e -> BigDecimal.valueOf(e.getCount().getValue())).collect(Collectors.toList());
+		return countData.stream().map(e -> BigDecimal.valueOf(e.getPercentage().getValue())).collect(Collectors.toList());
 	}
 
 	private String[] getLabels()

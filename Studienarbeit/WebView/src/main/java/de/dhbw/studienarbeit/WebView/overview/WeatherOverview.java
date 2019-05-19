@@ -41,24 +41,24 @@ public class WeatherOverview extends Overview
 
 		HorizontalLayout row1 = new HorizontalLayout(txtWeather,
 				new Tile(getTemperatureChart().withAvgData().create(), getTemperatureChart().withMaxData().create(),
-						new CountDataLineChart<Temperature>(Data.getCancelledStopsTemperature(), "Temperatur Ausfälle"),
+						new CountDataLineChart<Temperature>(Data.getCancelledStopsTemperature(), "Temperatur Ausfälle in %"),
 						new CorrelationCoefficientView("Temperatur", Data.getDelayTemperatureCorrelationCoefficient())),
 				new Tile(getPressureChart().withAvgData().create(), getPressureChart().withMaxData().create(),
-						new CountDataLineChart<Pressure>(Data.getCancelledStopsPressure(), "Luftdruck Ausfälle"),
+						new CountDataLineChart<Pressure>(Data.getCancelledStopsPressure(), "Luftdruck Ausfälle in %"),
 						new CorrelationCoefficientView("Luftdruck", Data.getDelayPressureCorrelationCoefficient())));
 		row1.setSizeFull();
 		row1.setAlignItems(Alignment.CENTER);
 
 		HorizontalLayout row2 = new HorizontalLayout(
 				new Tile(getCloudsChart().withAvgData().create(), getCloudsChart().withMaxData().create(),
-						new CountDataLineChart<Clouds>(Data.getCancelledStopsClouds(), "Bewölkung Ausfälle"),
+						new CountDataLineChart<Clouds>(Data.getCancelledStopsClouds(), "Bewölkung Ausfälle in %"),
 						new CorrelationCoefficientView("Bewölkung", Data.getDelayCloudsCorrelationCoefficient())),
 				new Tile(getHumidityChart().withAvgData().create(), getHumidityChart().withMaxData().create(),
-						new CountDataLineChart<Humidity>(Data.getCancelledStopsHumidity(), "Luftfeuchtigkeit Ausfälle"),
+						new CountDataLineChart<Humidity>(Data.getCancelledStopsHumidity(), "Luftfeuchtigkeit Ausfälle in %"),
 						new CorrelationCoefficientView("Luftfeuchtigkeit",
 								Data.getDelayHumidityCorrelationCoefficient())),
 				new Tile(getWindChart().withAvgData().create(), getWindChart().withMaxData().create(),
-						new CountDataLineChart<Wind>(Data.getCancelledStopsWind(), "Windstärke Ausfälle"),
+						new CountDataLineChart<Wind>(Data.getCancelledStopsWind(), "Windstärke Ausfälle in %"),
 						new CorrelationCoefficientView("Wind", Data.getDelayWindCorrelationCoefficient())));
 		row2.setSizeFull();
 		row2.setAlignItems(Alignment.CENTER);
