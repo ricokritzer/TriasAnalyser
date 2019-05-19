@@ -10,10 +10,10 @@ import de.dhbw.studienarbeit.web.data.Data;
 
 public class MapGenerator
 {
-	private static final double distanceNorthSouth = 0.00005;
-	private static final double distanceEastWest = 0.00005;
+	private static final double DISTANCE_NORTH_SOUTH = 0.00005;
+	private static final double DISTANCE_EAST_WEST = 0.00005;
 
-	StringBuilder sb;
+	private final StringBuilder sb;
 
 	private MapGenerator()
 	{
@@ -36,7 +36,27 @@ public class MapGenerator
 		generator.sb.append("var mymap = L.map('" + id + "').setView([49.0095795577620000, 8.4045749173222800], 13);")
 				.append("L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>', maxZoom: 18, id: 'mapbox.streets', accessToken: 'pk.eyJ1IjoicGF0LXNpZSIsImEiOiJjanNoeG94NGkwYzcxNDRxZXQ0end0ZDZlIn0.3ZOmhgqISDU_mCFZdMbmiQ'}).addTo(mymap);");
 		generator.sb.append("markers = [];").append("lines = [];");
+
 		return generator;
+	}
+
+	public MapGenerator withLegend()
+	{
+		sb.append("var legend = L.control({position: 'bottomright'});").append(System.lineSeparator());
+		sb.append("legend.onAdd = function (mymap) {").append(System.lineSeparator());
+
+		sb.append(
+				"var div = L.DomUtil.create('div', 'info legend'), colors = ['green', 'red', 'blue'], labels = ['geringe Verspätungszunahme', 'hohe Verspätungszunahme', 'Verspätungsabbau'];")
+				.append(System.lineSeparator());
+		sb.append("for (var i = 0; i < colors.length; i++) {").append(System.lineSeparator());
+		sb.append("div.innerHTML += '<i style=\"background:' + colors[i] + '\"></i> ' + labels[i] + '<br>';}")
+				.append(System.lineSeparator());
+		sb.append("return div;").append(System.lineSeparator());
+
+		sb.append("};").append(System.lineSeparator());
+		sb.append("legend.addTo(mymap);").append(System.lineSeparator());
+
+		return this;
 	}
 
 	public MapGenerator withMarkers()
@@ -50,7 +70,7 @@ public class MapGenerator
 	{
 		sb.append(System.lineSeparator());
 		getTracks();
-		return this;
+		return withLegend();
 	}
 
 	private void getTracks()
@@ -66,24 +86,24 @@ public class MapGenerator
 
 			if (lat1 > lat2)
 			{
-				lon1 = lon1 - distanceEastWest;
-				lon2 = lon2 - distanceEastWest;
+				lon1 = lon1 - DISTANCE_EAST_WEST;
+				lon2 = lon2 - DISTANCE_EAST_WEST;
 			}
 			else
 			{
-				lon1 = lon1 + distanceEastWest;
-				lon2 = lon2 + distanceEastWest;
+				lon1 = lon1 + DISTANCE_EAST_WEST;
+				lon2 = lon2 + DISTANCE_EAST_WEST;
 			}
 
 			if (lon1 > lon2)
 			{
-				lat1 = lat1 - distanceNorthSouth;
-				lat2 = lat2 - distanceNorthSouth;
+				lat1 = lat1 - DISTANCE_NORTH_SOUTH;
+				lat2 = lat2 - DISTANCE_NORTH_SOUTH;
 			}
 			else
 			{
-				lat1 = lat1 + distanceNorthSouth;
-				lat2 = lat2 + distanceNorthSouth;
+				lat1 = lat1 + DISTANCE_NORTH_SOUTH;
+				lat2 = lat2 + DISTANCE_NORTH_SOUTH;
 			}
 
 			String delayChange = track.getDelayStationNeighbourData().getDelayDifference().toString();
