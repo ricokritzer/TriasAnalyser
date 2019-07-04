@@ -8,7 +8,7 @@ Analysen für den öffentlichen Verkehr, sofern dieser die TRIAS-Schnittstelle i
 
 ## Einrichtung
 1. Erstellen Sie 2 SQL-Nutzer (einen mit Leserechten, einen mit Schreibrechten).
-2. Erstellen Sie eine Konfigurationsdatei mit den Nutzern und Passwörtern (Data > Templates > configuration.conf)
+2. Erstellen Sie eine Konfigurationsdatei mit den Nutzern und Passwörtern (Data > Template > configuration.conf)
 3. Erstellen Sie die leeren Tabellen (Data > SQL > create > createAllTables.sql)
 
 ## Datensammlung starten
