@@ -1,6 +1,9 @@
 # TriasAnalyser
 Analysen für den öffentlichen Verkehr, sofern dieser die TRIAS-Schnittstelle implementiert.
 
+## Warnung
+Die Anwendung wird nicht mehr gewartet! Es sind Sicherheitslücken in der Anwendung bekannt. Wir empfehlen vor Verwendung der Anwendung, sämtliche Sicherheitsupdates der verwendeten Abhängigkeiten durchzuführen.
+
 ## Installation
 1. Installieren von MySQL
 2. Installieren von Java 8 (oder höher)
